@@ -9,6 +9,7 @@ use App\Http\Controllers\App\InstitutionController;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
+use App\Http\Controllers\App\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,11 @@ Route::post('upload', [FileController::class, 'upload']);
 
 Route::group(['prefix' => 'emails'], function () {
     Route::post('send', [EmailController::class, 'send']);
+});
+
+Route::group(['prefix' => 'chats'], function () {
+    Route::post('send_all', [ChatController::class, 'sendAll']);
+    Route::post('send_direct', [ChatController::class, 'sendDirect']);
 });
 
 Route::get('test', function () {

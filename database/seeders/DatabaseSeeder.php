@@ -597,7 +597,8 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    private function createLocations(){
+    private function createLocations()
+    {
 
     }
 
@@ -728,25 +729,35 @@ class DatabaseSeeder extends Seeder
         User::factory()->create(
             [
                 'username' => '1234567890',
-                'email' => 'cesar.tamayo0204@gmail.com'
+                'email' => '1234567890@gmail.com'
+            ]);
+        User::factory()->create(
+            [
+                'username' => '1234567891',
+                'email' => '1234567891@gmail.com'
+            ]);
+        User::factory()->create(
+            [
+                'username' => '1234567892',
+                'email' => '1234567892@gmail.com'
             ]);
     }
 
     private function createUsersRoles()
     {
-        $user = User::find(1);
-
         foreach (Role::all() as $role) {
-            $user->roles()->attach($role->id);
+            foreach (User::all() as $user) {
+                $user->roles()->attach($role->id);
+            }
         }
     }
 
     private function createUsersInstitutions()
     {
-        $user = User::find(1);
-
         foreach (Institution::all() as $institution) {
-            $user->institutions()->syncWithoutDetaching($institution->id);
+            foreach (User::all() as $user) {
+                $user->institutions()->syncWithoutDetaching($institution->id);
+            }
         }
     }
 
