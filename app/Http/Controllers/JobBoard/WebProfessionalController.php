@@ -35,55 +35,57 @@ class WebProfessionalController extends Controller
         ], 200);
     }
 
-    // Devuelve un array de objetos y paginados
-    function postulants(Request $request)
+    function getProfessionals(Request $request)
     {
-        $offer = Offer::getInstance($request->id);
+        if (!$request->parent_id && !$request->id)
+        {
+            // Consulta todos los profesionales (sin filtros)
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
+                $academicFormations->with('professionalDegree');
+            }])->paginate($request->input('per_page'));
+        }
+        else if ($request->parent_id && !$request->id)
+        {
+            // Consulta todos los profesionales que concuerden con el parent_id (categoría padre)
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->where('parent_id', $request->parent_id);
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else if (!$request->parent_id && $request->id)
+        {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija)
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->where('id', $request->id);
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else 
+        {
+            $professionals = null;
+        }
 
-        $offer->professionals()->get();
-
-        $professionals = Professional::with(['academicFormations' => function ($query) {
-            $query->with('category');
-        }])->paginate($request->input('per_page'));
-
-        $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-            $academicFormations->with(['category' => function ($category) use ($request) {
-                $category->with(['parent'])->whereIn('id', $request->ids);
-            }]);
-        }])->paginate($request->input('per_page'));
-
-        $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-            $academicFormations->with(['category' => function ($category) use ($request) {
-                $category->with(['parent'])->whereIn('parent_id', $request->parent_ids);
-            }]);
-        }])->paginate($request->input('per_page'));
-
-        // $professionals = Professional::with(['academicFormations' => function($query){
-        //     $query->with('category')->where('name', 'ilike', '%' . $request->search . '%');
+        // Consulta todos los profesionales que coincidan con search
+        // $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
+        //     $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
+        //         $professionalDegree->where('name', 'ilike', '%' . $request->search . '%');
+        //     }]);
         // }])->paginate($request->input('per_page'));
-
-        // if (sizeof($professionals) === 0) {
-        //     return response()->json([
-        //         'data' => null,
-        //         'msg' => [
-        //             'summary' => 'No se encontraron Profesionales',
-        //             'detail' => 'Intente de nuevo',
-        //             'code' => '404'
-        //         ]
-        //     ], 404);
-        // }
 
         return response()->json($professionals, 200);
     }
 
-    function categories(Request $request)
+    function filterCategories()
     {
-        // $categories = Category::with('children')->whereNull('parent_id')->get();
-        // $categories = Category::with('children')->where('parent_id', null)->where('name', 'ilike', '%' . $request->input('search') . '%')->get();
-        $categories = Category::with(['children' => function ($query) {
-            $query->where('name', 'ilike', '%Pariatur aspernatur nihil rerum vitae nemo eos.%')->Orwhere('code', 'ilike', '%et%');
-        }])->where('parent_id', null)->get();
+        $categories = Category::with('children')->whereNull('parent_id')->get();
 
         return response()->json($categories, 200);
+    }
+
+    function applyProfessional()
+    {
+        return 'Hello World!';
     }
 }
