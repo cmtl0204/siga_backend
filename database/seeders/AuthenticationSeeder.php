@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use App\Models\App\Career;
 use App\Models\App\Catalogue;
 use App\Models\App\Institution;
