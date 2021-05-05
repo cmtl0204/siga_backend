@@ -13,7 +13,7 @@ use App\Http\Controllers\JobBoard\ExperienceController;
 use App\Http\Controllers\JobBoard\ReferenceController;
 use App\Http\Controllers\JobBoard\WebProfessionalController;
 use App\Http\Controllers\JobBoard\WebOfferController;
-
+// hola
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
