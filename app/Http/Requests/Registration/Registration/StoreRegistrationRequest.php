@@ -4,7 +4,7 @@ namespace App\Http\Requests\Registration\Registration;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegistrationStoreRequest extends FormRequest
+class StoreRegistrationRequest extends FormRequest
 {
     public function authorize()
     {
