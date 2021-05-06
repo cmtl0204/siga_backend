@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix("$version/job_board")
             ->middleware("api")
             ->namespace($this->namespace)
-            ->group(base_path("routes/api/$version/job_board/api.php"));
+            ->group(base_path("routes/api/$version/job-board/api.php"));
     }
 
     /**
