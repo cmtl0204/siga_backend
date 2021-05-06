@@ -21,6 +21,7 @@ class CreateAppCareersTable extends Migration
             $table->string('title');
             $table->string('acronym');
             $table->string('logo');
+            $table->json('learning_results')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
