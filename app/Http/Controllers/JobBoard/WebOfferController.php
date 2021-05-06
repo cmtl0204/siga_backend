@@ -95,8 +95,8 @@ class WebOfferController extends Controller
     function index(Request $request): JsonResponse
     {
 
-        if ($request->has('search')) {
-            if ($request->input('search') === 'code') {
+        if ($request->has('searchCode')) {
+            if ($request->input('searchCode') === 'code') {
                 $offers = Offer::
                 where('code' === $request->input('search'))
                     ->paginate($request->input('per_page'));

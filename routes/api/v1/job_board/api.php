@@ -137,3 +137,8 @@ Route::prefix('/')
         });
     });
 
+Route::group(['prefix' => 'opportunities'], function () {
+    Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+    Route::get('private-offers', [WebOfferController::class, 'getOffers']);
+    Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
+});

@@ -69,6 +69,12 @@ class Offer extends Model implements Auditable
         return static::$instance;
     }
 
+    //    relaciones
+    public function professionals()
+    {
+        return $this->belongsToMany(Professional::class);
+    }
+
     // Relationships
     public function categories()
     {
@@ -144,6 +150,5 @@ class Offer extends Model implements Auditable
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
-
 
 }
