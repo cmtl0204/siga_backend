@@ -23,13 +23,13 @@ class WebOfferFactory extends Factory
     {
         return [
             'company_id' => $this->faker->numberBetween($min = 1, $max = 11),
-            'location_id' => 1,
-            'contract_type_id' => 1,
-            'position_id' => 1,
-            'sector_id' => 1,
-            'working_day_id' => 1,
-            'experience_time_id' => 1,
-            'training_hours_id' => 1,
+            'location_id' => 1, // no hay nada
+            'contract_type_id' => $this->faker->numberBetween($min = 276, $max = 279),
+            'position_id' => $this->faker->numberBetween($min = 280, $max = 299),
+            'sector_id' => $this->faker->numberBetween($min = 280, $max = 299), // preguntar
+            'working_day_id' => $this->faker->numberBetween($min = 300, $max = 319),
+            'experience_time_id' => $this->faker->numberBetween($min = 320, $max = 339),
+            'training_hours_id' => $this->faker->numberBetween($min = 340, $max = 359),
             'status_id' => $this->faker->numberBetween($min = 1, $max = 5),
             'code' => $this->faker->postcode,
             'description' => $this->faker->realText($maxNbChars = 200, $indexSize = 15),
