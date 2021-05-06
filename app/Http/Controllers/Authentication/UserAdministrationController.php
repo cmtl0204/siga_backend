@@ -22,7 +22,6 @@ class  UserAdministrationController extends Controller
     public function index(Request $request)
     {
         $rol = $request->input('role');
-
         if ($request->has('search')) {
             $users = User::whereHas('roles', function($role) use ($rol) {
                 $role->where('role_id', '=', $rol);
@@ -84,13 +83,13 @@ class  UserAdministrationController extends Controller
 
     public function show($idUser, Request $request)
     {
-        $user = User::
-            with(['institutions' => function ($institutions) {
-                $institutions->orderBy('name');
-            }])
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);})
+            ->with(['institutions' => function ($institutions) {
+                $institutions->orderBy('name');}])
             ->with(['roles' => function ($roles) use ($request) {
-                $roles
-                    ->with(['permissions' => function ($permissions) {
+                $roles->with(['permissions' => function ($permissions) {
                         $permissions->with(['route' => function ($route) {
                             $route->with('module')->with('type')->with('status');
                         }])->with('institution');
@@ -159,8 +158,23 @@ class  UserAdministrationController extends Controller
 
     public function update(Request $request,$userId)
     {
-        $user = User::find($userId);
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);
+        })->where('id', $userId)
+        ->get();
 
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El usuario no pertenece al rol',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }else{
+
+        $user = User::find($userId);
         $user->identification = $request->input('identification');
         $user->username = $request->input('username');
         $user->first_name = $request->input('first_name');
@@ -177,10 +191,27 @@ class  UserAdministrationController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+        }
     }
 
-    public function destroy($userId)
+    public function destroy($userId, Request $request)
     {
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);
+        })->where('id', $userId)
+        ->get();
+
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El usuario no pertenece al rol',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }else{
+
         $user = User::find($userId);
         $user->delete();
 
@@ -191,6 +222,7 @@ class  UserAdministrationController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+        }
     }
 
     public function export()
