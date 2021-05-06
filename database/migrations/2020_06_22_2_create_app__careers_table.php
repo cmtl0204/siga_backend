@@ -14,7 +14,8 @@ class CreateAppCareersTable extends Migration
             $table->foreignId('modality_id')->constrained('app.catalogues');
             $table->foreignId('type_id')->constrained('app.catalogues');
             $table->string('code')->nullable();;
-            $table->string('name');
+            $table->string('name')->nullable();
+            
             $table->text('description')->nullable();
             $table->text('short_name');
             $table->string('resolution_number')->nullable();
