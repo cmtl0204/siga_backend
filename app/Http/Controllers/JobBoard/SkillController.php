@@ -4,9 +4,9 @@ namespace App\Http\Controllers\JobBoard;
 
 // Controllers
 use App\Http\Controllers\Controller;
+
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-
 // Models
 use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
 use App\Models\App\Catalogue;
