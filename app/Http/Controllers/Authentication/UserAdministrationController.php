@@ -21,16 +21,46 @@ class  UserAdministrationController extends Controller
 { 
     public function index(Request $request)
     {
+        $rol = $request->input('role');
         if ($request->has('search')) {
-            $users = User::email($request->input('search'))
+            $users = User::whereHas('roles', function($role) use ($rol) {
+                $role->where('role_id', '=', $rol);
+            })
+            /*
+            ->email($request->input('search'))
             ->firstlastname($request->input('search'))
             ->firstname($request->input('search'))
             ->identification($request->input('search'))
             ->secondlastname($request->input('search'))
             ->secondname($request->input('search'))
+            ->with(['institutions' => function ($institutions) {
+                $institutions->orderBy('name');
+            }])
+            ->with(['roles' => function ($roles) use ($request) {
+                $roles
+                    ->with(['permissions' => function ($permissions) {
+                        $permissions->with(['route' => function ($route) {
+                            $route->with('module')->with('type')->with('status');
+                        }])->with('institution');
+                    }]);
+            }])*/
             ->get();
         }else{
-            $users = User::paginate($request->input('per_page'));
+            $users = User::whereHas('roles', function($role) use ($rol) {
+                $role->where('role_id', '=', $rol);
+            })
+            ->with(['institutions' => function ($institutions) {
+                $institutions->orderBy('name');
+            }])
+            ->with(['roles' => function ($roles) use ($request) {
+                $roles
+                    ->with(['permissions' => function ($permissions) {
+                        $permissions->with(['route' => function ($route) {
+                            $route->with('module')->with('type')->with('status');
+                        }])->with('institution');
+                    }]);
+            }])
+            ->paginate($request->input('per_page'));
         }
 
         if(sizeof($users)===0){
@@ -51,21 +81,21 @@ class  UserAdministrationController extends Controller
                 ]], 200);
     }
 
-    public function show($username, Request $request)
+    public function show($idUser, Request $request)
     {
-        $user = User::
-            with(['institutions' => function ($institutions) {
-                $institutions->orderBy('name');
-            }])
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);})
+            ->with(['institutions' => function ($institutions) {
+                $institutions->orderBy('name');}])
             ->with(['roles' => function ($roles) use ($request) {
-                $roles
-                    ->with(['permissions' => function ($permissions) {
+                $roles->with(['permissions' => function ($permissions) {
                         $permissions->with(['route' => function ($route) {
                             $route->with('module')->with('type')->with('status');
                         }])->with('institution');
                     }]);
             }])
-            ->where('username', $username)
+            ->where('id', $idUser)
             ->first();
             if(!$user){
                 return response()->json([
@@ -128,8 +158,23 @@ class  UserAdministrationController extends Controller
 
     public function update(Request $request,$userId)
     {
-        $user = User::find($userId);
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);
+        })->where('id', $userId)
+        ->get();
 
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El usuario no pertenece al rol',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }else{
+
+        $user = User::find($userId);
         $user->identification = $request->input('identification');
         $user->username = $request->input('username');
         $user->first_name = $request->input('first_name');
@@ -146,10 +191,27 @@ class  UserAdministrationController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+        }
     }
 
-    public function destroy($userId)
+    public function destroy($userId, Request $request)
     {
+        $rol = $request->input('role');
+        $user = User::whereHas('roles', function($role) use ($rol) {
+            $role->where('role_id', '=', $rol);
+        })->where('id', $userId)
+        ->get();
+
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El usuario no pertenece al rol',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }else{
+
         $user = User::find($userId);
         $user->delete();
 
@@ -160,6 +222,7 @@ class  UserAdministrationController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+        }
     }
 
     public function export()
