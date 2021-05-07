@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Authentication;
+namespace App\Http\Requests\Community;
 
-class AuthenticationFormRequest
+class CommunityFormRequest
 {
     public static function rules($rules = [])
     {

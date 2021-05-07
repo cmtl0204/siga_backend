@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Authentication;
+namespace App\Models\Community;
 
 // Laravel
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +24,7 @@ class Module extends Model implements Auditable
     protected $table = 'authentication.modules';
 
     protected static $instance;
-   
+
 
     protected $fillable = [
     'code',
