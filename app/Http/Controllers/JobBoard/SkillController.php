@@ -52,31 +52,9 @@ class SkillController extends Controller
     return response()->json($skills, 200);
 }
 
-    function show($skillId)
+    function show(Skill $skill)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($skillId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
+        $skill = $skill->with('type')->get();
         return response()->json([
             'data' => $skill,
             'msg' => [
@@ -109,23 +87,10 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function update(UpdateSkillRequest $request, $skillId)
+    function update(UpdateSkillRequest $request,Skill $skill)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         $type = Catalogue::getInstance($request->input('type.id'));
-
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
 
         $skill->description = $request->input('skill.description');
         $skill->type()->associate($type);
@@ -140,34 +105,10 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function destroy($skillId)
+    function destroy(Skill $skill)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($skillId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         // Es una eliminación lógica
         $skill->delete();
-
         return response()->json([
             'data' => $skill,
             'msg' => [

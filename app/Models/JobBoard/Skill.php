@@ -32,6 +32,12 @@ class Skill extends Model implements Auditable
         'description',
     ];
 
+    protected $casts = [
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
+    ];
+
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
