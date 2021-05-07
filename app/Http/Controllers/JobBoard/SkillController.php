@@ -39,7 +39,7 @@ class SkillController extends Controller
         $skills = $professional->skills()->paginate($request->input('per_page'));
     }
 
-    if (sizeof($skills) === 0) {
+    if ($skills->count() === 0) {
         return response()->json([
             'data' => null,
             'msg' => [
@@ -54,7 +54,7 @@ class SkillController extends Controller
 
     function show(Skill $skill)
     {
-        $skill = $skill->with('type')->get();
+        $skill = $skill->with('type')->first();
         return response()->json([
             'data' => $skill,
             'msg' => [
@@ -66,6 +66,7 @@ class SkillController extends Controller
 
     function store(StoreSkillRequest $request)
     {
+        return $request->skill['description'];
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = Professional::getInstance($request->input('professional.id'));
 
