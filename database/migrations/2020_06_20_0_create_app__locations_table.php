@@ -24,7 +24,6 @@ class CreateAppLocationsTable extends Migration
             $table->string('flag')->nullable();
             $table->json('timezones')->nullable();
             $table->softDeletes();
-            $table->unique(['code','name']);
             $table->timestamps();
         });
     }
