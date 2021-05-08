@@ -21,7 +21,6 @@ $middlewares = ['auth:api'];
 // With Middleware
 Route::middleware($middlewares)
     ->group(function () {
-        // index show store update destroy (crud)
         Route::apiResources([
             'catalogues' => SkillController::class,
             'categories' => CategoryController::class,
@@ -37,15 +36,12 @@ Route::middleware($middlewares)
         ]);
 
         Route::prefix('skill')->group(function () {
-            // ruta para hcer pruebas
             Route::get('test', [SkillController::class, 'test']);
-
             Route::post('image', [SkillController::class, 'uploadImages']);
             Route::post('image/{image}', [SkillController::class, 'updateImage']);
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);
             Route::get('image', [SkillController::class, 'indexImage']);
             Route::get('image/{image}', [SkillController::class, 'showImage']);
-
             Route::post('file', [SkillController::class, 'uploadFiles']);
             Route::post('file/{image}', [SkillController::class, 'updateFile']);
             Route::delete('file/{image}', [SkillController::class, 'deleteFile']);
