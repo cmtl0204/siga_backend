@@ -46,7 +46,7 @@ class ExperienceController extends Controller
         return response()->json($experiences, 200);
     }
 
-    function show($id)
+    function show($experienceId)
     {
             // Valida que el id se un número, si no es un número devuelve un mensaje de error
             if (!is_numeric($experienceId)) {
