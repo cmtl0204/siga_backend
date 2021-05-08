@@ -65,6 +65,8 @@ Route::middleware($middlewares)
             Route::get('test', function () {
                 return 'test';
             });
+            Route::get('proffesionals/{offer}', [OfferController::class, 'getProfessionals']);
+            Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
         });
 
         Route::prefix('academic-formation')->group(function () {

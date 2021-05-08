@@ -80,47 +80,6 @@ class UpdateOfferRequest extends FormRequest
         return JobBoardFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'offer.code.required' => 'El campo :offer.code es obligatorio',
-            'offer.code.min' => 'El campo :offer.code debe tener al menos :min caracteres',
-            'offer.code.max' => 'El campo :offer.code debe tener maximo :max caracteres',
-            'offer.description.required' => 'El campo :offer.description es obligatorio',
-            'offer.description.min' => 'El campo :offer.description debe tener al menos :min caracteres',
-            'offer.description.max' => 'El campo :offer.description debe tener maximo :max caracteres',
-            'offer.contact_name.required' => 'El campo :offer.contact_name es obligatorio',
-            'offer.contact_name.min' => 'El campo :offer.contact_name debe tener al menos :min caracteres',
-            'offer.contact_name.max' => 'El campo :offer.contact_name debe tener maximo :max caracteres',
-            'offer.contact_email.required' => 'El campo :offer.contact_email es obligatorio',
-            'offer.contact_email.min' => 'El campo :offer.contact_email debe tener al menos :min caracteres',
-            'offer.contact_email.max' => 'El campo :offer.contact_email debe tener maximo :max caracteres',
-            'offer.start_date.required' => 'El campo :offer.start_date es obligatorio',
-            'offer.start_date.date' => 'El campo :offer.start_date debe ser una fecha',
-            'offer.activities.required' => 'El campo :offer.activities es obligatorio',
-            'offer.requirements.required' => 'El campo :offer.requirements es obligatorio',
-            'company.id.required' => 'El campo :company.id es obligatorio',
-            'company.id.integer' => 'El campo :company.id debe ser numérico',
-            'location.id.required' => 'El campo :location.id es obligatorio',
-            'location.id.integer' => 'El campo :location.id debe ser numérico',
-            'contractType.id.required' => 'El campo :contractType.id es obligatorio',
-            'contractType.id.integer' => 'El campo :contractType.id debe ser numérico',
-            'position.id.required' => 'El campo :position.id es obligatorio',
-            'position.id.integer' => 'El campo :position.id debe ser numérico',
-            'sector.id.required' => 'El campo :sector.id es obligatorio',
-            'sector.id.integer' => 'El campo :sector.id debe ser numérico',
-            'workingDay.id.required' => 'El campo :workingDay.id es obligatorio',
-            'workingDay.id.integer' => 'El campo :workingDay.id debe ser numérico',
-            'experienceTime.id.required' => 'El campo :experienceTime.id es obligatorio',
-            'experienceTime.id.integer' => 'El campo :experienceTime.id debe ser numérico',
-            'trainingHours.id.required' => 'El campo :trainingHours.id es obligatorio',
-            'trainingHours.id.integer' => 'El campo :trainingHours.id debe ser numérico',
-            'status.id.required' => 'El campo :status.id es obligatorio',
-            'status.id.integer' => 'El campo :status.id debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [

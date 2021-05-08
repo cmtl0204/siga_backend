@@ -2,20 +2,19 @@
 
 namespace App\Http\Requests\JobBoard\Offer;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class IndexOfferRequest extends FormRequest
+class UpdateStatusOfferRequest extends FormRequest
 {
     public function authorize()
     {
         return true;
     }
-
     public function rules()
     {
         $rules = [
-            'company_id' => [
+            'status.id' => [
                 'required',
                 'integer',
             ],
@@ -26,7 +25,7 @@ class IndexOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'company_id' => 'compania-id',
+            'status.id' => 'estado-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

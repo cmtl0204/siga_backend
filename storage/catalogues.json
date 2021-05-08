@@ -5,8 +5,7 @@
         "inactive": "2",
         "locked": "3",
         "available": "4",
-        "maintenance": "5",
-        "paused": "6"
+        "maintenance": "5"
     },
     "role": {
         "admin": "ADMIN",
