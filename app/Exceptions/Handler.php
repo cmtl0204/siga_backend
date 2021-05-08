@@ -50,8 +50,8 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'data' => $e->getMessage(),
                     'msg' => [
-                        'summary' => 'Tipo de autenticacion no soportado',
-                        'detail' => 'Comnicate con el administrador',
+                        'summary' => 'Tipo de autenticación no soportado',
+                        'detail' => 'Comuníquese con el administrador',
                         'code' => $e->getCode()
                     ]], 400);
             }
@@ -61,9 +61,9 @@ class Handler extends ExceptionHandler
                     'data' => $e->getMessage(),
                     'msg' => [
                         'summary' => 'Cliente no valido',
-                        'detail' => 'Comunicate con el administrador',
-                       'code' => $e->getCode()
-                    ]], 500);
+                        'detail' => 'Comuníquese con el administrador',
+                        'code' => $e->getCode()
+                    ]], 401);
             }
             // user authentication failed
             if ($e->getCode() === 10) {
@@ -72,7 +72,7 @@ class Handler extends ExceptionHandler
                     'msg' => [
                         'summary' => 'Credenciales no validas',
                         'detail' => 'Su usuario o contraseña no son correctos',
-                       'code' => $e->getCode()
+                        'code' => $e->getCode()
                     ]], 401);
             }
         }
@@ -81,20 +81,31 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'data' => $e->getMessage(),
                 'msg' => [
-                    'summary' => 'No Autenticado',
-                    'detail' => '',
-                   'code' => $e->getCode()
+                    'summary' => 'Usuario no autenticado',
+                    'detail' => 'Por favor inicie sesión',
+                    'code' => $e->getCode()
                 ]], 401);
         }
 
         if ($e instanceof HttpException) {
-            return response()->json([
-                'data' => $e->getMessage(),
-                'msg' => [
-                    'summary' => 'Recurso no encontrado',
-                    'detail' => '',
-                    'code' => $e->getCode()
-                ]], 404);
+            if ($e->getStatusCode() === 404) {
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => 'Recurso no encontrado',
+                        'detail' => 'La ruta o recurso al que intenta acceder no existe o fue removido',
+                        'code' => $e->getCode()
+                    ]], 404);
+            }
+            if ($e->getStatusCode() === 503) {
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => 'El sistema se encuentra fuera de servicio',
+                        'detail' => 'Lamentamos las molestias causadas',
+                        'code' => $e->getCode()
+                    ]], 503);
+            }
         }
 
         if ($e instanceof QueryException) {
@@ -111,10 +122,10 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'data' => $e->getMessage(),
                 'msg' => [
-                    'summary' => 'Error en la consulta',
-                    'detail' => 'Comunicate con el administrador',
+                    'summary' => 'No se encontró el registro',
+                    'detail' => 'Es muy probable que el registro haya sido eliminado',
                     'code' => $e->getCode()
-                ]], 400);
+                ]], 404);
         }
 
         if ($e instanceof ValidationException) {
@@ -133,7 +144,7 @@ class Handler extends ExceptionHandler
                 'msg' => [
                     'summary' => 'Oops! Tuvimos un problema con el servidor',
                     'detail' => 'Comnicate con el administrador',
-                   'code' => $e->getCode(),
+                    'code' => $e->getCode(),
                 ]], 500);
         }
 
