@@ -11,6 +11,8 @@ class CreateAppSubjectsTable extends Migration
     {
         Schema::connection('pgsql-app')->create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->text('description')->nullable();
+            $table->text('objective')->nullable();
             $table->timestamps();
         });
     }

@@ -25,13 +25,6 @@ class UserCreateRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            //            'user.username.required' => 'username es required',
-        ];
-    }
-
     public function attributes()
     {
         return [
