@@ -5,6 +5,7 @@ namespace App\Models\Authentication;
 // Laravel
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
@@ -69,5 +70,11 @@ class Role extends Model implements Auditable
     public function institution()
     {
         return $this->belongsTo(Institution::class);
+    }
+
+    // Mutators
+    function setCodeAttribute($value)
+    {
+        $this->attributes['code'] = strtoupper(Str::of($value)->slug('-'));
     }
 }

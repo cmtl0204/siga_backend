@@ -14,6 +14,7 @@ class PermissionFactory extends Factory
     {
             $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         return [
+            'name' => $this->faker->word,
             'actions' => $this->faker
                 ->randomElements(
                     $array = array(

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\Auth\AuthChangePasswordRequest;
+use App\Http\Requests\Authentication\Auth\AuthLoginRequest;
 use App\Http\Requests\Authentication\Auth\AuthPasswordForgotRequest;
 use App\Http\Requests\Authentication\Auth\AuthResetPasswordRequest;
 use App\Http\Requests\Authentication\Auth\AuthUnlockRequest;
@@ -25,7 +26,6 @@ use App\Models\Authentication\UserUnlock;
 use App\Models\Authentication\User;
 use App\Models\Authentication\Role;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -34,7 +34,7 @@ use Illuminate\Support\Str;
 
 class  AuthController extends Controller
 {
-    public function validateAttempts($username)
+    public function incorrectPassword($username)
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
 
@@ -54,7 +54,7 @@ class  AuthController extends Controller
         $user->save();
 
         if ($user->attempts <= 0) {
-            $user->status()->associate(Status::where('code', $catalogues['status']['locked'])->first());
+            $user->status()->associate(Status::firstWhere('code', $catalogues['status']['locked']));
             $user->attempts = 0;
             $user->save();
 
@@ -126,7 +126,7 @@ class  AuthController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Se cerró sesión en todos sus dipositivos',
                 'detail' => '',
                 'code' => '201'
             ]], 201);
@@ -162,9 +162,9 @@ class  AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'data' => $user,
+            'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Su contraseña fue actualizada',
                 'detail' => '',
                 'code' => '201'
             ]], 201);
@@ -202,7 +202,7 @@ class  AuthController extends Controller
             ));
 
         return response()->json([
-            'data' => $this->hiddenStringEmail($user->email),
+            'data' => $token,
             'msg' => [
                 'summary' => 'Correo enviado',
                 'detail' => $this->hiddenStringEmail($user->email),
@@ -241,7 +241,7 @@ class  AuthController extends Controller
             ));
 
         return response()->json([
-            'data' => $this->hiddenStringEmail($user->email),
+            'data' => $token,
             'msg' => [
                 'summary' => 'Correo enviado',
                 'detail' => $this->hiddenStringEmail($user->email),

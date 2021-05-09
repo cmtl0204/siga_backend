@@ -10,9 +10,15 @@ class CreateAuthTransactionalCodesTable extends Migration
     {
         Schema::connection('pgsql-authentication')->create('transactional_codes', function (Blueprint $table) {
             $table->id();
+
             $table->string('username');
-            $table->string('token')->index();
-            $table->boolean('is_valid')->default(true);
+
+            $table->string('token')
+                ->index();
+
+            $table->boolean('is_valid')
+                ->default(true);
+
             $table->timestamps();
         });
     }
