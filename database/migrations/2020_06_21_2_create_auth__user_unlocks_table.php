@@ -10,9 +10,15 @@ class CreateAuthUserUnlocksTable extends Migration
     {
         Schema::connection('pgsql-authentication')->create('user_unlocks', function (Blueprint $table) {
             $table->id();
+
             $table->string('username');
-            $table->string('token')->index();
-            $table->boolean('is_valid')->default(true);
+
+            $table->string('token')
+                ->index();
+
+            $table->boolean('is_valid')
+                ->default(true);
+
             $table->timestamps();
         });
     }

@@ -14,13 +14,14 @@ class PermissionFactory extends Factory
     {
             $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         return [
+            'name' => $this->faker->word,
             'actions' => $this->faker
                 ->randomElements(
                     $array = array(
-                        $catalogues['permission']['action']['create'],
-                        $catalogues['permission']['action']['update'],
-                        $catalogues['permission']['action']['delete'],
-                        $catalogues['permission']['action']['select']),
+                        $catalogues['permission']['action']['post'],
+                        $catalogues['permission']['action']['put'],
+                        $catalogues['permission']['action']['get'],
+                        $catalogues['permission']['action']['delete']),
                     $count = random_int(1, 4))
         ];
     }

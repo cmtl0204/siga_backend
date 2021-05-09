@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use App\Models\App\Career;
 use App\Models\App\Catalogue;
 use App\Models\App\Institution;
@@ -189,7 +188,7 @@ class AuthenticationSeeder extends Seeder
             // JOB BOARD
             Role::factory()->create([
                 'code' => $catalogues['role']['professional'],
-                'name' => 'PREFSIONAL',
+                'name' => 'PROFSIONAL',
                 'system_id' => $system->id,
                 'institution_id' => $institution->id]);
 
@@ -756,12 +755,22 @@ class AuthenticationSeeder extends Seeder
         $statusAvailable = Status::firstWhere('code', $catalogues['status']['available']);
 
         Route::factory()->create([
+            'uri' => $catalogues['route']['dashboard'],
+            'module_id' => $moduleAuthentication->id,
+            'type_id' => $menuMega->id,
+            'status_id' => $statusAvailable->id,
+            'name' => 'DASHBOARD',
+            'logo' => 'routes/route1.png',
+            'order' => 1
+        ]);
+
+        Route::factory()->create([
             'uri' => $catalogues['route']['user']['user'],
             'module_id' => $moduleAuthentication->id,
             'type_id' => $menuMega->id,
             'status_id' => $statusAvailable->id,
             'name' => 'USUARIOS',
-            'logo' => 'routes/route1.png',
+            'logo' => 'routes/route2.png',
             'order' => 1
         ]);
 
@@ -771,7 +780,7 @@ class AuthenticationSeeder extends Seeder
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,
             'name' => 'ADMINISTRACIÓN USUARIOS',
-            'logo' => 'routes/route2.png',
+            'logo' => 'routes/route3.png',
             'order' => 2
         ]);
     }

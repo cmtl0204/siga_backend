@@ -24,6 +24,7 @@ class UserFactory extends Factory
             'personal_email' => $this->faker->unique()->safeEmail,
             'birthdate' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => now(),
             'status_id' => 1,
             'password' => '$2y$10$fojHGTDRXyjmcXSgE7/1xOubqUrv03AiQb.9lKKH4PxJfkoluZGxK', // 12345678
         ];
