@@ -2,7 +2,6 @@
 
 namespace App\Models\Authentication;
 
-
 // Laravel
 use App\Models\App\Address;
 use App\Models\JobBoard\Professional;
@@ -20,7 +19,6 @@ use App\Models\App\Institution;
 use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
-
 
 class User extends Authenticatable implements Auditable
 {
@@ -53,7 +51,7 @@ class User extends Authenticatable implements Auditable
         'attempts'
     ];
 
-    protected $appends = ['full_name', 'parcial_name'];
+    protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
 
 
     protected $hidden = [
@@ -62,9 +60,12 @@ class User extends Authenticatable implements Auditable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
-    public static function getInstance($id)
+    static function getInstance($id)
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
@@ -74,145 +75,188 @@ class User extends Authenticatable implements Auditable
     }
 
     // Definir el campo por el cual se valida con passport el usuario
-    public function findForPassport($username)
+    function findForPassport($username)
     {
         return $this->firstWhere('username', $username);
     }
 
     // Relationships
-    public function Address()
+    function Address()
     {
         return $this->belongsTo(Address::class);
     }
 
-    public function administrativeStaff()
+    function administrativeStaff()
     {
         return $this->hasOne(AdministrativeStaff::class);
     }
 
-    public function bloodType()
+    function bloodType()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function civilStatus()
+    function civilStatus()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function ethnicOrigin()
+    function ethnicOrigin()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function files()
+    function files()
     {
         return $this->morphMany(File::class, 'fileable');
     }
 
-    public function gender()
+    function gender()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function identificationType()
+    function identificationType()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-        public function images()
+    function images()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function institutions()
+    function institutions()
     {
         return $this->morphToMany(Institution::class, 'institutionable', 'app.institutionables');
     }
 
-    public function permissions()
+    function permissions()
     {
         return $this->belongsToMany(Permission::class);
     }
 
-    public function professional()
+    function professional()
     {
         $this->hasOne(Professional::class);
     }
 
-    public function roles()
+    function roles()
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function securityQuestions()
+    function securityQuestions()
     {
         $this->belongsToMany(SecurityQuestion::class)->withPivot('answer')->withTimestamps();
     }
 
-    public function sex()
+    function sex()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function status()
+    function status()
     {
         return $this->belongsTo(Status::class);
     }
 
-    public function teacher()
+    function teacher()
     {
         return $this->hasOne(Teacher::class);
     }
 
-    //Accessors
-    public function getFullNameAttribute()
+    // Accessors
+    function getFullNameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['second_name']} {$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
-    public function getParcialNameAttribute()
+    function getFullLastnameAttribute()
+    {
+        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+    }
+
+    function getPartialNameAttribute()
     {
         return "{$this->attributes['first_name']} {$this->attributes['first_lastname']}";
     }
-    // Scopes
 
-    public function scopeEmail($query, $email)
+    function getPartialLastnameAttribute()
+    {
+        return "{$this->attributes['first_lastname']} {$this->attributes['first_name']}";
+    }
+
+    // Mutators
+    function setFirstnameAttribute($value)
+    {
+        $this->attributes['first_name'] = strtoupper($value);
+    }
+
+    function setSecondnameAttribute($value)
+    {
+        $this->attributes['second_name'] = strtoupper($value);
+    }
+
+    function setFirstLastnameAttribute($value)
+    {
+        $this->attributes['first_lastname'] = strtoupper($value);
+    }
+
+    function setSecondLastnameAttribute($value)
+    {
+        $this->attributes['second_lastname'] = strtoupper($value);
+    }
+
+    function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    function setPersonalEmailAttribute($value)
+    {
+        $this->attributes['personal_email'] = strtolower($value);
+    }
+
+    // Scopes
+    function scopeEmail($query, $email)
     {
         if ($email) {
             return $query->where('email', 'ILIKE', "%$email%");
         }
     }
 
-    public function scopeFirstLastName($query, $first_lastname)
+    function scopeFirstLastname($query, $first_lastname)
     {
         if ($first_lastname) {
             return $query->orWhere('first_lastname', 'ILIKE', "%$first_lastname%");
         }
     }
 
-    public function scopeFirstName($query, $first_name)
+    function scopeFirstName($query, $first_name)
     {
         if ($first_name) {
             return $query->orWhere('first_name', 'ILIKE', "%$first_name%");
         }
     }
 
-    public function scopeIdentification($query, $identification)
+    function scopeIdentification($query, $identification)
     {
         if ($identification) {
             return $query->orWhere('identification', 'ILIKE', "%$identification%");
         }
     }
 
-    public function scopeSecondLastName($query, $second_lastname)
+    function scopeSecondLastname($query, $second_lastname)
     {
         if ($second_lastname) {
             return $query->orWhere('second_lastname', 'ILIKE', "%$second_lastname%");
         }
     }
 
-    public function scopeSecondName($query, $second_name)
+    function scopeSecondName($query, $second_name)
     {
         if ($second_name) {
             return $query->orWhere('second_name', 'ILIKE', "%$second_name%");

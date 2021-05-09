@@ -20,6 +20,7 @@ class CreateAuthPermissionsTable extends Migration
                 ->comment('Para que el permiso pertenezca a un sistema');
 
             $table->foreignId('institution_id')
+                ->nullable()
                 ->constrained('app.institutions');
 
             $table->string('name');

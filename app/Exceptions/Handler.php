@@ -106,6 +106,17 @@ class Handler extends ExceptionHandler
                         'code' => $e->getCode()
                     ]], 503);
             }
+
+            if ($e->getStatusCode() === 405) {
+                $supportMethods = implode(', ',$e->getHeaders());
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => "El método [{$request->getMethod()}] no está soportado por esta ruta",
+                        'detail' => "Métodos soportados: [{$supportMethods}]",
+                        'code' => $e->getCode()
+                    ]], 405);
+            }
         }
 
         if ($e instanceof QueryException) {

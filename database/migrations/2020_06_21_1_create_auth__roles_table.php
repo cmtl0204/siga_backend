@@ -16,6 +16,7 @@ class CreateAuthRolesTable extends Migration
                 ->comment('Para que el rol pertenezca a un sistema');
 
             $table->foreignId('institution_id')
+                ->nullable()
                 ->constrained('app.institutions');
 
             $table->string('code')

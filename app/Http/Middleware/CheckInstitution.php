@@ -16,14 +16,16 @@ class CheckInstitution
      */
     public function handle(Request $request, Closure $next)
     {
-        $institutions = $request->user()->institutions()->get();
+        $institution = $request->user()
+            ->institutions()
+            ->find($request->institution);
 
-        if (sizeof($institutions) === 0) {
+        if (!$institution) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'No tiene una institución asignada (check-institution)',
-                    'detail' => 'Comunicate con el administrador',
+                    'detail' => 'Comuníquese con el administrador',
                     'code' => '403'
                 ]
             ], 403);

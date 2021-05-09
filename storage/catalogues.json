@@ -34,10 +34,10 @@
     },
     "permission": {
         "action": {
-            "create": "CREATE",
-            "update": "UPDATE",
-            "delete": "DELETE",
-            "select": "SELECT"
+            "get": "GET",
+            "post": "POST",
+            "put": "PUT",
+            "delete": "DELETE"
         }
     },
     "route": {

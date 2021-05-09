@@ -28,7 +28,7 @@ class CreateAuthRoutesTable extends Migration
                 ->comment('Para saber si la ruta esta disponible o en mantenimiento');
 
             $table->string('uri')
-                ->comment('La direccion de la ruta');
+                ->comment('La direccion de la ruta en el frontend');
 
             $table->string('name')
                 ->comment('Nombre de la ruta');

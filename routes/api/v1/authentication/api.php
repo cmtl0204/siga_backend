@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Authentication\Permission;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Authentication\UserController;
@@ -11,7 +12,8 @@ use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
-$middlewares = ['auth:api'];
+$middlewares = ['auth:api', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
+//$middlewares = ['auth:api'];
 
 // With Middleware
 Route::middleware($middlewares)
@@ -25,7 +27,7 @@ Route::middleware($middlewares)
             'routes' => RouteController::class,
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
-            'systems' => SystemController::class,
+            'systems' => SystemController::class
         ]);
 
         // Auth
@@ -36,8 +38,10 @@ Route::middleware($middlewares)
             Route::post('transactional-code', [AuthController::class, 'generateTransactionalCode']);
             Route::get('logout', [AuthController::class, 'logout']);
             Route::get('logout-all', [AuthController::class, 'logoutAll']);
-            Route::post('permissions', [AuthController::class, 'getPermissions']);
+            Route::get('permissions', [AuthController::class, 'getPermissions']);
             Route::get('reset-attempts', [AuthController::class, 'resetAttempts']);
+            Route::put('test', function (\Illuminate\Http\Request $request) {
+            });
         });
 
         // User
