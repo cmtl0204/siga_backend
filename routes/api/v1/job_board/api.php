@@ -34,6 +34,7 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
+            
         ]);
 
         Route::prefix('skill')->group(function () {
@@ -60,9 +61,11 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('test', function () {
-                return 'test';
-            });
+            Route::get('offer', [ProfessionalController::class, 'getOffers']);
+                Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
+              //   Route::get('test', function () {
+                //  return 'test';
+      //      });
         });
 
         Route::prefix('offer')->group(function () {
