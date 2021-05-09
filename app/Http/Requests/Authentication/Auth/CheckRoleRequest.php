@@ -14,31 +14,27 @@ class CheckRoleRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'password_old' => [
+        $rules = [
+            'institution' => [
                 'required'
             ],
-            'password' => [
+            'system' => [
                 'required',
-                'min:8',
-                'max:30'
             ],
-            'password_confirmation' => [
+            'role' => [
                 'required',
-                'same:password'
             ]
         ];
-        return AuthenticationFormRequest::messages($messages);
+        return AuthenticationFormRequest::rules($rules );
     }
 
 
     public function attributes()
     {
         $attributes = [
-            'password_old' => 'Password Old',
-            'password' => 'Password',
-            'password_confirmation' => 'Password Confirmation',
-
+            'institution' => 'institución',
+            'system' => 'sistema',
+            'role' => 'rol',
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }

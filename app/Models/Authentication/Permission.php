@@ -2,16 +2,17 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use App\Models\App\Institution;
+
+/**
+ * @property BigInteger id
+ * @property json actions
+ */
 
 class Permission extends Model implements Auditable
 {
@@ -23,7 +24,6 @@ class Permission extends Model implements Auditable
     protected $table = 'authentication.permissions';
 
     protected $fillable = [
-        'state',
         'actions'
     ];
 

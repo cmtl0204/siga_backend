@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Authentication\ModuleController;
 use App\Models\Authentication\Permission;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
@@ -59,11 +60,16 @@ Route::middleware($middlewares)
         });
 
         // Role
-        Route::prefix('roles')->group(function () {
+        Route::prefix('role')->group(function () {
             Route::post('users', [RoleController::class, 'getUsers']);
             Route::post('permissions', [RoleController::class, 'getPermissions']);
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
+        });
+
+        // Module
+        Route::prefix('module')->group(function () {
+            Route::get('menus', [ModuleController::class, 'getMenus']);
         });
     });
 

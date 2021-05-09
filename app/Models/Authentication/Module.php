@@ -11,10 +11,12 @@ use App\Models\App\Status;
 use phpDocumentor\Reflection\DocBlock\Description;
 
 /**
- * @param string code
- * @param string name
- * @param string description
+ * @property BigInteger id
+ * @property string code
+ * @property string name
+ * @property string description
  */
+
 class Module extends Model implements Auditable
 {
     use HasFactory;
@@ -51,6 +53,11 @@ class Module extends Model implements Auditable
     }
 
     // Relationships
+    public function routes()
+    {
+        return $this->hasMany(Route::class);
+    }
+
     public function status()
     {
         return $this->belongsTo(Status::class);
