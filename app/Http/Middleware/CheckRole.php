@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Requests\Authentication\Auth\CheckRoleRequest;
 use Closure;
-use Illuminate\Http\Request;
 
 class CheckRole
 {
@@ -14,7 +14,7 @@ class CheckRole
      * @param \Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(CheckRoleRequest $request, Closure $next)
     {
         $role = $request->user()->roles()
             ->where(function ($query) use ($request) {

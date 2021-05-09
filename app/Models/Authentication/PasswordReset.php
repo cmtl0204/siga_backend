@@ -20,7 +20,8 @@ class PasswordReset extends Model implements Auditable
     protected $fillable = [
         'username',
         'is_valid',
-        'token'];
+        'token'
+    ];
 
     public static function getInstance($id)
     {

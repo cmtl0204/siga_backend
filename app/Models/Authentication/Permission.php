@@ -15,19 +15,12 @@ use App\Models\App\Institution;
 
 class Permission extends Model implements Auditable
 {
-
     use HasFactory;
     use SoftDeletes;
-    use HasFactory;
     use Auditing;
-    use SoftDeletes;
-
 
     protected $connection = 'pgsql-authentication';
     protected $table = 'authentication.permissions';
-
-    protected static $instance;
-    
 
     protected $fillable = [
         'state',
@@ -36,8 +29,14 @@ class Permission extends Model implements Auditable
 
     protected $casts = [
         'actions' => 'array',
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
+    protected static $instance;
+
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -47,6 +46,7 @@ class Permission extends Model implements Auditable
         return static::$instance;
     }
 
+    // Relationships
     public function route()
     {
         return $this->belongsTo(Route::class);
