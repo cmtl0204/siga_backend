@@ -15,17 +15,12 @@ class AuthLogoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => [
-                'required'
-            ]
         ];
     }
 
     public function attributes()
     {
         $attributes = [
-            'token' => 'token',
-
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }
