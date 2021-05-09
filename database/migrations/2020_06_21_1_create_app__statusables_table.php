@@ -11,8 +11,12 @@ class CreateAppStatusablesTable extends Migration
     {
         Schema::connection('pgsql-app')->create('statusables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('status_id')->constrained('app.status');
+
+            $table->foreignId('status_id')
+                ->constrained('app.status');
+
             $table->morphs('statusable');
+
             $table->timestamps();
             $table->unique(['status_id','statusable_id','statusable_type']);
         });

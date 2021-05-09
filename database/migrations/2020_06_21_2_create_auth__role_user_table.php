@@ -10,8 +10,14 @@ class CreateAuthRoleUserTable extends Migration
     {
         Schema::connection('pgsql-authentication')->create('role_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('role_id');
+
+            $table->foreignId('user_id')
+                ->constrained('authentication.users');
+
+            $table->foreignId('role_id')
+                ->constrained('authentication.roles');
+
+            $table->timestamps();
         });
     }
 

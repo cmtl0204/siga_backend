@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
                         'summary' => 'Cliente no valido',
                         'detail' => 'Comuníquese con el administrador',
                         'code' => $e->getCode()
-                    ]], 401);
+                    ]], 400);
             }
             // user authentication failed
             if ($e->getCode() === 10) {
@@ -105,6 +105,17 @@ class Handler extends ExceptionHandler
                         'detail' => 'Lamentamos las molestias causadas',
                         'code' => $e->getCode()
                     ]], 503);
+            }
+
+            if ($e->getStatusCode() === 405) {
+                $supportMethods = implode(', ',$e->getHeaders());
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => "El método [{$request->getMethod()}] no está soportado por esta ruta",
+                        'detail' => "Métodos soportados: [{$supportMethods}]",
+                        'code' => $e->getCode()
+                    ]], 405);
             }
         }
 
