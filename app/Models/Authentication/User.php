@@ -5,6 +5,7 @@ namespace App\Models\Authentication;
 // Laravel
 use App\Models\App\Address;
 use App\Models\JobBoard\Professional;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -20,7 +21,7 @@ use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
     use HasApiTokens, Notifiable, HasFactory;
     use Auditing;
@@ -59,10 +60,10 @@ class User extends Authenticatable implements Auditable
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
+        'email_verified_at' => 'date:Y-m-d h:m:s',
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
     static function getInstance($id)

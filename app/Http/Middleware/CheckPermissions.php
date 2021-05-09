@@ -11,7 +11,7 @@ class CheckPermissions
     public function handle(Request $request, Closure $next)
     {
         $role = Role::findOrFail($request->role);
-        $permissions = $role->permissions()
+        $allPermission = $role->permissions()
             ->whereHas('route', function ($route) use ($request) {
                 $route->where('uri', $request->uri);
             })
@@ -23,8 +23,10 @@ class CheckPermissions
             })
             ->whereJsonContains('actions', $request->getMethod())
             ->first();
-
-        $actions = implode(', ', $permissions->actions);
+        $actions = null;
+        if ($allPermission) {
+            $actions = implode(', ', $allPermission->actions);
+        }
         if (!$permission) {
             return response()->json([
                 'data' => null,

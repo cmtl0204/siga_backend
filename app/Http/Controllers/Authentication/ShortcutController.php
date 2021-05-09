@@ -18,7 +18,7 @@ class ShortcutController extends Controller
             $permission->with('route')->where('institution_id', $request->institution);
         }])
             ->where('role_id', $request->role)
-            ->where('user_id', $request->user)
+            ->where('user_id', $request->user()->id)
             ->get();
         return response()->json([
             'data' => $shortcuts,
@@ -31,15 +31,12 @@ class ShortcutController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->json()->all();
-        $dataShortcut = $data['shortcut'];
-
         $shortcut = new Shortcut();
-        $shortcut->name = $dataShortcut['name'];
-        $shortcut->user()->associate(User::findOrFail($request->user()));
+        $shortcut->name = $request->shortcut['name'];
+        $shortcut->user()->associate($request->user());
         $shortcut->role()->associate(Role::findOrFail($request->role));
-        $shortcut->permission()->associate(Permission::findOrFail($dataShortcut['permission_id']));
-        $shortcut->image = $dataShortcut['image'];
+        $shortcut->permission()->associate(Permission::findOrFail($request->shortcut['permission_id']));
+        $shortcut->image = $request->shortcut['image'];
         $shortcut->save();
 
         return response()->json([

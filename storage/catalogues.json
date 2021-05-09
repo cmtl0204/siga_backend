@@ -41,6 +41,7 @@
         }
     },
     "route": {
+        "dashboard": "/dashboard",
         "user": {
             "user": "/user",
             "administration": "/user/administration"

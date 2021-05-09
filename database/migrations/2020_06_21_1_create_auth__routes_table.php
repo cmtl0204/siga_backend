@@ -45,6 +45,10 @@ class CreateAuthRoutesTable extends Migration
             $table->integer('order')
                 ->comment('Orden que apareceran las rutas en la interfaz');
 
+            $table->boolean('is_link')
+                ->default(true)
+                ->comment('Si la ruta es link o no');
+
             $table->softDeletes();
             $table->timestamps();
         });

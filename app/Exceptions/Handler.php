@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
                         'summary' => 'Cliente no valido',
                         'detail' => 'Comuníquese con el administrador',
                         'code' => $e->getCode()
-                    ]], 401);
+                    ]], 400);
             }
             // user authentication failed
             if ($e->getCode() === 10) {
