@@ -51,8 +51,11 @@ Route::middleware($middlewares)
 
         Route::prefix('company')->group( function () {
             Route::get('{id}', [CompanyController::class, 'show']);
+            Route::get('{id}', [CompanyController::class, 'getProfesional']);
+            Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
             Route::put('{id}', [CompanyController::class, 'update']);
             Route::post('register', [CompanyController::class, 'register']);
+
         });
 
         Route::prefix('professional')->group(function () {
