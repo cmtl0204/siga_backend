@@ -188,7 +188,7 @@ class AuthenticationSeeder extends Seeder
             // JOB BOARD
             Role::factory()->create([
                 'code' => $catalogues['role']['professional'],
-                'name' => 'PREFSIONAL',
+                'name' => 'PROFSIONAL',
                 'system_id' => $system->id,
                 'institution_id' => $institution->id]);
 
