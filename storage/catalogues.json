@@ -5,7 +5,7 @@
         "inactive": "2",
         "locked": "3",
         "available": "4",
-        "maintenance": "5"
+        "maintenance": "503"
     },
     "role": {
         "admin": "ADMIN",
@@ -19,8 +19,8 @@
         "community_coordinator": "COMMUNITY_COORDINATOR",
         "investigation_coordinator": "INVESTIGATION_COORDINATOR",
         "administrative_coordinator": "ADMINISTRATIVE_COORDINATOR",
-        "professional": "PROFESIONAL",
-        "company": "EMPRESA"
+        "professional": "PROFESSIONAL",
+        "company": "COMPANY"
     },
     "module": {
         "authentication": "AUTHENTICATION",
@@ -34,13 +34,14 @@
     },
     "permission": {
         "action": {
-            "create": "CREATE",
-            "update": "UPDATE",
-            "delete": "DELETE",
-            "select": "SELECT"
+            "get": "GET",
+            "post": "POST",
+            "put": "PUT",
+            "delete": "DELETE"
         }
     },
     "route": {
+        "dashboard": "/dashboard",
         "user": {
             "user": "/user",
             "administration": "/user/administration"

@@ -21,20 +21,11 @@ class AuthGenerateTransactionalCodeRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        $messages = [
-            'token.required' => 'El campo :attribute es obligatorio',
-           
-        ];
-        return AuthenticationFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [
             'token' => 'usuario',
-           
+
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }

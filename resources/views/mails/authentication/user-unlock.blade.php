@@ -10,14 +10,14 @@
             <br>
             <div class=" text-center">
                 <a class="btn btn-primary text-center"
-                   href="{{ $system->redirect }}/#/auth/unlock?token={{$data->token}}&username={{$data->user->username}}">
+                   href="{{ $system->redirect }}/#/auth/unlock-user?token={{$data->token}}&username={{$data->user->username}}">
                     Desbloquear Usuario
                 </a>
             </div>
             <br>
             <br>
             <p class="text-muted">Si no puede acceder, copie la siguiente url:</p>
-            <p class="text-muted">{{$system->redirect}}/#/auth/unlock?token={{$data->token}}&username={{$data->user->username}}</p>
+            <p class="text-muted">{{$system->redirect}}/#/auth/unlock-user?token={{$data->token}}&username={{$data->user->username}}</p>
             <br>
             <p>Si no ha solicitado este servicio, repórtelo a su Institución.</p>
         </div>

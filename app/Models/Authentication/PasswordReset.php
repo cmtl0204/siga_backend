@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
+/**
+ * @property BigInteger id
+ * @property string username
+ * @property boolean is_valid
+ * @property string token
+ */
+
 class PasswordReset extends Model implements Auditable
 {
     use HasFactory;
@@ -20,7 +27,8 @@ class PasswordReset extends Model implements Auditable
     protected $fillable = [
         'username',
         'is_valid',
-        'token'];
+        'token'
+    ];
 
     public static function getInstance($id)
     {
