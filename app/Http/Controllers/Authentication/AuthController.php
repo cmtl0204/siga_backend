@@ -33,9 +33,75 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class  AuthController extends Controller
 {
+    function handleProviderCallback($driver)
+    {
+        $userSocialite = Socialite::driver($driver)->stateless()->user();
+        $user = User::firstWhere('email', $userSocialite->getEmail());
+
+        if ($user) {
+            $user->is_changed_password = true;
+            $user->save();
+            if ($userSocialite->user['verified_email']) {
+                $user->markEmailAsVerified();
+            }
+            $token = $user->createToken($userSocialite->getEmail())->accessToken;
+            $url = "http://siga.test:4200/#/auth/login?username={$user->username}&token={$token}";
+
+            return redirect()->to($url);
+        }
+
+        $url = "http://siga.test:4200/#/auth/register-socialite-user?email={$userSocialite->getEmail()}" .
+            "&given_name={$userSocialite->user['given_name']}" .
+            "&family_name={$userSocialite->user['family_name']}";
+
+        return redirect()->to($url);
+    }
+
+    function redirectToProvider($driver)
+    {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    function registerSocialiteUser(Request $request)
+    {
+        $user = new User();
+        $user->username = $request->username;
+        $user->identification = $request->username;
+        $user->first_name = $request->first_name;
+        $user->second_name = $request->second_name;
+        $user->first_lastname = $request->first_lastname;
+        $user->second_lastname = $request->second_lastname;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+
+        $token = $user->createToken($user->email)->accessToken;
+
+        $detail = '';
+        if (!$user->email_verified_at) {
+            $detail = "Revise su correo para verificar su cuenta";
+            Mail::to($user->email)
+                ->send(new EmailVerifiedMailable(
+                    'Verificación de Correo Electrónico',
+                    json_encode(['user' => $user]),
+                    null,
+                    $request->input('system')
+                ));
+        }
+
+        return response()->json([
+            'data' => $token,
+            'msg' => [
+                'summary' => 'Usuario registrado correctamente',
+                'detail' => $detail,
+                'code' => '201',
+            ]], 201);
+    }
+
     function incorrectPassword($username)
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -552,7 +618,7 @@ class  AuthController extends Controller
                 $route->with('module')->with('type')->with('status');
             }])
             ->with('institution')
-            ->where('institution_id',$request->institution)
+            ->where('institution_id', $request->institution)
             ->get();
         return response()->json([
             'data' => $permissions,
