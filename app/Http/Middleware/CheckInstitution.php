@@ -16,6 +16,12 @@ class CheckInstitution
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->validate([
+            'institution' => [
+                'required',
+                'integer',
+            ],
+        ]);
         $institution = $request->user()
             ->institutions()
             ->find($request->institution);

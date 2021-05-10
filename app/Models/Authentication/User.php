@@ -2,17 +2,15 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use App\Models\App\Address;
-use App\Models\JobBoard\Professional;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\App\Address;
 use App\Models\App\AdministrativeStaff;
 use App\Models\App\Catalogue;
 use App\Models\App\Image;
@@ -21,6 +19,24 @@ use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
 
+/**
+ * @property BigInteger id
+ * @property integer attempts
+ * @property string avatar
+ * @property Date birthdate
+ * @property string email
+ * @property Date email_verified_at
+ * @property string first_lastname
+ * @property string first_name
+ * @property string identification
+ * @property boolean is_changed_password
+ * @property string password
+ * @property string personal_email
+ * @property string phone
+ * @property string second_lastname
+ * @property string second_name
+ * @property string username
+ */
 class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
     use HasApiTokens, Notifiable, HasFactory;
@@ -35,28 +51,28 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     const ATTEMPTS = 3;
 
     protected $fillable = [
-        'identification',
-        'first_name',
-        'second_name',
-        'first_lastname',
-        'second_lastname',
-        'personal_email',
-        'birthdate',
+        'attempts',
         'avatar',
-        'username',
-        'phone',
+        'birthdate',
         'email',
         'email_verified_at',
-        'password',
+        'first_lastname',
+        'first_name',
+        'identification',
         'is_changed_password',
-        'attempts'
+        'password',
+        'personal_email',
+        'phone',
+        'second_lastname',
+        'second_name',
+        'username',
     ];
 
     protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
 
-
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
@@ -66,6 +82,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
+    // Instance
     static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -75,7 +92,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         return static::$instance;
     }
 
-    // Definir el campo por el cual se valida con passport el usuario
+    // Define el campo por el cual valida passport el usuario para el login
     function findForPassport($username)
     {
         return $this->firstWhere('username', $username);
@@ -155,6 +172,11 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     function sex()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    function shortcuts()
+    {
+        return $this->hasMany(Shortcut::class);
     }
 
     function status()
@@ -263,5 +285,4 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
             return $query->orWhere('second_name', 'ILIKE', "%$second_name%");
         }
     }
-
 }

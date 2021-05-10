@@ -2,20 +2,20 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use App\Models\App\Catalogue;
 use App\Models\App\Institution;
 
-
+/**
+ * @property BigInteger id
+ * @property string code
+ * @property string name
+ */
 class Role extends Model implements Auditable
 {
     use HasFactory;
@@ -23,7 +23,6 @@ class Role extends Model implements Auditable
     use SoftDeletes;
 
     private static $instance;
-
 
     protected $connection = 'pgsql-authentication';
     protected $table = 'authentication.roles';
@@ -33,6 +32,13 @@ class Role extends Model implements Auditable
         'name',
     ];
 
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -42,14 +48,15 @@ class Role extends Model implements Auditable
         return static::$instance;
     }
 
-    public function users()
+    // Relationships
+    public function catalogues()
     {
-        return $this->belongsToMany(User::class);
+        return $this->morphToMany(Catalogue::class, 'catalogueable');
     }
 
-    public function system()
+    public function institution()
     {
-        return $this->belongsTo(System::class);
+        return $this->belongsTo(Institution::class);
     }
 
     public function permissions()
@@ -62,14 +69,14 @@ class Role extends Model implements Auditable
         return $this->hasMany(Shortcut::class);
     }
 
-    public function catalogues()
+    public function system()
     {
-        return $this->morphToMany(Catalogue::class, 'catalogueable');
+        return $this->belongsTo(System::class);
     }
 
-    public function institution()
+    public function users()
     {
-        return $this->belongsTo(Institution::class);
+        return $this->belongsToMany(User::class);
     }
 
     // Mutators

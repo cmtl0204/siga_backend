@@ -16,6 +16,21 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->validate([
+            'institution' => [
+                'required',
+                'integer',
+            ],
+            'system' => [
+                'required',
+                'integer',
+            ],
+            'role' => [
+                'required',
+                'integer',
+            ],
+        ]);
+
         $role = $request->user()->roles()
             ->where(function ($query) use ($request) {
                 $query->where('institution_id', $request->institution)

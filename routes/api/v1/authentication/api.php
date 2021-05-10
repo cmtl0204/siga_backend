@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Authentication\ModuleController;
 use App\Models\Authentication\Permission;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
@@ -10,8 +11,6 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Notifications\Messages\MailMessage;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
@@ -59,11 +58,16 @@ Route::middleware($middlewares)
         });
 
         // Role
-        Route::prefix('roles')->group(function () {
+        Route::prefix('role')->group(function () {
             Route::post('users', [RoleController::class, 'getUsers']);
             Route::post('permissions', [RoleController::class, 'getPermissions']);
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
+        });
+
+        // Module
+        Route::prefix('module')->group(function () {
+            Route::get('menus', [ModuleController::class, 'getMenus']);
         });
     });
 
