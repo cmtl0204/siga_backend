@@ -324,7 +324,7 @@ class  AuthController extends Controller
                 ]], 404);
         }
 
-        $user->password = Hash::make($request->password);
+        $user->password = trim($request->password);
         $user->save();
         $passworReset->update(['is_valid' => false]);
         return response()->json([
@@ -418,7 +418,7 @@ class  AuthController extends Controller
                 ]], 404);
         }
 
-        $user->password = Hash::make($request->password);
+        $user->password = trim($request->password);
         $user->status()->associate(Status::firstWhere('code', $catalogues['status']['active']));
         $user->attempts = User::ATTEMPTS;
 
