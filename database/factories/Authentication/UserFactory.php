@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'status_id' => 1,
-            'password' => '$2y$10$fojHGTDRXyjmcXSgE7/1xOubqUrv03AiQb.9lKKH4PxJfkoluZGxK', // 12345678
+            'password' => '12345678',
         ];
     }
 }
