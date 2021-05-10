@@ -12,6 +12,7 @@ class CreateJobboardCategoriesTable extends Migration
         Schema::connection('pgsql-job-board')->create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parent_id')->nullable()->constrained('job_board.categories');
+            $table->foreignId('type_id')->constrained('job_board.catalogues');
             $table->string('code');
             $table->text('name');
             $table->string('icon')->nullable();
