@@ -43,6 +43,8 @@ class  AuthController extends Controller
         $user = User::firstWhere('email', $userSocialite->getEmail());
 
         if ($user) {
+            $user->is_changed_password = true;
+            $user->save();
             if ($userSocialite->user['verified_email']) {
                 $user->markEmailAsVerified();
             }
