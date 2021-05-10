@@ -31,7 +31,8 @@ class CreateAuthUsersTable extends Migration
                 ->constrained('app.catalogues');
 
             $table->foreignId('status_id')
-                ->constrained('app.status');;
+                ->nullable()
+                ->constrained('app.status');
 
             $table->foreignId('blood_type_id')
                 ->nullable()
@@ -51,7 +52,8 @@ class CreateAuthUsersTable extends Migration
             $table->string('username')
                 ->unique();
 
-            $table->string('identification');
+            $table->string('identification')
+                ->unique();
 
             $table->string('first_name')
                 ->nullable();
@@ -80,7 +82,8 @@ class CreateAuthUsersTable extends Migration
             $table->timestamp('email_verified_at')
                 ->nullable();
 
-            $table->string('password');
+            $table->string('password')
+                ->nullable();
 
             $table->boolean('is_changed_password')
                 ->default(false);
