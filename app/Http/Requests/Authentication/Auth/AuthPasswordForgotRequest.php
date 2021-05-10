@@ -16,22 +16,16 @@ class AuthPasswordForgotRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required'
+            'username' => ['required'],
+            'system' => ['required'],
         ];
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'username.required' => 'El campo :attribute es obligatorio',
-        ];
-        return AuthenticationFormRequest::messages($messages);
     }
 
     public function attributes()
     {
         $attributes = [
             'username' => 'nombre de usuario',
+            'system' => 'sistema',
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }
