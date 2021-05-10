@@ -105,10 +105,6 @@ Route::middleware($middlewares)
                 return 'test';
             });
         });
-
-        Route::prefix('web-professional')->group(function () {
-
-        });
     });
 
 // Without Middleware
@@ -124,7 +120,7 @@ Route::prefix('/')
 
         Route::prefix('web-professional')->group(function () {
             Route::get('total', [WebProfessionalController::class, 'total']);
-            Route::get('professionals', [WebProfessionalController::class, 'getProfessionals']);
+            Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });

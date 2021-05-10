@@ -37,40 +37,36 @@ class WebProfessionalController extends Controller
 
     function getProfessionals(Request $request)
     {
-        if (!$request->parent_id && !$request->id)
+        if ($request->input('parent_ids'))
+        {
+            // Consulta todos los profesionales que concuerden con el parent_id (categoría padre)
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->whereIn('parent_id', $request->input('parent_ids'));
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else if ($request->input('ids'))
+        {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija)
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->whereIn('id', $request->input('ids'));
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else 
         {
             // Consulta todos los profesionales (sin filtros)
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
                 $academicFormations->with('professionalDegree');
             }])->paginate($request->input('per_page'));
         }
-        else if ($request->parent_id && !$request->id)
-        {
-            // Consulta todos los profesionales que concuerden con el parent_id (categoría padre)
-            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
-                    $professionalDegree->where('parent_id', $request->parent_id);
-                }]);
-            }])->paginate($request->input('per_page'));
-        }
-        else if (!$request->parent_id && $request->id)
-        {
-            // Consulta todos los profesionales que concuerden con el id (categoría hija)
-            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
-                    $professionalDegree->where('id', $request->id);
-                }]);
-            }])->paginate($request->input('per_page'));
-        }
-        else 
-        {
-            $professionals = null;
-        }
 
         // Consulta todos los profesionales que coincidan con search
         // $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
         //     $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
-        //         $professionalDegree->where('name', 'ilike', '%' . $request->search . '%');
+        //         $professionalDegree->where('name', 'ilike', '%' . $request->input('search') . '%');
         //     }]);
         // }])->paginate($request->input('per_page'));
 
