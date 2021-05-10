@@ -3,9 +3,7 @@
 namespace App\Http\Requests\JobBoard\Skill;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
-use App\Models\JobBoard\Skill;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreSkillRequest extends FormRequest
 {
