@@ -10,6 +10,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use App\Models\App\Location;
+use App\Models\JobBoard\Professional;
 
 /**
  * @property BigInteger id
@@ -51,13 +52,20 @@ class Offer extends Model implements Auditable
         'aditional_information',
     ];
 
-//    protected $with = ['categories'];
+    protected $with = [
+        'categories',
+        'location',
+        'contractType'
+    ];
 
     protected $casts = [
         'activities' => 'array',
         'requirements' => 'array',
         'start_date' => 'datetime:Y-m-d',
         'end_date' => 'datetime:Y-m-d',
+        'created_at' => 'datetime:Y-m-d h:m:s',
+        'updated_at' => 'datetime:Y-m-d h:m:s',
+        'deleted_at' => 'datetime:Y-m-d h:m:s',
     ];
 
     // Instance
@@ -87,19 +95,24 @@ class Offer extends Model implements Auditable
         return $this->belongsTo(Company::class);
     }
 
-    public function location()
-    {
-        return $this->belongsTo(Location::class);
-    }
-
     public function contractType()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     public function position()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    public function professionals()
+    {
+        return $this->belongsToMany(Professional::class)->withTimestamps();
     }
 
     public function sector()
@@ -126,9 +139,6 @@ class Offer extends Model implements Auditable
     {
         return $this->belongsTo(Status::class);
     }
-
-
-    private Date $end_date;
 
     // Scopes
     public function scopeAditionalInformation($query, $aditionalInformation)

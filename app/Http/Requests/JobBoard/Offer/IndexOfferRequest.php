@@ -15,7 +15,7 @@ class IndexOfferRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'company.id' => [
+            'company_id' => [
                 'required',
                 'integer',
             ],
@@ -23,19 +23,10 @@ class IndexOfferRequest extends FormRequest
         return JobBoardFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'company.id.required' => 'El campo :company.id es obligatorio',
-            'company.id.integer' => 'El campo :company.id debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [
-            'company.id' => 'compania-id',
+            'company_id' => 'compania-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

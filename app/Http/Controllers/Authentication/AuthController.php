@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\Auth\AuthChangePasswordRequest;
+use App\Http\Requests\Authentication\Auth\AuthLoginRequest;
 use App\Http\Requests\Authentication\Auth\AuthPasswordForgotRequest;
 use App\Http\Requests\Authentication\Auth\AuthResetPasswordRequest;
 use App\Http\Requests\Authentication\Auth\AuthUnlockRequest;
@@ -14,12 +15,14 @@ use App\Http\Requests\Authentication\Auth\AuthResetAttemptsRequest;
 use App\Http\Requests\Authentication\Auth\AuthLogoutAllRequest;
 use App\Http\Requests\Authentication\Auth\AuthLogoutRequest;
 use App\Http\Requests\Authentication\Auth\AuthGenerateTransactionalCodeRequest;
+use App\Mail\Authentication\EmailVerifiedMailable;
 use App\Mail\EmailMailable;
 use App\Mail\Authentication\PasswordForgotMailable;
 use App\Mail\Authentication\UserUnlockMailable;
 use App\Models\Authentication\Client;
 use App\Models\Authentication\PasswordReset;
 use App\Models\App\Status;
+use App\Models\Authentication\System;
 use App\Models\Authentication\TransactionalCode;
 use App\Models\Authentication\UserUnlock;
 use App\Models\Authentication\User;
@@ -31,10 +34,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-
 class  AuthController extends Controller
 {
-    public function validateAttempts($username)
+    function incorrectPassword($username)
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
 
@@ -54,7 +56,7 @@ class  AuthController extends Controller
         $user->save();
 
         if ($user->attempts <= 0) {
-            $user->status()->associate(Status::where('code', $catalogues['status']['locked'])->first());
+            $user->status()->associate(Status::firstWhere('code', $catalogues['status']['locked']));
             $user->attempts = 0;
             $user->save();
 
@@ -76,7 +78,7 @@ class  AuthController extends Controller
             ]], 401);
     }
 
-    public function resetAttempts(AuthResetAttemptsRequest $request)
+    function resetAttempts(AuthResetAttemptsRequest $request)
     {
         $user = $request->user();
 
@@ -102,7 +104,7 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function logout(AuthLogoutRequest $request)
+    function logout(AuthLogoutRequest $request)
     {
         $request->user()->token()->revoke();
 
@@ -115,7 +117,7 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function logoutAll(AuthLogoutRequest $request)
+    function logoutAll(AuthLogoutRequest $request)
     {
         DB::table('oauth_access_tokens')
             ->where('user_id', $request->user()->id)
@@ -126,13 +128,13 @@ class  AuthController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Se cerró sesión en todos sus dipositivos',
                 'detail' => '',
                 'code' => '201'
             ]], 201);
     }
 
-    public function changePassword(AuthChangePasswordRequest $request)
+    function changePassword(AuthChangePasswordRequest $request)
     {
 
         $user = $request->user();
@@ -162,15 +164,15 @@ class  AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'data' => $user,
+            'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Su contraseña fue actualizada',
                 'detail' => '',
                 'code' => '201'
             ]], 201);
     }
 
-    public function passwordForgot(AuthPasswordForgotRequest $request)
+    function passwordForgot(AuthPasswordForgotRequest $request)
     {
         $user = User::where('username', $request->input('username'))
             ->orWhere('email', $request->input('username'))
@@ -202,7 +204,7 @@ class  AuthController extends Controller
             ));
 
         return response()->json([
-            'data' => $this->hiddenStringEmail($user->email),
+            'data' => $token,
             'msg' => [
                 'summary' => 'Correo enviado',
                 'detail' => $this->hiddenStringEmail($user->email),
@@ -210,46 +212,7 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function userLocked(AuthUserUnlockRequest $request)
-    {
-        $user = User::where('username', $request->input('username'))
-            ->orWhere('email', $request->input('username'))
-            ->orWhere('personal_email', $request->input('username'))
-            ->first();
-
-        if (!$user) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Usuario no encontrando',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]], 404);
-        }
-        $token = Str::random(70);
-        UserUnlock::create([
-            'username' => $user->username,
-            'token' => $token
-        ]);
-
-        Mail::to($user->email)
-            ->send(new UserUnlockMailable(
-                'Notificación de desbloqueo de usuario',
-                json_encode(['user' => $user, 'token' => $token]),
-                null,
-                $request->input('system')
-            ));
-
-        return response()->json([
-            'data' => $this->hiddenStringEmail($user->email),
-            'msg' => [
-                'summary' => 'Correo enviado',
-                'detail' => $this->hiddenStringEmail($user->email),
-                'code' => '201'
-            ]], 201);
-    }
-
-    public function resetPassword(AuthResetPasswordRequest $request)
+    function resetPassword(AuthResetPasswordRequest $request)
     {
         $passworReset = PasswordReset::where('token', $request->token)->first();
 
@@ -307,7 +270,46 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function unlockUser(AuthUnlockRequest $request)
+    function userLocked(AuthUserUnlockRequest $request)
+    {
+        $user = User::where('username', $request->input('username'))
+            ->orWhere('email', $request->input('username'))
+            ->orWhere('personal_email', $request->input('username'))
+            ->first();
+
+        if (!$user) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Usuario no encontrando',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+        $token = Str::random(70);
+        UserUnlock::create([
+            'username' => $user->username,
+            'token' => $token
+        ]);
+
+        Mail::to($user->email)
+            ->send(new UserUnlockMailable(
+                'Notificación de desbloqueo de usuario',
+                json_encode(['user' => $user, 'token' => $token]),
+                null,
+                $request->input('system')
+            ));
+
+        return response()->json([
+            'data' => $token,
+            'msg' => [
+                'summary' => 'Correo enviado',
+                'detail' => $this->hiddenStringEmail($user->email),
+                'code' => '201'
+            ]], 201);
+    }
+
+    function unlockUser(AuthUnlockRequest $request)
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         $userUnlock = UserUnlock::where('token', $request->token)->first();
@@ -366,7 +368,50 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function generateTransactionalCode(AuthGenerateTransactionalCodeRequest $request)
+    function emailVerified(AuthUserUnlockRequest $request)
+    {
+        $user = User::where('username', $request->input('username'))
+            ->orWhere('email', $request->input('username'))
+            ->orWhere('personal_email', $request->input('username'))
+            ->first();
+
+        if (!$user) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Usuario no encontrando',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        Mail::to($user->email)
+            ->send(new EmailVerifiedMailable(
+                'Verificación de Correo Electrónico',
+                json_encode(['user' => $user]),
+                null,
+                $request->input('system')
+            ));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Correo enviado',
+                'detail' => $this->hiddenStringEmail($user->email),
+                'code' => '201'
+            ]], 201);
+    }
+
+    function verifyEmail(Request $request, User $user)
+    {
+        $system = System::findOrFail($request->system);
+        $user->markEmailAsVerified();
+
+        return view('pages.authentication.email-verified')
+            ->with(['system' => $system, 'user' => $user]);;
+    }
+
+    function generateTransactionalCode(AuthGenerateTransactionalCodeRequest $request)
     {
         $user = $request->user();
 
@@ -401,7 +446,7 @@ class  AuthController extends Controller
             ]], 201);
     }
 
-    public function verifyTransactionalCode(AuthUnlockRequest $request)
+    function verifyTransactionalCode(AuthUnlockRequest $request)
     {
         $transactionalCode = TransactionalCode::firstWhere('token', $request->token);
 
@@ -460,7 +505,7 @@ class  AuthController extends Controller
         return substr($email, 0, $start) . str_repeat('*', $len - ($start + $end)) . substr($email, $len - $end, $end);
     }
 
-    public function getRoles(AuthGetRolesRequest $request)
+    function getRoles(AuthGetRolesRequest $request)
     {
         $user = $request->user();
 
@@ -488,7 +533,7 @@ class  AuthController extends Controller
             ]], 200);
     }
 
-    public function getPermissions(AuthGetPermissionsRequest $request)
+    function getPermissions(AuthGetPermissionsRequest $request)
     {
         $role = Role::find($request->input('role'));
 
@@ -507,6 +552,7 @@ class  AuthController extends Controller
                 $route->with('module')->with('type')->with('status');
             }])
             ->with('institution')
+            ->where('institution_id',$request->institution)
             ->get();
         return response()->json([
             'data' => $permissions,
