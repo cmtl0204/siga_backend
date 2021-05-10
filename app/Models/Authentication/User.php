@@ -3,6 +3,7 @@
 namespace App\Models\Authentication;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -241,6 +242,11 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     function setPersonalEmailAttribute($value)
     {
         $this->attributes['personal_email'] = strtolower($value);
+    }
+
+    function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 
     // Scopes
