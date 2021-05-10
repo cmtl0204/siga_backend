@@ -225,7 +225,7 @@ class  AuthController extends Controller
                 ]], 400);
         }
 
-        $user->password = Hash::make(trim($request->input('password')));
+        $user->password = trim($request->input('password'));
         $user->is_changed_password = true;
         $user->save();
 
