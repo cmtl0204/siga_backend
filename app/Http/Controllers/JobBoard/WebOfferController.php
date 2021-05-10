@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\JobBoard;
 
 use App\Http\Controllers\Controller;
+use App\Models\App\Status;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class WebOfferController extends Controller
 {
 
     /**
-     * Enlista ofertas con status ACTIVE(code=1).
      * Ruta publica y muestra descripcion y activiades.
      *
      * @param Request $request
@@ -21,7 +20,7 @@ class WebOfferController extends Controller
      */
     function getPublicOffers(Request $request): JsonResponse
     {
-        $offers = Offer::select('description', 'activities')->paginate($request->input('per_page'));
+        $offers = Offer::select('description', 'activities', 'requirements')->paginate($request->input('per_page'));
 
         if ($offers === null) {
             return response()->json([
@@ -51,12 +50,15 @@ class WebOfferController extends Controller
      */
     function getOffers(Request $request): JsonResponse
     {
-        $offers = Offer::with(['status' => function ($table) {
-            $table->where('code', 1);
+        $offers = Offer::whereHas('status')->with(['status' => function ($status) {
+            $status->where('code', '1');
         }])->paginate($request->input('per_page'));
+
+        $status = Status::where('code', '1')->get();
 
         return response()->json([
             'data' => $offers,
+            'status' => $status,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -72,18 +74,28 @@ class WebOfferController extends Controller
      */
     function applyOffer(Request $request): JsonResponse
     {
-        $offer = Offer::find($request->input('id'));
-        $professional = $request->user();
+        if ($request->input('id')) {
+            $offer = Offer::find($request->input('id'));
+            $professional = Professional::where('user_id', $request->user()->id)->first();
 
-        $applyOffer = $professional->offers()->attach($offer);
+            $professional->offers()->attach($offer->id);
 
-        return response()->json([
-            'data' => $applyOffer,
-            'msg' => [
-                'summary' => 'Oferta aplicada',
-                'detail' => '',
-                'code' => '200'
-            ]], 200);
+            return response()->json([
+                'msg' => [
+                    'summary' => 'Oferta aplicada',
+                    'detail' => '',
+                    'code' => '200'
+                ]], 200);
+        } else {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Sin ID de oferta',
+                    'detail' => '',
+                    'code' => '200'
+                ]], 200);
+        }
+
     }
 
     /**
@@ -94,16 +106,60 @@ class WebOfferController extends Controller
      */
     function index(Request $request): JsonResponse
     {
+        // filtrado por código.
+        if ( !is_null($request->input('searchCode')) ) {
+            $code = $request->input('searchCode');
+            $offers = Offer::where('code', 'ILIKE', "%$code%")->paginate($request->input('per_page'));
 
-        if ($request->has('searchCode')) {
-            if ($request->input('searchCode') === 'code') {
-                $offers = Offer::
-                where('code' === $request->input('search'))
-                    ->paginate($request->input('per_page'));
-            } else {
-                // codido para filtraciones por otros parametros.
-            }
+            return response()->json([
+                'data' => $offers,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => 'Filtrado por codigo',
+                    'code' => '200'
+                ]], 200);
         }
+
+        // filtrado por campo especifica (categoría hija)
+        if ( !is_null($request->input('searchSpecificField')) ) {
+            $specificField = $request->input('searchSpecificField');
+
+            $offers = Offer::with(['categories' => function ($categories) use ($specificField) {
+                $categories->whereIn('categories.parent_id', $specificField);
+            }])->paginate($request->input('per_page'));
+
+//            $filter = [];
+//            foreach ($offers as $offer) {
+//                array_push($filter, $offer['categories']);
+//            }
+
+            return response()->json([
+                'data' => $offers,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => 'Filtrado por categorias con campo amplio y especifico',
+                    'code' => '200'
+                ]], 200);
+        }
+
+        // filtrado por campo amplio (categoría padre)
+        if ( !is_null($request->input('searchWideField')) ){
+            $wideFields = $request->input('searchWideField');
+
+            $offers = Offer::with(['categories' => function ($categories) use ($wideFields) {
+                $categories->whereIn('categories.id', $wideFields);
+            }])->paginate($request->input('per_page'));
+
+            return response()->json([
+                'data' => $offers,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => 'Filtrado por categorias con campo amplio',
+                    'code' => '200'
+                ]], 200);
+
+        }
+
 
         $offers = Offer::paginate($request->input('per_page'));
 
@@ -111,7 +167,7 @@ class WebOfferController extends Controller
             'data' => $offers,
             'msg' => [
                 'summary' => 'success',
-                'detail' => '',
+                'detail' => 'Sin filtros',
                 'code' => '200'
             ]], 200);
     }

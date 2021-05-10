@@ -2,17 +2,17 @@
 
 namespace Database\Factories\JobBoard;
 
-use App\Models\JobBoard\Skill;
+use App\Models\JobBoard\Offer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class WebOfferFactory extends Factory
+class OfferFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Skill::class;
+    protected $model = Offer::class;
 
     /**
      * Define the model's default state.
@@ -22,17 +22,17 @@ class WebOfferFactory extends Factory
     public function definition()
     {
         return [
-            'company_id' => $this->faker->numberBetween($min = 1, $max = 11),
+            'company_id' => $this->faker->numberBetween(1, 11),
             'location_id' => 1, // no hay nada
-            'contract_type_id' => $this->faker->numberBetween($min = 276, $max = 279),
-            'position_id' => $this->faker->numberBetween($min = 280, $max = 299),
-            'sector_id' => $this->faker->numberBetween($min = 280, $max = 299), // preguntar
-            'working_day_id' => $this->faker->numberBetween($min = 300, $max = 319),
-            'experience_time_id' => $this->faker->numberBetween($min = 320, $max = 339),
-            'training_hours_id' => $this->faker->numberBetween($min = 340, $max = 359),
-            'status_id' => $this->faker->numberBetween($min = 1, $max = 5),
+            'contract_type_id' => $this->faker->numberBetween(276, 279),
+            'position_id' => $this->faker->numberBetween(280, 299),
+            'sector_id' => $this->faker->numberBetween(280, 299), // preguntar
+            'working_day_id' => $this->faker->numberBetween(300, 319),
+            'experience_time_id' => $this->faker->numberBetween(320, 339),
+            'training_hours_id' => $this->faker->numberBetween(340,359),
+            'status_id' => $this->faker->numberBetween(1, 5),
             'code' => $this->faker->postcode,
-            'description' => $this->faker->realText($maxNbChars = 200, $indexSize = 15),
+            'description' => $this->faker->realText($maxNbChars = 200, $indexSize = 5),
             'contact_name' => $this->faker->userName,
             'contact_email' => $this->faker->email,
             'contact_phone' => $this->faker->phoneNumber,

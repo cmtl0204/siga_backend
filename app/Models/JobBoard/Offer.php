@@ -50,7 +50,8 @@ class Offer extends Model implements Auditable
         'end_date',
         'aditional_information',
     ];
-    protected $with = ['categories'];
+
+//    protected $with = ['categories'];
 
     protected $casts = [
         'activities' => 'array',

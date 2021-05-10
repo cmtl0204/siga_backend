@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\JobBoard\LocationFactory;
-use Database\Factories\JobBoard\WebOfferFactory;
+use App\Models\App\Location;
+use App\Models\JobBoard\Offer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +14,5 @@ class DatabaseSeeder extends Seeder
             AuthenticationSeeder::class,
             JobBoardSeeder::class,
         ]);
-
-//        factory(WebOfferFactory::class, 150)->create();
     }
 }

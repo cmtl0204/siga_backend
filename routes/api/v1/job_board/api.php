@@ -21,6 +21,13 @@ $middlewares = ['auth:api'];
 // With Middleware
 Route::middleware($middlewares)
     ->group(function () {
+        Route::group(['prefix' => 'opportunities'], function () {
+            Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+            Route::get('private-offers', [WebOfferController::class, 'getOffers']);
+            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
+            Route::post('index', [WebOfferController::class, 'index']);
+        });
+
         // index show store update destroy (crud)
         Route::apiResources([
             'catalogues' => SkillController::class,
@@ -137,8 +144,4 @@ Route::prefix('/')
         });
     });
 
-Route::group(['prefix' => 'opportunities'], function () {
-    Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
-    Route::get('private-offers', [WebOfferController::class, 'getOffers']);
-    Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-});
+

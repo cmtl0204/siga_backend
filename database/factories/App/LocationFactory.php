@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories\JobBoard;
+namespace Database\Factories\App;
 
-use App\Models\JobBoard\Skill;
+use App\Models\App\Location;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LocationFactory extends Factory
@@ -12,7 +12,7 @@ class LocationFactory extends Factory
      *
      * @var string
      */
-    protected $model = Skill::class;
+    protected $model = Location::class;
 
     /**
      * Define the model's default state.
@@ -22,19 +22,19 @@ class LocationFactory extends Factory
     public function definition()
     {
         return [
-            'type_id' => $this->faker->numberBetween($min = 276, $max = 279),
-            'parent_id' => $this->faker->numberBetween($min = 1, $max = 5),
+//            'type_id' => $this->faker->numberBetween($min = 276, $max = 279),
+//            'parent_id' => $this->faker->numberBetween($min = 1, $max = 5),
             'code' => $this->faker->postcode,
             'name' => $this->faker->name,
             'alpha2_code' => $this->faker->postcode,
             'alpha3_code' => $this->faker->postcode,
-            'region' => $this->faker->region,
-            'subregion' => $this->faker->region,
+            'region' => $this->faker->userName,
+            'subregion' => $this->faker->userName,
             'calling_code' => $this->faker->postcode,
             'capital' => $this->faker->postcode,
             'top_level_domain' => $this->faker->userName,
             'flag' => $this->faker->country,
-            'timezones' => $this->faker->email,
+//            'timezones' => $this->faker->text,
         ];
     }
 }
