@@ -61,7 +61,7 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('offer', [ProfessionalController::class, 'getOffers']);
+            Route::get('{id}', [ProfessionalController::class, 'getOffers']);
                 Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
               //   Route::get('test', function () {
                 //  return 'test';

@@ -24,6 +24,7 @@ class Professional extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.professionals';
+    protected $with = ['user'];
 
     protected $fillable = [
         'has_travel',

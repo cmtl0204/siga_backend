@@ -28,6 +28,7 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.skills';
+    protected $with = ['professional','type'];
 
     protected $fillable = [
         'description',
