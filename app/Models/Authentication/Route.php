@@ -2,17 +2,23 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use App\Models\App\Catalogue;
 use App\Models\App\Image;
+
+/**
+ * @property BigInteger id
+ * @property string description
+ * @property string icon
+ * @property string logo
+ * @property string name
+ * @property integer order
+ * @property string uri
+ */
 
 class Route extends Model implements Auditable
 {
@@ -20,22 +26,27 @@ class Route extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-
     protected $connection = 'pgsql-authentication';
     protected $table = 'authentication.routes';
 
     protected static $instance;
 
     protected $fillable = [
-        'uri',
-        'name',
         'description',
         'icon',
-        'order',
         'logo',
+        'name',
+        'order',
+        'uri',
     ];
 
-    
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -45,6 +56,7 @@ class Route extends Model implements Auditable
         return static::$instance;
     }
 
+    // Relationships
     public function module()
     {
         return $this->belongsTo(Module::class);
@@ -60,9 +72,9 @@ class Route extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function permissions()
+    public function permission()
     {
-        return $this->hasMany(Permission::class);
+        return $this->hasOne(Permission::class);
     }
 
     public function children()

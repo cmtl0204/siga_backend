@@ -16,8 +16,7 @@ class CheckAttempts
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if ($request->user()->attempts === 0) {
+        if ($request->user()->attempts <= 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [

@@ -10,16 +10,37 @@ class CreateAppInstitutionsTable extends Migration
     {
         Schema::connection('pgsql-app')->create('institutions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('address_id')->nullable()->constrained('app.address');
-            $table->string('code')->unique()->comment('Generado automaticamente por el acronym y el id ej: abc1');
-            $table->string('denomination')->nullable();
-            $table->string('name')->unique();
-            $table->string('short_name')->unique();
-            $table->string('acronym')->nullable();
-            $table->string('email')->nullable()->comment('correo electronico principal');
-            $table->text('slogan')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('web')->nullable();
+
+            $table->foreignId('address_id')
+                ->nullable()
+                ->constrained('app.address');
+
+            $table->string('code')
+                ->comment('Generado automaticamente por el acronym y el id ej: abc1');
+
+            $table->string('denomination')
+                ->nullable();
+
+            $table->string('name');
+
+            $table->string('short_name');
+
+            $table->string('acronym')
+                ->nullable();
+
+            $table->string('email')
+                ->nullable()
+                ->comment('correo electronico principal');
+
+            $table->text('slogan')
+                ->nullable();
+
+            $table->string('logo')
+                ->nullable();
+
+            $table->string('web')
+                ->nullable();
+
             $table->softDeletes();
             $table->timestamps();
 
