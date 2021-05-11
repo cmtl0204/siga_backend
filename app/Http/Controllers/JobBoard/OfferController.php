@@ -11,7 +11,8 @@ use App\Models\App\Catalogue;
 use App\Models\App\Location;
 use App\Http\Requests\JobBoard\Offer\IndexOfferRequest;
 use App\Http\Requests\JobBoard\Offer\CreateOfferRequest;
-use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest;
+use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest; 
+use App\Http\Requests\JobBoard\Offer\UpdateStatusOfferRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class OfferController extends Controller
@@ -22,7 +23,7 @@ class OfferController extends Controller
 
         if ($request->has('search')) {
             $offer = $company->offers()
-                ->aditional_information($request->input('search'))
+                ->aditionalInformation($request->input('search'))
                 ->code($request->input('search'))
                 ->description($request->input('search'))
                 ->get();
@@ -55,10 +56,7 @@ class OfferController extends Controller
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
 
-        //$lastOffer = Offer::orderBy('id', 'desc')->first();
-
         $offer = new Offer();
-        //$offer->code = $lastOffer ? ($lastOffer->code + 1) : 1;
         $offer->code = $request->input('offer.code');
         $offer->description = $request->input('offer.description');
         $offer->contact_name = $request->input('offer.contact_name');
@@ -96,28 +94,8 @@ class OfferController extends Controller
         ], 201);
     }
 
-    function show($offerId)
+    function show(Offer $offer)
     {
-        if (!is_numeric($offerId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $offer = Offer::find($offerId);
-
-        if (!$offer) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Oferta no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
         return response()->json([
             'data' => $offer,
             'msg' => [
@@ -127,13 +105,20 @@ class OfferController extends Controller
             ]], 200);
     }
 
-    function update(UpdateOfferRequest $request, $offerId)
+    function getProfessionals(Offer $offer)
     {
-        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        $offer = Offer::find($offerId);
-        $offer->status()->associate(Status::firstWhere('code', $catalogues['status']['paused']));
-        $offer->save();
+        $professionals = $offer->professionals()->get();
+        return response()->json([
+            'data' => $professionals,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
 
+    function update(UpdateOfferRequest $request, Offer $offer)
+    {
         $location = Location::getInstance($request->input('location.id'));
         $contractType = Catalogue::getInstance($request->input('contractType.id'));
         $position = Catalogue::getInstance($request->input('position.id'));
@@ -142,18 +127,6 @@ class OfferController extends Controller
         $experienceTime = Catalogue::getInstance($request->input('experienceTime.id'));
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
-
-        $offer = Offer::find($offerId);
-
-        if (!$offer) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Oferta no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
 
         $offer->code = $request->input('offer.code');
         $offer->description = $request->input('offer.description');
@@ -176,6 +149,11 @@ class OfferController extends Controller
         $offer->experienceTime()->associate($experienceTime);
         $offer->trainingHours()->associate($trainingHours);
         $offer->status()->associate($status);
+        $offer->categories()->detach();
+
+        foreach ($request->input('categories') as $category) {
+            $offer->categories()->attach($category);
+        }
 
         $offer->save();
 
@@ -188,29 +166,8 @@ class OfferController extends Controller
             ]], 201);
     }
 
-    function destroy($offerId)
+    function destroy(Offer $offer)
     {
-        if (!is_numeric($offerId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $offer = Offer::find($offerId);
-
-        if (!$offer) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Oferta no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         $offer->delete();
 
         return response()->json([
@@ -222,8 +179,16 @@ class OfferController extends Controller
             ]], 201);
     }
 
-    function getProfessionals(){
-        return $offer->professionals()->get();
+    function changeStatus(UpdateStatusOfferRequest $request, Offer $offer){
+        $offer->status()->associate(Status::find($request->input('status.id')));        
+        $offer->save();
+        return response()->json([
+            'data' => $offer,
+            'msg' => [
+                'summary' => 'Estado cambio',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]], 201);
     }
 
     private function calculateEndOffer($startDate){

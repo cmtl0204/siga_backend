@@ -13,7 +13,6 @@ class CreateJobboardSkillsTable extends Migration
             $table->foreignId('professional_id')->constrained('job_board.professionals');
             $table->foreignId('type_id')->comment('soft or hard')->constrained('app.catalogues');
             $table->text('description');
-            $table->unique(['professional_id','type_id']);
             $table->softDeletes();
             $table->timestamps();
         });

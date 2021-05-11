@@ -2,14 +2,16 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * @property BigInteger id
+ * @property string name
+ */
 
 class SecurityQuestion extends Model implements Auditable
 {
@@ -24,9 +26,9 @@ class SecurityQuestion extends Model implements Auditable
 
     protected $fillable = [
         'name',
-        'state'];
+        ];
 
-        
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -36,6 +38,7 @@ class SecurityQuestion extends Model implements Auditable
         return static::$instance;
     }
 
+    // Relationships
     public function users()
     {
         $this->belongsToMany(User::class)->withPivot('answer')->withTimestamps();;
