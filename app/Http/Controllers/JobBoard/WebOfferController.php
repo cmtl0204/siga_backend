@@ -146,9 +146,13 @@ class WebOfferController extends Controller
         if ( !is_null($request->input('searchWideField')) ){
             $wideFields = $request->input('searchWideField');
 
-            $offers = Offer::with(['categories' => function ($categories) use ($wideFields) {
+//            $offers = Offer::with(['categories' => function ($categories) use ($wideFields) {
+//                $categories->whereIn('categories.id', $wideFields);
+//            }])->paginate($request->input('per_page'));
+
+            $offers = Offer::whereHas('categories', function ($categories) use ($wideFields) {
                 $categories->whereIn('categories.id', $wideFields);
-            }])->paginate($request->input('per_page'));
+            })->get();
 
             return response()->json([
                 'data' => $offers,
