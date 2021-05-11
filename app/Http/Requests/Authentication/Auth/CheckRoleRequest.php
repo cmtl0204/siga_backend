@@ -5,7 +5,7 @@ namespace App\Http\Requests\Authentication\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Authentication\AuthenticationFormRequest;
 
-class AuthGetRolesRequest extends FormRequest
+class CheckRoleRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,18 +14,27 @@ class AuthGetRolesRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'institution' => [
+                'required'
+            ],
+            'system' => [
                 'required',
-                'integer'
+            ],
+            'role' => [
+                'required',
             ]
         ];
+        return AuthenticationFormRequest::rules($rules );
     }
+
 
     public function attributes()
     {
         $attributes = [
-            'institution' => 'institution',
+            'institution' => 'institución',
+            'system' => 'sistema',
+            'role' => 'rol',
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }

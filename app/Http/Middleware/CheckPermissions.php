@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Authentication\Role;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -9,15 +10,39 @@ class CheckPermissions
 {
     public function handle(Request $request, Closure $next)
     {
-        $roles = $request->user()->roles()->where('institution_id', $request->institution)
-            ->where('roles.id', $request->role)->get();
+        $request->validate([
+            'uri' => [
+                'required',
+            ]
+        ]);
 
-        if (sizeof($roles) === 0) {
+        $role = Role::findOrFail($request->role);
+        $allPermission = $role->permissions()
+            ->whereHas('route', function ($route) use ($request) {
+                $route->where('uri', $request->uri);
+            })
+            ->first();
+
+        $permission = $role->permissions()
+            ->whereHas('route', function ($route) use ($request) {
+                $route->where('uri', $request->uri);
+            })
+            ->whereJsonContains('actions', $request->getMethod())
+            ->first();
+
+        $actions = null;
+
+        if ($allPermission) {
+            $actions = implode(', ', $allPermission->actions);
+        }
+
+        if (!$permission) {
             return response()->json([
-                'data' => $roles,
+                'data' => null,
                 'msg' => [
-                    'summary' => 'No tiene un rol asignado (check-permissions)',
-                    'detail' => 'Comunicate con el administrador',
+                    'summary' => "No tiene permiso para acceder a la ruta: [{$request->uri}] " .
+                        "y ejecutar la acción: [{$request->getMethod()}] (check-permissions)",
+                    'detail' => "Acciones permitidas: [{$actions}]",
                     'code' => '403'
                 ]
             ], 403);
