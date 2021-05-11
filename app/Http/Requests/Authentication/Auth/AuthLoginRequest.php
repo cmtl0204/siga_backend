@@ -5,7 +5,7 @@ namespace App\Http\Requests\Authentication\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Authentication\AuthenticationFormRequest;
 
-class AuthUnlockRequest extends FormRequest
+class AuthLoginRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,27 +15,33 @@ class AuthUnlockRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => [
+            'username' => [
                 'required'
             ],
             'password' => [
-                'required',
-                'min:6',
-                'max:50'
+                'required'
             ],
-            'password_confirmation' => [
-                'required',
-                'same:password'
+            'client_id' => [
+                'required'
             ],
+            'client_secret' => [
+                'required'
+            ],
+            'grant_type' => [
+                'required'
+            ],
+
         ];
     }
 
     public function attributes()
     {
         $attributes = [
-            'token' => 'token',
+            'username' => 'usuario',
             'password' => 'contraseña',
-            'password_confirmation' => 'confirmación de contraseña',
+            'client_id' => 'cliente-ID',
+            'client_secret' => 'cliente-clave-secret',
+            'grant_type' => 'cliente-tipo',
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }

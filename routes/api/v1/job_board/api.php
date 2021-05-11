@@ -21,7 +21,6 @@ $middlewares = ['auth:api'];
 // With Middleware
 Route::middleware($middlewares)
     ->group(function () {
-        // index show store update destroy (crud)
         Route::apiResources([
             'catalogues' => SkillController::class,
             'categories' => CategoryController::class,
@@ -38,15 +37,12 @@ Route::middleware($middlewares)
         ]);
 
         Route::prefix('skill')->group(function () {
-            // ruta para hcer pruebas
             Route::get('test', [SkillController::class, 'test']);
-
             Route::post('image', [SkillController::class, 'uploadImages']);
             Route::post('image/{image}', [SkillController::class, 'updateImage']);
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);
             Route::get('image', [SkillController::class, 'indexImage']);
             Route::get('image/{image}', [SkillController::class, 'showImage']);
-
             Route::post('file', [SkillController::class, 'uploadFiles']);
             Route::post('file/{image}', [SkillController::class, 'updateFile']);
             Route::delete('file/{image}', [SkillController::class, 'deleteFile']);
@@ -56,8 +52,11 @@ Route::middleware($middlewares)
 
         Route::prefix('company')->group( function () {
             Route::get('{id}', [CompanyController::class, 'show']);
+            Route::get('{id}', [CompanyController::class, 'getProfesional']);
+            Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
             Route::put('{id}', [CompanyController::class, 'update']);
             Route::post('register', [CompanyController::class, 'register']);
+
         });
 
         Route::prefix('professional')->group(function () {
@@ -72,6 +71,8 @@ Route::middleware($middlewares)
             Route::get('test', function () {
                 return 'test';
             });
+            Route::get('proffesionals/{offer}', [OfferController::class, 'getProfessionals']);
+            Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
         });
 
         Route::prefix('academic-formation')->group(function () {

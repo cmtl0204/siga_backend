@@ -18,13 +18,6 @@ class CreateClientRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'client_name.required' => 'El campo :attribute es obligatorio',
-        ];
-    }
-
     public function attributes()
     {
         return [
