@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
 use App\Models\App\Catalogue;
-use App\Models\Authentication\User;
-use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Skill;
 use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
 use App\Http\Requests\JobBoard\Skill\IndexSkillRequest;

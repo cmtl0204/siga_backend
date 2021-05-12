@@ -42,6 +42,10 @@ class CreateAuthUsersTable extends Migration
                 ->nullable()
                 ->constrained('app.catalogues');
 
+            $table->foreignId('title_id')
+                ->nullable()
+                ->constrained('app.catalogues');
+
             $table->string('avatar')
                 ->nullable()
                 ->unique();
