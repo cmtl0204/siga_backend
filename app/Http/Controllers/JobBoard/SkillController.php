@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers\JobBoard;
 
-// Controllers
 use App\Http\Controllers\Controller;
-
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-// Models
-use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
 use App\Models\App\Catalogue;
-use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Skill;
-
-// FormRequest
+use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
 use App\Http\Requests\JobBoard\Skill\IndexSkillRequest;
 use App\Http\Requests\JobBoard\Skill\UpdateSkillRequest;
 use App\Http\Requests\App\Image\UpdateImageRequest;
@@ -54,7 +48,7 @@ class SkillController extends Controller
 
     function show(Skill $skill)
     {
-        $skill = $skill->with('type')->first();
+
         return response()->json([
             'data' => $skill,
             'msg' => [
@@ -109,6 +103,7 @@ class SkillController extends Controller
     {
         // Es una eliminación lógica
         $skill->delete();
+
         return response()->json([
             'data' => $skill,
             'msg' => [
