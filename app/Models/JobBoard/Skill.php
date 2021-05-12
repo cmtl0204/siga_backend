@@ -15,7 +15,6 @@ use App\Models\App\Catalogue;
  * @property BigInteger id
  * @property string description
  */
-
 class Skill extends Model implements Auditable
 {
     use HasFactory;
@@ -26,8 +25,6 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.skills';
-    protected $with = ['professional', 'type'];
-
     protected $with = ['type'];
 
     protected $fillable = [
@@ -35,9 +32,9 @@ class Skill extends Model implements Auditable
     ];
 
     protected $casts = [
-        'deleted_at'=>'date:Y-m-d h:m:s',
-        'created_at'=>'date:Y-m-d h:m:s',
-        'updated_at'=>'date:Y-m-d h:m:s',
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
     public static function getInstance($id)

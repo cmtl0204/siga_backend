@@ -41,7 +41,7 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
-            
+
         ]);
 
         Route::prefix('skill')->group(function () {
@@ -58,7 +58,7 @@ Route::middleware($middlewares)
             Route::get('file/{file}', [SkillController::class, 'showFile']);
         });
 
-        Route::prefix('company')->group( function () {
+        Route::prefix('company')->group(function () {
             Route::get('{id}', [CompanyController::class, 'show']);
             Route::get('{id}', [CompanyController::class, 'getProfesional']);
             Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
@@ -68,11 +68,12 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('offer', [ProfessionalController::class, 'getOffers']);
-                Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
-              //   Route::get('test', function () {
-                //  return 'test';
-      //      });
+            Route::get('offers', [ProfessionalController::class, 'getOffers']);
+            Route::get('companies', [ProfessionalController::class, 'getCompanies']);
+            Route::get('get', [ProfessionalController::class, 'getProfessional']);
+            //   Route::get('test', function () {
+            //  return 'test';
+            //      });
         });
 
         Route::prefix('offer')->group(function () {

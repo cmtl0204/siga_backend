@@ -3,23 +3,13 @@
 namespace App\Http\Controllers\JobBoard;
 //controllers
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+
 //models
 use App\Models\JobBoard\Professional;
-use App\Models\JobBoard\Catalogue;
-use App\Models\JobBoard\Company;
-use App\Models\JobBoard\Skill;
-use App\Models\JobBoard\Offer;
-use App\Models\JobBoard\Reference;
-use App\Models\JobBoard\Experience;
-
-
-
-
 
 //formRequest
 use App\Http\Requests\JobBoard\Professional\UpdateProfessionalRequest;
-
+use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
 {

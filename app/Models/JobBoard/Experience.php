@@ -32,6 +32,7 @@ class Experience extends Model implements Auditable
     protected $table = 'job_board.experiences';
 
     protected $with = ['area'];
+
     protected $fillable = [
         'employer',
         'position',
