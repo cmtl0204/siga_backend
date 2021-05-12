@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\App\Catalogue;
 use App\Models\Authentication\User;
+use App\Models\JobBoard\AcademicFormation;
 use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Skill;
 use App\Models\JobBoard\Category;
@@ -23,6 +24,7 @@ class JobBoardSeeder extends Seeder
         $this->createProfessionals();
         $this->createCompanies();
         $this->createSkills();
+        $this->createAcademicFormations();
     }
 
     private function createProfessionals()
@@ -169,5 +171,22 @@ class JobBoardSeeder extends Seeder
         Catalogue::factory()->count(20)->create([
             'type' => $catalogues['catalogue']['offer_training_hours']['type'],
         ]);
+    }
+
+    private function createAcademicFormations()
+    {
+        $categories = Category::whereNotNull('parent_id')->get();
+        $categoriesSize = $categories->count();
+
+        foreach (Professional::all() as $professional) {
+            $n = rand(1, 3);
+
+            for ($i=0; $i < $n; $i++) { 
+                $academicFormation = new AcademicFormation();
+                $academicFormation->professional()->associate($professional);
+                $academicFormation->professionalDegree()->associate($categories[rand(0, $categoriesSize)]);
+                $academicFormation->save();
+            }
+        }
     }
 }
