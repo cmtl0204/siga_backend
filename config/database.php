@@ -88,7 +88,7 @@ return [
             'schema' => env('DB_SCHEMA_APP', 'public'),
             'sslmode' => 'prefer',
         ],
-        'pgsql-app' => [
+        'pgsql-cecy' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
