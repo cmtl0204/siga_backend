@@ -19,6 +19,7 @@ use App\Models\App\Institution;
 use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
+use App\Models\JobBoard\Professional;
 
 /**
  * @property BigInteger id
@@ -155,9 +156,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
-    function professional()
-    {
-        $this->hasOne(Professional::class);
+    function professional(){
+        return $this->hasOne(Professional::class);
     }
 
     function roles()

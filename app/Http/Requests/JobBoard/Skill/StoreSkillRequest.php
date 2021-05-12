@@ -20,10 +20,6 @@ class StoreSkillRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
-            'professional.id' => [
-                'required',
-                'integer',
-            ],
             'type.id' => [
                 'required',
                 'integer',
@@ -37,7 +33,6 @@ class StoreSkillRequest extends FormRequest
     {
         $attributes = [
             'skill.description' => 'descripción',
-            'professional.id' => 'profesional-id',
             'type.id' => 'tipo-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
