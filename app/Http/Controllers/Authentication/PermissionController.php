@@ -10,7 +10,10 @@ class PermissionController extends Controller
 {
     public function index(Request $request)
     {
-        $permissions = Permission::with('route')->where('institution_id', $request->institution_id)->get();
+        $permissions = Permission::with('route')
+            ->where('institution_id', $request->institution_id)
+            ->get();
+
         return response()->json(['data' => $permissions, 'msg' => [
             'summary' => 'success',
             'detail' => '',

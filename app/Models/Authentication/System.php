@@ -2,18 +2,23 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-// Models
 use App\Models\App\Catalogue;
 
+/**
+ * @property BigInteger id
+ * @property string acronym
+ * @property string code
+ * @property Date date
+ * @property string description
+ * @property string icon
+ * @property string name
+ * @property string version
+ */
 
 class System extends Model implements Auditable
 {
@@ -27,15 +32,22 @@ class System extends Model implements Auditable
     protected static $instance;
 
     protected $fillable = [
-        'code', 
-        'name',
         'acronym',
+        'code',
+        'date',
         'description',
         'icon',
+        'name',
         'version',
-        'date',
-        'state'];
-        
+    ];
+
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -45,13 +57,14 @@ class System extends Model implements Auditable
         return static::$instance;
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
+    // Relationships
     public function roles()
     {
         return $this->hasMany(Role::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Catalogue::class);
     }
 }

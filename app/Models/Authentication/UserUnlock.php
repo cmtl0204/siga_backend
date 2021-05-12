@@ -2,11 +2,17 @@
 
 namespace App\Models\Authentication;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+
+/**
+ * @property BigInteger id
+ * @property boolean is_valid
+ * @property string token
+ * @property string username
+ */
 
 class UserUnlock extends Model implements Auditable
 {
@@ -14,15 +20,17 @@ class UserUnlock extends Model implements Auditable
     use Auditing;
 
     protected $connection = 'pgsql-authentication';
+    protected $table = 'authentication.user_unlocks';
 
     protected static $instance;
 
     protected $fillable = [
         'username',
         'is_valid',
-        'token'
+        'token',
     ];
 
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
