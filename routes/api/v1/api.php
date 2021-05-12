@@ -20,6 +20,9 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema cecy;');
 
     Artisan::call('migrate', ['--seed' => true]);
+
+//    Artisan::call('passport:keys');
+
     Artisan::call('passport:client', [
         '--password' => true,
         '--name' => 'Password-' . $request->input('client_name'),
@@ -32,7 +35,7 @@ Route::get('init', function (CreateClientRequest $request) {
         '--quiet' => true,
     ]);
 
-    $clientSecret = DB::select("select secret from oauth_clients where name='" . $request->input('client_name') . "'");
+    $clientSecret = DB::select("select secret from oauth_clients where name='" . 'Password-' . $request->input('client_name') . "'");
 
     return response()->json([
         'msg' => [
