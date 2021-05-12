@@ -3,12 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\App\Catalogue;
+use App\Models\App\Location;
 use App\Models\Authentication\User;
 use App\Models\JobBoard\AcademicFormation;
 use App\Models\JobBoard\Company;
+use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Skill;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Professional;
+use Database\Factories\JobBoard\LocationFactory;
 use Illuminate\Database\Seeder;
 
 class JobBoardSeeder extends Seeder
@@ -24,7 +27,8 @@ class JobBoardSeeder extends Seeder
         $this->createProfessionals();
         $this->createCompanies();
         $this->createSkills();
-        $this->createAcademicFormations();
+        $this->createLocations();
+        $this->createOffers();
     }
 
     private function createProfessionals()
@@ -44,10 +48,10 @@ class JobBoardSeeder extends Seeder
         $personTypes = Catalogue::where('type', $catalogues['catalogue']['company_person_type']['type'])->get();
         foreach (User::all() as $user) {
             Company::factory()->create([
-                'type_id'=>$types[rand(0, 3)]['id'],
-                'activity_type_id'=>$activityTypes[rand(0, 49)]['id'],
-                'person_type_id'=>$personTypes[rand(0, 1)]['id'],
-                'user_id'=>$user->id
+                'type_id' => $types[rand(0, 3)]['id'],
+                'activity_type_id' => $activityTypes[rand(0, 49)]['id'],
+                'person_type_id' => $personTypes[rand(0, 1)]['id'],
+                'user_id' => $user->id
             ]);
         }
     }
@@ -171,22 +175,5 @@ class JobBoardSeeder extends Seeder
         Catalogue::factory()->count(20)->create([
             'type' => $catalogues['catalogue']['offer_training_hours']['type'],
         ]);
-    }
-
-    private function createAcademicFormations()
-    {
-        $categories = Category::whereNotNull('parent_id')->get();
-        $categoriesSize = $categories->count();
-
-        foreach (Professional::all() as $professional) {
-            $n = rand(1, 3);
-
-            for ($i=0; $i < $n; $i++) { 
-                $academicFormation = new AcademicFormation();
-                $academicFormation->professional()->associate($professional);
-                $academicFormation->professionalDegree()->associate($categories[rand(0, $categoriesSize)]);
-                $academicFormation->save();
-            }
-        }
     }
 }
