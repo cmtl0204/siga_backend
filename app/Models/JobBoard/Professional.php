@@ -25,6 +25,8 @@ class Professional extends Model implements Auditable
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.professionals';
 
+    protected $with = ['user'];
+
     protected $fillable = [
         'has_travel',
         'has_disability',
@@ -115,4 +117,3 @@ class Professional extends Model implements Auditable
         $this->attributes['about_me'] = strtoupper($value);
     }
 }
-
