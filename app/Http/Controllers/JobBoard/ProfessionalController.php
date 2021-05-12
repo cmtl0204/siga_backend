@@ -100,5 +100,26 @@ class ProfessionalController extends Controller
             ]], 201);
     }
 
+    function getProfessional(Request $request)
+    {
+        $professional = $request->user()->professional()->first();
+
+        if (!$professional) {
+            return response()->json([
+                'data' => $professional,
+                'msg' => [
+                    'summary' => 'Profesional no encontrado',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404',
+                ]], 404);
+        }
+        return response()->json([
+            'data' => $professional,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200',
+            ]], 200);
+    }
 }
 
