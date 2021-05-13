@@ -2,103 +2,219 @@
 
 namespace App\Http\Controllers\JobBoard;
 
-use App\Models\App\Catalogue;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Models\JobBoard\Category;
+// Controllers
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\App\FileController;
+use App\Http\Controllers\App\ImageController;
+
+// Models
+use App\Http\Requests\JobBoard\Category\StoreCategoryRequest;
+use App\Models\App\Catalogue;
+use App\Models\JobBoard\Company;
+use App\Models\JobBoard\Professional;
+use App\Models\JobBoard\Category;
+
+// FormRequest
+use App\Http\Requests\JobBoard\Category\IndexCategoryRequest;
+use App\Http\Requests\JobBoard\Category\UpdateCategoryRequest;
+use App\Http\Requests\App\Image\UpdateImageRequest;
+use App\Http\Requests\App\Image\UploadImageRequest;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
+use App\Http\Requests\App\File\IndexFileRequest;
+use App\Http\Requests\App\Image\IndexImageRequest;
 
 class CategoryController extends Controller
 {
-    //Método para obtener las categorias
-    function index(Request $request): JsonResponse
-    {
-//        $categories = Category::with('children')->with(['type' => function ($query) {
-//            $query->where('type', 'categories.type1');
-//        }])->get();
+    
+    function index(IndexCategoryRequest $request)
+{
 
-        $categories = Category::all();
-        return response()->json([
-            'data' => [
-                'categories' => $categories
-            ]
-        ], 200);
+    if ($request->has('search')) {
+        $categories = $category->categories()
+            ->code($request->input('search'))
+            ->name($request->input('search'))
+            ->paginate($request->input('per_page'));
+    } else {
+        $categories = $category->categories()->paginate($request->input('per_page'));
     }
 
-    function show($id):JsonResponse
+    if (sizeof($categories) === 0) {
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'No se encontraron Categorias',
+                'detail' => 'Intente de nuevo',
+                'code' => '404'
+            ]], 404);
+    }
+
+    return response()->json($categories, 200);
+}
+
+    function show($categoryId)
     {
-        $category = Category::findOrFail($id);
+        // Valida que el id se un número, si no es un número devuelve un mensaje de error
+        if (!is_numeric($categoryId)) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'ID no válido',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '400'
+                ]], 400);
+        }
+        $category = Category::find($categoryId);
+
+        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
+        if (!$category) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Categoria no encontrada',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404'
+                ]], 404);
+        }
 
         return response()->json([
             'data' => $category,
             'msg' => [
                 'summary' => 'success',
-                'detail' => ''
+                'detail' => '',
+                'code' => '200'
             ]], 200);
     }
 
-    function store(Request $request): JsonResponse
+    function store(StoreCategoryRequest $request)
     {
-
-        $data = $request->json()->all();
-
-        $dataCategories = $data['categories'];
-        $dataCatalogues = $data['catalogues'];
 
         $category = new Category();
-        $category->code = $dataCatalogues['code'];
-        $category->name = $dataCatalogues['name'];
-        $category->icon = $dataCatalogues['icon'];
-
-        $category->children()->associate(Category::firstWhere($dataCategories['parent_id']));
-        $category->type()->associate(Catalogue::firstWhere($dataCatalogues['id']));
+        $category->name = $request->input('category.name');
+        $category->code = $request->input('category.code');
         $category->save();
 
         return response()->json([
-        'data' => null,
-        'msg' => [
-            'summary' => 'success',
-            'detail' => ''
-        ]], 200);
-    }
-
-    function update(Request $request,$id): JsonResponse
-    {
-        $data = $request->json()->all();
-
-        $dataCategories = $data['categories'];
-        $dataCatalogues = $data['catalogues'];
-
-        $category = Category::findOrFail($id);
-        $category->code = $dataCatalogues['code'];
-        $category->name = $dataCatalogues['name'];
-        $category->icon = $dataCatalogues['icon'];
-
-        $category->children()->associate(Category::firstWhere($dataCategories['parent_id']));
-        $category->type()->associate(Catalogue::firstWhere($dataCatalogues['id']));
-
-        $category->save();
-
-        return response()->json([
-            'data' => null,
+            'data' => $category,
             'msg' => [
-                'summary' => 'success',
-                'detail' => ''
-            ]], 200);
+                'summary' => 'Categoria creada',
+                'detail' => 'El registro fue creado',
+                'code' => '201'
+            ]], 201);
     }
 
-    function destroy($id): JsonResponse
+    function update(UpdateCategoryRequest $request, $categoryId)
     {
-        $category = Category::findOrFail($id);
-        $category->state = false;
+       
+
+        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
+        if (!$category) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Habilidad no encontrada',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        $category->name = $request->input('category.name');
+        $category->code = $request->input('category.code');
         $category->save();
 
         return response()->json([
-            'data' => null,
+            'data' => $skill,
             'msg' => [
-                'summary' => 'success',
-                'detail' => ''
-            ]], 204);
+                'summary' => 'Categoria actualizada',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]], 201);
     }
 
+    function destroy($categoryId)
+    {
+        // Valida que el id se un número, si no es un número devuelve un mensaje de error
+        if (!is_numeric($categoryId)) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'ID no válido',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '400'
+                ]], 400);
+        }
+        $category = Category::find($categoryId);
+
+        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
+        if (!$category) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Categoria no encontrada',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        // Es una eliminación lógica
+        $category->delete();
+
+        return response()->json([
+            'data' => $category,
+            'msg' => [
+                'summary' => 'Categoria eliminada',
+                'detail' => 'El registro fue eliminado',
+                'code' => '201'
+            ]], 201);
+    }
+
+    function uploadImages(UploadImageRequest $request)
+    {
+        return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
+    }
+
+    function updateImage(UpdateImageRequest $request, $imageId)
+    {
+        return (new ImageController())->update($request, $imageId);
+    }
+
+    function deleteImage($imageId)
+    {
+        return (new ImageController())->delete($imageId);
+    }
+
+    function indexImage(IndexImageRequest $request)
+    {
+        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
+    }
+
+    function ShowImage($fileId)
+    {
+        return (new FileController())->show($fileId);
+    }
+
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
+    }
+
+    function updateFile(UpdateFileRequest $request, $fileId)
+    {
+        return (new FileController())->update($request, $fileId);
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
+    }
 }

@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
+use Brick\Math\BigInteger;
+use App\Models\App\File;
+use App\Models\App\Image;
+use App\Models\App\Catalogue;
+
+/**
+ * @property BigInteger id
+ * @property string description
+ */
+
+
 class Category extends Model implements Auditable
 {
     use HasFactory;
@@ -24,7 +35,7 @@ class Category extends Model implements Auditable
         'name',
         'icon'
     ];
-
+//
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -47,5 +58,33 @@ class Category extends Model implements Auditable
     public function type()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+     // Mutators
+     public function setCodeAttribute($value)
+     {
+         $this->attributes['code'] = strtoupper($value);
+     }
+ 
+     // Scopes
+     public function scopeCode($query, $code)
+     {
+         if ($code) {
+             return $query->where('code', 'ILIKE', "%$code%");
+         }
+     }
+
+      // Mutators
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
+    }
+
+    // Scopes
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'ILIKE', "%$name%");
+        }
     }
 }
