@@ -88,6 +88,15 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof HttpException) {
+            if ($e->getStatusCode() === 403) {
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => 'Su dirección de correo electrónico no está verificada.',
+                        'detail' => 'Por favor revise su correo',
+                        'code' => $e->getCode()
+                    ]], 403);
+            }
             if ($e->getStatusCode() === 404) {
                 return response()->json([
                     'data' => $e->getMessage(),
@@ -97,16 +106,6 @@ class Handler extends ExceptionHandler
                         'code' => $e->getCode()
                     ]], 404);
             }
-            if ($e->getStatusCode() === 503) {
-                return response()->json([
-                    'data' => $e->getMessage(),
-                    'msg' => [
-                        'summary' => 'El sistema se encuentra fuera de servicio',
-                        'detail' => 'Lamentamos las molestias causadas',
-                        'code' => $e->getCode()
-                    ]], 503);
-            }
-
             if ($e->getStatusCode() === 405) {
                 $supportMethods = implode(', ',$e->getHeaders());
                 return response()->json([
@@ -117,14 +116,23 @@ class Handler extends ExceptionHandler
                         'code' => $e->getCode()
                     ]], 405);
             }
+            if ($e->getStatusCode() === 503) {
+                return response()->json([
+                    'data' => $e->getMessage(),
+                    'msg' => [
+                        'summary' => 'El sistema se encuentra fuera de servicio',
+                        'detail' => 'Lamentamos las molestias causadas',
+                        'code' => $e->getCode()
+                    ]], 503);
+            }
         }
 
         if ($e instanceof QueryException) {
             return response()->json([
-                'data' => $e->getMessage(),
+                'data' => $e->errorInfo,
                 'msg' => [
                     'summary' => 'Error en la consulta',
-                    'detail' => 'Comunicate con el administrador',
+                    'detail' => 'Comuníquese con el administrador',
                     'code' => $e->getCode()
                 ]], 400);
         }

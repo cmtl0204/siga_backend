@@ -21,6 +21,14 @@ $middlewares = ['auth:api'];
 // With Middleware
 Route::middleware($middlewares)
     ->group(function () {
+        Route::group(['prefix' => 'opportunities'], function () {
+            Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+            Route::get('private-offers', [WebOfferController::class, 'getOffers']);
+            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
+            Route::post('index', [WebOfferController::class, 'index']);
+        });
+
+        // index show store update destroy (crud)
         Route::apiResources([
             'catalogues' => SkillController::class,
             'categories' => CategoryController::class,
@@ -33,10 +41,12 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
+
         ]);
 
         Route::prefix('skill')->group(function () {
             Route::get('test', [SkillController::class, 'test']);
+            Route::put('delete', [SkillController::class, 'delete']);
             Route::post('image', [SkillController::class, 'uploadImages']);
             Route::post('image/{image}', [SkillController::class, 'updateImage']);
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);
@@ -49,7 +59,7 @@ Route::middleware($middlewares)
             Route::get('file/{file}', [SkillController::class, 'showFile']);
         });
 
-        Route::prefix('company')->group( function () {
+        Route::prefix('company')->group(function () {
             Route::get('{id}', [CompanyController::class, 'show']);
             Route::get('{id}', [CompanyController::class, 'getProfesional']);
             Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
@@ -59,9 +69,12 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('test', function () {
-                return 'test';
-            });
+            Route::get('offers', [ProfessionalController::class, 'getOffers']);
+            Route::get('companies', [ProfessionalController::class, 'getCompanies']);
+            Route::get('get', [ProfessionalController::class, 'getProfessional']);
+            //   Route::get('test', function () {
+            //  return 'test';
+            //      });
         });
 
         Route::prefix('offer')->group(function () {
@@ -133,4 +146,5 @@ Route::prefix('/')
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
     });
+
 

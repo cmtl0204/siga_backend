@@ -4,8 +4,9 @@ namespace App\Http\Requests\JobBoard\Skill;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreSkillRequest extends FormRequest
+class DestroySkillRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,16 +16,9 @@ class StoreSkillRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'skill.description' => [
+            'ids' => [
                 'required',
-                'min:10',
-                'max:1000',
             ],
-            'skill.type.id' => [
-                'required',
-                'integer',
-//                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
-            ]
         ];
         return JobBoardFormRequest::rules($rules);
     }
@@ -32,8 +26,7 @@ class StoreSkillRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'skill.description' => 'descripción',
-            'skill.type.id' => 'tipo-id',
+            'ids' => 'IDs',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }
