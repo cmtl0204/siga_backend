@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers\JobBoard;
 
-// Controllers
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-
-// Models
-use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
+use App\Http\Requests\JobBoard\Skill\DestroySkillRequest;
 use App\Models\App\Catalogue;
-use App\Models\JobBoard\Company;
-use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Skill;
-
-// FormRequest
+use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
 use App\Http\Requests\JobBoard\Skill\IndexSkillRequest;
 use App\Http\Requests\JobBoard\Skill\UpdateSkillRequest;
 use App\Http\Requests\App\Image\UpdateImageRequest;
@@ -27,56 +21,41 @@ use App\Http\Requests\App\Image\IndexImageRequest;
 class SkillController extends Controller
 {
     function index(IndexSkillRequest $request)
-{
-    // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-    $professional = Professional::getInstance($request->input('professional_id'));
-
-    if ($request->has('search')) {
-        $skills = $professional->skills()
-            ->description($request->input('search'))
-            ->paginate($request->input('per_page'));
-    } else {
-        $skills = $professional->skills()->paginate($request->input('per_page'));
-    }
-
-    if (sizeof($skills) === 0) {
-        return response()->json([
-            'data' => null,
-            'msg' => [
-                'summary' => 'No se encontraron Habilidades',
-                'detail' => 'Intente de nuevo',
-                'code' => '404'
-            ]], 404);
-    }
-
-    return response()->json($skills, 200);
-}
-
-    function show($skillId)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($skillId)) {
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'ID no válido',
+                    'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
                     'code' => '404'
                 ]], 404);
         }
 
+        if ($request->has('search')) {
+            $skills = $professional->skills()
+                ->description($request->input('search'))
+                ->paginate($request->input('per_page'));
+        } else {
+            $skills = $professional->skills()->paginate($request->input('per_page'));
+        }
+
+        if ($skills->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron Habilidades',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        return response()->json($skills, 200);
+    }
+
+    function show(Skill $skill)
+    {
         return response()->json([
             'data' => $skill,
             'msg' => [
@@ -88,11 +67,19 @@ class SkillController extends Controller
 
     function store(StoreSkillRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
+        $type = Catalogue::getInstance($request->input('skill.type.id'));
 
         $skill = new Skill();
         $skill->description = $request->input('skill.description');
@@ -101,7 +88,7 @@ class SkillController extends Controller
         $skill->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $skill->fresh(),
             'msg' => [
                 'summary' => 'Habilidad creada',
                 'detail' => 'El registro fue creado',
@@ -109,30 +96,17 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function update(UpdateSkillRequest $request, $skillId)
+    function update(UpdateSkillRequest $request, Skill $skill)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
-
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
+        $type = Catalogue::getInstance($request->input('skill.type.id'));
 
         $skill->description = $request->input('skill.description');
         $skill->type()->associate($type);
         $skill->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $skill->fresh(),
             'msg' => [
                 'summary' => 'Habilidad actualizada',
                 'detail' => 'El registro fue actualizado',
@@ -140,39 +114,16 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function destroy($skillId)
+    function delete(DestroySkillRequest $request)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($skillId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $skill = Skill::find($skillId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$skill) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         // Es una eliminación lógica
-        $skill->delete();
+        Skill::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $skill,
+            'data' => null,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Habilidad(es) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }

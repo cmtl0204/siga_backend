@@ -20,37 +20,20 @@ class StoreSkillRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
-            'professional.id' => [
+            'skill.type.id' => [
                 'required',
                 'integer',
-            ],
-            'type.id' => [
-                'required',
-                'integer',
+//                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
             ]
         ];
         return JobBoardFormRequest::rules($rules);
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'skill.description.required' => 'El campo :attribute es obligatorio',
-            'skill.description.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'professional.id.required' => 'El campo :attribute es obligatorio',
-            'professional.id.integer' => 'El campo :attribute debe ser numérico',
-            'type.id.required' => 'El campo :attribute es obligatorio',
-            'type.id.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
     }
 
     public function attributes()
     {
         $attributes = [
             'skill.description' => 'descripción',
-            'professional.id' => 'profesional-id',
-            'type.id' => 'tipo-id',
+            'skill.type.id' => 'tipo-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

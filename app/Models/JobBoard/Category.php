@@ -60,6 +60,7 @@ class Category extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
+<<<<<<< HEAD
      // Mutators
      public function setCodeAttribute($value)
      {
@@ -86,5 +87,10 @@ class Category extends Model implements Auditable
         if ($name) {
             return $query->where('name', 'ILIKE', "%$name%");
         }
+=======
+    public function offers()
+    {
+        return $this->belongsTo(Offer::class);
+>>>>>>> mod_6_jobboard
     }
 }

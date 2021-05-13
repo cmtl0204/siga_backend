@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Brick\Math\BigInteger;
 use App\Models\App\File;
 use App\Models\App\Image;
 use App\Models\App\Catalogue;
@@ -17,7 +15,6 @@ use App\Models\App\Catalogue;
  * @property BigInteger id
  * @property string description
  */
-
 class Skill extends Model implements Auditable
 {
     use HasFactory;
@@ -28,9 +25,16 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.skills';
+    protected $with = ['professional', 'type'];
 
     protected $fillable = [
         'description',
+    ];
+
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
     public static function getInstance($id)
@@ -68,7 +72,7 @@ class Skill extends Model implements Auditable
     {
         return "{$this->attributes['id']}.{$this->attributes['description']}";
     }
-    
+
     // Mutators
     public function setDescriptionAttribute($value)
     {

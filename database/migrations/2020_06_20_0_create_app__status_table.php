@@ -10,8 +10,12 @@ class CreateAppStatusTable extends Migration
     {
         Schema::connection('pgsql-app')->create('status', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique()->comment('1. ACTIVE, 2. INACTIVE, 3. LOCKED. etc');
-            $table->string('name')->unique();
+
+            $table->string('code')
+                ->comment('1. ACTIVE, 2. INACTIVE, 3. LOCKED. etc');
+
+            $table->string('name');
+
             $table->softDeletes();
             $table->timestamps();
         });

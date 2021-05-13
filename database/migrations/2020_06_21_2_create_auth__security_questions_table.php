@@ -10,7 +10,9 @@ class CreateAuthSecurityQuestionsTable extends Migration
     {
         Schema::connection('pgsql-authentication')->create('security_questions', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
+
             $table->softDeletes();
             $table->timestamps();
         });

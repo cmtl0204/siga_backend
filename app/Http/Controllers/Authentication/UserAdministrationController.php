@@ -21,18 +21,61 @@ class  UserAdministrationController extends Controller
 { 
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            $users = User::email($request->input('search'))
-            ->firstlastname($request->input('search'))
-            ->firstname($request->input('search'))
-            ->identification($request->input('search'))
-            ->secondlastname($request->input('search'))
-            ->secondname($request->input('search'))
-            ->get();
-        }else{
-            $users = User::paginate($request->input('per_page'));
+        $rol = $request->input('role');
+        $has_role = false; // Only boolean
+        $system = null; // Roles's System
+        // Search Request Role in The Token User
+        foreach ($request->user()->roles as $u_roles){
+            if ($u_roles->id == $rol) {
+                $has_role = true;
+                $system = $u_roles->system_id;
+                break;
+            }//Else : The Login user don't have te recuest role
         }
 
+        //Search Users If the User Have Role
+        if ($has_role) {
+            if ($request->has('search')) {
+                $users = User::whereHas('roles', function($role) use ($system) {
+                    $role->where('system_id', '=', $system);
+                })
+                /*
+                ->email($request->input('search'))
+                ->firstlastname($request->input('search'))
+                ->firstname($request->input('search'))
+                ->identification($request->input('search'))
+                ->secondlastname($request->input('search'))
+                ->secondname($request->input('search'))
+                ->with(['institutions' => function ($institutions) {
+                    $institutions->orderBy('name');
+                }])
+                ->with(['roles' => function ($roles) use ($request) {
+                    $roles
+                        ->with(['permissions' => function ($permissions) {
+                            $permissions->with(['route' => function ($route) {
+                                $route->with('module')->with('type')->with('status');
+                            }])->with('institution');
+                        }]);
+                }])*/
+                ->get();
+            }else{
+                $users = User::whereHas('roles', function($role) use ($system) {
+                    $role->where('system_id', '=', $system);
+                })
+                ->with(['institutions' => function ($institutions) {
+                    $institutions->orderBy('name');
+                }])
+                ->with(['roles' => function ($roles) use ($request) {
+                    $roles
+                        ->with(['permissions' => function ($permissions) {
+                            $permissions->with(['route' => function ($route) {
+                                $route->with('module')->with('type')->with('status');
+                            }])->with('institution');
+                        }]);
+                }])
+                ->paginate($request->input('per_page'));
+            }
+        }
         if(sizeof($users)===0){
             return response()->json([
                 'data' => null,
@@ -51,38 +94,55 @@ class  UserAdministrationController extends Controller
                 ]], 200);
     }
 
-    public function show($username, Request $request)
+    public function show($idUser, Request $request)
     {
-        $user = User::
-            with(['institutions' => function ($institutions) {
-                $institutions->orderBy('name');
-            }])
-            ->with(['roles' => function ($roles) use ($request) {
-                $roles
-                    ->with(['permissions' => function ($permissions) {
-                        $permissions->with(['route' => function ($route) {
-                            $route->with('module')->with('type')->with('status');
-                        }])->with('institution');
-                    }]);
-            }])
-            ->where('username', $username)
-            ->first();
-            if(!$user){
-                return response()->json([
-                    'data' => null,
-                    'msg' => [
-                        'summary' => 'No se encontraró al usuario',
-                        'detail' => 'Intente de nuevo',
-                        'code' => '404'
-                    ]], 404);
-            }
-                return response()->json([
-                    'data' => $user,
-                    'msg' => [
-                        'summary' => 'success',
-                        'detail' => '',
-                        'code' => '200'
-                    ]], 200);
+        $rol = $request->input('role');
+        $has_role = false; // Only boolean
+        $system = null; // Roles's System
+        $user = null;
+        // Search Request Role in The Token User
+        foreach ($request->user()->roles as $u_roles){
+            if ($u_roles->id == $rol) {
+                $has_role = true;
+                $system = $u_roles->system_id;
+                break;
+            }//Else : The Login user don't have te recuest role
+        }
+
+        //Search Users If the User Have Role
+        if ($has_role) {
+            $user = User::whereHas('roles', function($role) use ($system) {
+                    $role->where('system_id', '=', $system);
+                })
+                ->with(['institutions' => function ($institutions) {
+                    $institutions->orderBy('name');
+                }])
+                ->with(['roles' => function ($roles) use ($request) {
+                    $roles->with(['permissions' => function ($permissions) {
+                            $permissions->with(['route' => function ($route) {
+                                $route->with('module')->with('type')->with('status');
+                            }])->with('institution');
+                        }]);
+                }])
+                ->where('id', $idUser)
+                ->first();
+        }
+        if(!$user){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al usuario',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+        return response()->json([
+            'data' => $user,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
     }
 
     public function store(Request $request)
@@ -123,43 +183,106 @@ class  UserAdministrationController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     public function update(Request $request,$userId)
     {
-        $user = User::find($userId);
+        $rol = $request->input('role');
+        $has_role = false; // Only boolean
+        $system = null; // Roles's System
+        $user = [];
+        // Search Request Role in The Token User
+        foreach ($request->user()->roles as $u_roles){
+            if ($u_roles->id == $rol) {
+                $has_role = true;
+                $system = $u_roles->system_id;
+                break;
+            }//Else : The Login user don't have te recuest role
+        }
+        //Search Users If the User Have Role
+        if ($has_role) {
+            $user = User::whereHas('roles', function($role) use ($system) {
+                $role->where('system_id', '=', $system);
+            })->where('id', $userId)
+            ->get();
+        }
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Usuario no encontrado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                    ]
+                ], 404);
+        } else {
+            $user = User::find($userId);
+            $user->identification = $request->input('identification');
+            $user->username = $request->input('username');
+            $user->first_name = $request->input('first_name');
+            $user->first_lastname = $request->input('first_lastname');
+            $user->birthdate = $request->input('birthdate');
+            $user->email = $request->input('email');
+            $user->phone = $request->input('phone');
 
-        $user->identification = $request->input('identification');
-        $user->username = $request->input('username');
-        $user->first_name = $request->input('first_name');
-        $user->first_lastname = $request->input('first_lastname');
-        $user->birthdate = $request->input('birthdate');
-        $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
-
-        $user->save();
-        return response()->json([
-            'data' => $user,
-            'msg' => [
-                'summary' => 'update',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
+            $user->save();
+            return response()->json([
+                'data' => $user,
+                'msg' => [
+                    'summary' => 'update',
+                    'detail' => '',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
     }
 
-    public function destroy($userId)
-    {
-        $user = User::find($userId);
-        $user->delete();
+    public function destroy($userId, Request $request)
+    {        
+        $rol = $request->input('role');
+        $has_role = false; // Only boolean
+        $system = null; // Roles's System
+        $user = [];
+        // Search Request Role in The Token User
+        foreach ($request->user()->roles as $u_roles){
+            if ($u_roles->id == $rol) {
+                $has_role = true;
+                $system = $u_roles->system_id;
+                break;
+            }//Else : The Login user don't have te recuest role
+        }
+        //Search Users If the User Have Role
+        if ($has_role) {
+            $user = User::whereHas('roles', function($role) use ($system) {
+                $role->where('system_id', '=', $system);
+            })->where('id', $userId)
+            ->get();
+        }
+        if(sizeof($user)===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Usuario no encontrado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }else{
 
-        return response()->json([
-            'data' => $user,
-            'msg' => [
-                'summary' => 'deleted',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
+            $user = User::find($userId);
+            $user->delete();
+
+            return response()->json([
+                'data' => $user,
+                'msg' => [
+                    'summary' => 'deleted',
+                    'detail' => '',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
     }
 
     public function export()

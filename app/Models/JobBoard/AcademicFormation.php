@@ -43,7 +43,7 @@ class AcademicFormation extends Model implements Auditable
         return $this->belongsTo(Professional::class);
     }
 
-    public function category()
+    public function professionalDegree()
     {
         return $this->belongsTo(Category::class);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\JobBoard\Skill;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSkillRequest extends FormRequest
 {
@@ -11,6 +12,7 @@ class UpdateSkillRequest extends FormRequest
     {
         return true;
     }
+
     public function rules()
     {
         $rules = [
@@ -19,7 +21,7 @@ class UpdateSkillRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
-            'type.id' => [
+            'skill.type.id' => [
                 'required',
                 'integer',
             ]
@@ -27,22 +29,11 @@ class UpdateSkillRequest extends FormRequest
         return JobBoardFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'skill.description.required' => 'El campo :attribute es obligatorio',
-            'skill.description.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'type.id.required' => 'El campo :attribute es obligatorio',
-            'type.id.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [
             'skill.description' => 'descripción',
-            'type.id' => 'tipo-ID',
+            'skill.type.id' => 'tipo-ID',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }
