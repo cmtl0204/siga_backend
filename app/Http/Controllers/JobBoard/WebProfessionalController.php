@@ -70,14 +70,28 @@ class WebProfessionalController extends Controller
         //     }]);
         // }])->paginate($request->input('per_page'));
 
-        return response()->json($professionals, 200);
+        return response()->json([
+            'data' => $professionals,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 
     function filterCategories()
     {
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
-        return response()->json($categories, 200);
+        return response()->json([
+            'data' => $categories,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 
     function applyProfessional()
