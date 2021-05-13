@@ -30,10 +30,6 @@ class CreateAuthModulesTable extends Migration
                 ->nullable()
                 ->comment('Icono de la libreria que se usa en el frontend');
 
-<<<<<<< HEAD
-
-=======
->>>>>>> mod_6_jobboard
             $table->softDeletes();
             $table->timestamps();
         });
