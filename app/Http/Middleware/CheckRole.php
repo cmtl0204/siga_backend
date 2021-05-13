@@ -10,21 +10,41 @@ class CheckRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->validate([
+            'institution' => [
+                'required',
+                'integer',
+            ],
+            'system' => [
+                'required',
+                'integer',
+            ],
+            'role' => [
+                'required',
+                'integer',
+            ],
+        ]);
 
-        $roles = $request->user()->roles()->where('institution_id',$request->institution)->get();
+        $role = $request->user()->roles()
+            ->where(function ($query) use ($request) {
+                $query->where('institution_id', $request->institution)
+                    ->orWhere('system_id', $request->system);
+            })
+            ->where('role_id', $request->role)
+            ->first();
 
-        if (sizeof($roles) === 0) {
+        if (!$role) {
             return response()->json([
-                'data' => $roles,
+                'data' => null,
                 'msg' => [
-                    'summary' => 'No tiene un rol asignado (check-role)',
-                    'detail' => 'Comunicate con el administrador',
+                    'summary' => 'No tiene un rol asignado para el sistema o institución (check-role)',
+                    'detail' => 'Comuníquese con el administrador',
                     'code' => '403'
                 ]
             ], 403);
