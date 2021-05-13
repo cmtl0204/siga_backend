@@ -122,9 +122,6 @@ class  UserAdministrationController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::where('identification', $request->input('identification'))
-        ->get();
-        if($user->count()===0){
             $user = new User();
             $user->identification = $request->input('identification');
             $user->username = $request->input('username');
@@ -138,10 +135,8 @@ class  UserAdministrationController extends Controller
     
             $user->status()->associate(Status::getInstance($request->input('status')));
             $user->save();
-        }else{
-            return 'existe el usuario';
-        }
-        return response()->json([
+
+            return response()->json([
             'data' => $user,
             'msg' => [
                 'summary' => 'success',
@@ -153,26 +148,13 @@ class  UserAdministrationController extends Controller
 
     public function update(Request $request,$userId)
     {
-        $rol = $request->input('role');
-        $has_role = false; // Only boolean
-        $system = null; // Roles's System
-        $user = [];
-        // Search Request Role in The Token User
-        foreach ($request->user()->roles as $u_roles){
-            if ($u_roles->id == $rol) {
-                $has_role = true;
-                $system = $u_roles->system_id;
-                break;
-            }//Else : The Login user don't have te recuest role
-        }
-        //Search Users If the User Have Role
-        if ($has_role) {
+        $system = $request->input('system');
             $user = User::whereHas('roles', function($role) use ($system) {
                 $role->where('system_id', '=', $system);
             })->where('id', $userId)
             ->get();
-        }
-        if(sizeof($user)===0){
+        
+        if($user->count()==0){
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -205,25 +187,12 @@ class  UserAdministrationController extends Controller
 
     public function destroy($userId, Request $request)
     {        
-        $rol = $request->input('role');
-        $has_role = false; // Only boolean
-        $system = null; // Roles's System
-        $user = [];
-        // Search Request Role in The Token User
-        foreach ($request->user()->roles as $u_roles){
-            if ($u_roles->id == $rol) {
-                $has_role = true;
-                $system = $u_roles->system_id;
-                break;
-            }//Else : The Login user don't have te recuest role
-        }
-        //Search Users If the User Have Role
-        if ($has_role) {
+        $system = $request->input('system');
             $user = User::whereHas('roles', function($role) use ($system) {
                 $role->where('system_id', '=', $system);
             })->where('id', $userId)
             ->get();
-        }
+            
         if(sizeof($user)===0){
             return response()->json([
                 'data' => null,
