@@ -67,7 +67,6 @@ class SkillController extends Controller
 
     function store(StoreSkillRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
