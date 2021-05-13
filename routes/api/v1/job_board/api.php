@@ -46,6 +46,7 @@ Route::middleware($middlewares)
 
         Route::prefix('skill')->group(function () {
             Route::get('test', [SkillController::class, 'test']);
+            Route::put('delete', [SkillController::class, 'delete']);
             Route::post('image', [SkillController::class, 'uploadImages']);
             Route::post('image/{image}', [SkillController::class, 'updateImage']);
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\JobBoard;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
+use App\Http\Requests\JobBoard\Skill\DestroySkillRequest;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Skill;
 use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
@@ -22,7 +23,7 @@ class SkillController extends Controller
     function index(IndexSkillRequest $request)
     {
         $professional = $request->user()->professional()->first();
-        if(!$professional){
+        if (!$professional) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -68,7 +69,7 @@ class SkillController extends Controller
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = $request->user()->professional()->first();
-        if(!$professional){
+        if (!$professional) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -79,7 +80,7 @@ class SkillController extends Controller
         }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
+        $type = Catalogue::getInstance($request->input('skill.type.id'));
 
         $skill = new Skill();
         $skill->description = $request->input('skill.description');
@@ -88,7 +89,7 @@ class SkillController extends Controller
         $skill->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $skill->fresh(),
             'msg' => [
                 'summary' => 'Habilidad creada',
                 'detail' => 'El registro fue creado',
@@ -99,14 +100,14 @@ class SkillController extends Controller
     function update(UpdateSkillRequest $request, Skill $skill)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
+        $type = Catalogue::getInstance($request->input('skill.type.id'));
 
         $skill->description = $request->input('skill.description');
         $skill->type()->associate($type);
         $skill->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $skill->fresh(),
             'msg' => [
                 'summary' => 'Habilidad actualizada',
                 'detail' => 'El registro fue actualizado',
@@ -114,16 +115,16 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function destroy(Skill $skill)
+    function delete(DestroySkillRequest $request)
     {
         // Es una eliminación lógica
-        $skill->delete();
+        Skill::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $skill,
+            'data' => null,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Habilidad(es) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }
