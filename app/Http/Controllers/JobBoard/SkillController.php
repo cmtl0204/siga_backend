@@ -5,7 +5,7 @@ namespace App\Http\Controllers\JobBoard;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-use App\Http\Requests\JobBoard\Skill\DestroySkillRequest;
+use App\Http\Requests\JobBoard\Skill\DeleteSkillRequest;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Skill;
 use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
@@ -114,7 +114,7 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function delete(DestroySkillRequest $request)
+    function delete(DeleteSkillRequest $request)
     {
         // Es una eliminación lógica
         Skill::destroy($request->input('ids'));
