@@ -19,6 +19,8 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema app;');
     DB::select('create schema teacher_eval;');
 
+    Artisan::call('migrate', ['--seed' => true]);
+    
     Artisan::call('passport:client', [
         '--password' => true,
         '--name' => 'Password-' . $request->input('client_name'),
