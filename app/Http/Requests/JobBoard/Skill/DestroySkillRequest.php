@@ -1,28 +1,33 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Reference;
+namespace App\Http\Requests\JobBoard\Skill;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class IndexReferenceRequest extends FormRequest
+class DestroySkillRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;
     }
+
     public function rules()
     {
-        $rules = [];
-
+        $rules = [
+            'ids' => [
+                'required',
+            ],
+        ];
         return JobBoardFormRequest::rules($rules);
     }
 
-
     public function attributes()
     {
-        $attributes = [];
+        $attributes = [
+            'ids' => 'IDs',
+        ];
         return JobBoardFormRequest::attributes($attributes);
     }
 }

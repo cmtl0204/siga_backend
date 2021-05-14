@@ -48,4 +48,9 @@ class Category extends Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
+
+    public function offers()
+    {
+        return $this->belongsTo(Offer::class);
+    }
 }

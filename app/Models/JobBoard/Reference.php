@@ -105,5 +105,4 @@ class Reference extends Model implements Auditable
             return $query->orWhere('contact_email', 'ILIKE', "%$contact_email%");
         }
     }
-
 }

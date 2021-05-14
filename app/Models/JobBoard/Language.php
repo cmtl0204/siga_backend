@@ -25,6 +25,8 @@ class Language extends Model implements Auditable
     protected $table = 'job_board.languages';
     protected $with = ['professional','idiom'];
 
+    protected $with = ['professional', 'idiom'];
+
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {

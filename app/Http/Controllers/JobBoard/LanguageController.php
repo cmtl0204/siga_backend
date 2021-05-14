@@ -22,7 +22,17 @@ class LanguageController extends Controller
     function index(IndexLanguageRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo language.
-        $professional = Professional::getInstance($request->input('professional_id'));
+      //  $professional = Professional::getInstance($request->input('professional_id'));
+      $professional = $request->user()->professional()->first();
+      if (!$professional) {
+          return response()->json([
+              'data' => null,
+              'msg' => [
+                  'summary' => 'No se encontraró al profesional',
+                  'detail' => 'Intente de nuevo',
+                  'code' => '404'
+              ]], 404);
+      }
 
         if ($request->has('search')) {
             $languages = $professional->languages()->get();

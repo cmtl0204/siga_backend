@@ -3,6 +3,7 @@
 namespace App\Models\Authentication;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -18,6 +19,7 @@ use App\Models\App\Institution;
 use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
+use App\Models\JobBoard\Professional;
 
 /**
  * @property BigInteger id
@@ -154,9 +156,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
-    function professional()
-    {
-        $this->hasOne(Professional::class);
+    function professional(){
+        return $this->hasOne(Professional::class);
     }
 
     function roles()
@@ -241,6 +242,11 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     function setPersonalEmailAttribute($value)
     {
         $this->attributes['personal_email'] = strtolower($value);
+    }
+
+    function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 
     // Scopes

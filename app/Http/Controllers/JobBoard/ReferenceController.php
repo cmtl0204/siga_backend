@@ -19,7 +19,18 @@ class ReferenceController extends Controller
 
     function index(IndexReferenceRequest $request)
     {
-        $professional = Professional::getInstance($request->input('professional_id'));
+      //  $professional = Professional::getInstance($request->input('professional_id'));
+
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
 
         if ($request->has('search')) {
             $references = $professional->references()
@@ -46,9 +57,9 @@ class ReferenceController extends Controller
         return response()->json($references, 200);
     }
 
-    function show($id)
+    function show($referenceId)
     {
-        if (!is_numeric($id)) {
+        if (!is_numeric($referenceId)) {
             return response()->json([
                 'data' => null,
                 'msg' => [

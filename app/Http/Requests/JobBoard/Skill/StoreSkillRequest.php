@@ -3,9 +3,7 @@
 namespace App\Http\Requests\JobBoard\Skill;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
-use App\Models\JobBoard\Skill;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreSkillRequest extends FormRequest
 {
@@ -22,11 +20,7 @@ class StoreSkillRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
-            'professional.id' => [
-                'required',
-                'integer',
-            ],
-            'type.id' => [
+            'skill.type.id' => [
                 'required',
                 'integer',
 //                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
@@ -39,8 +33,7 @@ class StoreSkillRequest extends FormRequest
     {
         $attributes = [
             'skill.description' => 'descripción',
-            'professional.id' => 'profesional-id',
-            'type.id' => 'tipo-id',
+            'skill.type.id' => 'tipo-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

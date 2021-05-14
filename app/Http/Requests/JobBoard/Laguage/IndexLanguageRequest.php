@@ -15,28 +15,12 @@ class IndexLanguageRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-            'professional_id' => [
-                'required',
-                'integer',
-            ]
-        ];
+        $rules = [];
         return JobBoardFormRequest::rules($rules);
     }
-    public function messages()
-    {
-        $messages = [
-            'professional.id.required' => 'El campo :attribute es obligatorio',
-            'professional.id.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
-        $attributes = [
-            'professional_id' => 'profesional-ID',
-        ];
+        $attributes = [];
         return JobBoardFormRequest::attributes($attributes);
     }
 }
