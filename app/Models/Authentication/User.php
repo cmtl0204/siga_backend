@@ -2,6 +2,7 @@
 
 namespace App\Models\Authentication;
 
+use App\Models\JobBoard\Company;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
@@ -119,6 +120,9 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     function civilStatus()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+    function company(){
+        return $this->hasOne(Company::class);
     }
 
     function ethnicOrigin()

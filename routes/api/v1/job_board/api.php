@@ -60,11 +60,12 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('company')->group(function () {
-            Route::get('{id}', [CompanyController::class, 'show']);
-            Route::get('{id}', [CompanyController::class, 'getProfesional']);
-            Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
-            Route::put('{id}', [CompanyController::class, 'update']);
+            Route::get('', [CompanyController::class, 'getCompany']);
+            Route::get('getProfesionals', [CompanyController::class, 'getProfesionals']);
+            Route::get('detach', [CompanyController::class, 'detachProfessional']);
+            Route::put('update', [CompanyController::class, 'updateCompany']);
             Route::post('register', [CompanyController::class, 'register']);
+            Route::get('test', [CompanyController::class, 'test']);
 
         });
 

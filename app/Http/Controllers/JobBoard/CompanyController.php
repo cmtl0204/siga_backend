@@ -17,6 +17,7 @@ use App\Models\JobBoard\Company;
 // FormRequest
 use App\Http\Requests\JobBoard\Company\StoreCompanyRequest;
 use App\Http\Requests\JobBoard\Company\UpdateCompanyRequest;
+use App\Http\Requests\JobBoard\Company\GetCompanyRequest;
 use App\Models\JobBoard\Professional;
 
 
@@ -28,18 +29,8 @@ function test(){
 
 }
 
-    function getProfesional(IndexCompanyRequest $request,$companyId){
-        if (!is_numeric($companyId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $company = Company::find($companyId);
-
+    function getProfesionals(IndexCompanyRequest $request){
+        $company = $request->user()->company()->first();
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$company) {
             return response()->json([
@@ -71,17 +62,8 @@ function test(){
         return response()->json($professionals, 200);
 
     }
-    function detachProfessional(IndexCompanyRequest $request,$companyId){
-        if (!is_numeric($companyId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $company = Company::find($companyId);
+    function detachProfessional(IndexCompanyRequest $request){
+        $company = $request->user()->company()->first();
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$company) {
             return response()->json([
@@ -102,29 +84,16 @@ function test(){
                 'code' => '200'
             ]], 200);
     }
-
-    function show($companyId)
+    function getCompany(GetCompanyRequest $request)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($companyId)) {
+        $company = $request->user()->company()->first();
+        if(!$company){
             return response()->json([
-                'data' => null,
+                'data' => $company,
                 'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $company = Company::find($companyId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$company) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Empresa no encontrada',
+                    'summary' => 'Company no encontrada',
                     'detail' => 'Vuelva a intentar',
-                    'code' => '404'
+                    'code' => '404',
                 ]], 404);
         }
         return response()->json([
@@ -132,10 +101,9 @@ function test(){
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
-                'code' => '200'
+                'code' => '200',
             ]], 200);
     }
-
     function register(StoreCompanyRequest  $request)
     {
 
@@ -183,16 +151,12 @@ function test(){
 
 
     }
-
-    function update(UpdateCompanyRequest $request, $companyId){
-
+    function updateCompany(UpdateCompanyRequest $request){
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Company.
-
         $type = Catalogue::getInstance($request->input('type.id'));
         $activityType = Catalogue::getInstance($request->input('activityType.id'));
         $personType = Catalogue::getInstance($request->input('personType.id'));
-        $company = Company:: find($companyId);
-
+        $company = $request->user()->company()->first();
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$company) {
             return response()->json([
