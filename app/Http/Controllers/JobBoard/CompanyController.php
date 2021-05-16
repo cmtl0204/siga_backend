@@ -23,13 +23,10 @@ use App\Models\JobBoard\Professional;
 
 class CompanyController extends Controller
 {
-
-
-function test(){
+    function test(){
 
 }
-
-    function getProfesionals(IndexCompanyRequest $request){
+    function getProfessionals(IndexCompanyRequest $request){
         $company = $request->user()->company()->first();
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$company) {
@@ -184,6 +181,4 @@ function test(){
             ]], 201);
 
     }
-
-
 }
