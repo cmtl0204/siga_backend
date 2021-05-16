@@ -20,7 +20,7 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema job_board;');
 
     Artisan::call('migrate', ['--seed' => true]);
-    
+
     Artisan::call('passport:client', [
         '--password' => true,
         '--name' => 'Password-' . $request->input('client_name'),
