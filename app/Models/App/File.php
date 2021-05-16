@@ -23,7 +23,7 @@ class File extends Model implements Auditable
     use SoftDeletes;
 
     protected static $instance;
-    
+
     protected $connection = 'pgsql-app';
     protected $table = 'app.files';
 
@@ -72,7 +72,7 @@ class File extends Model implements Auditable
     // Accessors
     public function getFullNameAttribute()
     {
-        return "{$this->attributes['id']}.{$this->attributes['extension']}";
+        return "{$this->attributes['name']}.{$this->attributes['extension']}";
     }
 
     public function getFullPathAttribute()
