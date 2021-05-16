@@ -23,15 +23,6 @@ class IndexFileRequest extends FormRequest
         return AppFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'id.required' => 'El campo :attribute debe ser un número',
-            'id.integer' => 'El campo :attribute es obligatorio',
-        ];
-        return AppFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [

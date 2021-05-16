@@ -29,17 +29,6 @@ class UpdateFileRequest extends FormRequest
         return AppFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'file.required' => 'El campo :attribute es obligatorio.',
-            'file.mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
-            'file.max' => 'El campo :attribute no puede ser mayor que :maxKB.',
-            'name.required' => 'El campo :attribute es obligatorio.',
-        ];
-        return AppFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [

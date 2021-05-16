@@ -15,17 +15,25 @@ class FileController extends Controller
     public function download(DownloadFileRequest $request)
     {
         $path = $request->input('full_path');
-        if (Storage::exists($path)) {
-            return Storage::download($path);
-        }
+        if (!Storage::exists($path)) {
 
-       return response()->json([
-        'data' => null,
-        'msg' => [
-            'summary' => 'Archivo no encontrado',
-            'detail' => 'Intente de nuevo',
-            'code' => '404'
-        ]], 404);
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Archivo no encontrado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+        $file = Storage::download($path);
+        return $file;
+        return response()->json([
+            'data' => $file,
+            'msg' => [
+                'summary' => 'Archivo no encontrado',
+                'detail' => 'Intente de nuevo',
+                'code' => '200'
+            ]], 200);
     }
 
     public function upload(UploadFileRequest $request, $model)
@@ -51,7 +59,7 @@ class FileController extends Controller
             'data' => null,
             'msg' => [
                 'summary' => 'Archivo subido',
-                'detail' => 'El archivo fue subida correctamente',
+                'detail' => 'El archivo fue subido correctamente',
                 'code' => '201'
             ]], 201);
     }
