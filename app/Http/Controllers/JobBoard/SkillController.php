@@ -118,6 +118,7 @@ class SkillController extends Controller
     {
         // Es una eliminación lógica
         Skill::destroy($request->input('ids'));
+//        Skill::first()->delete();
 
         return response()->json([
             'data' => null,
@@ -133,10 +134,6 @@ class SkillController extends Controller
         return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
     }
 
-    function updateImage(UpdateImageRequest $request, $imageId)
-    {
-        return (new ImageController())->update($request, $imageId);
-    }
 
     function deleteImage($imageId)
     {
@@ -156,11 +153,6 @@ class SkillController extends Controller
     function uploadFiles(UploadFileRequest $request)
     {
         return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
-    }
-
-    function updateFile(UpdateFileRequest $request, $fileId)
-    {
-        return (new FileController())->update($request, $fileId);
     }
 
     function deleteFile($fileId)

@@ -14,19 +14,13 @@ class IndexFileRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-            'id' => [
-                'required',
-                'integer',
-            ],
-        ];
+        $rules = [];
         return AppFormRequest::rules($rules);
     }
 
     public function attributes()
     {
         $attributes = [
-            'id' => 'ID',
         ];
         return AppFormRequest::attributes($attributes);
     }

@@ -20,7 +20,7 @@ class UploadFileRequest extends FormRequest
             ],
             'files.*' => [
                 'required',
-                'mimes:pdf,doc,docx,xls,xlsx,csv,ppt,pptx,txt,zip,rar,7z,tar',
+                'mimes:pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx,zip,rar,7z,tar,jpg,jpeg,png,bmp,tiff,tif,svg',
                 'file',
                 'max:1024000',
             ],

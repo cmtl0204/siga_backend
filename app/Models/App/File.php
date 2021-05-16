@@ -36,7 +36,7 @@ class File extends Model implements Auditable
 
     protected $hidden = ['fileable_type'];
 
-    protected $appends = ['full_name', 'full_path'];
+    protected $appends = ['full_name', 'full_path', 'partial_path'];
 
     // Instance
     public static function getInstance($id)
@@ -78,5 +78,15 @@ class File extends Model implements Auditable
     public function getFullPathAttribute()
     {
         return "files/{$this->attributes['id']}.{$this->attributes['extension']}";
+    }
+
+    public function getPartialPathAttribute()
+    {
+        return "{$this->attributes['id']}.{$this->attributes['extension']}";
+    }
+
+    function setExtensionAttribute($value)
+    {
+        $this->attributes['extension'] = strtolower($value);
     }
 }

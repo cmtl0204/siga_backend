@@ -10,7 +10,7 @@ class CreateAppFilesTable extends Migration
     {
         Schema::connection('pgsql-app')->create('files', function (Blueprint $table) {
             $table->id();
-            $table->morphs('fileable');
+            $table->morphs('fileable')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('extension');

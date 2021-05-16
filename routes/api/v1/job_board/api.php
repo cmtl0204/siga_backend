@@ -55,7 +55,6 @@ Route::middleware($middlewares)
 
             Route::prefix('file')->group(function () {
                 Route::post('', [SkillController::class, 'uploadFiles']);
-                Route::post('{image}', [SkillController::class, 'updateFile']);
                 Route::delete('{image}', [SkillController::class, 'deleteFile']);
                 Route::get('', [SkillController::class, 'indexFile']);
                 Route::get('{file}', [SkillController::class, 'showFile']);
