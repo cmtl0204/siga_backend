@@ -21,8 +21,6 @@ Route::get('init', function (CreateClientRequest $request) {
 
     Artisan::call('migrate', ['--seed' => true]);
 
-//    Artisan::call('passport:keys');
-
     Artisan::call('passport:client', [
         '--password' => true,
         '--name' => 'Password-' . $request->input('client_name'),

@@ -16,7 +16,7 @@ class AppFormRequest
                 'integer',
             ],
             'search' => [
-                'min:3',
+                'min:1',
                 'max:100',
             ],
         ]);
