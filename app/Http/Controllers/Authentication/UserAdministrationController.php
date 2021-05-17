@@ -75,13 +75,7 @@ class  UserAdministrationController extends Controller
                     'code' => '404'
                 ]], 404);
         }
-            return response()->json([
-                'data' => $users,
-                'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '200'
-                ]], 200);
+            return response()->json($users, 200);
     }
 
     public function show($idUser, Request $request)
