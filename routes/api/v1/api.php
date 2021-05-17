@@ -6,6 +6,7 @@ use \Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Artisan;
 
 Route::get('init', function (CreateClientRequest $request) {
+
     if (env('APP_ENV') != 'local') {
         return 'El sistema se encuentra en producción.';
     }
