@@ -17,19 +17,20 @@ $middlewares = ['auth:api'];
 Route::middleware($middlewares)
     ->prefix('/')
     ->group(function () {
-        // ApiResources
-        Route::apiResources([
-            'user-admins' => UserAdministrationController::class,
+        // ApiResources Solo Crud metodos get post put delete
+        // Route::apiResources([
+        //     // 'registrations'=> RegistrationController::class, crea los 5 metodos crud en un controller
             
 
-        ]);
+        // ]);
 
-        // Auth
-        Route::prefix('auth')->group(function () {
-            Route::get('roles', [AuthController::class, 'getRoles'])->withoutMiddleware(['check-permissions']);
+        //ruta separado con "detail-registration" Rutas que no necesiten crud o que sean extras a un crud
+        // Route::prefix('registration')->group(function () {
+        //     Route::get('register', [RegistrationController::class, 'register']);
+        //     Route::post('xyz', [RegistrationController::class, 'xyz']);
             
 
-        });
+        // });
 
 
     });

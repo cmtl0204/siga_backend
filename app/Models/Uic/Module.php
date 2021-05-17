@@ -5,6 +5,8 @@ namespace App\Models\Uic;
 // Laravel
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+//obligado para la auditoria
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
