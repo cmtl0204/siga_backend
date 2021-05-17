@@ -11,10 +11,11 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Authentication\UserAdministrationInstitutionController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
-$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
-//$middlewares = ['auth:api'];
+//$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
+$middlewares = ['auth:api', 'check-institution'];
 
 // With Middleware
 Route::middleware($middlewares)
@@ -22,6 +23,7 @@ Route::middleware($middlewares)
     ->group(function () {
         // ApiResources
         Route::apiResource('user-admins', UserAdministrationController::class);
+        Route::apiResource('user-admins-institution', UserAdministrationInstitutionController::class);
         Route::apiResource('users', UserController::class);
         Route::apiResource('permissions', PermissionController::class);
         Route::apiResource('routes', RouteController::class);
