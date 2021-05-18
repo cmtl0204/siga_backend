@@ -26,7 +26,7 @@ class OfferController extends Controller
                 ->aditionalInformation($request->input('search'))
                 ->code($request->input('search'))
                 ->description($request->input('search'))
-                ->get();
+                ->paginate($request->input('per_page'));
         } else {
             $offer = $company->offers()->paginate($request->input('per_page'));
         }
