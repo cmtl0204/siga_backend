@@ -52,11 +52,14 @@ Route::middleware($middlewares)
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);
             Route::get('image', [SkillController::class, 'indexImage']);
             Route::get('image/{image}', [SkillController::class, 'showImage']);
-            Route::post('file', [SkillController::class, 'uploadFiles']);
-            Route::post('file/{image}', [SkillController::class, 'updateFile']);
-            Route::delete('file/{image}', [SkillController::class, 'deleteFile']);
-            Route::get('file', [SkillController::class, 'indexFile']);
-            Route::get('file/{file}', [SkillController::class, 'showFile']);
+
+            Route::prefix('file')->group(function () {
+                Route::post('', [SkillController::class, 'uploadFiles']);
+                Route::delete('{image}', [SkillController::class, 'deleteFile']);
+                Route::get('', [SkillController::class, 'indexFile']);
+                Route::get('{file}', [SkillController::class, 'showFile']);
+            });
+
         });
 
         Route::prefix('company')->group(function () {

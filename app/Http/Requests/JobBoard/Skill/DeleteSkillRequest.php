@@ -6,7 +6,7 @@ use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DestroySkillRequest extends FormRequest
+class DeleteSkillRequest extends FormRequest
 {
     public function authorize()
     {
