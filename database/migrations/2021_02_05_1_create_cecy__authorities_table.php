@@ -9,7 +9,7 @@ class CreateCecyAuthoritiesTable extends Migration
 
     public function up()
     {
-        Schema::connection('pgsql-ignug')->create('authorities', function (Blueprint $table) {
+        Schema::connection('pgsql-cecy')->create('authorities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('authentication.users')->comment('usuario clave foreanea de Authentication.user ');
             $table->foreignId('position_id')->constrained('app.catalogues')
