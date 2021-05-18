@@ -12,9 +12,10 @@ use App\Models\JobBoard\Language;
 
 // FormRequest
 
-use App\Http\Requests\JobBoard\Laguage\IndexLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\UpdateLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\IndexLanguageRequest;
+use App\Http\Requests\JobBoard\Language\UpdateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\StoreLanguageRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageController extends Controller
@@ -53,7 +54,7 @@ class LanguageController extends Controller
         return response()->json($languages, 200);
     }
 
-    function show($languageId)
+    function show(Language $language)
     {
         // Valida que el id se un número, si no es un número devuelve un mensaje de error
         if (!is_numeric($languageId)) {
@@ -89,7 +90,7 @@ class LanguageController extends Controller
         ], 200);
     }
 
-    function store(CreateLanguageRequest $request)
+    function store(StoreLanguageRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = Professional::getInstance($request->input('professional.id'));
@@ -116,7 +117,7 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function update(UpdateLanguageRequest $request, $languageId)
+    function update(UpdateLanguageRequest $request,Language $language)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo language.
         $language = Language::find($languageId);

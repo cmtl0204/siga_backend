@@ -16,6 +16,7 @@ use App\Models\App\Catalogue;
 use App\Http\Requests\JobBoard\Experience\CreateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
+use App\Http\Requests\JobBoard\Experience\StoreExperienceRequest;
 
 class ExperienceController extends Controller
 {
@@ -47,7 +48,7 @@ class ExperienceController extends Controller
         return response()->json($experiences, 200);
     }
 
-    function show($experienceId)
+    function show(Experience $experience)
     {
 
             // Valida que el id se un número, si no es un número devuelve un mensaje de error
@@ -84,7 +85,7 @@ class ExperienceController extends Controller
                 ]], 200);
     }
 
-    function store(CreateExperienceRequest $request)
+    function store(StoreExperienceRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experience.
         $professional = Professional::getInstance($request->input('professional.id'));
@@ -111,7 +112,7 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, $experienceId)
+    function update(UpdateExperienceRequest $request, Experience $experience)
     {
         $area = Catalogue::getInstance($request->input('area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.

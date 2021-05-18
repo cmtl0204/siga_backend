@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Laguage;
+namespace App\Http\Requests\JobBoard\Language;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class UpdateLanguageRequest extends FormRequest
+class CreateLanguageRequest extends FormRequest
 {
 
     public function authorize()
@@ -17,6 +16,10 @@ class UpdateLanguageRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'professional.id' => [
+                'required',
+                'integer',
+            ],
             'idiom.id' => [
                 'required',
                 'integer',
@@ -36,10 +39,11 @@ class UpdateLanguageRequest extends FormRequest
         ];
         return JobBoardFormRequest::rules($rules);
     }
-
     public function messages()
     {
         $messages = [
+            'professional.id.required' => 'El campo :attribute es obligatorio',
+            'professional.id.integer' => 'El campo :attribute debe ser numérico',
             'idiom.id.required' => 'El campo :attribute es obligatorio',
             'idiom.id.integer' => 'El campo :attribute debe ser numérico',
             'writtenLevel.id.required' => 'El campo :attribute es obligatorio',

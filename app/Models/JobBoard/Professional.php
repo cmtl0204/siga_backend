@@ -26,7 +26,6 @@ class Professional extends Model implements Auditable
     protected $table = 'job_board.professionals';
     protected $with = ['user'];
 
-    protected $with = ['user'];
 
     protected $fillable = [
         'has_travel',

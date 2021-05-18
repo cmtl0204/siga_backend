@@ -15,6 +15,8 @@ use App\Models\JobBoard\Institution;
 use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
 use App\Http\Requests\JobBoard\Course\CreateCourseRequest;
 use App\Http\Requests\JobBoard\Course\UpdateCourseRequest;
+use App\Http\Requests\JobBoard\Course\StoreCourseRequest;
+
 use Illuminate\Support\Facades\Request;
 
 class CourseController extends Controller
@@ -63,7 +65,7 @@ class CourseController extends Controller
     }
 
     // Devuelve un solo objeto//
-    function show($courseId)
+    function show(Course $course)
     {
         // Valida que el id sea un número, si no es un número devuelve un mensaje de error
         if (!is_numeric($courseId)) {
@@ -101,7 +103,7 @@ class CourseController extends Controller
     }
 
     //Almacena los  Datos creado del curso envia//
-    function store(CreateCourseRequest $request)
+    function store(StoreCourseRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo course.
         $professional = $request->user()->professional()->first();
@@ -151,7 +153,7 @@ class CourseController extends Controller
     }
 
     //Actualiza los datos del curso creado//
-    function update(UpdateCourseRequest $request, $courseId)
+    function update(UpdateCourseRequest $request, Course $course)
     {
         $type = Catalogue::getInstance($request->input('type.id'));
         $institution = Catalogue::getInstance($request->input('institution.id'));

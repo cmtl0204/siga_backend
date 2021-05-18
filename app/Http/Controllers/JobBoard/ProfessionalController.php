@@ -27,7 +27,7 @@ class ProfessionalController extends Controller
         return response()->json($offers);
     }
 
-    function show($professionalId)
+    function show(Professional $professional)
     {
         // Valida que el id se un número, si no es un número devuelve un mensaje de error
         $professional = Professional::find($professionalId);
@@ -51,7 +51,7 @@ class ProfessionalController extends Controller
             ]], 200);
     }
 
-    function update(UpdateProfessionalRequest $request, $professionalId)
+    function update(UpdateProfessionalRequest $request, Professional $professional)
     {
         $professional = Professional::find($professionalId);
 

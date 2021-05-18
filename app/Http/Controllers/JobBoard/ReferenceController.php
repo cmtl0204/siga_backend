@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobBoard\Reference\CreateReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\IndexReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\UpdateReferenceRequest;
+use App\Http\Requests\JobBoard\Reference\StoreReferenceRequest;
 use App\Models\JobBoard\Reference;
 use App\Models\JobBoard\Professional;
 
@@ -57,7 +58,7 @@ class ReferenceController extends Controller
         return response()->json($references, 200);
     }
 
-    function show($referenceId)
+    function show(Reference $reference)
     {
         if (!is_numeric($referenceId)) {
             return response()->json([
@@ -92,9 +93,20 @@ class ReferenceController extends Controller
 
     }
 
-    function store(CreateReferenceRequest $request)
+    function store(StoreReferenceRequest $request)
     {
-        $professional = Professional::getInstance($request->input('professional.id'));
+        //$professional = Professional::getInstance($request->input('professional.id'));
+             // Crea una instanacia del modelo Professional para poder insertar en el modelo reference.
+             $professional = $request->user()->professional()->first();
+             if (!$professional) {
+                 return response()->json([
+                     'data' => null,
+                     'msg' => [
+                         'summary' => 'No se encontraró al profesional',
+                         'detail' => 'Intente de nuevo',
+                         'code' => '404'
+                     ]], 404);
+             }
 
         $reference = new Reference();
         $reference->professional()->associate($professional);
@@ -103,17 +115,17 @@ class ReferenceController extends Controller
         $reference->contact_name = $request->input('reference.contact_name');
         $reference->contact_phone = $request->input('reference.contact_phone');
         $reference->contact_email = $request->input('reference.contact_email');
-
         $reference->save();
 
         return response()->json([
-            'data' => $reference,
+            'data' => $reference->fresh(),
             'msg' => [
                 'summary' => 'Referencia creada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
             ]], 201);
     }
+
 
     function update(UpdateReferenceRequest $request, $id)
     {
