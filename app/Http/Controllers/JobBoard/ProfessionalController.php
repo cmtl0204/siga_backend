@@ -27,7 +27,7 @@ class ProfessionalController extends Controller
     {
         $professional = Professional::find(1);
         $offers = $professional->companies()->paginate();
-        return response()->json($offers,200);
+        return response()->json($offers, 200);
     }
 
     function getOffers(Request $request)
@@ -37,28 +37,16 @@ class ProfessionalController extends Controller
         return response()->json($offers);
     }
 
-    function show($professionalId)
+    function show(Professional $professional)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        $professional = Professional::find($professionalId);
-        if (!$professional) {
-
-            return response()->json([
-                'data' => $professional,
-                'msg' => [
-                    'summary' => 'Profesional no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404',
-                ]], 404);
-            // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        }
         return response()->json([
             'data' => $professional,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
-                'code' => '200',
-            ]], 200);
+                'code' => '200'
+            ]
+        ], 200);
     }
 
     function update(UpdateProfessionalRequest $request, $professionalId)
@@ -76,19 +64,8 @@ class ProfessionalController extends Controller
         $professional->save();
     }
 
-    function destroy($professionalId)
+    function destroy(Professional $professional)
     {
-        $professional = Professional::find($professionalId);
-        if (!$professional) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Professional no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         $professional->delete();
 
         return response()->json([
@@ -97,8 +74,7 @@ class ProfessionalController extends Controller
                 'summary' => 'Profesional eliminado',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
-
 }
-

@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
 
 class ReferenceController extends Controller
 {
-    function  test(Request $request){
-        return Professional::select('about_me','has_travel')->with('course')->get();
+    function  test(Request $request)
+    {
+        return Professional::select('about_me', 'has_travel')->with('course')->get();
     }
 
     function index(IndexReferenceRequest $request)
@@ -40,45 +41,23 @@ class ReferenceController extends Controller
                     'summary' => 'No se encontraron Referencias',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json($references, 200);
     }
 
-    function show($id)
+    function show(Reference $reference)
     {
-        if (!is_numeric($id)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-
-        $reference = Reference::find($id)->first();
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$reference) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Profesional no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         return response()->json([
             'data' => $reference,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
-
+            ]
+        ], 200);
     }
 
     function store(CreateReferenceRequest $request)
@@ -101,7 +80,8 @@ class ReferenceController extends Controller
                 'summary' => 'Referencia creada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     function update(UpdateReferenceRequest $request, $id)
@@ -115,7 +95,8 @@ class ReferenceController extends Controller
                     'summary' => 'Referencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         $reference->institution = $request->input('reference.institution');
@@ -131,41 +112,21 @@ class ReferenceController extends Controller
                 'summary' => 'Referencia actualizada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
-    function destroy($id)
+    function destroy(Reference $reference)
     {
-        if (!is_numeric($id)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-
-        $reference = Reference::find($id);
-
-        if (!$reference) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Referencia no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         $reference->delete();
 
         return response()->json([
             'data' => $reference,
             'msg' => [
-                'summary' => 'Referencia eliminada',
+                'summary' => 'Oferta eliminada',
                 'detail' => 'El registro fue eliminado',
-                'code' => '200'
-            ]], 200);
+                'code' => '201'
+            ]
+        ], 201);
     }
 }
