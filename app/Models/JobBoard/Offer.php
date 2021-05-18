@@ -51,8 +51,9 @@ class Offer extends Model implements Auditable
         'end_date',
         'aditional_information',
     ];
+
     protected $with = [
-        'categories', 
+        'categories',
         'location',
         'contractType'
     ];
@@ -75,6 +76,12 @@ class Offer extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
+    }
+
+    //    relaciones
+    public function professionals()
+    {
+        return $this->belongsToMany(Professional::class);
     }
 
     // Relationships
@@ -154,6 +161,5 @@ class Offer extends Model implements Auditable
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
-
 
 }

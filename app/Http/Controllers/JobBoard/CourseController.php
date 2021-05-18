@@ -9,25 +9,38 @@ use App\Http\Controllers\Controller;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Course;
+use App\Models\JobBoard\Institution;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
 use App\Http\Requests\JobBoard\Course\CreateCourseRequest;
 use App\Http\Requests\JobBoard\Course\UpdateCourseRequest;
 use Illuminate\Support\Facades\Request;
+use PHPUnit\Framework\Constraint\Count;
 
 class CourseController extends Controller
 {
 
-    // function  test(Request $request)
-    // {
-    //     return Professional::select('about_me', 'has_travel')->with('academicFormations')->get();
-    // }
+    function  test(Request $request)
+    {
+        return Professional::select('about_me', 'has_travel')->with('academicFormations')->get();
+    }
     // Devuelve un array de objetos y paginados
     function index(IndexCourseRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
-        $professional = Professional::getInstance($request->input('professional_id'));
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+
         if ($request->has('search')) {
             $courses = $professional->courses()
                 ->description($request->input('search'))
@@ -54,7 +67,6 @@ class CourseController extends Controller
     // Devuelve un solo objeto//
     function show(Course $course)
     {
-        //$course = $course->with('type')->first();
         return response()->json([
             'data' => $course,
             'msg' => [
@@ -69,7 +81,17 @@ class CourseController extends Controller
     function store(CreateCourseRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo course.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $type = Catalogue::getInstance($request->input('type.id'));
@@ -152,12 +174,12 @@ class CourseController extends Controller
     //Elimina los datos del curso//
     function destroy(Course $course)
     {
-        // Es una eliminación lógica
         $course->delete();
+
         return response()->json([
             'data' => $course,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
+                'summary' => 'Oferta eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]

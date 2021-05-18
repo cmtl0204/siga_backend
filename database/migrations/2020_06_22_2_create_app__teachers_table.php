@@ -19,7 +19,7 @@ class CreateAppTeachersTable extends Migration
             $table->foreignId('scholarship_type_id')->comment('tipo de beca')->nullable()->constrained('app.catalogues');
             $table->foreignId('financing_type_id')->comment('tipo de financiamiento de la beca')->nullable()->constrained('app.catalogues');
             $table->string('academic_unit')->nullable();
-            $table->integer('tolta_subjects')->nullable();
+            $table->integer('total_subjects')->nullable();
             $table->integer('hours_worked')->comment('horas laboradas en la semana')->nullable();
             $table->integer('class_hours')->comment('horas clase en la semana')->nullable();
             $table->integer('investigation_hours')->comment('horas investigacion en la semana')->nullable();
