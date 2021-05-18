@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class  UserAdministrationController extends Controller
-{ 
+{
     public function index(Request $request)
     {
       $system = $request->input('system');
@@ -65,7 +65,7 @@ class  UserAdministrationController extends Controller
                 }])
                 ->paginate($request->input('per_page'));
             }
-        
+
         if($users->count()===0){
             return response()->json([
                 'data' => null,
@@ -75,13 +75,7 @@ class  UserAdministrationController extends Controller
                     'code' => '404'
                 ]], 404);
         }
-            return response()->json([
-                'data' => $users,
-                'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '200'
-                ]], 200);
+            return response()->json($users, 200);
     }
 
     public function show($idUser, Request $request)
@@ -132,7 +126,7 @@ class  UserAdministrationController extends Controller
             $user->birthdate = $request->input('birthdate');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
-    
+
             $user->status()->associate(Status::getInstance($request->input('status')));
             $user->save();
 
@@ -153,7 +147,7 @@ class  UserAdministrationController extends Controller
                 $role->where('system_id', '=', $system);
             })->where('id', $userId)
             ->get();
-        
+
         if($user->count()==0){
             return response()->json([
                 'data' => null,
@@ -186,13 +180,13 @@ class  UserAdministrationController extends Controller
     }
 
     public function destroy($userId, Request $request)
-    {        
+    {
         $system = $request->input('system');
             $user = User::whereHas('roles', function($role) use ($system) {
                 $role->where('system_id', '=', $system);
             })->where('id', $userId)
             ->get();
-            
+
         if(sizeof($user)===0){
             return response()->json([
                 'data' => null,
