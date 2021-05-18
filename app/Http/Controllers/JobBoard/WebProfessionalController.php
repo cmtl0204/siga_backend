@@ -37,38 +37,42 @@ class WebProfessionalController extends Controller
 
     function getProfessionals(Request $request)
     {
-        // if ($request->input('parent_ids'))
-        // {
-        //     // Consulta todos los profesionales que concuerden con el parent_id (categoría padre)
-        //     $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-        //         $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
-        //             $professionalDegree->whereIn('parent_id', $request->input('parent_ids'));
-        //         }]);
-        //     }])->paginate($request->input('per_page'));
-        // }
-        // else if ($request->input('ids'))
-        // {
-        //     // Consulta todos los profesionales que concuerden con el id (categoría hija)
-        //     $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-        //         $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
-        //             $professionalDegree->whereIn('id', $request->input('ids'));
-        //         }]);
-        //     }])->paginate($request->input('per_page'));
-        // }
-        // else 
-        // {
-            // Consulta todos los profesionales (sin filtros)
+
+        if (!$request->input('ids') && !$request->input('search')) {
+            // Consulta todos los profesionales
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
                 $academicFormations->with('professionalDegree');
             }])->paginate($request->input('per_page'));
-        // }
-
-        // Consulta todos los profesionales que coincidan con search
-        // $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
-        //     $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
-        //         $professionalDegree->where('name', 'ilike', '%' . $request->input('search') . '%');
-        //     }]);
-        // }])->paginate($request->input('per_page'));
+        } 
+        else if ($request->input('ids') && !$request->input('search')) {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija) 
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->whereIn('id', $request->input('ids'));
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else if (!$request->input('ids') && $request->input('search')) {
+            // Consulta todos los profesionales que coincidan con search
+            $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
+                $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
+                    $professionalDegree->where('name', 'ilike', '%' . $request->input('search') . '%');
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else if ($request->input('ids') && $request->input('search')) {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija) y con search
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->whereIn('id', $request->input('ids'))
+                        ->where('name', 'ilike', '%' . $request->input('search') . '%');
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else {
+            // Para revenir errores futuros
+            $professionals = null;
+        }
 
         return response()->json($professionals);
     }
