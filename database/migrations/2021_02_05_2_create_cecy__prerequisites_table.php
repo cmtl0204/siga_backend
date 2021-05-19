@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCecyDetailPlanificationInstructorTable extends Migration
+class CreateCecyPrerequisitesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCecyDetailPlanificationInstructorTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-cecy')->create('detail_planification_instructor', function (Blueprint $table) {
+        Schema::connection('pgsql-cecy')->create('prerequisites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('detail_planification_id')->constrained('cecy.detail_planifications');
-            $table->foreignId('instructor_id')->constrained('cecy.instructors');
+            $table->foreignId('course_id')->constrained('cecy.courses')->comment('id_curso');
+            $table->foreignId('prerequisite_id')->constrained('cecy.courses')->comment('id de cureso como preqrequisito');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateCecyDetailPlanificationInstructorTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-cecy')->dropIfExists('detail_planification_instructor');
+        Schema::connection('pgsql-cecy')->dropIfExists('prerequisite');
     }
 }
