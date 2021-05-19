@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\App\Catalogue;
 use App\Models\App\Location;
 use App\Models\Authentication\User;
+use App\Models\JobBoard\AcademicFormation;
 use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Skill;
@@ -26,8 +27,8 @@ class JobBoardSeeder extends Seeder
         $this->createProfessionals();
         $this->createCompanies();
         $this->createSkills();
-        $this->createLocations();
-        $this->createOffers();
+//        $this->createLocations();
+//        $this->createOffers();
     }
 
     private function createProfessionals()
@@ -175,21 +176,4 @@ class JobBoardSeeder extends Seeder
             'type' => $catalogues['catalogue']['offer_training_hours']['type'],
         ]);
     }
-
-    private function createLocations()
-    {
-        Location::factory(30)->create();
-    }
-
-    private function createOffers()
-    {
-        Offer::factory(100)->create();
-
-        // offers with categories.
-        $i = 1;
-        foreach (Offer::all() as $offer) {
-            $offer->categories()->attach($i++);
-        }
-    }
-
 }

@@ -19,7 +19,11 @@ Route::group(['prefix' => 'image'], function () {
 });
 
 Route::group(['prefix' => 'file'], function () {
+    Route::get('', [FileController::class, 'index']);
     Route::get('download', [FileController::class, 'download']);
+    Route::put('delete', [FileController::class, 'delete']);
+    Route::put('update/{file}', [FileController::class, 'update']);
+    Route::delete('force-delete', [FileController::class, 'forceDelete']);
 });
 
 Route::group(['prefix' => 'teachers'], function () {

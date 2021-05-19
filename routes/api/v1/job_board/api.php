@@ -41,23 +41,28 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
+
         ]);
 
         Route::prefix('skill')->group(function () {
             Route::get('test', [SkillController::class, 'test']);
+            Route::put('delete', [SkillController::class, 'delete']);
             Route::post('image', [SkillController::class, 'uploadImages']);
             Route::post('image/{image}', [SkillController::class, 'updateImage']);
             Route::delete('image/{image}', [SkillController::class, 'deleteImage']);
             Route::get('image', [SkillController::class, 'indexImage']);
             Route::get('image/{image}', [SkillController::class, 'showImage']);
-            Route::post('file', [SkillController::class, 'uploadFiles']);
-            Route::post('file/{image}', [SkillController::class, 'updateFile']);
-            Route::delete('file/{image}', [SkillController::class, 'deleteFile']);
-            Route::get('file', [SkillController::class, 'indexFile']);
-            Route::get('file/{file}', [SkillController::class, 'showFile']);
+
+            Route::prefix('file')->group(function () {
+                Route::post('', [SkillController::class, 'uploadFiles']);
+                Route::delete('{image}', [SkillController::class, 'deleteFile']);
+                Route::get('', [SkillController::class, 'indexFile']);
+                Route::get('{file}', [SkillController::class, 'showFile']);
+            });
+
         });
 
-        Route::prefix('company')->group( function () {
+        Route::prefix('company')->group(function () {
             Route::get('{id}', [CompanyController::class, 'show']);
             Route::get('{id}', [CompanyController::class, 'getProfesional']);
             Route::get('detach/{id}', [CompanyController::class, 'detachProfessional']);
@@ -67,9 +72,12 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('test', function () {
-                return 'test';
-            });
+            Route::get('offers', [ProfessionalController::class, 'getOffers']);
+            Route::get('companies', [ProfessionalController::class, 'getCompanies']);
+            Route::get('get', [ProfessionalController::class, 'getProfessional']);
+            //   Route::get('test', function () {
+            //  return 'test';
+            //      });
         });
 
         Route::prefix('offer')->group(function () {
@@ -114,10 +122,6 @@ Route::middleware($middlewares)
                 return 'test';
             });
         });
-
-        Route::prefix('web-professional')->group(function () {
-
-        });
     });
 
 // Without Middleware
@@ -133,7 +137,7 @@ Route::prefix('/')
 
         Route::prefix('web-professional')->group(function () {
             Route::get('total', [WebProfessionalController::class, 'total']);
-            Route::get('professionals', [WebProfessionalController::class, 'getProfessionals']);
+            Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });

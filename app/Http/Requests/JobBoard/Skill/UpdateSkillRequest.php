@@ -21,7 +21,7 @@ class UpdateSkillRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
-            'type.id' => [
+            'skill.type.id' => [
                 'required',
                 'integer',
             ]
@@ -33,7 +33,7 @@ class UpdateSkillRequest extends FormRequest
     {
         $attributes = [
             'skill.description' => 'descripción',
-            'type.id' => 'tipo-ID',
+            'skill.type.id' => 'tipo-ID',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

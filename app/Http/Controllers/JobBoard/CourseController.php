@@ -28,7 +28,16 @@ class CourseController extends Controller
     function index(IndexCourseRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
-        $professional = Professional::getInstance($request->input('professional_id'));
+        $professional = $request->user()->professional()->first();
+        if(!$professional){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
 
         if ($request->has('search')) {
             $courses = $professional->courses()
@@ -95,7 +104,16 @@ class CourseController extends Controller
     function store(CreateCourseRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo course.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        $professional = $request->user()->professional()->first();
+        if(!$professional){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $type = Catalogue::getInstance($request->input('type.id'));

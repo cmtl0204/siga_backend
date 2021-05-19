@@ -3,23 +3,13 @@
 namespace App\Http\Controllers\JobBoard;
 //controllers
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+
 //models
 use App\Models\JobBoard\Professional;
-use App\Models\JobBoard\Catalogue;
-use App\Models\JobBoard\Company;
-use App\Models\JobBoard\Skill;
-use App\Models\JobBoard\Offer;
-use App\Models\JobBoard\Reference;
-use App\Models\JobBoard\Experience;
-
-
-
-
 
 //formRequest
 use App\Http\Requests\JobBoard\Professional\UpdateProfessionalRequest;
-
+use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
 {
@@ -100,5 +90,26 @@ class ProfessionalController extends Controller
             ]], 201);
     }
 
+    function getProfessional(Request $request)
+    {
+        $professional = $request->user()->professional()->first();
+
+        if (!$professional) {
+            return response()->json([
+                'data' => $professional,
+                'msg' => [
+                    'summary' => 'Profesional no encontrado',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404',
+                ]], 404);
+        }
+        return response()->json([
+            'data' => $professional,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200',
+            ]], 200);
+    }
 }
 

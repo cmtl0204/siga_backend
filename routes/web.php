@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Authentication\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,3 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('login')->group(function () {
+    Route::get('{driver}', [AuthController::class, 'redirectToProvider']);
+    Route::get('{driver}/callback', [AuthController::class, 'handleProviderCallback']);
+});
