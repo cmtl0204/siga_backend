@@ -37,47 +37,58 @@ class WebProfessionalController extends Controller
 
     function getProfessionals(Request $request)
     {
-        if ($request->input('parent_ids'))
-        {
-            // Consulta todos los profesionales que concuerden con el parent_id (categoría padre)
-            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
-                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
-                    $professionalDegree->whereIn('parent_id', $request->input('parent_ids'));
-                }]);
+
+        if (!$request->input('ids') && !$request->input('search')) {
+            // Consulta todos los profesionales
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
+                $academicFormations->with('professionalDegree');
             }])->paginate($request->input('per_page'));
-        }
-        else if ($request->input('ids'))
-        {
-            // Consulta todos los profesionales que concuerden con el id (categoría hija)
+        } 
+        else if ($request->input('ids') && !$request->input('search')) {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija) 
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
                 $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
                     $professionalDegree->whereIn('id', $request->input('ids'));
                 }]);
             }])->paginate($request->input('per_page'));
         }
-        else 
-        {
-            // Consulta todos los profesionales (sin filtros)
-            $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
-                $academicFormations->with('professionalDegree');
+        else if (!$request->input('ids') && $request->input('search')) {
+            // Consulta todos los profesionales que coincidan con search
+            $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
+                $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
+                    $professionalDegree->where('name', 'ilike', '%' . $request->input('search') . '%');
+                }]);
             }])->paginate($request->input('per_page'));
         }
+        else if ($request->input('ids') && $request->input('search')) {
+            // Consulta todos los profesionales que concuerden con el id (categoría hija) y con search
+            $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
+                $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
+                    $professionalDegree->whereIn('id', $request->input('ids'))
+                        ->where('name', 'ilike', '%' . $request->input('search') . '%');
+                }]);
+            }])->paginate($request->input('per_page'));
+        }
+        else {
+            // Para revenir errores futuros
+            $professionals = null;
+        }
 
-        // Consulta todos los profesionales que coincidan con search
-        // $professionals = Professional::with(['academicFormations' => function($academicFormations) use ($request) {
-        //     $academicFormations->with(['professionalDegree' => function($professionalDegree) use ($request) {
-        //         $professionalDegree->where('name', 'ilike', '%' . $request->input('search') . '%');
-        //     }]);
-        // }])->paginate($request->input('per_page'));
-
-        return response()->json($professionals, 200);
+        return response()->json($professionals);
     }
 
     function filterCategories()
     {
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
-        return response()->json($categories, 200);
+        return response()->json([
+            'data' => $categories,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 
     function applyProfessional()
