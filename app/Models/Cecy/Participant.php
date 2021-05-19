@@ -41,14 +41,14 @@ class Skill extends Model implements Auditable
     ];
 
     // Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
+  //  public static function getInstance($id)
+   // {
+     //   if (is_null(static::$instance)) {
+       //     static::$instance = new static;
+        //}
+       // static::$instance->id = $id;
+       // return static::$instance;
+   // }
 
     // Relationships
     public function user()

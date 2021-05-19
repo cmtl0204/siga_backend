@@ -69,22 +69,39 @@ class Skill extends Model implements Auditable
     }
 
     // Accessors
-    public function getFullDescriptionAttribute()
+    public function getFullDateAttribute()
     {
-        return "{$this->attributes['id']}.{$this->attributes['description']}";
+        return "{$this->attributes['id']}.{$this->attributes['date']}";
+    }
+
+    public function getFullNumberAttribute()
+    {
+        return "{$this->attributes['id']}.{$this->attributes['number']}";
     }
 
     // Mutators
-    public function setDescriptionAttribute($value)
+    public function setDateAttribute($value)
     {
-        $this->attributes['description'] = strtoupper($value);
+        $this->attributes['date'] = strtoupper($value);
+    }
+
+    public function setNumberAttribute($value)
+    {
+        $this->attributes['number'] = strtoupper($value);
     }
 
     // Scopes
-    public function scopeDescription($query, $description)
+    public function scopeDate($query, $date)
     {
-        if ($description) {
-            return $query->where('description', 'ILIKE', "%$description%");
+        if ($date) {
+            return $query->where('date', 'ILIKE', "%$date%");
+        }
+    }
+
+    public function scopeNumber($query, $number)
+    {
+        if ($number) {
+            return $query->where('number', 'ILIKE', "%$number%");
         }
     }
 
