@@ -23,7 +23,7 @@ class File extends Model implements Auditable
     use SoftDeletes;
 
     protected static $instance;
-    
+
     protected $connection = 'pgsql-app';
     protected $table = 'app.files';
 
@@ -36,7 +36,7 @@ class File extends Model implements Auditable
 
     protected $hidden = ['fileable_type'];
 
-    protected $appends = ['full_name', 'full_path'];
+    protected $appends = ['full_name', 'full_path', 'partial_path'];
 
     // Instance
     public static function getInstance($id)
@@ -72,11 +72,21 @@ class File extends Model implements Auditable
     // Accessors
     public function getFullNameAttribute()
     {
-        return "{$this->attributes['id']}.{$this->attributes['extension']}";
+        return "{$this->attributes['name']}.{$this->attributes['extension']}";
     }
 
     public function getFullPathAttribute()
     {
         return "files/{$this->attributes['id']}.{$this->attributes['extension']}";
+    }
+
+    public function getPartialPathAttribute()
+    {
+        return "{$this->attributes['id']}.{$this->attributes['extension']}";
+    }
+
+    function setExtensionAttribute($value)
+    {
+        $this->attributes['extension'] = strtolower($value);
     }
 }

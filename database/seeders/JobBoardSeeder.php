@@ -29,6 +29,8 @@ class JobBoardSeeder extends Seeder
         $this->createSkills();
       //  $this->createLocations();
        // $this->createOffers();
+
+
     }
 
     private function createProfessionals()

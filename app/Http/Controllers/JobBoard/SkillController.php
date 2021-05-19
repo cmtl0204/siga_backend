@@ -5,7 +5,7 @@ namespace App\Http\Controllers\JobBoard;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-use App\Http\Requests\JobBoard\Skill\DestroySkillRequest;
+use App\Http\Requests\JobBoard\Skill\DeleteSkillRequest;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Skill;
 use App\Http\Requests\JobBoard\Skill\StoreSkillRequest;
@@ -67,7 +67,6 @@ class SkillController extends Controller
 
     function store(StoreSkillRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -115,10 +114,11 @@ class SkillController extends Controller
             ]], 201);
     }
 
-    function delete(DestroySkillRequest $request)
+    function delete(DeleteSkillRequest $request)
     {
         // Es una eliminación lógica
         Skill::destroy($request->input('ids'));
+//        Skill::first()->delete();
 
         return response()->json([
             'data' => null,
@@ -134,10 +134,6 @@ class SkillController extends Controller
         return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
     }
 
-    function updateImage(UpdateImageRequest $request, $imageId)
-    {
-        return (new ImageController())->update($request, $imageId);
-    }
 
     function deleteImage($imageId)
     {
@@ -157,11 +153,6 @@ class SkillController extends Controller
     function uploadFiles(UploadFileRequest $request)
     {
         return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
-    }
-
-    function updateFile(UpdateFileRequest $request, $fileId)
-    {
-        return (new FileController())->update($request, $fileId);
     }
 
     function deleteFile($fileId)
