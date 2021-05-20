@@ -21,36 +21,20 @@ class  UserAdministrationController extends Controller
 {
     public function index(Request $request)
     {
-      $system = $request->input('system');
-      $search = $request->input('search');
+        $system = $request->input('system');
+        $search = $request->input('search');
 
-            if ($request->has('search')) {
-                $users = User::whereHas('roles', function($role) use ($system) {
-                    $role->where('system_id', '=', $system);
-                })
-                ->where(function($query) use ($search){
+        if ($request->has('search')) {
+            $users = User::whereHas('roles', function ($role) use ($system) {
+                $role->where('system_id', '=', $system);
+            })
+                ->where(function ($query) use ($search) {
                     $query->email($search);
                     $query->firstlastname($search);
                     $query->firstname($search);
                     $query->identification($search);
                     $query->secondlastname($search);
                     $query->secondname($search);
-                    })
-                ->with(['institutions' => function ($institutions) {
-                    $institutions->orderBy('name');
-                }])
-                ->with(['roles' => function ($roles) use ($request) {
-                    $roles
-                        ->with(['permissions' => function ($permissions) {
-                            $permissions->with(['route' => function ($route) {
-                                $route->with('module')->with('type')->with('status');
-                            }])->with('institution');
-                        }]);
-                }])
-                 ->paginate($request->input('per_page'));
-            }else{
-                $users = User::whereHas('roles', function($role) use ($system) {
-                    $role->where('system_id', '=', $system);
                 })
                 ->with(['institutions' => function ($institutions) {
                     $institutions->orderBy('name');
@@ -64,46 +48,64 @@ class  UserAdministrationController extends Controller
                         }]);
                 }])
                 ->paginate($request->input('per_page'));
-            }
+        } else {
+            $users = User::whereHas('roles', function ($role) use ($system) {
+                $role->where('system_id', '=', $system);
+            })
+                ->with(['institutions' => function ($institutions) {
+                    $institutions->orderBy('name');
+                }])
+                ->with(['roles' => function ($roles) use ($request) {
+                    $roles
+                        ->with(['permissions' => function ($permissions) {
+                            $permissions->with(['route' => function ($route) {
+                                $route->with('module')->with('type')->with('status');
+                            }])->with('institution');
+                        }]);
+                }])
+                ->paginate($request->input('per_page'));
+        }
 
-        if($users->count()===0){
+        if ($users->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'No se encontraron usuarios',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
-            return response()->json($users, 200);
+        return response()->json($users, 200);
     }
 
     public function show($userId, Request $request)
     {
-      $system = $request->input('system');
-            $user = User::whereHas('roles', function($role) use ($system) {
-                    $role->where('system_id', '=', $system);
-                })
-                ->with(['institutions' => function ($institutions) {
-                    $institutions->orderBy('name');
-                }])
-                ->with(['roles' => function ($roles) use ($request) {
-                    $roles->with(['permissions' => function ($permissions) {
-                            $permissions->with(['route' => function ($route) {
-                                $route->with('module')->with('type')->with('status');
-                            }])->with('institution');
-                        }]);
-                }])
-                ->where('id', $userId)
-                ->first();
-        if(!$user){
+        $system = $request->input('system');
+        $user = User::whereHas('roles', function ($role) use ($system) {
+            $role->where('system_id', '=', $system);
+        })
+            ->with(['institutions' => function ($institutions) {
+                $institutions->orderBy('name');
+            }])
+            ->with(['roles' => function ($roles) use ($request) {
+                $roles->with(['permissions' => function ($permissions) {
+                    $permissions->with(['route' => function ($route) {
+                        $route->with('module')->with('type')->with('status');
+                    }])->with('institution');
+                }]);
+            }])
+            ->where('id', $userId)
+            ->first();
+        if (!$user) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'No se encontraró al usuario',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
         return response()->json([
             'data' => $user,
@@ -111,26 +113,27 @@ class  UserAdministrationController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function store(Request $request)
     {
-            $user = new User();
-            $user->identification = $request->input('identification');
-            $user->username = $request->input('username');
-            $user->first_name = $request->input('first_name');
-            $user->second_name = $request->input('second_name');
-            $user->first_lastname = $request->input('first_lastname');
-            $user->second_lastname = $request->input('second_lastname');
-            $user->birthdate = $request->input('birthdate');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
+        $user = new User();
+        $user->identification = $request->input('user.identification');
+        $user->username = $request->input('user.username');
+        $user->first_name = $request->input('user.first_name');
+        $user->second_name = $request->input('user.second_name');
+        $user->first_lastname = $request->input('user.first_lastname');
+        $user->second_lastname = $request->input('user.second_lastname');
+        $user->birthdate = $request->input('user.birthdate');
+        $user->email = $request->input('user.email');
+        $user->password = Hash::make($request->input('user.password'));
 
-            $user->status()->associate(Status::getInstance($request->input('status')));
-            $user->save();
+        $user->status()->associate(Status::getInstance($request->input('user.status')));
+        $user->save();
 
-            return response()->json([
+        return response()->json([
             'data' => $user,
             'msg' => [
                 'summary' => 'success',
@@ -140,32 +143,32 @@ class  UserAdministrationController extends Controller
         ], 201);
     }
 
-    public function update(Request $request,$userId)
+    public function update(Request $request, $userId)
     {
         $system = $request->input('system');
-            $user = User::whereHas('roles', function($role) use ($system) {
-                $role->where('system_id', '=', $system);
-            })->where('id', $userId)
+        $user = User::whereHas('roles', function ($role) use ($system) {
+            $role->where('system_id', '=', $system);
+        })->where('id', $userId)
             ->get();
 
-        if($user->count()==0){
+        if ($user->count() == 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'Usuario no encontrado',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                    ]
-                ], 404);
+                ]
+            ], 404);
         } else {
             $user = User::find($userId);
-            $user->identification = $request->input('identification');
-            $user->username = $request->input('username');
-            $user->first_name = $request->input('first_name');
-            $user->first_lastname = $request->input('first_lastname');
-            $user->birthdate = $request->input('birthdate');
-            $user->email = $request->input('email');
-            $user->phone = $request->input('phone');
+            $user->identification = $request->input('user.identification');
+            $user->username = $request->input('user.username');
+            $user->first_name = $request->input('user.first_name');
+            $user->first_lastname = $request->input('user.first_lastname');
+            $user->birthdate = $request->input('user.birthdate');
+            $user->email = $request->input('user.email');
+            $user->phone = $request->input('user.phone');
 
             $user->save();
             return response()->json([
@@ -180,15 +183,16 @@ class  UserAdministrationController extends Controller
     }
 
     public function delete(Request $request)
-    {        
-         User::destroy($request->input('ids'));
-         
-                 return response()->json([
-                     'data' => null,
-                     'msg' => [
-                         'detail' => 'Se eliminó correctamente',
-                         'code' => '201'
-                     ]], 201);
+    {
+        User::destroy($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]
+        ], 201);
     }
 
     public function export()
