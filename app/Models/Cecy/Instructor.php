@@ -55,6 +55,7 @@ class Skill extends Model implements Auditable
     }
 
     // Accessors
+    public $timestamps = false;
     
 
     // Mutators
