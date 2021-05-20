@@ -20,7 +20,7 @@ class CreateCommunityProjectsTable extends Migration
             $table->foreignId('entity_id')->nullable()->comment('FK entidad beneficiaria')->constrained('entities');                 
             $table->foreignId('school_period_id')->nullable()->comment('Fk de periodos escolares')->constrained('app.school_periods'); // pgsql-ignug
             $table->foreignId('career_id')->nullable()->comment('fk de tabla de carreras')->constrained('app.careers');
-            $table->date('date')-nullable()->comment('Fecha del proyecto');
+            $table->date('date')->nullable()->comment('Fecha del proyecto');
             $table->json('cycles')->nullable()->comment('ciclo en json');
             $table->foreignId('coverage_id')->nullable()->comment('Catalogo de coberturas (nacional, provincial, cantonal)')->constrained('app.catalogues');
             $table->foreignId('location_id')->nullable()->comment('fk de localizacion/ubicacion')->constrained('app.locations');
@@ -32,7 +32,7 @@ class CreateCommunityProjectsTable extends Migration
             $table->text('description', 1000)->nullable()->comment('DESCRIPCION GENERAL  DEL PROYECTO.');
             $table->text('diagnosis', 300)->nullable()->comment('ANALISIS SITUACIONAL (DIAGNOSTICO)');
             $table->text('justification')->nullable()->comment('justificacion del proyecto');
-            $table->json('direct_beneficiaries')->nullable()->comment('json del beneficiario directo del proyecto')5;
+            $table->json('direct_beneficiaries')->nullable()->comment('json del beneficiario directo del proyecto');
             $table->json('indirect_beneficiaries')->nullable()->comment('json del beneficiario indirecto del proyecto');
             $table->json('strategies')->nullable()->comment('Json de las estrategias');
             $table->json('bibliografies')->nullable()->comment('bibliografia del proyecto'); // pendiente

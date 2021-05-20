@@ -32,6 +32,8 @@ class AuthenticationSeeder extends Seeder
         $this->createCareerType();
         $this->createLocationCatalogues();
         $this->createMenus();
+        $this->createVinculationEntityNature();
+        $this->createVinculationEntityType();
 
         // Sistemas
         $this->createSystem();
@@ -670,6 +672,34 @@ class AuthenticationSeeder extends Seeder
             'code' => $catalogues['menu']['mega'],
             'name' => 'MEGA MENU',
             'type' => $catalogues['menu']['type'],
+        ]);
+    }
+
+    private function createVinculationEntityNature()
+    {
+        Catalogue::factory()->create([
+            'code' => 'PUBLIC',
+            'name' => 'PUBLICA',
+            'type' => 'SOCIAL_NATURE'
+        ]);
+        Catalogue::factory()->create([
+            'code' => 'PRIVATE',
+            'name' => 'PRIVADA',
+            'type' => 'SOCIAL_NATURE'
+        ]);
+    }
+
+    private function createVinculationEntityType()
+    {
+        Catalogue::factory()->create([
+            'code' => 'MAT',
+            'name' => 'MATRIZ',
+            'type' => 'ENTITY_TYPE'
+        ]);
+        Catalogue::factory()->create([
+            'code' => 'SUC',
+            'name' => 'SUCURSAL',
+            'type' => 'ENTITY_TYPE'
         ]);
     }
 
