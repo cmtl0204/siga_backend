@@ -59,6 +59,11 @@ Route::middleware($middlewares)
             Route::get('export', [UserController::class, 'export']);
         });
 
+        //User Administration
+        Route::prefix('user-admin')->group(function () {
+            Route::put('delete', [UserAdministrationController::class, 'delete']);
+        });
+
         // Role
         Route::prefix('role')->group(function () {
             Route::post('users', [RoleController::class, 'getUsers']);
