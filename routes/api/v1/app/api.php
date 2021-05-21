@@ -11,15 +11,23 @@ use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
 
 Route::apiResource('catalogues', CatalogueController::class);
-Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
-Route::get('countries', [LocationController::class, 'getCountries'])->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
+Route::apiResource('locations', LocationController::class);
+Route::get('countries', [LocationController::class, 'getCountries']);
+
+Route::group(['prefix' => 'location'], function () {
+    Route::get('get', [LocationController::class, 'getLocations']);
+});
 
 Route::group(['prefix' => 'image'], function () {
     Route::get('download', [ImageController::class, 'download']);
 });
 
 Route::group(['prefix' => 'file'], function () {
+    Route::get('', [FileController::class, 'index']);
     Route::get('download', [FileController::class, 'download']);
+    Route::put('delete', [FileController::class, 'delete']);
+    Route::put('update/{file}', [FileController::class, 'update']);
+    Route::delete('force-delete', [FileController::class, 'forceDelete']);
 });
 
 Route::group(['prefix' => 'teachers'], function () {

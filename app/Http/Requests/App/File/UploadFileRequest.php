@@ -15,24 +15,17 @@ class UploadFileRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'id' => [
+                'required'
+            ],
             'files.*' => [
                 'required',
-                'mimes:pdf,doc,docx,xls,xlsx,csv,ppt,pptx,txt,zip,rar,7z,tar',
+                'mimes:pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx,zip,rar,7z,tar,jpg,jpeg,png,bmp,tiff,tif,svg',
                 'file',
                 'max:1024000',
             ],
         ];
         return AppFormRequest::rules($rules);
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'files.*.required' => 'El campo :attribute es obligatorio.',
-            'files.*.mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
-            'files.*.max' => 'El campo :attribute no puede ser mayor que :maxKB.',
-        ];
-        return AppFormRequest::messages($messages);
     }
 
     public function attributes()

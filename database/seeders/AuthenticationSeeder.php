@@ -30,8 +30,8 @@ class AuthenticationSeeder extends Seeder
         $this->createCivilStatusCatalogues();
         $this->createCareerModality();
         $this->createCareerType();
-        $this->createLocationCatalogues();
         $this->createMenus();
+        $this->createSectorTypeCatalogues();
 
         // Sistemas
         $this->createSystem();
@@ -79,7 +79,7 @@ class AuthenticationSeeder extends Seeder
             'name' => 'Sistema de Gestión Académico - Administrativo',
             'acronym' => 'IGNUG',
             'version' => '1.2.3',
-            'redirect' => 'http://siga.yavirac.edu.ec:4200',
+            'redirect' => 'http://siga.test:4200',
             'date' => '2021-03-10',
             'status_id' => $statysAvailable->id
         ]);
@@ -88,7 +88,7 @@ class AuthenticationSeeder extends Seeder
             'name' => 'Sistema de Gestión Académico - Administrativo',
             'acronym' => 'CECY',
             'version' => '1.2.3',
-            'redirect' => 'http://siga.yavirac.edu.ec:4200',
+            'redirect' => 'http://siga.test:4200',
             'date' => '2021-03-10',
             'status_id' => $statysAvailable->id
         ]);
@@ -623,28 +623,21 @@ class AuthenticationSeeder extends Seeder
         ]);
     }
 
-    private function createLocationCatalogues()
+
+    private function createSectorTypeCatalogues()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         Catalogue::factory()->create([
-            'code' => $catalogues['catalogue']['location']['country'],
-            'name' => 'PAIS',
-            'type' => $catalogues['catalogue']['location']['type'],
+            'name' => 'NORTE',
+            'type' => $catalogues['catalogue']['sector']['type'],
         ]);
         Catalogue::factory()->create([
-            'code' => $catalogues['catalogue']['location']['province'],
-            'name' => 'PROVINCIA',
-            'type' => $catalogues['catalogue']['location']['type'],
+            'name' => 'CENTRO',
+            'type' => $catalogues['catalogue']['sector']['type'],
         ]);
         Catalogue::factory()->create([
-            'code' => $catalogues['catalogue']['location']['canton'],
-            'name' => 'CANTON',
-            'type' => $catalogues['catalogue']['location']['type'],
-        ]);
-        Catalogue::factory()->create([
-            'code' => $catalogues['catalogue']['location']['parish'],
-            'name' => 'PARISH',
-            'type' => $catalogues['catalogue']['location']['type'],
+            'name' => 'SUR',
+            'type' => $catalogues['catalogue']['sector']['type'],
         ]);
     }
 
@@ -788,8 +781,8 @@ class AuthenticationSeeder extends Seeder
     private function createUsers()
     {
         User::factory()->create([
-            'username'=>'1234567890',
-            'identification'=>'1234567890',
+            'username' => '1234567890',
+            'identification' => '1234567890',
         ]);
         User::factory()->count(10)->create();
     }
@@ -801,7 +794,7 @@ class AuthenticationSeeder extends Seeder
         foreach (Role::all() as $role) {
             $user->roles()->attach($role->id);
         }
-        $user = User::where('id','!=',1)->get();
+        $user = User::where('id', '!=', 1)->get();
 
         foreach ($user as $users) {
             $users->roles()->attach(random_int(1, Role::all()->count()));

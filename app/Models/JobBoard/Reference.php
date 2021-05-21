@@ -25,6 +25,8 @@ class Reference extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.references';
+
+    protected $with = ['professional'];
     protected $fillable = [
         'institution',
         'position',
@@ -102,5 +104,4 @@ class Reference extends Model implements Auditable
             return $query->orWhere('contact_email', 'ILIKE', "%$contact_email%");
         }
     }
-
 }

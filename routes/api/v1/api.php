@@ -6,6 +6,7 @@ use \Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Artisan;
 
 Route::get('init', function (CreateClientRequest $request) {
+
     if (env('APP_ENV') != 'local') {
         return 'El sistema se encuentra en producción.';
     }
@@ -20,13 +21,20 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema job_board;');
 
     Artisan::call('migrate', ['--seed' => true]);
+
     Artisan::call('passport:client', [
         '--password' => true,
-        '--name' => $request->input('client_name'),
+        '--name' => 'Password-' . $request->input('client_name'),
         '--quiet' => true,
     ]);
 
-    $clientSecret = DB::select("select secret from oauth_clients where name='" . $request->input('client_name') . "'");
+    Artisan::call('passport:client', [
+        '--personal' => true,
+        '--name' => 'Client-' . $request->input('client_name'),
+        '--quiet' => true,
+    ]);
+
+    $clientSecret = DB::select("select secret from oauth_clients where name='" . 'Password-' . $request->input('client_name') . "'");
 
     return response()->json([
         'msg' => [

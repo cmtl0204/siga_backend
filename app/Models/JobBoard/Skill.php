@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use App\Models\App\File;
 use App\Models\App\Image;
 use App\Models\App\Catalogue;
@@ -16,27 +16,27 @@ use App\Models\App\Catalogue;
  * @property BigInteger id
  * @property string description
  */
-
 class Skill extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected static $instance;
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.skills';
-
+    protected $with = ['professional', 'type'];
     protected $fillable = [
         'description',
     ];
-
     protected $casts = [
-        'deleted_at'=>'date:Y-m-d h:m:s',
-        'created_at'=>'date:Y-m-d h:m:s',
-        'updated_at'=>'date:Y-m-d h:m:s',
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
     ];
+    protected $cascadeDeletes = ['files'];
 
     public static function getInstance($id)
     {

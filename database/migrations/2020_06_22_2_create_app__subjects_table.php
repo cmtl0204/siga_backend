@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateAppSubjectsTable extends Migration
 {
-
     public function up()
     {
         Schema::connection('pgsql-app')->create('subjects', function (Blueprint $table) {

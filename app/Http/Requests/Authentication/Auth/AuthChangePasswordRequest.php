@@ -14,7 +14,7 @@ class AuthChangePasswordRequest extends FormRequest
 
     public function rules()
     {
-        return [
+       $rules =  [
             'password_old' => [
                 'required'
             ],
@@ -28,7 +28,7 @@ class AuthChangePasswordRequest extends FormRequest
                 'same:password'
             ]
         ];
-        return AuthenticationFormRequest::messages($messages);
+        return AuthenticationFormRequest::rules($rules);
     }
 
 

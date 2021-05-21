@@ -18,11 +18,8 @@ class IndexExperienceRequest extends FormRequest
             'professional_id' => [
                 'required',
                 'integer',
-            ],
-            'area_id' => [
-                'required',
-                'integer',
             ]
+
         ];
         return JobBoardFormRequest::rules($rules);
     }
@@ -31,8 +28,7 @@ class IndexExperienceRequest extends FormRequest
         $messages = [
             'professional.id.required' => 'El campo :attribute es obligatorio',
             'professional.id.integer' => 'El campo :attribute debe ser numérico',
-            'area.id.required' => 'El campo :attribute es obligatorio',
-            'area.id.integer' => 'El campo :attribute debe ser numérico',
+
       
         ];
         return JobBoardFormRequest::messages($messages);
@@ -42,7 +38,6 @@ class IndexExperienceRequest extends FormRequest
     {
         $attributes = [
             'professional_id' => 'profesional-ID',
-            'area_id' => 'area-ID',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

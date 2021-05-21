@@ -11,8 +11,6 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Notifications\Messages\MailMessage;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 //$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
@@ -36,7 +34,7 @@ Route::middleware($middlewares)
             Route::get('roles', [AuthController::class, 'getRoles'])
                 ->withoutMiddleware(['check-institution', 'check-role', 'check-permissions']);
             Route::get('permissions', [AuthController::class, 'getPermissions'])
-                ->withoutMiddleware(['check-institution','check-permissions']);
+                ->withoutMiddleware(['check-institution', 'check-permissions']);
             Route::put('change-password', [AuthController::class, 'changePassword'])
                 ->withoutMiddleware(['check-institution', 'check-role', 'check-permissions']);
             Route::post('transactional-code', [AuthController::class, 'generateTransactionalCode']);
@@ -88,10 +86,9 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
             Route::post('email-verified', [AuthController::class, 'emailVerified']);
             Route::get('verify-email/{user}', [AuthController::class, 'verifyEmail']);
+            Route::post('register-socialite-user', [AuthController::class, 'registerSocialiteUser']);
             Route::post('test-out', function (\Illuminate\Http\Request $request) {
                 $request->user()->sendEmailVerificationNotification();
             });
         });
-
-
     });
