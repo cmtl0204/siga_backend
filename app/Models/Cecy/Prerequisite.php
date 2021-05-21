@@ -48,7 +48,7 @@ class Skill extends Model implements Auditable
 
     public function prerequisite()
     {
-        return $this->belongsTo(Prerequisite::class);
+        return $this->belongsTo(Course::class);
     }
 
     // Accessors

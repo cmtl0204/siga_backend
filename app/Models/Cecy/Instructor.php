@@ -51,7 +51,7 @@ class Skill extends Model implements Auditable
 
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     // Accessors
