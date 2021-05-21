@@ -107,8 +107,8 @@ class CompanyController extends Controller
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo company.
 
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        $address = Address::getInstance($request->input('address.id'));
-        $identificationType = Catalogue::getInstance($request->input('identificationType.id'));
+        $address = Address::getInstance($request->input('user.address.id'));
+        $identificationType = Catalogue::getInstance($request->input('user.identificationType.id'));
         $status = Status::firstWhere('code',$catalogues['status']['inactive']);
 
         $user = new User();
@@ -122,9 +122,9 @@ class CompanyController extends Controller
 
         $user->save();
 
-        $type = Catalogue::getInstance($request->input('type.id'));
-        $activityType = Catalogue::getInstance($request->input('activityType.id'));
-        $personType = Catalogue::getInstance($request->input('personType.id'));
+        $type = Catalogue::getInstance($request->input('company.type.id'));
+        $activityType = Catalogue::getInstance($request->input('company.activityType.id'));
+        $personType = Catalogue::getInstance($request->input('company.personType.id'));
 
         $company = new Company();
 

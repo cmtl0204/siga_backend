@@ -16,6 +16,7 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
+
             'company.trade_name' => [
                 'required',
                 'min:10',
@@ -31,15 +32,15 @@ class StoreCompanyRequest extends FormRequest
                 'max:1000',
             ],
 
-            'type.id' => [
+            'company.type.id' => [
                 'required',
                 'integer',
             ],
-            'activityType.id' => [
+            'company.activityType.id' => [
                 'required',
                 'integer',
             ],
-            'personType.id' => [
+            'company.personType.id' => [
                 'required',
                 'integer',
             ],
@@ -56,9 +57,11 @@ class StoreCompanyRequest extends FormRequest
             'company.comercial_activity.required' => 'El campo :attribute es obligatorio',
             'company.web.required' => 'El campo :attribute es obligatorio',
             'company.web.min' => 'El campo : attribute debe tener al menos :min carecteres',
-            'type.id.integer' => 'El campo :attribute debe ser numérico',
-            'activityType.id.integer' => 'El campo :attribute debe ser numérico',
-            'personType.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.type.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.activityType.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.personType.id.integer' => 'El campo :attribute debe ser numérico',
+
+
         ];
         return JobBoardFormRequest::messages($messages);
     }
@@ -69,9 +72,9 @@ class StoreCompanyRequest extends FormRequest
             'company.trade_name' => 'nombre comercial',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
-            'type.id' => 'tipo-ID',
-            'activityType.id' => 'tipo de actividad-ID',
-            'personType.id' => 'tipo de persona-ID',
+            'company.type.id' => 'tipo-ID',
+            'company.activityType.id' => 'tipo de actividad-ID',
+            'company.personType.id' => 'tipo de persona-ID',
 
         ];
         return JobBoardFormRequest::attributes($attributes);
