@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\File;
-use App\Models\App\Image;
+use App\Models\App\User;
 use App\Models\App\Catalogue;
 
 /**
