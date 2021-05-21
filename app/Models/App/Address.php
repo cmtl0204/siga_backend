@@ -26,6 +26,7 @@ class Address extends Model implements Auditable
         'secondary_street',
         'number',
         'post_code',
+        'reference',
     ];
 
     // Instance
