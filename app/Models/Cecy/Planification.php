@@ -61,24 +61,24 @@ class Planification extends Model implements Auditable
     public function routes(){
         return $this->hasMany(Route::class);
     }
-    public function courses(){
+    public function course(){
         return $this->belongsTo(Courses::class);
     }
-    public function users() {
+    public function teacher() {
         return $this->belongsTo(Users::class)
     }
-    public function authorities() {
+    public function responsible() {
         return $this->belongsTo(Authorities::class)
     }
-    public function careers() {
+    public function career() {
         return $this->belongsTo(Careers::class)
     }
-    public function school_periods() {
+    public function school_period() {
         return $this->belongsTo(School_periods::class)
     }
-    public function locations() {
+    public function location() {
         return $this->belongsTo(Locations::class)
     }
-    public function catalogues() {
+    public function status() {
         return $this->belongsTo(Catalogues::class)
     }

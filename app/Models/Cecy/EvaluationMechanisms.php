@@ -44,6 +44,14 @@ class EvaluationMechanism extends Model implements Auditable
     }
 
     // Relationships
-
+    public function routes(){
+        return $this->hasMany(Route::class);
+    }
+    public function type(){
+        return $this->hasMany(Catalogues::class);
+    }
+    public function course(){
+        return $this->hasMany(Courses::class);
+    }
 
     
