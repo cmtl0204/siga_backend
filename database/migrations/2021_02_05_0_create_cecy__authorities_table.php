@@ -14,7 +14,7 @@ class CreateCecyAuthoritiesTable extends Migration
             $table->foreignId('user_id')->constrained('authentication.users')->comment('usuario clave foreanea de Authentication.user ');
             $table->foreignId('position_id')->constrained('app.catalogues')
                 ->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
-            $table->foreignId('status_id')->nullable()->constrained('ignug.catalogues')
+            $table->foreignId('status_id')->nullable()->constrained('app.catalogues')
                 ->comment('datos como suspendio o retirado de catologue');
             $table->json('functions')->nullable()->comment('Funciones que tiene dentro del Cecy');
             $table->date('start_date')->nullable()->comment('Fecha inicio de la gestión');
@@ -26,6 +26,6 @@ class CreateCecyAuthoritiesTable extends Migration
 
     public function down()
     {
-        Schema::connection('pgsql-ignug')->dropIfExists('authorities');
+        Schema::connection('pgsql-cecy')->dropIfExists('authorities');
     }
 }

@@ -15,7 +15,7 @@ class CreateCecyDetailPlanificationsTable extends Migration
     {
         Schema::connection('pgsql-cecy')->create('detail_planifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('planification_id')->constrained('cecy.planitications');
+            $table->foreignId('planification_id')->constrained('cecy.planifications');
             $table->integer('days')->nullable()->comment('Total de dias que se dicta el curso');
             $table->integer('day_hours')->nullable()->comment('total de horas que se dicta en el dia');
             $table->time('start_time')->nullable()->comment('Hora de entrada');
@@ -29,7 +29,7 @@ class CreateCecyDetailPlanificationsTable extends Migration
             $table->integer('capacity')->nullable()->comment('capacidad_curso');
             $table->foreignId('status_id')->constrained('app.status');
             $table->foreignId('parallel_id')->constrained('app.catalogues');
-            $table->foreignId('status_certificate_id')->constrained('ignug.catalogues')->comment('Estado del certificado'); //estado del certificado
+            $table->foreignId('status_certificate_id')->constrained('app.catalogues')->comment('Estado del certificado'); //estado del certificado
             $table->json('observations')->comment('por si llega a tener observaciones el curso')->nullable();
             $table->softDeletes();
             $table->timestamps();
