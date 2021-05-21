@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use App\Models\App\File;
-use App\Models\App\Image;
-use App\Models\App\Catalogue;
+use App\Models\App\Detail_Registration;
+
 
 /**
  * @property BigInteger id
@@ -56,7 +54,7 @@ class Skill extends Model implements Auditable
     // Relationships
     public function detailRegistration()
     {
-        return $this->hasMany(detailRegistration::class);
+        return $this->hasMany(Detail_Registration::class);
     }
 
    
