@@ -11,11 +11,12 @@ class CreateUicModalitiesTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('modalities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->constrained('uic.modalities');
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->foreign('parent_id')->references('id')->on('modalities')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('career_id')->constrained('app.careers');
-            $table->string('name')->comment('nombre modalidad');
+            $table->string('name')->comment('nombre modalidad PT EC');
             $table->text('description')->nullable();
-            $table->foreignId('status_id')->constrained('app.catalogues')->comment('saber vigencia');
+            $table->foreignId('status_id')->nullable()->constrained('app.status')->comment('saber vigencia');
             $table->softDeletes();
             $table->timestamps();
         });

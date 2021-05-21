@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 /**
  * @property BigInteger id
  * @property string date
  * @property string code
- * @property json code
+ * @property json observations
  */
 
 class Enrollment extends Model implements Auditable
@@ -22,17 +23,26 @@ class Enrollment extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
     
     protected static $instance;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.enrollments';
-    
+    protected $with = ['modality','status']; //belongs to ,'shoolPeriod'
+
     protected $fillable = [
         'date',
         'code',
         'observations'
     ];
+
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
 
     public static function getInstance($id)
     {
@@ -47,12 +57,14 @@ class Enrollment extends Model implements Auditable
     public function modality() {
         return $this->belongsTo(Modality::class);
     }
-
-    //No hay ese modelo
-    // public function shoolPeriods() {
+    // no hay el modelo
+    // public function shoolPeriod() {
     //     return $this->belongsTo(SchoolPeriod::class);
     // }
-
+//  no hay ese modelo
+    // public function meshStudent(){
+    //     return $this->belongsTo(MeshStudent::class);
+    // }
     public function status() {
         return $this->belongsTo(Status::class);
     }
