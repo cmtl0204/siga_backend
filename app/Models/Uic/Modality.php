@@ -31,7 +31,6 @@ class Modality extends Model implements Auditable
     protected $with = ['career','status','modality'];
 
     protected $fillable = [
-        'parent_id',
         'name',
         'description'
     ];
@@ -77,15 +76,15 @@ class Modality extends Model implements Auditable
         return $this->hasMany(Enrollment::class);
     }
    
-    //accesors - crea un nuevo campo personalizado en la consulta 
-    // public function getNameDescriptionAttribute() {
-    //     return "{$this->attributes['name']} {$this->attributes['description']}";
-    // }
+    //accesor - crea campo personalizado, es necesario el array attributes['nombreAtributo']
+    public function getNameDescriptionAttribute(){
+        return "{$this->attributes['name']}: {$this->attributes['description']}";
+    }
 
-    //mutators - trabajan directamente con los campos de la tabla transforma el registro a mayuscula 
-    // public function setDescriptionAttribute ($value) {
-    //     $this->attributes['description'] = strtoupper($value);
-    // }
+    //mutators - muta el registro de la tabla, es necesario llamar el método en el controller 
+    public function setDescriptionAttribute($value) {
+        $this->attributes['description'] = strtoupper($value);
+    }
 
     //scopes añadir una clausula sencilla a mi consulta para no ponerlo desde el controller
     // public function scopeDescription ($query, $description) {
