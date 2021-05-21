@@ -20,23 +20,17 @@ class CreateOfferRequest extends FormRequest
         $rules = [
             'offer.code' => [
                 'required',
-                'min:10',
-                'max:1000',
-            ],
-            'offer.description' => [
-                'required',
-                'min:10',
-                'max:1000',
             ],
             'offer.contact_name' => [
                 'required',
-                'min:10',
-                'max:1000',
+                'min:4',
+                'max:250',
             ],
             'offer.contact_email' => [
                 'required',
                 'min:10',
-                'max:1000',
+                'max:100',
+                'email',
             ],
             'offer.contact_phone' => [
                 'required_without:offer.contact_cellphone',
@@ -45,6 +39,10 @@ class CreateOfferRequest extends FormRequest
                 'required_without:offer.contact_phone',
             ],
             'offer.start_date' => [
+                'required',
+                'date',
+            ],
+            'offer.end_date' => [
                 'required',
                 'date',
             ],

@@ -66,7 +66,7 @@ Route::middleware($middlewares)
 
         Route::prefix('offer')->group(function () {
             Route::get('test', function () {
-                return 'test';
+                return Offer::get()->last();
             });
             Route::get('proffesionals/{offer}', [OfferController::class, 'getProfessionals']);
             Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
@@ -136,5 +136,6 @@ Route::prefix('/')
             Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
+        
     });
 

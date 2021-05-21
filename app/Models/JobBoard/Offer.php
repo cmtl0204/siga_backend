@@ -154,6 +154,4 @@ class Offer extends Model implements Auditable
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
-
-
 }

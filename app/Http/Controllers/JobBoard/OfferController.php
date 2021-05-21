@@ -46,7 +46,7 @@ class OfferController extends Controller
 
     function store(CreateOfferRequest $request)
     {
-        $company = Company::getInstance($request->input('company.id'));
+        $company = $request->user()->company->first();
         $location = Location::getInstance($request->input('location.id'));
         $contractType = Catalogue::getInstance($request->input('contractType.id'));
         $position = Catalogue::getInstance($request->input('position.id'));
@@ -55,9 +55,12 @@ class OfferController extends Controller
         $experienceTime = Catalogue::getInstance($request->input('experienceTime.id'));
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
+        $lastOffer = Offer::get()->last();
+
+        $number = $lastOffer->id + 1;
 
         $offer = new Offer();
-        $offer->code = $request->input('offer.code');
+        $offer->code = $company->prefix.$number;
         $offer->description = $request->input('offer.description');
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
