@@ -56,7 +56,6 @@ class OfferController extends Controller
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
         $lastOffer = Offer::get()->last();
-
         $number = $lastOffer->id + 1;
 
         $offer = new Offer();
