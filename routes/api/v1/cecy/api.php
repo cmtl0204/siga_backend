@@ -9,6 +9,8 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Cecy\RegistrationController;
+use App\Http\Controllers\Cecy\PlanificationInstructorController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -69,3 +71,14 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
     });
+
+Route::apiResource('registrations', RegistrationController::class);
+Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+
+
+// Route::prefix('registration')
+//     ->group(function () {
+        Route::put('registration/delete', [RegistrationController::class, 'delete']);
+        Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
+    //     });
+    // });

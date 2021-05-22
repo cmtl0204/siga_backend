@@ -7,14 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Authentication;
-use App\Models\App\App;
 
 /**
  * @property BigInteger id
  */
 
-class Module extends Model implements Auditable
+class PlanificationInstructor extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -22,7 +20,7 @@ class Module extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.registrations';
+    protected $table = 'cecy.planification_instructors';
 
     protected static $instance;
 
@@ -31,11 +29,11 @@ class Module extends Model implements Auditable
     //     'nnumber'
     // ];
 
-    // protected $casts = [
-    //     'deleted_at' => 'date:Y-m-d h:m:s',
-    //     'created_at' => 'date:Y-m-d h:m:s',
-    //     'updated_at' => 'date:Y-m-d h:m:s',
-    // ];
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
 
     // Instance
     public static function getInstance($id)
@@ -48,13 +46,13 @@ class Module extends Model implements Auditable
     }
 
     // Relationships
-    public function users()
+    public function instructor()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(Instructor::class);
     }
 
-    public function type()
+    public function planification()
     {
-        return $this->hasMany(Catalogue::class);
+        return $this->belongsTo(Planification::class);
     }
 }

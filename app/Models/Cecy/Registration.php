@@ -16,7 +16,7 @@ use App\Models\App\Catalogue;
  * @property string number
  */
 
-class Module extends Model implements Auditable
+class Registration extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -30,7 +30,7 @@ class Module extends Model implements Auditable
 
     protected $fillable = [
         'date',
-        'nnumber'
+        'number'
     ];
 
     protected $casts = [
@@ -50,17 +50,17 @@ class Module extends Model implements Auditable
     }
 
     // Relationships
-    public function participants()
+    public function participant()
     {
-        return $this->hasMany(Participant::class);
+        return $this->belongsTo(Participant::class);
     }
 
-    public function status()
+    public function statu()
     {
         return $this->belongsTo(Status::class);
     }
 
-    public function types()
+    public function type()
     {
         return $this->belongsTo(Category::class);
     }
