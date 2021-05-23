@@ -28,7 +28,7 @@ class Modality extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.modalities';
-    protected $with = ['career','status','modality'];
+    protected $with = ['career','status'];
 
     protected $fillable = [
         'name',
@@ -40,7 +40,7 @@ class Modality extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-    protected $cascadeDeletes = ['modalities','enrollment'];
+    protected $cascadeDeletes = ['modalities'];
 
     //campos extras funciona con accesor
     //protected $appends = ['name_description'];
@@ -54,27 +54,28 @@ class Modality extends Model implements Auditable
         return static::$instance;
     }
 
-    //relationships orden alfabetico
+    //relationships
     public function career()
     {
         return $this->belongsTo(Career::class);
-    }
-    public function modalities()
-    {
-        return $this->hasMany('App\Models\Uic\Modality','parent_id');
-    }
-    public function modality()
-    {
-        return $this->belongsTo('App\Models\Uic\Modality','parent_id');
-    }
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
     }
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
     }
+    public function modality()
+    {
+        return $this->belongsTo('App\Models\Uic\Modality','parent_id');
+    }
+    public function modalities()
+    {
+        return $this->hasMany('App\Models\Uic\Modality','parent_id');
+    }
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+    
    
     //accesor - crea campo personalizado, es necesario el array attributes['nombreAtributo']
     public function getNameDescriptionAttribute(){
