@@ -16,6 +16,34 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'company.user.address.id' => [
+                'required',
+                'integer',
+            ],
+            'company.user.identificationType.id' => [
+                'required',
+                'integer',
+            ],
+            'company.user.username' => [
+                'required',
+                'min:10',
+                'max:100',
+            ],
+            'company.user.identification' => [
+                'required',
+                'min:10',
+                'max:15',
+            ],
+            'company.user.email' => [
+                'required',
+                'min:10',
+                'max:1000',
+            ],
+            'company.user.password' => [
+                'required',
+                'min:5',
+                'max:15',
+            ],
 
             'company.trade_name' => [
                 'required',
@@ -24,7 +52,12 @@ class StoreCompanyRequest extends FormRequest
             ],
             'company.comercial_activities' => [
                 'required',
-//                'json',
+            ],
+            'company.comercial_activities.*' => [
+                'required',
+                'max:1000',
+                'min:10',
+
             ],
             'company.web' => [
                 'required',
@@ -52,9 +85,25 @@ class StoreCompanyRequest extends FormRequest
     public function messages()
     {
         $messages = [
+            'company.user.address.id.integer'=>'El campo :attribute debe ser numérico',
+            'company.user.identificationType.id.integer'=>'El campo :attribute debe ser numérico',
+            'company.user.username.required'=>'El campo :attribute es obligatorio',
+            'company.user.username.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.username.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.identification.required'=>'El campo :attribute es obligatorio',
+            'company.user.identification.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.identification.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.email.required'=>'El campo :attribute es obligatorio',
+            'company.user.email.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.email.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.password.required'=>'El campo :attribute es obligatorio',
+            'company.user.password.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.password.max'=>'El campo :attribute debe tener al menos :max caracteres',
             'company.trade_name.required' => 'El campo :attribute es obligatorio',
             'company.trade_name.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'company.comercial_activity.required' => 'El campo :attribute es obligatorio',
+            'company.comercial_activities.required' => 'El campo :attribute es obligatorio',
+            'company.comercial_activities.*.min'=>'El campo:attribute debe tener al menos :min caracteres',
+            'company.comercial_activities.*.max'=>'El campo:attribute debe tener máximo :max caracteres',
             'company.web.required' => 'El campo :attribute es obligatorio',
             'company.web.min' => 'El campo : attribute debe tener al menos :min carecteres',
             'company.type.id.integer' => 'El campo :attribute debe ser numérico',
@@ -69,6 +118,12 @@ class StoreCompanyRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
+            'company.user.address.id'=>'direccion-ID',
+            'company.user.identificationType.id'=>'tipo de identificacion-ID',
+            'company.user.username'=>'nombre de usuario',
+            'company.user.identification'=>'identificacion',
+            'company.user.email'=>'email',
+            'company.user.password'=>'password',
             'company.trade_name' => 'nombre comercial',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',

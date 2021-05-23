@@ -21,23 +21,29 @@ class UpdateCompanyRequest extends FormRequest
                 'max:1000',
             ],
             'company.comercial_activities' => [
-               // 'json',
+               'required',
             ],
+            'company.comercial_activities.*' => [
+                'required',
+                'max:1000',
+                'min:10'
+            ],
+
             'company.web' => [
                 'required',
                 'min:10',
                 'max:1000',
             ],
 
-            'type.id' => [
+            'company.type.id' => [
                 'required',
                 'integer',
             ],
-            'activityType.id' => [
+            'company.activityType.id' => [
                 'required',
                 'integer',
             ],
-            'personType.id' => [
+            'company.personType.id' => [
                 'required',
                 'integer',
             ],
@@ -50,10 +56,11 @@ class UpdateCompanyRequest extends FormRequest
         $messages = [
             'company.trade_name.required' => 'El campo :attribute es obligatorio',
             'company.trade_name.min' => 'El campo :attribute debe tener al menos :min caracteres',
-
+            'company.comercial_activities.required' => 'El campo :attribute es obligatorio',
+            'company.comercial_activities.*.min'=>'El campo:attribute debe tener al menos :min caracteres',
+            'company.comercial_activities.*.max'=>'El campo:attribute debe tener máximo :max caracteres',
             'company.web.required' => 'El campo :attribute es obligatorio',
             'company.web.min' => 'El campo : attribute debe tener al menos :min carecteres',
-
             'type.id.integer' => 'El campo :attribute debe ser numérico',
             'activityType.id.integer' => 'El campo :attribute debe ser numérico',
             'personType.id.integer' => 'El campo :attribute debe ser numérico',

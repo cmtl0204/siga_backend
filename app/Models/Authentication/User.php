@@ -126,9 +126,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     {
         return $this->belongsTo(Catalogue::class);
     }
-    function company(){
-        return $this->hasOne(Company::class);
-    }
 
     function ethnicOrigin()
     {
