@@ -57,10 +57,10 @@ class PlanificationInstructorController extends Controller
                 'summary' => 'Planification instructor fue creada',
                 'detail' => 'El registro fue creado con exito',
                 'code' => '201'
-            ]], 201)
+            ]], 201);
     }
 
-    function update(UpdatePlanificationInstructorRequest $request, Registration $registration)
+    function update(UpdatePlanificationInstructorRequest $request, PlanificationInstructor $planificationInstructor)
     {
         $planificationInstructor->instructor_id = $request->input('planification_instructor.instructor_id');
         $planificationInstructor->planification_id = $request->input('planification_instructor.planification_id');
