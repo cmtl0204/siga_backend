@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Uic\Enrollment\DeleteEnrollmentRequest;
+use App\Http\Requests\Uic\Enrollment\IndexEnrollmentRequest;
+use App\Http\Requests\Uic\Enrollment\StoreEnrollmentRequest;
+use App\Http\Requests\Uic\Enrollment\UpdateEnrollmentRequest;
 use App\Models\Uic\Enrollment;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 // Models
 
 // FormRequest en el index store update
 
 class EnrollmentController extends Controller
 {
-    public function index():JsonResponse
-    {
-        $enrollments = Enrollment::all();
+    public function index(IndexEnrollmentRequest $request)
+        {
+        $enrollments = Enrollment::paginate($request->input('per_page'));
         if($enrollments->count()===0){
             return response()->json([
                 'data'=>null,
@@ -25,9 +27,7 @@ class EnrollmentController extends Controller
                 ]
             ],404);
         }
-        return response()->json([
-            'data'=>$enrollments,
-        ],200);
+        return response()->json($enrollments,200);
     }
 
     public function show($enrollmentId)
@@ -48,15 +48,15 @@ class EnrollmentController extends Controller
         ],200);
     }
 
-    public function store(Request $request)
+    public function store(StoreEnrollmentRequest $request)
     {
         $enrollment = new Enrollment;
-        $enrollment->modality_id=$request->input('modality_id');
-        $enrollment->school_period_id=$request->input('school_period_id');
-        $enrollment->date=$request->input('date');
-        $enrollment->code=$request->input('code');
-        $enrollment->status_id=$request->input('status_id');
-        $enrollment->observations=$request->input('observations');
+        $enrollment->modality_id=$request->input('enrollment.modality_id');
+        $enrollment->school_period_id=$request->input('enrollment.school_period_id');
+        $enrollment->date=$request->input('enrollment.date');
+        $enrollment->code=$request->input('enrollment.code');
+        $enrollment->status_id=$request->input('enrollment.status_id');
+        $enrollment->observations=$request->input('enrollment.observations');
         $enrollment->save();
         return response()->json([
             'data'=>$enrollment->fresh(),
@@ -68,7 +68,7 @@ class EnrollmentController extends Controller
         ],201);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateEnrollmentRequest $request, $id)
     {
         $enrollment = Enrollment::find($id);
         if(!$enrollment){
@@ -81,12 +81,12 @@ class EnrollmentController extends Controller
                 ]
             ],400);
         }
-        $enrollment->modality_id=$request->input('modality_id');
-        $enrollment->school_period_id=$request->input('school_period_id');
-        $enrollment->date=$request->input('date');
-        $enrollment->code=$request->input('code');
-        $enrollment->status_id=$request->input('status_id');
-        $enrollment->observations=$request->input('observations');
+        $enrollment->modality_id=$request->input('enrollment.modality_id');
+        $enrollment->school_period_id=$request->input('enrollment.school_period_id');
+        $enrollment->date=$request->input('enrollment.date');
+        $enrollment->code=$request->input('enrollment.code');
+        $enrollment->status_id=$request->input('enrollment.status_id');
+        $enrollment->observations=$request->input('enrollment.observations');
         $enrollment->save();
         return response()->json([
             'data'=>$enrollment->fresh(),
@@ -97,30 +97,17 @@ class EnrollmentController extends Controller
             ]
         ],201);
     }
-
-    public function destroy($enrollment)
+    function delete(DeleteEnrollmentRequest $request)
     {
-        $enrollment = Enrollment::find($enrollment);
+        // Es una eliminación lógica
+        Enrollment::destroy($request->input('ids'));
 
-        if(!$enrollment){
-            return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'La inscripción no existe',
-                    'detail'=>'Intente con otra inscripción',
-                    'code'=>'404'
-                ]
-            ],400);
-        }
-        $enrollment->delete();
         return response()->json([
-            'data'=>null,
-            'msg'=>[
-                'summary'=>'Inscripción eliminada',
-                'detail'=>'La inscripción fue eliminada',
-                'code'=>'201'
-            ]
-        ],201);
-
+            'data' => null,
+            'msg' => [
+                'summary' => 'Inscripción(es) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]], 201);
     }
 }

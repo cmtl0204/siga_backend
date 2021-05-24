@@ -32,6 +32,9 @@ Route::prefix('/')->group(function () {
             Route::get('show-modalities/{modalityId}',[ModalityController::class,'showModalities']);
             Route::put('delete',[ModalityController::class,'delete']);
         });
+        Route::prefix('enrollment')->group(function(){
+            Route::put('delete',[EnrollmentController::class,'delete']);
+        });
         // Route::prefix('auth')->group(function () {
         //     Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
         //     Route::post('password-forgot', [AuthController::class, 'passwordForgot']);

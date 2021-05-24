@@ -41,7 +41,7 @@ class Modality extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-    protected $cascadeDeletes = ['modalities'];
+    protected $cascadeDeletes = ['modalities','enrollments'];
 
     //campos extras funciona con accesor
     //protected $appends = ['name_description'];

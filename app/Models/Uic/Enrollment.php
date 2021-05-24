@@ -36,6 +36,7 @@ class Enrollment extends Model implements Auditable
         'code',
         'observations'
     ];
+    // protected $cascadeDeletes = ['projects'];
 
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
@@ -57,13 +58,16 @@ class Enrollment extends Model implements Auditable
     public function modality() {
         return $this->belongsTo(Modality::class);
     }
-    // no hay el modelo
+// no hay el modelo
     // public function shoolPeriod() {
     //     return $this->belongsTo(SchoolPeriod::class);
     // }
 //  no hay ese modelo
     // public function meshStudent(){
     //     return $this->belongsTo(MeshStudent::class);
+    // }
+    // public function projects(){
+    //     return $this->hasMany(Project::class);
     // }
     public function status() {
         return $this->belongsTo(Status::class);

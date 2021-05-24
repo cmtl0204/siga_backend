@@ -30,7 +30,7 @@ class ModalityController extends Controller
                     'detail' => 'Intentelo de nuevo',
                     'code' => '404'
                     ]
-                ], 400);
+                ], 404);
             }
             return response()->json($modalities, 200);
     }
