@@ -78,7 +78,7 @@ class  UserAdministrationController extends Controller
             return response()->json($users, 200);
     }
 
-    public function show($idUser, Request $request)
+    public function show($userId, Request $request)
     {
       $system = $request->input('system');
             $user = User::whereHas('roles', function($role) use ($system) {
@@ -94,7 +94,7 @@ class  UserAdministrationController extends Controller
                             }])->with('institution');
                         }]);
                 }])
-                ->where('id', $idUser)
+                ->where('id', $userId)
                 ->first();
         if(!$user){
             return response()->json([
@@ -179,37 +179,17 @@ class  UserAdministrationController extends Controller
         }
     }
 
-    public function destroy($userId, Request $request)
-    {
-        $system = $request->input('system');
-            $user = User::whereHas('roles', function($role) use ($system) {
-                $role->where('system_id', '=', $system);
-            })->where('id', $userId)
-            ->get();
-
-        if(sizeof($user)===0){
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Usuario no encontrado',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }else{
-
-            $user = User::find($userId);
-            $user->delete();
-
-            return response()->json([
-                'data' => $user,
-                'msg' => [
-                    'summary' => 'deleted',
-                    'detail' => '',
-                    'code' => '201'
-                ]
-            ], 201);
-        }
+    public function delete(Request $request)
+    {        
+         User::destroy($request->input('ids'));
+         
+                 return response()->json([
+                     'data' => null,
+                     'msg' => [
+                         'summary' => 'Usuario(s) eliminado(s)',
+                         'detail' => 'Se eliminó correctamente',
+                         'code' => '201'
+                     ]], 201);
     }
 
     public function export()
