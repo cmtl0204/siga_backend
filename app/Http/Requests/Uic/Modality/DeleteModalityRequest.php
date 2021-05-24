@@ -5,7 +5,7 @@ namespace App\Http\Requests\Uic\Modality;
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexModalityRequest extends FormRequest
+class DeleteModalityRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,13 +14,19 @@ class IndexModalityRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [];
+        $rules = [
+            'ids' => [
+                'required',
+            ],
+        ];
         return UicFormRequest::rules($rules);
     }
 
     public function attributes()
     {
-        $attributes = [];
+        $attributes = [
+            'ids' => 'IDs',
+        ];
         return UicFormRequest::attributes($attributes);
     }
 }

@@ -28,11 +28,12 @@ class Modality extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.modalities';
-    protected $with = ['career','status'];
+    protected $with = ['career','status','modality'];
 
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'names'
     ];
 
     protected $casts = [
@@ -86,11 +87,4 @@ class Modality extends Model implements Auditable
     public function setDescriptionAttribute($value) {
         $this->attributes['description'] = strtoupper($value);
     }
-
-    //scopes añadir una clausula sencilla a mi consulta para no ponerlo desde el controller
-    // public function scopeDescription ($query, $description) {
-    //     if($description) {
-    //         return $query->where('description','ILIKE','%$description%');
-    //     }
-    // }
 }

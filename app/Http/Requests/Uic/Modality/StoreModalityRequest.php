@@ -15,16 +15,27 @@ class StoreModalityRequest extends FormRequest
     public function rules()
     {
         $rules = [
-//             'skill.description' => [
-//                 'required',
-//                 'min:10',
-//                 'max:1000',
-//             ],
-//             'skill.type.id' => [
-//                 'required',
-//                 'integer',
-// //                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
-//             ]
+            'modality.parent_id'=>[
+                'integer',
+                'nullable'
+            ],
+            'modality.name'=>[
+                'required',
+                'max:50'
+            ],
+            'modality.description'=>[
+                'required',
+                'min:10',
+                'max:1000'
+            ],
+            'modality.career_id'=>[
+                'required',
+                'integer'
+            ],
+            'modality.status_id'=>[
+                'required',
+                'integer'
+            ]
         ];
         return UicFormRequest::rules($rules);
     }
@@ -32,8 +43,11 @@ class StoreModalityRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            // 'skill.description' => 'descripción',
-            // 'skill.type.id' => 'tipo-id',
+            'modality.parent_id'=>'modalidad padre id',
+            'modality.career_id'=>'carrera id',
+            'modality.name'=>'nombre',
+            'modality.description'=>'descripción',
+            'modality.status_id'=>'estado id'
         ];
         return UicFormRequest::attributes($attributes);
     }
