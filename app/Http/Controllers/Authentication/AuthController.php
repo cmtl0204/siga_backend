@@ -578,7 +578,7 @@ class  AuthController extends Controller
             ->where('system_id', $request->input('system'))
             ->get();
 
-        if (sizeof($roles) === 0) {
+        if ($roles->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -605,7 +605,7 @@ class  AuthController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron los permisos',
+                    'summary' => 'El rol seleccionado no existe o le fue retirado',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
@@ -618,6 +618,17 @@ class  AuthController extends Controller
             ->with('institution')
             ->where('institution_id', $request->institution)
             ->get();
+
+        if($permissions->count()===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No tiene permisos para el rol seleccionado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
         return response()->json([
             'data' => $permissions,
             'msg' => [
