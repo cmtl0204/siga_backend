@@ -15,6 +15,7 @@ class CreateJobboardAcademicFormationsTable extends Migration
             $table->date('registration_date')->nullable();
             $table->string('senescyt_code')->nullable();
             $table->boolean('has_titling')->default(true);
+            $table->boolean('is_principal')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
