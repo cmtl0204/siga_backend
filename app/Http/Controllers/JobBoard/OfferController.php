@@ -56,11 +56,10 @@ class OfferController extends Controller
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
         $lastOffer = Offer::get()->last();
-        $number = $lastOffer->id + 1;
+        $number = $lastOffer?$lastOffer->id + 1:1;
 
         $offer = new Offer();
         $offer->code = $company->prefix.$number;
-        $offer->description = $request->input('offer.description');
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
         $offer->contact_phone = $request->input('offer.contact_phone');

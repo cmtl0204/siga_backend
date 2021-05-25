@@ -78,12 +78,6 @@ class Offer extends Model implements Auditable
         return static::$instance;
     }
 
-    //    relaciones
-    public function professionals()
-    {
-        return $this->belongsToMany(Professional::class);
-    }
-
     // Relationships
     public function categories()
     {
@@ -160,5 +154,11 @@ class Offer extends Model implements Auditable
         if ($description) {
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
+    }
+
+    // Mutators
+    public function setCodeAttribute($value)
+    {
+        $this->attributes['code'] = strtoupper($value);
     }
 }

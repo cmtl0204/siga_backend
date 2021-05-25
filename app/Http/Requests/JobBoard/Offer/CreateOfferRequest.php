@@ -15,12 +15,7 @@ class CreateOfferRequest extends FormRequest
     public function rules()
     {
         // NOTA: offer.activities y offer.requirements son tipo json, que relgas deben estar?
-        // NOTA: fechas que tipo de dato debe estar?
-        // NOTA: pongo code como campo unico?
         $rules = [
-            'offer.code' => [
-                'required',
-            ],
             'offer.contact_name' => [
                 'required',
                 'min:4',
@@ -42,19 +37,11 @@ class CreateOfferRequest extends FormRequest
                 'required',
                 'date',
             ],
-            'offer.end_date' => [
-                'required',
-                'date',
-            ],
             'offer.activities' => [
                 'required',
             ],
             'offer.requirements' => [
                 'required',
-            ],
-            'company.id' => [
-                'required',
-                'integer',
             ],
             'location.id' => [
                 'required',
@@ -95,7 +82,6 @@ class CreateOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'offer.code' => 'codigo',
             'offer.description' => 'descripción',
             'offer.contact_name' => 'nombre-contacto',
             'offer.contact_email' => 'email-contacto',
@@ -104,7 +90,6 @@ class CreateOfferRequest extends FormRequest
             'offer.start_date' => 'fecha-inicio',
             'offer.activities' => 'actividades',
             'offer.requirements' => 'requerimientos',
-            'company.id' => 'compania-id',
             'location.id' => 'locacion-id',
             'contractType.id' => 'tipo-contrato-id',
             'position.id' => 'posicion-id',
