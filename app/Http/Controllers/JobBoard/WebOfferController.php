@@ -4,6 +4,7 @@ namespace App\Http\Controllers\JobBoard;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Status;
+use App\Models\Authentication\User;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
@@ -50,7 +51,7 @@ class WebOfferController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    function getOffers(Request $request): JsonResponse
+    function getPrivateOffers(Request $request): JsonResponse
     {
         $offers = Offer::whereHas('status')->with(['status' => function ($status) {
             $status->where('code', '1');
@@ -108,13 +109,17 @@ class WebOfferController extends Controller
      */
     function index(Request $request): JsonResponse
     {
+        $professional = $request->user()->professional()->first();
+
         // Por código.
         if ( !is_null($request->input('searchCode')) ) {
             $code = $request->input('searchCode');
 
             $offers = Offer::whereHas('status', function ($status){
                 $status->where('code', 1);
-            })->where('code', 'ILIKE', "%$code%")->doesntHave('professionals')->paginate($request->input('per_page'));
+            })->where('code', 'ILIKE', "%$code%")->whereDoesntHave('professionals', function ($professionals) use ($professional) {
+                $professionals->where('professionals.id', $professional->id);
+            })->paginate($request->input('per_page'));
 
             return response()->json([
                 'data' => $offers,
@@ -181,9 +186,13 @@ class WebOfferController extends Controller
         }
 
         // Sin filtros
+//        $professional = $request->user()->professional()->first();
+
         $offers = Offer::whereHas('status', function ($status){
             $status->where('code', 1);
-        })->doesntHave('professionals')->paginate($request->input('per_page'));
+        })->whereDoesntHave('professionals', function ($professionals) use ($professional) {
+            $professionals->where('professionals.id', $professional->id);
+        })->paginate($request->input('per_page'));
 
 
         return response()->json([

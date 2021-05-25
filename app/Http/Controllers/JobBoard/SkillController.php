@@ -68,6 +68,7 @@ class SkillController extends Controller
     function store(StoreSkillRequest $request)
     {
         $professional = $request->user()->professional()->first();
+
         if (!$professional) {
             return response()->json([
                 'data' => null,
