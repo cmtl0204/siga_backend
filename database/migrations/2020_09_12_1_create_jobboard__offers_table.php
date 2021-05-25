@@ -21,7 +21,6 @@ class CreateJobboardOffersTable extends Migration
             $table->foreignId('training_hours_id')->constrained('app.catalogues');
             $table->foreignId('status_id')->constrained('app.status');
             $table->string('code');
-            $table->text('description')->nullable();
             $table->string('contact_name');
             $table->string('contact_email');
             $table->string('contact_phone')->nullable();

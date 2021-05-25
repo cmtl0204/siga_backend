@@ -43,8 +43,6 @@ class  AuthController extends Controller
         $user = User::firstWhere('email', $userSocialite->getEmail());
 
         if ($user) {
-            $user->is_changed_password = true;
-            $user->save();
             if ($userSocialite->user['verified_email']) {
                 $user->markEmailAsVerified();
             }
@@ -54,9 +52,9 @@ class  AuthController extends Controller
             return redirect()->to($url);
         }
 
-        $url = "http://siga.test:4200/#/auth/register-socialite-user?email={$userSocialite->getEmail()}" .
-            "&given_name={$userSocialite->user['given_name']}" .
-            "&family_name={$userSocialite->user['family_name']}";
+        $url = "http://siga.test:4200/#/auth/unregistered-user?email={$userSocialite->getEmail()}";
+//            ."&given_name={$userSocialite->user['given_name']}" .
+//            "&family_name={$userSocialite->user['family_name']}";
 
         return redirect()->to($url);
     }
@@ -584,7 +582,7 @@ class  AuthController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron los roles',
+                    'summary' => 'No tiene roles asignados en esta Institución',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
