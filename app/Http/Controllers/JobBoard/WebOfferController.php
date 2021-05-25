@@ -68,7 +68,7 @@ class WebOfferController extends Controller
     }
 
     /**
-     * Aplica a las ofertas
+     * Aplíca a las ofertas
      *
      * @param Request $request
      * @return JsonResponse
@@ -107,10 +107,13 @@ class WebOfferController extends Controller
      */
     function index(Request $request): JsonResponse
     {
-        // filtrado por código.
+        // Por código.
         if ( !is_null($request->input('searchCode')) ) {
             $code = $request->input('searchCode');
-            $offers = Offer::where('code', 'ILIKE', "%$code%")->where('status_id', 1)->paginate($request->input('per_page'));;
+
+            $offers = Offer::whereHas('status', function ($status){
+                $status->where('code', 1);
+            })->where('code', 'ILIKE', "%$code%")->doesntHave('professionals')->paginate($request->input('per_page'));
 
             return response()->json([
                 'data' => $offers,
@@ -121,7 +124,7 @@ class WebOfferController extends Controller
                 ]], 200);
         }
 
-        // filtrado por ubicación.
+        // Por ubicación.
         if ( !is_null($request->input('searchLocation')) ){
             $searchLocation = $request->input('searchLocation');
 
@@ -138,13 +141,15 @@ class WebOfferController extends Controller
                 ]], 200);
         }
 
-        // filtrado por campo especifica (categoría hija)
-        if ( !is_null($request->input('searchSpecificField')) ) {
+        // Por campo amplio(categoría padre),
+        if ( !is_null($request->input('searchParentCategory')) ) {
             $specificField = $request->input('searchSpecificField');
 
             $offers = Offer::whereHas('categories', function ($categories) use ($specificField) {
                 $categories->whereIn('categories.parent_id', $specificField);
-            })->where('status_id', 1)->paginate($request->input('per_page'));
+            })->whereHas('status', function ($status){
+                $status->where('code', 1);
+            })->paginate($request->input('per_page'));
 
             return response()->json([
                 'data' => $offers,
@@ -155,13 +160,15 @@ class WebOfferController extends Controller
                 ]], 200);
         }
 
-        // filtrado por campo amplio (categoría padre)
-        if ( !is_null($request->input('searchWideField')) ){
+        // Por campo amplio y especifico(categoría hija y padre)
+        if ( !is_null($request->input('searchIDs')) ){
             $wideFields = $request->input('searchWideField');
 
             $offers = Offer::whereHas('categories', function ($categories) use ($wideFields) {
                 $categories->whereIn('categories.id', $wideFields);
-            })->where('status_id', 1)->paginate($request->input('per_page'));
+            })->whereHas('status', function ($status){
+                $status->where('code', 1);
+            })->paginate($request->input('per_page'));
 
             return response()->json([
                 'data' => $offers,
@@ -172,8 +179,11 @@ class WebOfferController extends Controller
                 ]], 200);
         }
 
+        // Sin filtros
+        $offers = Offer::whereHas('status', function ($status){
+            $status->where('code', 1);
+        })->doesntHave('professionals')->paginate($request->input('per_page'));
 
-        $offers = Offer::where('status_id', 1)->paginate($request->input('per_page'));
 
         return response()->json([
             'data' => $offers,
@@ -197,5 +207,4 @@ class WebOfferController extends Controller
             ]
         ], 200);
     }
-
 }
