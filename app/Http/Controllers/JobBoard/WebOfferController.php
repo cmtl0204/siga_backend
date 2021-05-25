@@ -7,6 +7,7 @@ use App\Models\App\Status;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -143,7 +144,7 @@ class WebOfferController extends Controller
 
         // Por campo amplio(categoría padre),
         if ( !is_null($request->input('searchParentCategory')) ) {
-            $specificField = $request->input('searchSpecificField');
+            $specificField = $request->input('searchParentCategory');
 
             $offers = Offer::whereHas('categories', function ($categories) use ($specificField) {
                 $categories->whereIn('categories.parent_id', $specificField);
@@ -162,7 +163,7 @@ class WebOfferController extends Controller
 
         // Por campo amplio y especifico(categoría hija y padre)
         if ( !is_null($request->input('searchIDs')) ){
-            $wideFields = $request->input('searchWideField');
+            $wideFields = $request->input('searchIDs');
 
             $offers = Offer::whereHas('categories', function ($categories) use ($wideFields) {
                 $categories->whereIn('categories.id', $wideFields);
