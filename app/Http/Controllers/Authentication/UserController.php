@@ -26,18 +26,7 @@ class  UserController extends Controller
             ->with('sex')
             ->with('gender')
             ->with('bloodType')
-            ->with(['institutions' => function ($institutions) {
-                $institutions->orderBy('name');
-            }])
-            ->with(['roles' => function ($roles) use ($request) {
-                $roles
-                    ->with('system')
-                    ->with(['permissions' => function ($permissions) {
-                        $permissions->with(['route' => function ($route) {
-                            $route->with('module')->with('type')->with('status');
-                        }])->with('institution');
-                    }]);
-            }])
+            ->with('roles')
             ->where('username', $username)
             ->first();
 

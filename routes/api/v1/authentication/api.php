@@ -11,9 +11,11 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Authentication\UserAdministrationInstitutionController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 //$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
+
 $middlewares = ['auth:api'];
 
 // With Middleware
@@ -22,6 +24,7 @@ Route::middleware($middlewares)
     ->group(function () {
         // ApiResources
         Route::apiResource('user-admins', UserAdministrationController::class);
+        Route::apiResource('user-admins-institution', UserAdministrationInstitutionController::class);
         Route::apiResource('users', UserController::class);
         Route::apiResource('permissions', PermissionController::class);
         Route::apiResource('routes', RouteController::class);
@@ -55,6 +58,11 @@ Route::middleware($middlewares)
             Route::post('filters', [UserController::class, 'index']);
             Route::post('avatars', [UserController::class, 'uploadAvatar']);
             Route::get('export', [UserController::class, 'export']);
+        });
+
+        //User Administration
+        Route::prefix('user-admin')->group(function () {
+            Route::put('delete', [UserAdministrationController::class, 'delete']);
         });
 
         // Role
