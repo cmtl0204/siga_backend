@@ -15,11 +15,8 @@ use App\Http\Controllers\Authentication\UserAdministrationInstitutionController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 //$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
-<<<<<<< HEAD
-$middlewares = ['auth:api'];
-=======
+
 $middlewares = ['auth:api', 'check-institution'];
->>>>>>> mod_3_authentication
 
 // With Middleware
 Route::middleware($middlewares)
