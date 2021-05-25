@@ -82,8 +82,8 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'data' => $e->getMessage(),
                 'msg' => [
-                    'summary' => 'No Autenticado',
-                    'detail' => '',
+                    'summary' => 'Usuario no autenticado',
+                    'detail' => 'Por favor inicie sesión',
                     'code' => $e->getCode()
                 ]], 401);
         }

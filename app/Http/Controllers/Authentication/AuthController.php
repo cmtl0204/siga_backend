@@ -43,8 +43,6 @@ class  AuthController extends Controller
         $user = User::firstWhere('email', $userSocialite->getEmail());
 
         if ($user) {
-            $user->is_changed_password = true;
-            $user->save();
             if ($userSocialite->user['verified_email']) {
                 $user->markEmailAsVerified();
             }
@@ -54,9 +52,9 @@ class  AuthController extends Controller
             return redirect()->to($url);
         }
 
-        $url = "http://siga.test:4200/#/auth/register-socialite-user?email={$userSocialite->getEmail()}" .
-            "&given_name={$userSocialite->user['given_name']}" .
-            "&family_name={$userSocialite->user['family_name']}";
+        $url = "http://siga.test:4200/#/auth/unregistered-user?email={$userSocialite->getEmail()}";
+//            ."&given_name={$userSocialite->user['given_name']}" .
+//            "&family_name={$userSocialite->user['family_name']}";
 
         return redirect()->to($url);
     }
@@ -575,16 +573,15 @@ class  AuthController extends Controller
     {
         $user = $request->user();
 
-        $roles = $user->roles()->with('system')
-            ->where('institution_id', $request->input('institution'))
+        $roles = $user->roles()
             ->where('system_id', $request->input('system'))
             ->get();
 
-        if (sizeof($roles) === 0) {
+        if ($roles->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron los roles',
+                    'summary' => 'No tiene roles asignados en esta Institución',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
@@ -607,7 +604,7 @@ class  AuthController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron los permisos',
+                    'summary' => 'El rol seleccionado no existe o le fue retirado',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
@@ -617,9 +614,19 @@ class  AuthController extends Controller
             ->with(['route' => function ($route) {
                 $route->with('module')->with('type')->with('status');
             }])
-            ->with('institution')
-            ->where('institution_id', $request->institution)
+            ->where('system_id', $request->system)
             ->get();
+
+        if($permissions->count()===0){
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No tiene permisos para el rol seleccionado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
         return response()->json([
             'data' => $permissions,
             'msg' => [
