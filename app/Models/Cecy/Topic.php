@@ -25,7 +25,7 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.skills';
+    protected $table = 'cecy.topics';
 
     protected static $instance;
 
