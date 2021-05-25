@@ -4,6 +4,7 @@ namespace App\Http\Controllers\JobBoard;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Status;
+use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
 use Illuminate\Http\JsonResponse;
@@ -172,8 +173,7 @@ class WebOfferController extends Controller
         }
 
 
-        $offers = Offer::where('status_id', 1)
-            ->paginate($request->input('per_page'));
+        $offers = Offer::where('status_id', 1)->paginate($request->input('per_page'));
 
         return response()->json([
             'data' => $offers,
@@ -182,6 +182,20 @@ class WebOfferController extends Controller
                 'detail' => 'Sin filtros',
                 'code' => '200'
             ]], 200);
+    }
+
+    function getCategories()
+    {
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+
+        return response()->json([
+            'data' => $categories,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 
 }

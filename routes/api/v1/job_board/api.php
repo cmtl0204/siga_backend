@@ -21,13 +21,6 @@ $middlewares = ['auth:api'];
 // With Middleware
 Route::middleware($middlewares)
     ->group(function () {
-        Route::group(['prefix' => 'opportunities'], function () {
-            Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
-            Route::get('private-offers', [WebOfferController::class, 'getOffers']);
-            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-            Route::post('index', [WebOfferController::class, 'index']);
-        });
-
         // index show store update destroy (crud)
         Route::apiResources([
             'catalogues' => SkillController::class,
@@ -122,6 +115,14 @@ Route::middleware($middlewares)
                 return 'test';
             });
         });
+
+        Route::prefix('web-offer')->group(function () {
+            Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+            Route::get('private-offers', [WebOfferController::class, 'getOffers']);
+            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
+            Route::get('get-categories', [WebOfferController::class, 'getCategories']);
+            Route::post('index', [WebOfferController::class, 'index']);
+        });
     });
 
 // Without Middleware
@@ -142,12 +143,6 @@ Route::prefix('/')
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
 
-        Route::prefix('web-offer')->group(function () {
-            Route::get('total', [WebOfferController::class, 'total']);
-            Route::get('offers', [WebOfferController::class, 'getOffers']);
-            Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
-            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-        });
     });
 
 
