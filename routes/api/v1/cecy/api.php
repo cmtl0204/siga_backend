@@ -9,6 +9,8 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Cecy\CourseController;
+
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -68,4 +70,22 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+        
+
+        Route::apiResource('allCourses',CourseController::class);
+
+        // Route::prefix('course')->group(function () {
+
+        //     Route::post('allCourses', [CourseController::class, 'index']);
+
+    
+    
+    
+        //     // //Route::get('{username}', [UserController::class, 'show']);
+        // //     Route::post('courses', [CourseController::class, 'index']);
+        // //     Route::post('avatars', [UserController::class, 'uploadAvatar']);
+        // //     Route::get('export', [UserController::class, 'export']);
+        // });
+    
+
     });
