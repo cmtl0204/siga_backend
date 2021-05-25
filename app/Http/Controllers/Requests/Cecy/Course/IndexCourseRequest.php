@@ -15,20 +15,16 @@ class IndexCourseRequest extends FormRequest
 
     public function rules()
     {
-        
-           $rules = [
-            'course.name'=>[
-                'required',
-                'min:10',
-                'max:1000'
-            ],
-               
-        ]; 
-        
+        $rules = [
+          
+        ];
+
         return IndexCourseRequest::rules($rules);
     }
 
-    public function attributes(){}
+    public function attributes(){
+        
+    }
 
    
 }

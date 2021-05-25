@@ -57,6 +57,9 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+    
+
+
     });
 
 // Without Middleware
@@ -71,21 +74,13 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
         
+        Route::prefix('courses')->group(function () {
+            Route::get('allCourses', [CourseController::class, 'index']);
+       
+        });
+        
 
-        Route::apiResource('allCourses',CourseController::class);
+   
 
-        // Route::prefix('course')->group(function () {
-
-        //     Route::post('allCourses', [CourseController::class, 'index']);
-
-    
-    
-    
-        //     // //Route::get('{username}', [UserController::class, 'show']);
-        // //     Route::post('courses', [CourseController::class, 'index']);
-        // //     Route::post('avatars', [UserController::class, 'uploadAvatar']);
-        // //     Route::get('export', [UserController::class, 'export']);
-        // });
-    
 
     });
