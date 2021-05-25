@@ -573,8 +573,7 @@ class  AuthController extends Controller
     {
         $user = $request->user();
 
-        $roles = $user->roles()->with('system')
-            ->where('institution_id', $request->input('institution'))
+        $roles = $user->roles()
             ->where('system_id', $request->input('system'))
             ->get();
 
@@ -615,8 +614,7 @@ class  AuthController extends Controller
             ->with(['route' => function ($route) {
                 $route->with('module')->with('type')->with('status');
             }])
-            ->with('institution')
-            ->where('institution_id', $request->institution)
+            ->where('system_id', $request->system)
             ->get();
 
         if($permissions->count()===0){
