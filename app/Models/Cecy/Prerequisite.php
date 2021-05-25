@@ -9,7 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Course;
 
-class Skill extends Model implements Auditable
+class Prerequisite extends Model implements Auditable
 
 {
     use HasFactory;
@@ -19,7 +19,7 @@ class Skill extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-cecy';
-    protected $table = 'cecy.skills';
+    protected $table = 'cecy.prerequisites';
 
     
 

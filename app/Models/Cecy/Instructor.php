@@ -15,7 +15,7 @@ use App\Models\App\Catalogue;
  * @property string description
  */
 
-class Skill extends Model implements Auditable
+class Instructor extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -24,7 +24,7 @@ class Skill extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-cecy';
-    protected $table = 'cecy.skills';
+    protected $table = 'cecy.instructors';
 
 
     protected $casts = [
