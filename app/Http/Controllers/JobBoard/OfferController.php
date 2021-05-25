@@ -25,7 +25,6 @@ class OfferController extends Controller
             $offer = $company->offers()
                 ->aditionalInformation($request->input('search'))
                 ->code($request->input('search'))
-                ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
             $offer = $company->offers()->paginate($request->input('per_page'));
@@ -130,7 +129,6 @@ class OfferController extends Controller
         $status = Status::getInstance($request->input('status.id'));
 
         $offer->code = $request->input('offer.code');
-        $offer->description = $request->input('offer.description');
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
         $offer->contact_phone = $request->input('offer.contact_phone');

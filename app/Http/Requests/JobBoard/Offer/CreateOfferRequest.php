@@ -82,7 +82,6 @@ class CreateOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'offer.description' => 'descripción',
             'offer.contact_name' => 'nombre-contacto',
             'offer.contact_email' => 'email-contacto',
             'offer.contact_phone' => 'telefono-contacto',

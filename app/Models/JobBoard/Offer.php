@@ -15,7 +15,6 @@ use App\Models\JobBoard\Professional;
 /**
  * @property BigInteger id
  * @property string code
- * @property string description
  * @property string contact_name
  * @property string contact_email
  * @property string contact_phone
@@ -40,7 +39,6 @@ class Offer extends Model implements Auditable
     protected $table = 'job_board.offers';
     protected $fillable = [
         'code',
-        'description',
         'contact_name',
         'contact_email',
         'contact_phone',
@@ -146,13 +144,6 @@ class Offer extends Model implements Auditable
     {
         if ($code) {
             return $query->orWhere('code', 'ILIKE', "%$code%");
-        }
-    }
-
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
 
