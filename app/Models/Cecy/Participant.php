@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use App\Models\App\File;
-use App\Models\App\Image;
+use App\Models\Authentication\User;
 use App\Models\App\Catalogue;
 
 
@@ -58,7 +56,7 @@ class Skill extends Model implements Auditable
 
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     // Accessors

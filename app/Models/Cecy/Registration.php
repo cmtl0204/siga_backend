@@ -8,8 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
-use App\Models\App\File;
-use App\Models\App\Image;
+use App\Models\Cecy\Participant;
 use App\Models\App\Catalogue;
 
 
@@ -29,7 +28,7 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.skills';
+    protected $table = 'cecy.registrations';
 
     protected $fillable = [
         'date',
@@ -65,7 +64,7 @@ class Skill extends Model implements Auditable
 
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     // Accessors
