@@ -74,8 +74,12 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
         
+        //Courses
         Route::prefix('courses')->group(function () {
-            Route::get('allCourses', [CourseController::class, 'index']);
+            Route::get('all-courses', [CourseController::class, 'index']);
+            Route::post('store-course', [CourseController::class, 'storeCourse']);
+
+
        
         });
         

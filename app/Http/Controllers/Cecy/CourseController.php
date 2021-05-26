@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cecy\Course\IndexCourseRequest;
 use Illuminate\Http\Request;
 
 //Models 
 use App\Models\Cecy\Course;
 
 //FormRequest
-use App\Http\Requests\Cecy\Course\IndexCourseRequest;
 
 
 
@@ -40,6 +40,12 @@ class CourseController extends Controller
         }
 
         return response()->json($courses, 200);
+    }
+
+
+    public function storeCourse(IndexCourseRequest $request)
+    {
+       return 'esto es store';
     }
 
 
