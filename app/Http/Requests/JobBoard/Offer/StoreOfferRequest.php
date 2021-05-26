@@ -5,7 +5,7 @@ namespace App\Http\Requests\JobBoard\Offer;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateOfferRequest extends FormRequest
+class StoreOfferRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,7 +14,6 @@ class CreateOfferRequest extends FormRequest
 
     public function rules()
     {
-        // NOTA: offer.activities y offer.requirements son tipo json, que relgas deben estar?
         $rules = [
             'offer.contact_name' => [
                 'required',
@@ -37,11 +36,16 @@ class CreateOfferRequest extends FormRequest
                 'required',
                 'date',
             ],
+            // queda como array porque los json no son asi
+            // ARRAY https://laravel.com/docs/8.x/validation#rule-array
+            // JSON https://laravel.com/docs/8.x/validation#rule-json
             'offer.activities' => [
                 'required',
+                'array',
             ],
             'offer.requirements' => [
                 'required',
+                'array',
             ],
             'location.id' => [
                 'required',

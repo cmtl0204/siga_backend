@@ -35,9 +35,11 @@ class UpdateOfferRequest extends FormRequest
             ],
             'offer.activities' => [
                 'required',
+                'array',
             ],
             'offer.requirements' => [
                 'required',
+                'array',
             ],
             'location.id' => [
                 'required',

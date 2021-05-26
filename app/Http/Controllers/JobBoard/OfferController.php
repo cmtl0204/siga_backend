@@ -10,7 +10,7 @@ use App\Models\App\Status;
 use App\Models\App\Catalogue;
 use App\Models\App\Location;
 use App\Http\Requests\JobBoard\Offer\IndexOfferRequest;
-use App\Http\Requests\JobBoard\Offer\CreateOfferRequest;
+use App\Http\Requests\JobBoard\Offer\StoreOfferRequest;
 use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest; 
 use App\Http\Requests\JobBoard\Offer\UpdateStatusOfferRequest;
 use Illuminate\Database\Eloquent\Model;
@@ -43,7 +43,7 @@ class OfferController extends Controller
         return response()->json($offer, 200);
     }
 
-    function store(CreateOfferRequest $request)
+    function store(StoreOfferRequest $request)
     {
         $company = $request->user()->company->first();
         $location = Location::getInstance($request->input('location.id'));
