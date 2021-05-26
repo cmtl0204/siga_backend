@@ -11,8 +11,12 @@ use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
 
 Route::apiResource('catalogues', CatalogueController::class);
-Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
-Route::get('countries', [LocationController::class, 'getCountries'])->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
+Route::apiResource('locations', LocationController::class);
+Route::get('countries', [LocationController::class, 'getCountries']);
+
+Route::group(['prefix' => 'location'], function () {
+    Route::get('get', [LocationController::class, 'getLocations']);
+});
 
 Route::group(['prefix' => 'image'], function () {
     Route::get('download', [ImageController::class, 'download']);

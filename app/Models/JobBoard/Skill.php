@@ -27,18 +27,15 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.skills';
-    protected $with = ['professional','type'];
-
+    protected $with = ['professional', 'type'];
     protected $fillable = [
         'description',
     ];
-
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-
     protected $cascadeDeletes = ['files'];
 
     public static function getInstance($id)

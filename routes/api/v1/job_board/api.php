@@ -41,7 +41,6 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
-
         ]);
 
         Route::prefix('skill')->group(function () {

@@ -14,18 +14,13 @@ class AuthGetRolesRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'institution' => [
-                'required',
-                'integer'
-            ]
-        ];
+        return [];
     }
 
     public function attributes()
     {
         $attributes = [
-            'institution' => 'institution',
+
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }
