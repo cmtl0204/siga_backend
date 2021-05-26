@@ -56,30 +56,6 @@ class LanguageController extends Controller
 
     function show(Language $language)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($languageId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-        $language = Language::find($languageId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$language) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
         return response()->json([
             'data' => $language,
             'msg' => [
@@ -156,41 +132,14 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function destroy($languageId)
+    function destroy(Language $language)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($languageId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-
-        $language = Language::find($languageId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$language) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Lenguaje no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-
-        // Es una eliminación lógica
         $language->delete();
 
         return response()->json([
             'data' => $language,
             'msg' => [
-                'summary' => 'Lenguaje eliminada',
+                'summary' => 'Oferta eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]
