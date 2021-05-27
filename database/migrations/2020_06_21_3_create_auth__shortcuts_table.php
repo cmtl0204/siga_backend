@@ -10,14 +10,25 @@ class CreateAuthShortcutsTable extends Migration
     {
         Schema::connection('pgsql-authentication')->create('shortcuts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('role_id');
-            $table->foreignId('permission_id');
+
+            $table->foreignId('user_id')
+                ->constrained('authentication.users');
+
+            $table->foreignId('role_id')
+                ->constrained('authentication.roles')
+                ->comment('Solo aparecen en el rol correspondiente');
+
+            $table->foreignId('permission_id')
+                ->constrained('authentication.permissions')
+                ->comment('Para poder dar integridad y acceder a la ruta');
+
             $table->string('name');
-            $table->text('description')->nullable();
+
+            $table->text('description')
+                ->nullable();
+
             $table->string('image');
-//            $table->softDeletes();
-            $table->unique(['user_id', 'role_id', 'permission_id']);
+
             $table->timestamps();
         });
     }
