@@ -108,8 +108,23 @@ class WebProfessionalController extends Controller
         ], 200);
     }
 
-    function applyProfessional()
+    function applyProfessional(Request $request)
     {
-        return 'Hello World!';
+        $professional = Professional::find($request->input('professional_id'));
+        $company = Company::find($request->input('company_id'));
+
+        //$company->professionals()->attach($professional->id);
+
+        return response()->json([
+            'data' => [
+                'professional' => $professional,
+                'company' => $company
+            ],
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 }
