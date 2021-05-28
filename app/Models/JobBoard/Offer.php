@@ -51,6 +51,8 @@ class Offer extends Model implements Auditable
     ];
 
     protected $with = [
+        'position',
+        'location',
         'categories',
         'location',
         'contractType'

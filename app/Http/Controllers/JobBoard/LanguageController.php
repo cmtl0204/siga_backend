@@ -12,9 +12,10 @@ use App\Models\JobBoard\Language;
 
 // FormRequest
 
-use App\Http\Requests\JobBoard\Laguage\IndexLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\UpdateLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\IndexLanguageRequest;
+use App\Http\Requests\JobBoard\Language\UpdateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\StoreLanguageRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageController extends Controller
@@ -22,7 +23,17 @@ class LanguageController extends Controller
     function index(IndexLanguageRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo language.
-        $professional = Professional::getInstance($request->input('professional_id'));
+      //  $professional = Professional::getInstance($request->input('professional_id'));
+      $professional = $request->user()->professional()->first();
+      if (!$professional) {
+          return response()->json([
+              'data' => null,
+              'msg' => [
+                  'summary' => 'No se encontraró al profesional',
+                  'detail' => 'Intente de nuevo',
+                  'code' => '404'
+              ]], 404);
+      }
 
         if ($request->has('search')) {
             $languages = $professional->languages()->get();
@@ -30,45 +41,21 @@ class LanguageController extends Controller
             $languages = $professional->languages()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($languages) === 0) {
+        if ($languages->count() === 0) {
             return response()->json([
-                'data' => $languages,
+                'data' => null,
                 'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '200'
+                    'summary' => 'No se encontraron Cursos',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
                 ]
             ], 404);
         }
         return response()->json($languages, 200);
     }
 
-    function show($languageId)
+    function show(Language $language)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($languageId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-        $language = Language::find($languageId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$language) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
         return response()->json([
             'data' => $language,
             'msg' => [
@@ -79,8 +66,19 @@ class LanguageController extends Controller
         ], 200);
     }
 
-    function store(CreateLanguageRequest $request)
+    function store(StoreLanguageRequest $request)
     {
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $professional = Professional::getInstance($request->input('professional.id'));
         $idiom = Catalogue::getInstance($request->input('idiom.id'));
@@ -106,9 +104,13 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function update(UpdateLanguageRequest $request, $languageId)
+    function update(UpdateLanguageRequest $request,Language $language)
     {
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo language.
+        $idiom = Catalogue::getInstance($request->input('idiom.id'));
+        $writtenLevel = Catalogue::getInstance($request->input('writtenLevel.id'));
+        $spokenLevel = Catalogue::getInstance($request->input('spokenLevel.id'));
+        $readLevel = Catalogue::getInstance($request->input('readLevel.id'));
+
         $language = Language::find($languageId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
@@ -116,19 +118,13 @@ class LanguageController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'Habilidad no encontrada',
+                    'summary' => 'Lenguaje no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
                 ]
             ], 404);
         }
 
-        $idiom = Catalogue::getInstance($request->input('idiom.id'));
-        $writtenLevel = Catalogue::getInstance($request->input('writtenLevel.id'));
-        $spokenLevel = Catalogue::getInstance($request->input('spokenLevel.id'));
-        $readLevel = Catalogue::getInstance($request->input('readLevel.id'));
-
-        $language = new Language();
         $language->idiom()->associate($idiom);
         $language->writtenLevel()->associate($writtenLevel);
         $language->spokenLevel()->associate($spokenLevel);
@@ -145,41 +141,14 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function destroy($languageId)
+    function destroy(Language $language)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($languageId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-
-        $language = Language::find($languageId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$language) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Lenguaje no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-
-        // Es una eliminación lógica
         $language->delete();
 
         return response()->json([
             'data' => $language,
             'msg' => [
-                'summary' => 'Lenguaje eliminada',
+                'summary' => 'Lenguaje eliminado',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]

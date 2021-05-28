@@ -39,6 +39,14 @@ class Address extends Model implements Auditable
         return static::$instance;
     }
 
+    function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+    function sector()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
     // Mutators
     public function setMainStreetAttribute($value)
     {
