@@ -127,7 +127,7 @@ class CompanyController extends Controller
         $address->sector()->associate($sector);
         $address->save();
 
-        $identificationType = Catalogue::getInstance($request->input('company.user.identificationType.id'));
+        $identificationType = Catalogue::getInstance($request->input('company.user.identification_type.id'));
         $status = Status::firstWhere('code',$catalogues['status']['inactive']);
 
         $user = new User();
@@ -142,8 +142,8 @@ class CompanyController extends Controller
         $user->save();
 
         $type = Catalogue::getInstance($request->input('company.type.id'));
-        $activityType = Catalogue::getInstance($request->input('company.activityType.id'));
-        $personType = Catalogue::getInstance($request->input('company.personType.id'));
+        $activityType = Catalogue::getInstance($request->input('company.activity_type.id'));
+        $personType = Catalogue::getInstance($request->input('company.person_type.id'));
 
         $company = new Company();
 
@@ -182,7 +182,7 @@ class CompanyController extends Controller
             $address->sector()->associate($sector);
             $address->save();
         }
-        $identificationType = Catalogue::getInstance($request->input('company.user.identificationType.id'));
+        $identificationType = Catalogue::getInstance($request->input('company.user.identification_type.id'));
         $user->username = $request->input('company.user.identification');
         $user->identification= $request->input('company.user.identification');
         $user->email = $request->input('company.user.email');
@@ -191,8 +191,8 @@ class CompanyController extends Controller
         $user->save();
 
         $type = Catalogue::getInstance($request->input('company.type.id'));
-        $activityType = Catalogue::getInstance($request->input('company.activityType.id'));
-        $personType = Catalogue::getInstance($request->input('company.personType.id'));
+        $activityType = Catalogue::getInstance($request->input('company.activity_type.id'));
+        $personType = Catalogue::getInstance($request->input('company.person_type.id'));
         $company = $request->user()->company()->first();
         $company->trade_name = $request->input('company.trade_name');
         $company->prefix =$request->input('company.prefix');

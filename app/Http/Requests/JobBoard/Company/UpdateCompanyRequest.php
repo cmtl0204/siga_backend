@@ -19,7 +19,7 @@ class UpdateCompanyRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'company.user.identificationType.id' => [
+            'company.user.identification_type.id' => [
                 'required',
                 'integer',
             ],
@@ -63,11 +63,11 @@ class UpdateCompanyRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'company.activityType.id' => [
+            'company.activity_type.id' => [
                 'required',
                 'integer',
             ],
-            'company.personType.id' => [
+            'company.person_type.id' => [
                 'required',
                 'integer',
             ],
@@ -80,7 +80,7 @@ class UpdateCompanyRequest extends FormRequest
     {
         $attributes = [
             'company.user.address.id'=>'direccion-ID',
-            'company.user.identificationType.id'=>'tipo de identificacion-ID',
+            'company.user.identification_type.id'=>'tipo de identificacion-ID',
             'company.user.identification'=>'identificacion',
             'company.user.email'=>'email',
             'company.user.phone'=>'telefono',
@@ -88,8 +88,8 @@ class UpdateCompanyRequest extends FormRequest
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
             'company.type.id' => 'tipo-ID',
-            'company.activityType.id' => 'tipo de actividad-ID',
-            'company.personType.id' => 'tipo de persona-ID',
+            'company.activity_type.id' => 'tipo de actividad-ID',
+            'company.person_type.id' => 'tipo de persona-ID',
 
         ];
         return JobBoardFormRequest::attributes($attributes);
