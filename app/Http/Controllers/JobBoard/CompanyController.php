@@ -13,6 +13,7 @@ use App\Models\App\Catalogue;
 use App\Models\App\Address;
 use App\Models\Authentication\User;
 use App\Models\JobBoard\Company;
+use App\Models\App\Location;
 
 
 // FormRequest
@@ -85,7 +86,14 @@ class CompanyController extends Controller
     }
     function getCompany(GetCompanyRequest $request)
     {
-        $company = $request->user()->company()->first();
+        $company = $request->user()->company()
+            ->with('activityType','type','personType')
+            ->with(['user'=>function($user){
+                $user->with('identificationType')
+                     ->with(['address'=>function($address){
+                        $address->with('location','sector');
+                }]);
+            }])->first();
         if(!$company){
             return response()->json([
                 'data' => $company,
@@ -109,12 +117,21 @@ class CompanyController extends Controller
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo company.
 
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        $address = Address::getInstance($request->input('company.user.address.id'));
+        $location = Location::getInstance($request->input('company.user.address.location.id'));
+        $sector = Catalogue::getInstance($request->input('company.user.address.sector.id'));
+        $address = new Address;
+        $address->main_street = $request->input('company.user.address.main_street');
+        $address->secondary_street = $request->input('company.user.address.secondary_street');
+        $address->number = $request->input('company.user.address.number');
+        $address->location()->associate($location);
+        $address->sector()->associate($sector);
+        $address->save();
+
         $identificationType = Catalogue::getInstance($request->input('company.user.identificationType.id'));
         $status = Status::firstWhere('code',$catalogues['status']['inactive']);
 
         $user = new User();
-        $user->username = $request->input('company.user.username');
+        $user->username = $request->input('company.user.identification');
         $user->identification= $request->input('company.user.identification');
         $user->email = $request->input('company.user.email');
         $user->password = $request->input('company.user.password');
@@ -131,7 +148,7 @@ class CompanyController extends Controller
         $company = new Company();
 
         $company->trade_name =$request->input('company.trade_name');
-
+        $company->prefix =$request->input('company.prefix');
         $company->comercial_activities = $request->input('company.comercial_activities');
         $company->web = $request->input('company.web');
         $company->user()->associate($user);
@@ -152,21 +169,33 @@ class CompanyController extends Controller
     }
     function updateCompany(UpdateCompanyRequest $request){
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Company.
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        $user = $request->user();
+        $address = $user->address()->first();
+        if($address){
+            $location = Location::getInstance($request->input('company.user.address.location.id'));
+            $sector = Catalogue::getInstance($request->input('company.user.address.sector.id'));
+            $address->main_street = $request->input('company.user.address.main_street');
+            $address->secondary_street = $request->input('company.user.address.secondary_street');
+            $address->number = $request->input('company.user.address.number');
+            $address->location()->associate($location);
+            $address->sector()->associate($sector);
+            $address->save();
+        }
+        $identificationType = Catalogue::getInstance($request->input('company.user.identificationType.id'));
+        $user->username = $request->input('company.user.identification');
+        $user->identification= $request->input('company.user.identification');
+        $user->email = $request->input('company.user.email');
+        $user->identificationType()->associate($identificationType);
+        $user->phone = $request->input('company.user.phone');
+        $user->save();
+
         $type = Catalogue::getInstance($request->input('company.type.id'));
         $activityType = Catalogue::getInstance($request->input('company.activityType.id'));
         $personType = Catalogue::getInstance($request->input('company.personType.id'));
         $company = $request->user()->company()->first();
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$company) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Empresa no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
         $company->trade_name = $request->input('company.trade_name');
+        $company->prefix =$request->input('company.prefix');
         $company->comercial_activities = $request->input('company.comercial_activities');
         $company->web = $request->input('company.web');
         $company->activityType()->associate($activityType);
@@ -192,8 +221,8 @@ class CompanyController extends Controller
                 'msg' => [
                     'summary' => 'Empresa no encontrada',
                     'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
+                    'code' => '200'
+                ]], 200);
         }
         return response()->json([
             'data' => $user,

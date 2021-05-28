@@ -16,9 +16,14 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'company.user.address.id' => [
-                'required',
-                'integer',
+            'company.user.address.main_street' => [
+                'required'
+            ],
+            'company.user.address.secondary_street' => [
+                'required'
+            ],
+            'company.user.address.number' => [
+                'required'
             ],
             'company.user.identificationType.id' => [
                 'required',
@@ -85,7 +90,9 @@ class StoreCompanyRequest extends FormRequest
     public function messages()
     {
         $messages = [
-            'company.user.address.id.integer'=>'El campo :attribute debe ser numérico',
+            'company.user.address.main_street'=>'El campo :attribute debe es requerido',
+            'company.user.address.secondary_street'=>'El campo :attribute debe es requerido',
+            'company.user.address.number'=>'El campo :attribute debe es requerido',
             'company.user.identificationType.id.integer'=>'El campo :attribute debe ser numérico',
             'company.user.username.required'=>'El campo :attribute es obligatorio',
             'company.user.username.min'=>'El campo :attribute debe tener al menos :min caracteres',
@@ -118,7 +125,9 @@ class StoreCompanyRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'company.user.address.id'=>'direccion-ID',
+            'company.user.address.main_street'=>'calle principal',
+            'company.user.address.secondary_street'=>'calle secundaria',
+            'company.user.address.number'=>'número',
             'company.user.identificationType.id'=>'tipo de identificacion-ID',
             'company.user.username'=>'nombre de usuario',
             'company.user.identification'=>'identificacion',
