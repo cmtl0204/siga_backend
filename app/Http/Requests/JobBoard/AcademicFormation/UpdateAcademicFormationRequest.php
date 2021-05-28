@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Course;
+namespace App\Http\Requests\JobBoard\AcademicFormation;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCourseRequest extends FormRequest
+class UpdateAcademicFormationRequest extends FormRequest
 {
     public function authorize()
     {

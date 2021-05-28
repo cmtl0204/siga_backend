@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Course;
-use App\Models\JobBoard\Institution;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
@@ -29,14 +28,15 @@ class CourseController extends Controller
     {
         // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
         $professional = $request->user()->professional()->first();
-        if(!$professional){
+        if (!$professional) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         if ($request->has('search')) {
@@ -48,7 +48,7 @@ class CourseController extends Controller
             $courses = $professional->courses()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($courses) === 0) {
+        if ($courses->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -63,33 +63,8 @@ class CourseController extends Controller
     }
 
     // Devuelve un solo objeto//
-    function show($courseId)
+    function show(Course $course)
     {
-        // Valida que el id sea un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($courseId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-        $course = Course::find($courseId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$course) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Curso no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-
         return response()->json([
             'data' => $course,
             'msg' => [
@@ -103,28 +78,22 @@ class CourseController extends Controller
     //Almacena los  Datos creado del curso envia//
     function store(CreateCourseRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo course.
         $professional = $request->user()->professional()->first();
-        if(!$professional){
+        if (!$professional) {
             return response()->json([
                 'data' => null,
                 'msg' => [
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $type = Catalogue::getInstance($request->input('type.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $institution = Catalogue::getInstance($request->input('institution.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $certificationType = Catalogue::getInstance($request->input('certificationType.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $area = Catalogue::getInstance($request->input('area.id'));
 
         $course = new Course();
@@ -194,38 +163,14 @@ class CourseController extends Controller
     }
 
     //Elimina los datos del curso//
-    function destroy($courseId)
+    function destroy(Course $course)
     {
-        if (!is_numeric($courseId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-        $course = Course::find($courseId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$course) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Curso no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-
         $course->delete();
 
         return response()->json([
             'data' => $course,
             'msg' => [
-                'summary' => 'Curso eliminado',
+                'summary' => 'Oferta eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]

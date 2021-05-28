@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Course;
+namespace App\Http\Requests\JobBoard\AcademicFormation;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCourseRequest extends FormRequest
+class CreateAcademicFormationRequest extends FormRequest
 {
     public function authorize()
     {
         return true;
     }
+
     public function rules()
     {
         $rules = [
@@ -30,6 +31,10 @@ class UpdateCourseRequest extends FormRequest
                 'required',
             ],
             'course.hours' => [
+                'required',
+                'integer',
+            ],
+            'professional.id' => [
                 'required',
                 'integer',
             ],
@@ -65,6 +70,8 @@ class UpdateCourseRequest extends FormRequest
             'course.end_date.required' => 'El campo :attribute es obligatorio',
             'course.hours.required' => 'El campo :attribute es obligatorio',
             'course.hours.integer' => 'El campo :attribute debe ser numérico',
+            'professional.id.required' => 'El campo :attribute es obligatorio',
+            'professional.id.integer' => 'El campo :attribute debe ser numérico',
             'type.id.required' => 'El campo :attribute es obligatorio',
             'type.id.integer' => 'El campo :attribute debe ser numérico',
             'institution.id.required' => 'El campo :attribute es obligatorio',
@@ -85,6 +92,7 @@ class UpdateCourseRequest extends FormRequest
             'course.start_date' => 'fecha inicial',
             'course.end_date' => 'fecha final',
             'course.hours' => 'horas',
+            'professional.id' => 'profesional-ID',
             'type.id' => 'tipo-ID',
             'institution.id.id' => 'institución-ID',
             'certificationType.id' => 'tipo certificación-ID',

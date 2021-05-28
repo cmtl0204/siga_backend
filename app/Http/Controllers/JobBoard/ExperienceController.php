@@ -1,21 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\JobBoard;
-
+// Controllers
 use App\Http\Controllers\Controller;
-
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 // Models
 use App\Models\JobBoard\Professional;
-use App\Models\JobBoard\Experience;
 use App\Models\App\Catalogue;
+use App\Models\JobBoard\Experience;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Experience\CreateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
+use Illuminate\Support\Facades\Request;
 
 class ExperienceController extends Controller
 {
@@ -23,18 +21,28 @@ class ExperienceController extends Controller
     function index(IndexExperienceRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experiences.
-        $professional = Professional::getInstance($request->input('professional_id'));
-
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+        // $professional = Professional::getInstance($request->input('professional_id'));
         if ($request->has('search')) {
             $experiences = $professional->experiences()
-            ->employer($request->input('search'))
-            ->start_date($request->input('search'))
-            ->paginate($request->input('per_page'));
+                ->employer($request->input('search'))
+                ->start_date($request->input('search'))
+                ->paginate($request->input('per_page'));
         } else {
             $experiences = $professional->experiences()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($experiences) === 0) {
+        if ($experiences->count() === 0) {
             return response()->json([
                 'data' => $experiences,
                 'msg' => [
@@ -47,50 +55,36 @@ class ExperienceController extends Controller
         return response()->json($experiences, 200);
     }
 
-    function show($experienceId)
+    function show(Experience $experience)
     {
-
-            // Valida que el id se un número, si no es un número devuelve un mensaje de error
-            if (!is_numeric($experienceId)) {
-                return response()->json([
-                    'data' => null,
-                    'msg' => [
-                        'summary' => 'ID no válido',
-                        'detail' => 'Intente de nuevo',
-                        'code' => '400'
-                    ]
-                ], 400);
-            }
-            $experience = Experience::find($experienceId);
-           
-            // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-            if (!$experience) {
-                
-                return response()->json([
-                    'data' => null,
-                    'msg' => [
-                        'summary' => 'experiencia no encontrada',
-                        'detail' => 'Vuelva a intentar',
-                        'code' => '404'
-                    ]
-                ], 404);
-            }
-            return response()->json([
-                'data' => $experience,
-                'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '200'
-                ]], 200);
+        return response()->json([
+            'data' => $experience,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
-
     function store(CreateExperienceRequest $request)
     {
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experience.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        // $professional = Professional::getInstance($request->input('professional.id'));
         $area = Catalogue::getInstance($request->input('area.id'));
-      $experience = new Experience();
-      $experience->employer = $request->input('experience.employer');
+
+        $experience = new Experience();
+        $experience->employer = $request->input('experience.employer');
         $experience->position = $request->input('experience.position');
         $experience->start_date = $request->input('experience.start_date');
         $experience->end_date = $request->input('experience.end_date');
@@ -98,7 +92,7 @@ class ExperienceController extends Controller
         $experience->reason_leave = $request->input('experience.reason_leave');
         $experience->is_working = $request->input('experience.is_working');
         $experience->professional()->associate($professional);
-       $experience->area()->associate($area);
+        $experience->area()->associate($area);
         $experience->save();
 
         return response()->json([
@@ -122,7 +116,7 @@ class ExperienceController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'experiencia no encontrada',
+                    'summary' => 'Experiencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
                 ]
@@ -148,41 +142,18 @@ class ExperienceController extends Controller
             ]
         ], 201);
     }
-    function destroy($experienceId)
+
+    function destroy(Experience $experience)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($experienceId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $experience = experience::find($experienceId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$experience) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Experiencia no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
-        // Es una eliminación lógica
         $experience->delete();
 
         return response()->json([
             'data' => $experience,
             'msg' => [
-                'summary' => 'Experiencia eliminada',
+                'summary' => 'Oferta eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
-
 }
