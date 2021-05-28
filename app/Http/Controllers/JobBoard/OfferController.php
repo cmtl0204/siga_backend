@@ -10,7 +10,7 @@ use App\Models\App\Status;
 use App\Models\App\Catalogue;
 use App\Models\App\Location;
 use App\Http\Requests\JobBoard\Offer\IndexOfferRequest;
-use App\Http\Requests\JobBoard\Offer\CreateOfferRequest;
+use App\Http\Requests\JobBoard\Offer\StoreOfferRequest;
 use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest; 
 use App\Http\Requests\JobBoard\Offer\UpdateStatusOfferRequest;
 use Illuminate\Database\Eloquent\Model;
@@ -25,8 +25,7 @@ class OfferController extends Controller
             $offer = $company->offers()
                 ->aditionalInformation($request->input('search'))
                 ->code($request->input('search'))
-                ->description($request->input('search'))
-                ->get();
+                ->paginate($request->input('per_page'));
         } else {
             $offer = $company->offers()->paginate($request->input('per_page'));
         }
@@ -44,9 +43,9 @@ class OfferController extends Controller
         return response()->json($offer, 200);
     }
 
-    function store(CreateOfferRequest $request)
+    function store(StoreOfferRequest $request)
     {
-        $company = Company::getInstance($request->input('company.id'));
+        $company = $request->user()->company->first();
         $location = Location::getInstance($request->input('location.id'));
         $contractType = Catalogue::getInstance($request->input('contractType.id'));
         $position = Catalogue::getInstance($request->input('position.id'));
@@ -55,10 +54,11 @@ class OfferController extends Controller
         $experienceTime = Catalogue::getInstance($request->input('experienceTime.id'));
         $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
         $status = Status::getInstance($request->input('status.id'));
+        $lastOffer = Offer::get()->last();
+        $number = $lastOffer?$lastOffer->id + 1:1;
 
         $offer = new Offer();
-        $offer->code = $request->input('offer.code');
-        $offer->description = $request->input('offer.description');
+        $offer->code = $company->prefix.$number;
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
         $offer->contact_phone = $request->input('offer.contact_phone');
@@ -129,7 +129,6 @@ class OfferController extends Controller
         $status = Status::getInstance($request->input('status.id'));
 
         $offer->code = $request->input('offer.code');
-        $offer->description = $request->input('offer.description');
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
         $offer->contact_phone = $request->input('offer.contact_phone');

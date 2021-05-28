@@ -5,7 +5,7 @@ namespace App\Http\Requests\JobBoard\Offer;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateOfferRequest extends FormRequest
+class StoreOfferRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,29 +14,17 @@ class CreateOfferRequest extends FormRequest
 
     public function rules()
     {
-        // NOTA: offer.activities y offer.requirements son tipo json, que relgas deben estar?
-        // NOTA: fechas que tipo de dato debe estar?
-        // NOTA: pongo code como campo unico?
         $rules = [
-            'offer.code' => [
-                'required',
-                'min:10',
-                'max:1000',
-            ],
-            'offer.description' => [
-                'required',
-                'min:10',
-                'max:1000',
-            ],
             'offer.contact_name' => [
                 'required',
-                'min:10',
-                'max:1000',
+                'min:4',
+                'max:250',
             ],
             'offer.contact_email' => [
                 'required',
                 'min:10',
-                'max:1000',
+                'max:100',
+                'email',
             ],
             'offer.contact_phone' => [
                 'required_without:offer.contact_cellphone',
@@ -48,15 +36,16 @@ class CreateOfferRequest extends FormRequest
                 'required',
                 'date',
             ],
+            // queda como array porque los json no son asi
+            // ARRAY https://laravel.com/docs/8.x/validation#rule-array
+            // JSON https://laravel.com/docs/8.x/validation#rule-json
             'offer.activities' => [
                 'required',
+                'array',
             ],
             'offer.requirements' => [
                 'required',
-            ],
-            'company.id' => [
-                'required',
-                'integer',
+                'array',
             ],
             'location.id' => [
                 'required',
@@ -97,8 +86,6 @@ class CreateOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'offer.code' => 'codigo',
-            'offer.description' => 'descripción',
             'offer.contact_name' => 'nombre-contacto',
             'offer.contact_email' => 'email-contacto',
             'offer.contact_phone' => 'telefono-contacto',
@@ -106,7 +93,6 @@ class CreateOfferRequest extends FormRequest
             'offer.start_date' => 'fecha-inicio',
             'offer.activities' => 'actividades',
             'offer.requirements' => 'requerimientos',
-            'company.id' => 'compania-id',
             'location.id' => 'locacion-id',
             'contractType.id' => 'tipo-contrato-id',
             'position.id' => 'posicion-id',
