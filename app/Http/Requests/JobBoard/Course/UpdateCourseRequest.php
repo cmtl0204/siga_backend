@@ -83,7 +83,7 @@ class UpdateCourseRequest extends FormRequest
             'course.name' => 'nombre',
             'course.description' => 'descripción',
             'course.start_date' => 'fecha inicial',
-            'course.end_date' => 'fecha final', 
+            'course.end_date' => 'fecha final',
             'course.hours' => 'horas',
             'type.id' => 'tipo-ID',
             'institution.id.id' => 'institución-ID',
