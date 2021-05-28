@@ -23,6 +23,7 @@ class AcademicFormation extends Model implements Auditable
         'registration_date',
         'senescyt_code',
         'has_titling',
+        'is_principal'
     ];
 
     protected $casts = [
