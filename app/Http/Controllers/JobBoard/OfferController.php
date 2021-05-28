@@ -67,6 +67,7 @@ class OfferController extends Controller
         $offer->vacancies = $request->input('offer.vacancies');
         $offer->start_date = $request->input('offer.start_date');
         $offer->end_date = $this->calculateEndOffer($request->input('offer.start_date'));
+        $offer->aditional_information = $request->input('offer.aditional_information');
         $offer->activities = $request->input('offer.activities');
         $offer->requirements = $request->input('offer.requirements');
         $offer->company()->associate($company);
