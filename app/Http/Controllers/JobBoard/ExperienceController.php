@@ -13,7 +13,7 @@ use App\Models\JobBoard\Experience;
 use App\Http\Requests\JobBoard\Experience\CreateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
-use Illuminate\Support\Facades\Request;
+use App\Http\Requests\JobBoard\Experience\StoreExperienceRequest;
 
 class ExperienceController extends Controller
 {
@@ -66,7 +66,8 @@ class ExperienceController extends Controller
             ]
         ], 200);
     }
-    function store(CreateExperienceRequest $request)
+
+    function store(StoreExperienceRequest $request)
     {
         $professional = $request->user()->professional()->first();
         if (!$professional) {
@@ -105,7 +106,7 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, $experienceId)
+    function update(UpdateExperienceRequest $request, Experience $experience)
     {
         $area = Catalogue::getInstance($request->input('area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.

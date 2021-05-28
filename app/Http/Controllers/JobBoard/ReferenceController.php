@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobBoard\Reference\CreateReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\IndexReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\UpdateReferenceRequest;
+use App\Http\Requests\JobBoard\Reference\StoreReferenceRequest;
 use App\Models\JobBoard\Reference;
 use App\Models\JobBoard\Professional;
 
@@ -20,7 +21,8 @@ class ReferenceController extends Controller
 
     function index(IndexReferenceRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
+      //  $professional = Professional::getInstance($request->input('professional_id'));
+
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -29,10 +31,9 @@ class ReferenceController extends Controller
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]
-            ], 404);
+                ]], 404);
         }
-        //$professional = Professional::getInstance($request->input('professional_id'));
+
         if ($request->has('search')) {
             $references = $professional->references()
                 ->institution($request->input('search'))
@@ -61,6 +62,29 @@ class ReferenceController extends Controller
 
     function show(Reference $reference)
     {
+        if (!is_numeric($referenceId)) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'ID no válido',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '400'
+                ]], 400);
+        }
+
+        $reference = Reference::find($id)->first();
+
+        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
+        if (!$reference) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Profesional no encontrado',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404'
+                ]], 404);
+        }
+
         return response()->json([
             'data' => $reference,
             'msg' => [
@@ -71,31 +95,31 @@ class ReferenceController extends Controller
         ], 200);
     }
 
-    function store(CreateReferenceRequest $request)
+    function store(StoreReferenceRequest $request)
     {
-        $professional = $request->user()->professional()->first();
-        if (!$professional) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraró al profesional',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
         //$professional = Professional::getInstance($request->input('professional.id'));
+             // Crea una instanacia del modelo Professional para poder insertar en el modelo reference.
+             $professional = $request->user()->professional()->first();
+             if (!$professional) {
+                 return response()->json([
+                     'data' => null,
+                     'msg' => [
+                         'summary' => 'No se encontraró al profesional',
+                         'detail' => 'Intente de nuevo',
+                         'code' => '404'
+                     ]], 404);
+             }
+
         $reference = new Reference();
         $reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');
         $reference->contact_name = $request->input('reference.contact_name');
         $reference->contact_phone = $request->input('reference.contact_phone');
         $reference->contact_email = $request->input('reference.contact_email');
-        $reference->professional()->associate($professional);
         $reference->save();
 
         return response()->json([
-            'data' => $reference,
+            'data' => $reference->fresh(),
             'msg' => [
                 'summary' => 'Referencia creada',
                 'detail' => 'El registro fue creado',
@@ -103,6 +127,7 @@ class ReferenceController extends Controller
             ]
         ], 201);
     }
+
 
     function update(UpdateReferenceRequest $request, $id)
     {

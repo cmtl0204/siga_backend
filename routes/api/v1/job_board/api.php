@@ -71,12 +71,11 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('professional')->group(function () {
-            Route::get('offers', [ProfessionalController::class, 'getOffers']);
-            Route::get('companies', [ProfessionalController::class, 'getCompanies']);
-            Route::get('get', [ProfessionalController::class, 'getProfessional']);
-            //   Route::get('test', function () {
-            //  return 'test';
-            //      });
+            Route::get('{id}', [ProfessionalController::class, 'getOffers']);
+                Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
+              //   Route::get('test', function () {
+                //  return 'test';
+      //      });
         });
 
         Route::prefix('offer')->group(function () {

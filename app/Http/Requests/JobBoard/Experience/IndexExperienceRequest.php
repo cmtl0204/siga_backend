@@ -14,31 +14,12 @@ class IndexExperienceRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'professional_id' => [
-                'required',
-                'integer',
-            ]
-
-        ];
+        return [];
         return JobBoardFormRequest::rules($rules);
     }
-    public function messages()
+       public function attributes()
     {
-        $messages = [
-            'professional.id.required' => 'El campo :attribute es obligatorio',
-            'professional.id.integer' => 'El campo :attribute debe ser numérico',
-
-      
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
-    public function attributes()
-    {
-        $attributes = [
-            'professional_id' => 'profesional-ID',
-        ];
+        $attributes = [];
         return JobBoardFormRequest::attributes($attributes);
     }
 }

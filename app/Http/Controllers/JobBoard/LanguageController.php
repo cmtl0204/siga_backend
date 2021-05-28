@@ -12,28 +12,29 @@ use App\Models\JobBoard\Language;
 
 // FormRequest
 
-use App\Http\Requests\JobBoard\Laguage\IndexLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\UpdateLanguageRequest;
-use App\Http\Requests\JobBoard\Laguage\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\IndexLanguageRequest;
+use App\Http\Requests\JobBoard\Language\UpdateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\StoreLanguageRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageController extends Controller
 {
     function index(IndexLanguageRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
-        $professional = $request->user()->professional()->first();
-        if (!$professional) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraró al profesional',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-        //$professional = Professional::getInstance($request->input('professional_id'));
+        // Crea una instanacia del modelo Professional para poder insertar en el modelo language.
+      //  $professional = Professional::getInstance($request->input('professional_id'));
+      $professional = $request->user()->professional()->first();
+      if (!$professional) {
+          return response()->json([
+              'data' => null,
+              'msg' => [
+                  'summary' => 'No se encontraró al profesional',
+                  'detail' => 'Intente de nuevo',
+                  'code' => '404'
+              ]], 404);
+      }
+
         if ($request->has('search')) {
             $languages = $professional->languages()->get();
         } else {
@@ -65,7 +66,7 @@ class LanguageController extends Controller
         ], 200);
     }
 
-    function store(CreateLanguageRequest $request)
+    function store(StoreLanguageRequest $request)
     {
         $professional = $request->user()->professional()->first();
         if (!$professional) {
@@ -103,7 +104,7 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function update(UpdateLanguageRequest $request, $languageId)
+    function update(UpdateLanguageRequest $request,Language $language)
     {
         $idiom = Catalogue::getInstance($request->input('idiom.id'));
         $writtenLevel = Catalogue::getInstance($request->input('writtenLevel.id'));

@@ -39,7 +39,7 @@ class ProfessionalController extends Controller
         ], 200);
     }
 
-    function update(UpdateProfessionalRequest $request, $professionalId)
+    function update(UpdateProfessionalRequest $request, Professional $professional)
     {
         $professional = Professional::find($professionalId);
 
