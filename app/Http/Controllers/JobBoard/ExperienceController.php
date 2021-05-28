@@ -1,22 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\JobBoard;
-
+// Controllers
 use App\Http\Controllers\Controller;
-
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 // Models
 use App\Models\JobBoard\Professional;
-use App\Models\JobBoard\Experience;
 use App\Models\App\Catalogue;
+use App\Models\JobBoard\Experience;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Experience\CreateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
-use App\Http\Requests\JobBoard\Experience\StoreExperienceRequest;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class ExperienceController extends Controller
 {
@@ -24,8 +22,18 @@ class ExperienceController extends Controller
     function index(IndexExperienceRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experiences.
-        $professional = Professional::getInstance($request->input('professional_id'));
-
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+        // $professional = Professional::getInstance($request->input('professional_id'));
         if ($request->has('search')) {
             $experiences = $professional->experiences()
                 ->employer($request->input('search'))
@@ -35,7 +43,7 @@ class ExperienceController extends Controller
             $experiences = $professional->experiences()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($experiences) === 0) {
+        if ($experiences->count() === 0) {
             return response()->json([
                 'data' => $experiences,
                 'msg' => [
@@ -50,7 +58,6 @@ class ExperienceController extends Controller
 
     function show(Experience $experience)
     {
-        $experience = $experience->with('type')->first();
         return response()->json([
             'data' => $experience,
             'msg' => [
@@ -62,9 +69,21 @@ class ExperienceController extends Controller
     }
     function store(CreateExperienceRequest $request)
     {
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experience.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        // $professional = Professional::getInstance($request->input('professional.id'));
         $area = Catalogue::getInstance($request->input('area.id'));
+
         $experience = new Experience();
         $experience->employer = $request->input('experience.employer');
         $experience->position = $request->input('experience.position');
@@ -87,7 +106,7 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, Experience $experience)
+    function update(UpdateExperienceRequest $request, $experienceId)
     {
         $area = Catalogue::getInstance($request->input('area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.
@@ -98,7 +117,7 @@ class ExperienceController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'experiencia no encontrada',
+                    'summary' => 'Experiencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
                 ]
@@ -124,6 +143,7 @@ class ExperienceController extends Controller
             ]
         ], 201);
     }
+
     function destroy(Experience $experience)
     {
         $experience->delete();

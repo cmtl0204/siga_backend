@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\JobBoard;
-
+// Controllers
 use App\Http\Controllers\Controller;
+// FormRequests
 use App\Http\Requests\JobBoard\Reference\CreateReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\IndexReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\UpdateReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\StoreReferenceRequest;
+// Models
 use App\Models\JobBoard\Reference;
 use App\Models\JobBoard\Professional;
 
@@ -21,8 +23,7 @@ class ReferenceController extends Controller
 
     function index(IndexReferenceRequest $request)
     {
-      //  $professional = Professional::getInstance($request->input('professional_id'));
-
+        // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -31,9 +32,10 @@ class ReferenceController extends Controller
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
-
+        //$professional = Professional::getInstance($request->input('professional_id'));
         if ($request->has('search')) {
             $references = $professional->references()
                 ->institution($request->input('search'))
@@ -46,7 +48,7 @@ class ReferenceController extends Controller
             $references = $professional->references()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($references) === 0) {
+        if ($references->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -72,32 +74,31 @@ class ReferenceController extends Controller
         ], 200);
     }
 
-    function store(StoreReferenceRequest $request)
+    function store(CreateReferenceRequest $request)
     {
+        $professional = $request->user()->professional()->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró al profesional',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
         //$professional = Professional::getInstance($request->input('professional.id'));
-             // Crea una instanacia del modelo Professional para poder insertar en el modelo reference.
-             $professional = $request->user()->professional()->first();
-             if (!$professional) {
-                 return response()->json([
-                     'data' => null,
-                     'msg' => [
-                         'summary' => 'No se encontraró al profesional',
-                         'detail' => 'Intente de nuevo',
-                         'code' => '404'
-                     ]], 404);
-             }
-
         $reference = new Reference();
-        $reference->professional()->associate($professional);
         $reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');
         $reference->contact_name = $request->input('reference.contact_name');
         $reference->contact_phone = $request->input('reference.contact_phone');
         $reference->contact_email = $request->input('reference.contact_email');
+        $reference->professional()->associate($professional);
         $reference->save();
 
         return response()->json([
-            'data' => $reference->fresh(),
+            'data' => $reference,
             'msg' => [
                 'summary' => 'Referencia creada',
                 'detail' => 'El registro fue creado',
@@ -105,7 +106,6 @@ class ReferenceController extends Controller
             ]
         ], 201);
     }
-
 
     function update(UpdateReferenceRequest $request, $id)
     {

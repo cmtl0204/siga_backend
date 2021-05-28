@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Models\App\Catalogue;
 use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Course;
-use App\Models\JobBoard\Institution;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
@@ -18,7 +17,6 @@ use App\Http\Requests\JobBoard\Course\UpdateCourseRequest;
 use App\Http\Requests\JobBoard\Course\StoreCourseRequest;
 
 use Illuminate\Support\Facades\Request;
-use PHPUnit\Framework\Constraint\Count;
 
 class CourseController extends Controller
 {
@@ -52,7 +50,7 @@ class CourseController extends Controller
             $courses = $professional->courses()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($courses) === 0) {
+        if ($courses->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -82,7 +80,6 @@ class CourseController extends Controller
     //Almacena los  Datos creado del curso envia//
     function store(StoreCourseRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo course.
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -97,14 +94,8 @@ class CourseController extends Controller
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $type = Catalogue::getInstance($request->input('type.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $institution = Catalogue::getInstance($request->input('institution.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $certificationType = Catalogue::getInstance($request->input('certificationType.id'));
-
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
         $area = Catalogue::getInstance($request->input('area.id'));
 
         $course = new Course();
