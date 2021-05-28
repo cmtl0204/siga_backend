@@ -122,12 +122,12 @@ class FileController extends Controller
             $files = $model->files()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($files) === 0) {
+        if ($files->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron archivos',
-                    'detail' => 'Intente de nuevo',
+                    'summary' => 'No tiene archivos subidos',
+                    'detail' => 'Empiece a subir sus archivos',
                     'code' => '404'
                 ]], 404);
         }
