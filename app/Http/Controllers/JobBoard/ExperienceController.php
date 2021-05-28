@@ -106,7 +106,7 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, Experience $experience)
+    function update(UpdateExperienceRequest $request, $experienceId)
     {
         $area = Catalogue::getInstance($request->input('area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.
