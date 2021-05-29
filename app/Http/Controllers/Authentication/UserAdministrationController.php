@@ -183,16 +183,16 @@ class  UserAdministrationController extends Controller
     }
 
     public function delete(Request $request)
-    {
-        User::destroy($request->input('ids'));
-
-        return response()->json([
-            'data' => null,
-            'msg' => [
-                'detail' => 'Se eliminó correctamente',
-                'code' => '201'
-            ]
-        ], 201);
+    {        
+         User::destroy($request->input('ids'));
+         
+                 return response()->json([
+                     'data' => null,
+                     'msg' => [
+                         'summary' => 'Usuario(s) eliminado(s)',
+                         'detail' => 'Se eliminó correctamente',
+                         'code' => '201'
+                     ]], 201);
     }
 
     public function export()
