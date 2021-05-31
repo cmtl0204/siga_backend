@@ -46,14 +46,14 @@ class OfferController extends Controller
     function store(StoreOfferRequest $request)
     {
         $company = $request->user()->company->first();
-        $location = Location::getInstance($request->input('location.id'));
-        $contractType = Catalogue::getInstance($request->input('contractType.id'));
-        $position = Catalogue::getInstance($request->input('position.id'));
-        $sector = Catalogue::getInstance($request->input('sector.id'));
-        $workingDay = Catalogue::getInstance($request->input('workingDay.id'));
-        $experienceTime = Catalogue::getInstance($request->input('experienceTime.id'));
-        $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
-        $status = Status::getInstance($request->input('status.id'));
+        $location = Location::getInstance($request->input('offer.location.id'));
+        $contractType = Catalogue::getInstance($request->input('offer.contract_type.id'));
+        $position = Catalogue::getInstance($request->input('offer.position.id'));
+        $sector = Catalogue::getInstance($request->input('offer.sector.id'));
+        $workingDay = Catalogue::getInstance($request->input('offer.working_day.id'));
+        $experienceTime = Catalogue::getInstance($request->input('offer.experience_time.id'));
+        $trainingHours = Catalogue::getInstance($request->input('offer.training_hours.id'));
+        $status = Status::getInstance($request->input('offer.status.id'));
         $lastOffer = Offer::get()->last();
         $number = $lastOffer?$lastOffer->id + 1:1;
 
@@ -67,7 +67,6 @@ class OfferController extends Controller
         $offer->vacancies = $request->input('offer.vacancies');
         $offer->start_date = $request->input('offer.start_date');
         $offer->end_date = $this->calculateEndOffer($request->input('offer.start_date'));
-        $offer->aditional_information = $request->input('offer.aditional_information');
         $offer->activities = $request->input('offer.activities');
         $offer->requirements = $request->input('offer.requirements');
         $offer->company()->associate($company);
@@ -81,7 +80,7 @@ class OfferController extends Controller
         $offer->status()->associate($status);
         $offer->save();
 
-        foreach ($request->input('categories') as $category) {
+        foreach ($request->input('offer.categories') as $category) {
             $offer->categories()->attach($category);
         }
 
@@ -120,14 +119,14 @@ class OfferController extends Controller
 
     function update(UpdateOfferRequest $request, Offer $offer)
     {
-        $location = Location::getInstance($request->input('location.id'));
-        $contractType = Catalogue::getInstance($request->input('contractType.id'));
-        $position = Catalogue::getInstance($request->input('position.id'));
-        $sector = Catalogue::getInstance($request->input('sector.id'));
-        $workingDay = Catalogue::getInstance($request->input('workingDay.id'));
-        $experienceTime = Catalogue::getInstance($request->input('experienceTime.id'));
-        $trainingHours = Catalogue::getInstance($request->input('trainingHours.id'));
-        $status = Status::getInstance($request->input('status.id'));
+        $location = Location::getInstance($request->input('offer.location.id'));
+        $contractType = Catalogue::getInstance($request->input('offer.contract_type.id'));
+        $position = Catalogue::getInstance($request->input('offer.position.id'));
+        $sector = Catalogue::getInstance($request->input('offer.sector.id'));
+        $workingDay = Catalogue::getInstance($request->input('offer.working_day.id'));
+        $experienceTime = Catalogue::getInstance($request->input('offer.experience_time.id'));
+        $trainingHours = Catalogue::getInstance($request->input('offer.training_hours.id'));
+        $status = Status::getInstance($request->input('offer.status.id'));
 
         $offer->code = $request->input('offer.code');
         $offer->contact_name = $request->input('offer.contact_name');
@@ -151,7 +150,7 @@ class OfferController extends Controller
         $offer->status()->associate($status);
         $offer->categories()->detach();
 
-        foreach ($request->input('categories') as $category) {
+        foreach ($request->input('offer.categories') as $category) {
             $offer->categories()->attach($category);
         }
 
