@@ -4,6 +4,7 @@
 #/public
 #/public/storage
 #/storage/*.key
+/storage/app/private/
 /migrations
 /vendor
 .env

@@ -30,9 +30,10 @@ class Company extends Model implements Auditable
     protected $table = 'job_board.companies';
     protected $fillable = [
         'trade_name',
-        'comercial_activities',
         'web',
     ];
+    protected $casts = [
+        'comercial_activities' => 'array'];
 
     // Instance
     public static function getInstance($id)

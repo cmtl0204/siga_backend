@@ -5,34 +5,40 @@ namespace App\Http\Requests\JobBoard\Offer;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOfferRequest extends FormRequest
+class StoreOfferRequest extends FormRequest
 {
     public function authorize()
     {
         return true;
     }
+
     public function rules()
     {
         $rules = [
-            'offer.code' => [
-                'required',
-                'min:10',
-                'max:1000',
-            ],
             'offer.contact_name' => [
                 'required',
-                'min:10',
-                'max:1000',
+                'min:4',
+                'max:250',
             ],
             'offer.contact_email' => [
                 'required',
                 'min:10',
-                'max:1000',
+                'max:100',
+                'email',
+            ],
+            'offer.contact_phone' => [
+                'required_without:offer.contact_cellphone',
+            ],
+            'offer.contact_cellphone' => [
+                'required_without:offer.contact_phone',
             ],
             'offer.start_date' => [
                 'required',
                 'date',
             ],
+            // queda como array porque los json no son asi
+            // ARRAY https://laravel.com/docs/8.x/validation#rule-array
+            // JSON https://laravel.com/docs/8.x/validation#rule-json
             'offer.activities' => [
                 'required',
                 'array',
@@ -80,9 +86,10 @@ class UpdateOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'offer.code' => 'codigo',
             'offer.contact_name' => 'nombre-contacto',
             'offer.contact_email' => 'email-contacto',
+            'offer.contact_phone' => 'telefono-contacto',
+            'offer.contact_cellphone' => 'celular-contacto',
             'offer.start_date' => 'fecha-inicio',
             'offer.activities' => 'actividades',
             'offer.requirements' => 'requerimientos',
