@@ -2,38 +2,34 @@
 
 namespace App\Http\Controllers\JobBoard;
 
+// Controllers
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
+// Models
 use App\Models\JobBoard\AcademicFormation;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Professional;
 
+// FormRequest
+use App\Http\Requests\JobBoard\AcademicFormation\IndexAcademicFormationRequest;
+use App\Http\Requests\JobBoard\AcademicFormation\CreateAcademicFormationRequest;
+use App\Http\Requests\JobBoard\AcademicFormation\UpdateAcademicFormationRequest;
+use Illuminate\Support\Facades\Request;
+
 class AcademicFormationController extends Controller
 {
-    function index()
+    function show(AcademicFormation $academicFormation)
     {
-        $academicFormations = AcademicFormation::all();
-
-        return response()->json([
-            'data' => $academicFormations,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => ''
-            ]], 200);
-    }
-
-    function show($id)
-    {
-        $academicFormation = AcademicFormation::findOrFail($id);
-
         return response()->json([
             'data' => $academicFormation,
             'msg' => [
                 'summary' => 'success',
-                'detail' => ''
-            ]], 200);
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
+
 
     function store(Request $request)
     {
@@ -46,7 +42,7 @@ class AcademicFormationController extends Controller
         $academicFormation->registration_date = $dataAcademicFormation['registration_date'];
         $academicFormation->senescyt_code = $dataAcademicFormation['senescyt_code'];
         $academicFormation->has_titling = $dataAcademicFormation['has_titling'];
-        
+
         $academicFormation->professional()->associate(Professional::firstWhere('user_id', $request->user()->id));
         $academicFormation->category()->associate(Category::findOrFail($dataCategory['id']));
 
@@ -56,7 +52,7 @@ class AcademicFormationController extends Controller
     function update(Request $request, $id)
     {
         $data = $request->json()->all();
-        $dataAcademicFormation= $data['academic_formation'];
+        $dataAcademicFormation = $data['academic_formation'];
         $dataCategory = $data['category'];
 
         $academicFormation = AcademicFormation::findOrFail($id);
@@ -64,17 +60,23 @@ class AcademicFormationController extends Controller
         $academicFormation->senescyt_code = $dataAcademicFormation['senescyt_code'];
         $academicFormation->has_titling = $dataAcademicFormation['has_titling'];
 
-        $academicFormation->professional()->associate(Professional::firstWhere('user_id',$request->user()->id));
+        $academicFormation->professional()->associate(Professional::firstWhere('user_id', $request->user()->id));
         $academicFormation->category()->associate(Category::findOrFail($dataCategory['id']));
 
         $academicFormation->save();
     }
 
-    function destroy($id)
+    function destroy(AcademicFormation $academicFormation)
     {
-        $academicFormation = AcademicFormation::findOrFail($id);
-        $academicFormation->state = false;
+        $academicFormation->delete();
 
-        $academicFormation->save();
+        return response()->json([
+            'data' => $academicFormation,
+            'msg' => [
+                'summary' => 'Información Académica eliminada',
+                'detail' => 'El registro fue eliminado',
+                'code' => '201'
+            ]
+        ], 201);
     }
 }

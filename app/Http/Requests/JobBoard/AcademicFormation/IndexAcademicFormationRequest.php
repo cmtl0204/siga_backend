@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Laguage;
+namespace App\Http\Requests\JobBoard\AcademicFormation;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 
-class IndexLanguageRequest extends FormRequest
+class IndexAcademicFormationRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;
@@ -18,16 +17,17 @@ class IndexLanguageRequest extends FormRequest
         $rules = [
             'professional_id' => [
                 'required',
-                'integer',
-            ]
+                'integer'
+            ],
         ];
         return JobBoardFormRequest::rules($rules);
     }
+
     public function messages()
     {
         $messages = [
-            'professional.id.required' => 'El campo :attribute es obligatorio',
-            'professional.id.integer' => 'El campo :attribute debe ser numérico',
+            'professional_id.required' => 'El campo :attribute es obligatorio',
+            'professional_id.integer' => 'El campo :attribute debe ser numérico',
         ];
         return JobBoardFormRequest::messages($messages);
     }

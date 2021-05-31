@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Reference;
+namespace App\Http\Requests\JobBoard\Language;
 
-use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\JobBoard\JobBoardFormRequest;
 
-class IndexReferenceRequest extends FormRequest
+class IndexLanguageRequest extends FormRequest
 {
 
     public function authorize()
     {
         return true;
     }
+
     public function rules()
     {
         $rules = [];
-
         return JobBoardFormRequest::rules($rules);
     }
-
-
     public function attributes()
     {
         $attributes = [];

@@ -16,6 +16,40 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'company.user.address.main_street' => [
+                'required'
+            ],
+            'company.user.address.secondary_street' => [
+                'required'
+            ],
+            'company.user.address.number' => [
+                'required'
+            ],
+            'company.user.identificationType.id' => [
+                'required',
+                'integer',
+            ],
+            'company.user.username' => [
+                'required',
+                'min:10',
+                'max:100',
+            ],
+            'company.user.identification' => [
+                'required',
+                'min:10',
+                'max:15',
+            ],
+            'company.user.email' => [
+                'required',
+                'min:10',
+                'max:1000',
+            ],
+            'company.user.password' => [
+                'required',
+                'min:5',
+                'max:15',
+            ],
+
             'company.trade_name' => [
                 'required',
                 'min:10',
@@ -23,7 +57,12 @@ class StoreCompanyRequest extends FormRequest
             ],
             'company.comercial_activities' => [
                 'required',
-//                'json',
+            ],
+            'company.comercial_activities.*' => [
+                'required',
+                'max:1000',
+                'min:10',
+
             ],
             'company.web' => [
                 'required',
@@ -31,15 +70,15 @@ class StoreCompanyRequest extends FormRequest
                 'max:1000',
             ],
 
-            'type.id' => [
+            'company.type.id' => [
                 'required',
                 'integer',
             ],
-            'activityType.id' => [
+            'company.activityType.id' => [
                 'required',
                 'integer',
             ],
-            'personType.id' => [
+            'company.personType.id' => [
                 'required',
                 'integer',
             ],
@@ -51,14 +90,34 @@ class StoreCompanyRequest extends FormRequest
     public function messages()
     {
         $messages = [
+            'company.user.address.main_street'=>'El campo :attribute debe es requerido',
+            'company.user.address.secondary_street'=>'El campo :attribute debe es requerido',
+            'company.user.address.number'=>'El campo :attribute debe es requerido',
+            'company.user.identificationType.id.integer'=>'El campo :attribute debe ser numérico',
+            'company.user.username.required'=>'El campo :attribute es obligatorio',
+            'company.user.username.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.username.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.identification.required'=>'El campo :attribute es obligatorio',
+            'company.user.identification.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.identification.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.email.required'=>'El campo :attribute es obligatorio',
+            'company.user.email.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.email.max'=>'El campo :attribute debe tener al menos :max caracteres',
+            'company.user.password.required'=>'El campo :attribute es obligatorio',
+            'company.user.password.min'=>'El campo :attribute debe tener al menos :min caracteres',
+            'company.user.password.max'=>'El campo :attribute debe tener al menos :max caracteres',
             'company.trade_name.required' => 'El campo :attribute es obligatorio',
             'company.trade_name.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'company.comercial_activity.required' => 'El campo :attribute es obligatorio',
+            'company.comercial_activities.required' => 'El campo :attribute es obligatorio',
+            'company.comercial_activities.*.min'=>'El campo:attribute debe tener al menos :min caracteres',
+            'company.comercial_activities.*.max'=>'El campo:attribute debe tener máximo :max caracteres',
             'company.web.required' => 'El campo :attribute es obligatorio',
             'company.web.min' => 'El campo : attribute debe tener al menos :min carecteres',
-            'type.id.integer' => 'El campo :attribute debe ser numérico',
-            'activityType.id.integer' => 'El campo :attribute debe ser numérico',
-            'personType.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.type.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.activityType.id.integer' => 'El campo :attribute debe ser numérico',
+            'company.personType.id.integer' => 'El campo :attribute debe ser numérico',
+
+
         ];
         return JobBoardFormRequest::messages($messages);
     }
@@ -66,12 +125,20 @@ class StoreCompanyRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
+            'company.user.address.main_street'=>'calle principal',
+            'company.user.address.secondary_street'=>'calle secundaria',
+            'company.user.address.number'=>'número',
+            'company.user.identificationType.id'=>'tipo de identificacion-ID',
+            'company.user.username'=>'nombre de usuario',
+            'company.user.identification'=>'identificacion',
+            'company.user.email'=>'email',
+            'company.user.password'=>'password',
             'company.trade_name' => 'nombre comercial',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
-            'type.id' => 'tipo-ID',
-            'activityType.id' => 'tipo de actividad-ID',
-            'personType.id' => 'tipo de persona-ID',
+            'company.type.id' => 'tipo-ID',
+            'company.activityType.id' => 'tipo de actividad-ID',
+            'company.personType.id' => 'tipo de persona-ID',
 
         ];
         return JobBoardFormRequest::attributes($attributes);

@@ -2,6 +2,7 @@
 
 namespace App\Models\App;
 
+use App\Models\JobBoard\Offer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -52,6 +53,10 @@ class Catalogue extends Model implements Auditable
     public function roles()
     {
         return $this->morphedByMany(Role::class, 'catalogueable');
+    }
+
+    public function offer(){
+        return $this->hasOne(Offer::class);
     }
 
     // Mutators

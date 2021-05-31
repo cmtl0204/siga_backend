@@ -68,6 +68,7 @@ class SkillController extends Controller
     function store(StoreSkillRequest $request)
     {
         $professional = $request->user()->professional()->first();
+
         if (!$professional) {
             return response()->json([
                 'data' => null,
@@ -100,7 +101,6 @@ class SkillController extends Controller
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         $type = Catalogue::getInstance($request->input('skill.type.id'));
-
         $skill->description = $request->input('skill.description');
         $skill->type()->associate($type);
         $skill->save();

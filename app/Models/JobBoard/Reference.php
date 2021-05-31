@@ -3,6 +3,7 @@
 namespace App\Models\JobBoard;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Auditable as Auditing;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,8 +26,9 @@ class Reference extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.references';
-
     protected $with = ['professional'];
+
+    
     protected $fillable = [
         'institution',
         'position',
