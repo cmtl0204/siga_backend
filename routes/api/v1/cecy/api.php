@@ -74,6 +74,7 @@ Route::prefix('/')
 
 Route::apiResource('registrations', RegistrationController::class);
 Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+Route::get('excel/registration-export', [RegistrationController::class, 'exportTest']);
 
 
 // Route::prefix('registration')

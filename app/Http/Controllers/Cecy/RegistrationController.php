@@ -12,6 +12,8 @@ use App\Http\Requests\Cecy\Registration\UpdateRegistrationRequest;
 use App\Models\Cecy\Registration;
 // use App\Models\JobBoard\Category;
 // use App\Models\JobBoard\Professional;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RegistrationsExport;
 
 class RegistrationController extends Controller
 {
@@ -94,5 +96,9 @@ class RegistrationController extends Controller
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
+    }
+
+    function exportTest(){
+        return Excel::download(new RegistrationsExport, 'registration.xlsx');
     }
 }
