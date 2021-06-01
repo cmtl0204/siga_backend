@@ -14,7 +14,7 @@ class UpdateStatusOfferRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'status.id' => [
+            'offer.status.id' => [
                 'required',
                 'integer',
             ],
@@ -25,7 +25,7 @@ class UpdateStatusOfferRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'status.id' => 'estado-id',
+            'offer.status.id' => 'estado-id',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

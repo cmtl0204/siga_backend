@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobBoard;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Offer;
@@ -13,24 +14,26 @@ use App\Http\Requests\JobBoard\Offer\IndexOfferRequest;
 use App\Http\Requests\JobBoard\Offer\StoreOfferRequest;
 use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest; 
 use App\Http\Requests\JobBoard\Offer\UpdateStatusOfferRequest;
+use App\Http\Requests\JobBoard\Offer\DeleteOfferRequest;
+use App\Http\Requests\JobBoard\Offer\GetProfessionalOfferRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class OfferController extends Controller
 {
     function index(IndexOfferRequest $request)
     {
-        $company = Company::getInstance($request->input('company_id'));
+        $company = $request->user()->company()->first();
 
         if ($request->has('search')) {
-            $offer = $company->offers()
+            $offers = $company->offers()
                 ->aditionalInformation($request->input('search'))
                 ->code($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $offer = $company->offers()->paginate($request->input('per_page'));
+            $offers = $company->offers()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($offer) === 0) {
+        if ($offers->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -40,7 +43,7 @@ class OfferController extends Controller
                 ]], 404);
         }
 
-        return response()->json($offer, 200);
+        return response()->json($offers, 200);
     }
 
     function store(StoreOfferRequest $request)
@@ -57,7 +60,7 @@ class OfferController extends Controller
         $lastOffer = Offer::get()->last();
         $number = $lastOffer?$lastOffer->id + 1:1;
 
-        $offer = new Offer();
+        $offer = new Offer;
         $offer->code = $company->prefix.$number;
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
@@ -78,11 +81,12 @@ class OfferController extends Controller
         $offer->experienceTime()->associate($experienceTime);
         $offer->trainingHours()->associate($trainingHours);
         $offer->status()->associate($status);
-        $offer->save();
 
-        foreach ($request->input('offer.categories') as $category) {
-            $offer->categories()->attach($category);
-        }
+        DB::transaction(function () use($offer, $request) {
+            $offer->save();
+            $offer->categories()->attach($request->input('offer.categories'));
+        });
+        
 
         return response()->json([
             'data' => $offer,
@@ -105,16 +109,10 @@ class OfferController extends Controller
             ]], 200);
     }
 
-    function getProfessionals(Offer $offer)
+    function getProfessionals(GetProfessionalOfferRequest $request, Offer $offer)
     {
-        $professionals = $offer->professionals()->get();
-        return response()->json([
-            'data' => $professionals,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]], 200);
+        $professionals = $offer->professionals()->paginate($request->input('per_page'));;
+        return response()->json($professionals, 200);
     }
 
     function update(UpdateOfferRequest $request, Offer $offer)
@@ -128,7 +126,6 @@ class OfferController extends Controller
         $trainingHours = Catalogue::getInstance($request->input('offer.training_hours.id'));
         $status = Status::getInstance($request->input('offer.status.id'));
 
-        $offer->code = $request->input('offer.code');
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
         $offer->contact_phone = $request->input('offer.contact_phone');
@@ -148,13 +145,12 @@ class OfferController extends Controller
         $offer->experienceTime()->associate($experienceTime);
         $offer->trainingHours()->associate($trainingHours);
         $offer->status()->associate($status);
-        $offer->categories()->detach();
 
-        foreach ($request->input('offer.categories') as $category) {
-            $offer->categories()->attach($category);
-        }
-
-        $offer->save();
+        DB::transaction(function () use($offer, $request) {
+            $offer->categories()->detach();
+            $offer->save();
+            $offer->categories()->attach($request->input('offer.categories'));
+        });
 
         return response()->json([
             'data' => $offer,
@@ -165,21 +161,23 @@ class OfferController extends Controller
             ]], 201);
     }
 
-    function destroy(Offer $offer)
+    function delete(DeleteOfferRequest $request)
     {
-        $offer->delete();
+        Offer::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $offer,
+            'data' => null,
             'msg' => [
-                'summary' => 'Oferta eliminada',
+                'summary' => 'Oferta eliminadas',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]], 201);
     }
 
+
+
     function changeStatus(UpdateStatusOfferRequest $request, Offer $offer){
-        $offer->status()->associate(Status::find($request->input('status.id')));        
+        $offer->status()->associate(Status::find($request->input('offer.status.id')));        
         $offer->save();
         return response()->json([
             'data' => $offer,

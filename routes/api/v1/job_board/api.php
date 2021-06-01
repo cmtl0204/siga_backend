@@ -78,6 +78,7 @@ Route::middleware($middlewares)
             });
             Route::get('proffesionals/{offer}', [OfferController::class, 'getProfessionals']);
             Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
+            Route::put('delete', [OfferController::class, 'delete']);
         });
 
         Route::prefix('academic-formation')->group(function () {

@@ -11,6 +11,7 @@ use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use App\Models\App\Location;
 use App\Models\JobBoard\Professional;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 /**
  * @property BigInteger id
@@ -32,6 +33,7 @@ class Offer extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     private static $instance;
 
@@ -55,7 +57,11 @@ class Offer extends Model implements Auditable
         'location',
         'categories',
         'location',
-        'contractType'
+        'contractType',
+        'trainingHours',
+        'experienceTime',
+        'workingDay',
+        'sector'
     ];
 
     protected $casts = [
@@ -67,6 +73,8 @@ class Offer extends Model implements Auditable
         'updated_at' => 'datetime:Y-m-d h:m:s',
         'deleted_at' => 'datetime:Y-m-d h:m:s',
     ];
+
+    protected $cascadeDeletes = ['categories'];
 
     // Instance
     public static function getInstance($id)
