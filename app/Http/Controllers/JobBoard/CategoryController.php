@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\JobBoard;
 
-// Controllers
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
-
-// Models
-use App\Http\Requests\JobBoard\Category\StoreCategoryRequest;
 use App\Models\App\Catalogue;
-use App\Models\JobBoard\Company;
-use App\Models\JobBoard\Professional;
 use App\Models\JobBoard\Category;
-
-// FormRequest
+use App\Http\Requests\JobBoard\Category\StoreCategoryRequest;
 use App\Http\Requests\JobBoard\Category\IndexCategoryRequest;
 use App\Http\Requests\JobBoard\Category\UpdateCategoryRequest;
+use App\Http\Requests\JobBoard\Category\DeleteCategoryRequest;
 use App\Http\Requests\App\Image\UpdateImageRequest;
 use App\Http\Requests\App\Image\UploadImageRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
@@ -28,55 +22,31 @@ class CategoryController extends Controller
 {
     
     function index(IndexCategoryRequest $request)
-{
-
-    if ($request->has('search')) {
-        $categories = $category->categories()
-            ->code($request->input('search'))
-            ->name($request->input('search'))
-            ->paginate($request->input('per_page'));
-    } else {
-        $categories = $category->categories()->paginate($request->input('per_page'));
-    }
-
-    if (sizeof($categories) === 0) {
-        return response()->json([
-            'data' => null,
-            'msg' => [
-                'summary' => 'No se encontraron Categorias',
-                'detail' => 'Intente de nuevo',
-                'code' => '404'
-            ]], 404);
-    }
-
-    return response()->json($categories, 200);
-}
-
-    function show($categoryId)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($categoryId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
+        if ($request->has('search')) {
+            $categories = Category::
+                code($request->input('search'))
+                ->name($request->input('search'))
+                ->paginate($request->input('per_page'));
+        } else {
+            $categories = Category::paginate($request->input('per_page'));
         }
-        $category = Category::find($categoryId);
 
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$category) {
+        if ($categories->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'Categoria no encontrada',
-                    'detail' => 'Vuelva a intentar',
+                    'summary' => 'No se encontraron Categorias',
+                    'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
         }
 
+        return response()->json($categories, 200);
+    }
+
+    function show(Category $category)
+    {
         return response()->json([
             'data' => $category,
             'msg' => [
@@ -90,8 +60,8 @@ class CategoryController extends Controller
     {
 
         $category = new Category();
-        $category->name = $request->input('category.name');
         $category->code = $request->input('category.code');
+        $category->name = $request->input('category.name');
         $category->save();
 
         return response()->json([
@@ -103,27 +73,14 @@ class CategoryController extends Controller
             ]], 201);
     }
 
-    function update(UpdateCategoryRequest $request, $categoryId)
+    function update(UpdateCategoryRequest $request, Category $category)
     {
-       
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$category) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Habilidad no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
-        $category->name = $request->input('category.name');
         $category->code = $request->input('category.code');
+        $category->name = $request->input('category.name');
         $category->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $category->fresh(),
             'msg' => [
                 'summary' => 'Categoria actualizada',
                 'detail' => 'El registro fue actualizado',
@@ -131,39 +88,16 @@ class CategoryController extends Controller
             ]], 201);
     }
 
-    function destroy($categoryId)
+    function delete(DeleteCategoryRequest $request)
     {
-        // Valida que el id se un número, si no es un número devuelve un mensaje de error
-        if (!is_numeric($categoryId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]], 400);
-        }
-        $category = Category::find($categoryId);
-
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$category) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Categoria no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]], 404);
-        }
-
         // Es una eliminación lógica
-        $category->delete();
+        Category::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $category,
+            'data' => null,
             'msg' => [
-                'summary' => 'Categoria eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Categoria(s) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }

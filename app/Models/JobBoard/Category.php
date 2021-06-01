@@ -2,20 +2,21 @@
 
 namespace App\Models\JobBoard;
 
-use App\Models\App\Catalogue;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use App\Models\App\Category;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-use Brick\Math\BigInteger;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\File;
 use App\Models\App\Image;
 use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
- * @property string description
+ * @property string code
+ * @property string name
+ * @property string icon
  */
 
 
@@ -23,7 +24,7 @@ class Category extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
-    use HasFactory;
+    use SoftDeletes;
 
     private static $instance;
 
@@ -60,7 +61,6 @@ class Category extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-<<<<<<< HEAD
      // Mutators
      public function setCodeAttribute($value)
      {
@@ -74,6 +74,12 @@ class Category extends Model implements Auditable
              return $query->where('code', 'ILIKE', "%$code%");
          }
      }
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->orWhere('name', 'ILIKE', "%$name%");
+        }
+    }
 
       // Mutators
     public function setNameAttribute($value)
@@ -81,16 +87,5 @@ class Category extends Model implements Auditable
         $this->attributes['name'] = strtoupper($value);
     }
 
-    // Scopes
-    public function scopeName($query, $name)
-    {
-        if ($name) {
-            return $query->where('name', 'ILIKE', "%$name%");
-        }
-=======
-    public function offers()
-    {
-        return $this->belongsTo(Offer::class);
->>>>>>> mod_6_jobboard
-    }
+   
 }

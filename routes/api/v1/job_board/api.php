@@ -59,6 +59,7 @@ Route::middleware($middlewares)
             Route::get('file/{file}', [SkillController::class, 'showFile']);
         });
 
+
         Route::prefix('company')->group(function () {
             Route::get('{id}', [CompanyController::class, 'show']);
             Route::get('{id}', [CompanyController::class, 'getProfesional']);
@@ -67,6 +68,12 @@ Route::middleware($middlewares)
             Route::post('register', [CompanyController::class, 'register']);
 
         });
+        Route::prefix('category')->group(function () {
+            Route::post('register', [CompanyController::class, 'register']);
+            Route::put('delete', [CategoryController::class, 'delete']);
+
+        });
+
 
         Route::prefix('professional')->group(function () {
             Route::get('offers', [ProfessionalController::class, 'getOffers']);
