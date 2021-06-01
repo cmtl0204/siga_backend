@@ -49,11 +49,13 @@ class LearningResult extends Model implements Auditable
     {
         return $this->hasMany(Pea::class);
     }
-
-    public function parent()
-    {
-        return $this->belongsTo(LearningResult::class);
-    }
+// recursiva
+    public function parent(){
+        return $this->belongsTo('Portfolio\LearningResult');
+  }
+  public function learningResultsChildren(){
+        return $this->hasMany('Porfolio\LearningResult');
+  }
     
 
     public function type()
