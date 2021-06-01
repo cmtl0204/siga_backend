@@ -8,7 +8,6 @@ use Faker\Generator as Faker;
 
 class UserFactory extends Factory
 {
-
     protected $model = User::class;
 
     public function definition()
