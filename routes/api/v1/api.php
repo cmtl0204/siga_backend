@@ -6,6 +6,7 @@ use \Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Artisan;
 
 Route::get('init', function (CreateClientRequest $request) {
+
     if (env('APP_ENV') != 'local') {
         return 'El sistema se encuentra en producción.';
     }
@@ -20,8 +21,6 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema job_board;');
 
     Artisan::call('migrate', ['--seed' => true]);
-
-//    Artisan::call('passport:keys');
 
     Artisan::call('passport:client', [
         '--password' => true,

@@ -114,4 +114,22 @@ class LocationController extends Controller
             ]], 200);
     }
 
+    public function getLocations(Request $request)
+    {
+        $locations = Location::with('type')
+            ->with(['children' => function ($province) {
+            $province->with('type')->with(['children' => function ($canton) {
+                $canton->with('type')->with(['children' => function ($parish) {
+                    $parish->with('type');
+                }]);
+            }]);
+        }])->get();
+        return response()->json([
+            'data' => $locations,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
 }

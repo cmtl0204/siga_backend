@@ -24,15 +24,15 @@ class OfferFactory extends Factory
         return [
             'company_id' => $this->faker->numberBetween(1, 11),
             'location_id' => 1, // no hay nada
-            'contract_type_id' => $this->faker->numberBetween(276, 279),
-            'position_id' => $this->faker->numberBetween(280, 299),
+            'contract_type_id' => $this->faker->numberBetween(275, 278),
+            'position_id' => $this->faker->numberBetween(279, 298),
             'sector_id' => $this->faker->numberBetween(280, 299), // preguntar
-            'working_day_id' => $this->faker->numberBetween(300, 319),
-            'experience_time_id' => $this->faker->numberBetween(320, 339),
-            'training_hours_id' => $this->faker->numberBetween(340,359),
+            'working_day_id' => $this->faker->numberBetween(299, 318),
+            'experience_time_id' => $this->faker->numberBetween(319, 338),
+            'training_hours_id' => $this->faker->numberBetween(339,358),
             'status_id' => $this->faker->numberBetween(1, 5),
             'code' => $this->faker->postcode,
-            'description' => $this->faker->realText($maxNbChars = 200, $indexSize = 5),
+//            'description' => $this->faker->realText($maxNbChars = 200, $indexSize = 5),
             'contact_name' => $this->faker->userName,
             'contact_email' => $this->faker->email,
             'contact_phone' => $this->faker->phoneNumber,

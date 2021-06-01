@@ -29,7 +29,7 @@ class CreateAppAddressTable extends Migration
                 ->nullable()
                 ->comment('código postal');
 
-            $table->text('references')
+            $table->text('reference')
                 ->nullable();
 
             $table->double('latitude')

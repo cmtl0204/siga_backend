@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        return parent::render($request, $e);
+//        return parent::render($request, $e);
         if ($e instanceof OAuthServerException) {
             // grant type is not supported
             if ($e->getCode() === 2) {
@@ -82,8 +82,8 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'data' => $e->getMessage(),
                 'msg' => [
-                    'summary' => 'No Autenticado',
-                    'detail' => '',
+                    'summary' => 'Usuario no autenticado',
+                    'detail' => 'Por favor inicie sesión',
                     'code' => $e->getCode()
                 ]], 401);
         }

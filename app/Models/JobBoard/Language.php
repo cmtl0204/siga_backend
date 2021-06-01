@@ -23,8 +23,7 @@ class Language extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.languages';
-
-    protected $with = ['professional', 'idiom'];
+    protected $with = ['professional','idiom'];
 
     public static function getInstance($id)
     {
