@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCecyTopicsTable extends Migration
+class CreateTopicsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateCecyTopicsTable extends Migration
      */
     public function up()
     {
+        //subtemas_curso
         Schema::connection('pgsql-cecy')->create('topics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->constrained('cecy.topics')
-                ->comment('codigo padre del tema, apunta al id de esta misma tabla');
-            $table->foreignId('course_id')->constrained('cecy.courses')
-                ->comment('FK de la tabla cursos');
-            $table->foreignId('type_id')->constrained('app.catalogues')
-                ->comment('tipo de tema, principal  o subtema');
-            $table->text('description')->nullable()->comment('descripcion del tema');
-            $table->softDeletes();
+            $table->string('description')->nullable()->comment('descripcion del tema');
+            $table->foreign('parent_code_id')->references('id')->on('topics')->comment('codigo padre del tema, apunta al id de esta misma tabla');
+            $table->foreignId('course_id')->constrained('courses')->comment('FK de la tabla cursos');
+            $table->foreignId('type_id')->constrained('app.catalogues')->comment('tipo de tema, principal  o subtema');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
