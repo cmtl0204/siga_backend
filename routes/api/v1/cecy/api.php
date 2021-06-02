@@ -78,6 +78,8 @@ Route::prefix('/')
         Route::prefix('courses')->group(function () {
             Route::get('all-courses', [CourseController::class, 'index']);
             Route::post('store-course', [CourseController::class, 'storeCourse']);
+            Route::put('course-approval', [CourseController::class, 'courseApproval']);
+
 
 
        

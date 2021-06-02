@@ -18,7 +18,7 @@ class CreateCecyPlanificationInstructorsTable extends Migration
             $table->id();
             $table->foreignId('instructor_id')->constrained('instructors')->comment('id_persona_instructor');
             $table->foreignId('planification_id')->constrained('planifications')->comment('El docente responsable asigna su equipo de trabajo,una planificción puede tener muchos instructores');
-//$table->foreignId('detail_registration_id')->constrained('detail_registrations')->comment('id_detalle_matricula');
+            //$table->foreignId('detail_registration_id')->constrained('detail_registrations')->comment('id_detalle_matricula');
             $table->timestamps();
             $table->softDeletes();
         });

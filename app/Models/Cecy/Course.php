@@ -47,21 +47,41 @@ class Course extends Model implements Auditable
 
     protected $fillable = [
         'code',
-        'abbreviation',
-        'duration',
-        'summary',
-        'project',
-        'target_groups',
-        'participant_type',
-        'technical_requirements',
-        'general_requirements',
-        'objective',
-        'cross_cutting_topics',
-        'teaching_strategies',
-        'bibliographies',
+        'name',
+        'hours_duration',
         'free',
-        'cost',
-        'observations'
+        'summary',
+        'observation',
+        'objective',
+        'needs',
+        'general_requirements',
+        'Target_group',
+        'facilities',
+        'theoretical_phase',
+        'practical_phase',
+        'main_topics',
+        'secondary_topics',
+        'cross_cutting_topics',
+        'bibliography',
+        'teaching_strategies',
+        'required_installing_sources',
+        'practice_hours',
+        'theory_hours',
+        'practice_required_resources',
+        'aimtheory_required_resources',
+        'learning_teaching_strategy',
+        'proposed_date',
+        'approval_date',
+        'local_proposal',
+        'project',
+        'capacity',
+        'place',
+        'setec_name',
+        'abbreviation',
+        'bibliographys',
+        'status',
+      
+
 
     ];
 
@@ -75,49 +95,42 @@ class Course extends Model implements Auditable
     }
 
     //Relationships - Las relaciones van el orden alfabetico 
+    public function anc()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function capacitationType()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function certifiedType()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
 
     public function institution()
     {
         return $this->belongsTo(Institution::class);
     }
 
-    public function anc()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-    public function type()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
 
     public function modality()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
+    
+    public function type()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+   
+
     public function specialty()
     {
         return $this->belongsTo(Catalogue::class);
-    }
-
-    public function CapacitationType()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-    public function CertifiedType()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-
-    
-    
-
-
-
-    
-
+    } 
 
 }
