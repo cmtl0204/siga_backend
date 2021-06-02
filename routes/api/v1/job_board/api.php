@@ -65,7 +65,6 @@ Route::middleware($middlewares)
 
         });
         Route::prefix('category')->group(function () {
-            Route::post('register', [CompanyController::class, 'register']);
             Route::put('delete', [CategoryController::class, 'delete']);
 
         });

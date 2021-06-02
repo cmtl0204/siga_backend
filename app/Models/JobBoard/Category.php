@@ -2,14 +2,11 @@
 
 namespace App\Models\JobBoard;
 
-//use App\Models\App\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\File;
-use App\Models\App\Image;
 use App\Models\App\Catalogue;
 
 /**
