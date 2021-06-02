@@ -4,7 +4,7 @@ namespace App\Http\Controllers\JobBoard;
 
 // Controllers
 use App\Http\Controllers\Controller;
-
+use App\Models\Authentication\User;
 // Models
 use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Professional;
@@ -111,20 +111,28 @@ class WebProfessionalController extends Controller
     function applyProfessional(Request $request)
     {
         $professional = Professional::find($request->input('professional_id'));
-        $company = Company::find($request->input('company_id'));
+        $company = User::find($request->input('user_id'))->company();
 
-        //$company->professionals()->attach($professional->id);
+        if (!$company) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => '',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+        
+        $company->professionals()->attach($professional->id);
 
         return response()->json([
-            'data' => [
-                'professional' => $professional,
-                'company' => $company
-            ],
+            'data' => null,
             'msg' => [
                 'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
+                'detail' => 'Profesional contactado con éxito',
+                'code' => '201'
             ]
-        ], 200);
+        ], 201);
     }
 }
