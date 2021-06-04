@@ -31,10 +31,9 @@ class  UserAdministrationController extends Controller
                 ->where(function ($query) use ($search) {
                     $query->email($search);
                     $query->firstlastname($search);
-                    $query->firstname($search);
+                    $query->names($search);
                     $query->identification($search);
                     $query->secondlastname($search);
-                    $query->secondname($search);
                 })
                 ->with(['institutions' => function ($institutions) {
                     $institutions->orderBy('name');
@@ -120,15 +119,12 @@ class  UserAdministrationController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-        $user->identification = $request->input('user.identification');
-        $user->username = $request->input('user.username');
-        $user->first_name = $request->input('user.first_name');
-        $user->second_name = $request->input('user.second_name');
-        $user->first_lastname = $request->input('user.first_lastname');
-        $user->second_lastname = $request->input('user.second_lastname');
-        $user->birthdate = $request->input('user.birthdate');
-        $user->email = $request->input('user.email');
-        $user->password = Hash::make($request->input('user.password'));
+        $user->identification = $request->input('identification');
+        $user->username = $request->input('identification');
+        $user->first_name = $request->input('names');
+        $user->first_lastname = $request->input('first_lastname');
+        $user->second_lastname = $request->input('second_lastname');
+        $user->email = $request->input('email');
 
         $user->status()->associate(Status::getInstance($request->input('user.status')));
         $user->save();
@@ -162,13 +158,12 @@ class  UserAdministrationController extends Controller
             ], 404);
         } else {
             $user = User::find($userId);
-            $user->identification = $request->input('user.identification');
-            $user->username = $request->input('user.username');
-            $user->first_name = $request->input('user.first_name');
-            $user->first_lastname = $request->input('user.first_lastname');
-            $user->birthdate = $request->input('user.birthdate');
-            $user->email = $request->input('user.email');
-            $user->phone = $request->input('user.phone');
+            $user->identification = $request->input('identification');
+            $user->username = $request->input('identification');
+            $user->first_name = $request->input('names');
+            $user->first_lastname = $request->input('first_lastname');
+            $user->second_lastname = $request->input('second_lastname');
+            $user->email = $request->input('email');
 
             $user->save();
             return response()->json([
