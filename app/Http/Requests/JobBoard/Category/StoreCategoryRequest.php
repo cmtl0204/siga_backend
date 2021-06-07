@@ -24,7 +24,10 @@ class StoreCategoryRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:250',
-            ]
+            ],
+            'category.parent.id' => [
+               // 'required',
+            ],
         ];
         return JobBoardFormRequest::rules($rules);
     }
@@ -34,6 +37,7 @@ class StoreCategoryRequest extends FormRequest
         $attributes = [
             'category.code' => 'código',
             'category.name' => 'nombre',
+            'category.parent.id' => 'CategoriaID'
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

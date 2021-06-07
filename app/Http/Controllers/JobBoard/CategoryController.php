@@ -50,6 +50,7 @@ class CategoryController extends Controller
 
     function store(StoreCategoryRequest $request)
     {
+        $parent= Category::getInstance($request->input('category.parent.id'));
         
         $type = Catalogue::getInstance($request->input('category.type.id'));
 
@@ -58,7 +59,9 @@ class CategoryController extends Controller
         $category->name = $request->input('category.name');
         $category->icon = $request->input('category.icon');
         $category->type()->associate($type);
-        
+            if($parent){
+           $category->parent()->associate($parent);
+       }
         $category->save();
         return response()->json([
             'data' => $category,
@@ -71,11 +74,17 @@ class CategoryController extends Controller
 
     function update(UpdateCategoryRequest $request, Category $category)
     {
+        $parent= Category::getInstance($request->input('category.parent.id'));
+        
         $type = Catalogue::getInstance($request->input('category.type.id'));
+
         $category->code = $request->input('category.code');
         $category->name = $request->input('category.name');
         $category->icon = $request->input('category.icon');
         $category->type()->associate($type);
+        if($parent){
+            $category->parent()->associate($parent);
+        }
         $category->save();
 
         return response()->json([

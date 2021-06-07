@@ -45,7 +45,7 @@ class Category extends Model implements Auditable
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     public function parent()
