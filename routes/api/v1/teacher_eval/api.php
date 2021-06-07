@@ -21,12 +21,32 @@ Route::middleware($middlewares)
         Route::apiResources([
             'user-admins' => UserAdministrationController::class,
             'users' => UserController::class,
+            'questions' => QuestionController::class,
             'permissions' => PermissionController::class,
             'routes' => RouteController::class,
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
         ]);
+
+        //Question
+        Route::prefix('question')->group(function () {
+            Route::get('test', [QuestionController::class, 'test']);
+            Route::put('delete', [QuestionController::class, 'delete']);
+            Route::post('image', [QuestionController::class, 'uploadImages']);
+            Route::post('image/{image}', [QuestionController::class, 'updateImage']);
+            Route::delete('image/{image}', [QuestionController::class, 'deleteImage']);
+            Route::get('image', [QuestionController::class, 'indexImage']);
+            Route::get('image/{image}', [QuestionController::class, 'showImage']);
+
+            Route::prefix('file')->group(function () {
+                Route::post('', [QuestionController::class, 'uploadFiles']);
+                Route::delete('{image}', [QuestionController::class, 'deleteFile']);
+                Route::get('', [QuestionController::class, 'indexFile']);
+                Route::get('{file}', [QuestionController::class, 'showFile']);
+            });
+
+        });
 
         // Auth
         Route::prefix('auth')->group(function () {
