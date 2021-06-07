@@ -63,6 +63,7 @@ Route::middleware($middlewares)
         //User Administration
         Route::prefix('user-admin')->group(function () {
             Route::put('delete', [UserAdministrationController::class, 'delete']);
+            Route::get('roles', [UserAdministrationController::class, 'getRoles']);
         });
 
         // Role
