@@ -125,12 +125,13 @@ class  UserAdministrationController extends Controller
         $user->first_lastname = $request->input('first_lastname');
         $user->second_lastname = $request->input('second_lastname');
         $user->email = $request->input('email');
-
         $user->status()->associate(Status::getInstance($request->input('user.status')));
         $user->save();
 
+        $user->roles()->attach($request->input('roles'));
+
         return response()->json([
-            'data' => $user,
+            'data' => null,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
