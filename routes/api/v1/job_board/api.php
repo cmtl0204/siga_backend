@@ -76,7 +76,7 @@ Route::middleware($middlewares)
             Route::get('test', function () {
                 return Offer::get()->last();
             });
-            Route::get('proffesionals/{offer}', [OfferController::class, 'getProfessionals']);
+            Route::get('{offer}/proffesionals', [OfferController::class, 'getProfessionals']);
             Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
             Route::put('delete', [OfferController::class, 'delete']);
         });
