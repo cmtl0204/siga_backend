@@ -16,7 +16,7 @@ use App\Http\Controllers\Authentication\UserAdministrationInstitutionController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 //$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
 
-$middlewares = ['auth:api'];
+$middlewares = [];
 
 // With Middleware
 Route::middleware($middlewares)
@@ -64,6 +64,7 @@ Route::middleware($middlewares)
         Route::prefix('user-admin')->group(function () {
             Route::put('delete', [UserAdministrationController::class, 'delete']);
             Route::get('roles', [UserAdministrationController::class, 'getRoles']);
+            Route::get('rolesUser', [UserAdministrationController::class, 'getRolesUser']);
         });
 
         // Role
