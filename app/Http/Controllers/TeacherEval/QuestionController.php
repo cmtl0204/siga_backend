@@ -115,6 +115,7 @@ class QuestionController extends Controller
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
+
     }
 
 
