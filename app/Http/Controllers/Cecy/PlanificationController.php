@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Cecy;
 // Controllers
 use App\Http\Controllers\Controller;
 
+//Models
+use App\Models\Cecy\Planification; 
+
+
 //Form Request
-use App\Http\Requests\Cecy\EvaluationMechanism\IndexPlanificationRequest;
+use App\Http\Requests\Cecy\Planification\StorePlanificationRequest;
 
 
 class PlanificationController extends Controller
