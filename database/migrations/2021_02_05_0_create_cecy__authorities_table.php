@@ -13,10 +13,15 @@ class CreateAuthoritiesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('authentication.users')->comment('usuario clave foreanea de Authentication.user ');
 <<<<<<< HEAD:database/migrations/2021_02_05_0_create_cecy__authorities_table.php
+<<<<<<< HEAD:database/migrations/2021_02_05_0_create_cecy__authorities_table.php
             $table->foreignId('position_id')->constrained('app.catalogues')
                 ->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
             $table->foreignId('status_id')->nullable()->constrained('app.catalogues')
                 ->comment('datos como suspendio o retirado de catologue');
+=======
+            $table->foreignId('position_id')->constrained('app.catalogues')->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
+            $table->foreignId('status_id')->nullable()->constrained('ignug.catalogues')->comment('datos como suspendio o retirado de catologue');
+>>>>>>> mod_4_cecy:database/migrations/2021_02_05_1_create_cecy__authorities_table_y.php
 =======
             $table->foreignId('position_id')->constrained('app.catalogues')->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
             $table->foreignId('status_id')->nullable()->constrained('ignug.catalogues')->comment('datos como suspendio o retirado de catologue');
