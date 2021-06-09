@@ -21,25 +21,25 @@ use App\Http\Requests\App\File\IndexFileRequest;
 use App\Http\Requests\App\Image\IndexImageRequest;
 
 
-class QuestionController extends Controller
+class EvaluationTypeController extends Controller
 {
-    function index(IndexQuestionRequest $request)
+    function index(IndexEvaluationTypeRequest $request)
 {
     // Crea una instanacia del modelo Evaluation types para poder insertar en el modelo question.
     $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
 
     if ($request->has('search')) {
-        $question = $evaluationType->questions()
+        $evaluationType = $evaluationType->evaluationTypes()
             ->code($request->input('search'))
             ->name($request->input('search'))
             ->percentage($request->input('search'))
             ->global_percentage($request->input('search'))
             ->paginate($request->input('per_page'));
     } else {
-        $question = $evaluationType->questions()->paginate($request->input('per_page'));
+        $evaluationType = $evaluationType->evaluationTypes()->paginate($request->input('per_page'));
     }
 
-    if ($question->count() === 0) {
+    if ($evaluationType->count() === 0) {
         return response()->json([
             'data' => null,
             'msg' => [
@@ -49,13 +49,13 @@ class QuestionController extends Controller
             ]], 404);
     }
 
-    return response()->json($question, 200);
+    return response()->json($evaluationType, 200);
 }
 
-    function show(Question $question)
+    function show(EvaluationType $evaluationType)
     {
         return response()->json([
-            'data' => $question,
+            'data' => $evaluationType,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -63,7 +63,7 @@ class QuestionController extends Controller
             ]], 200);
     }
 
-    function store(StoreQuestionRequest $request)
+    function store(StoreEvaluationTypeRequest $request)
     {
         // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
         $evaluationType = EvaluationType::getInstance($request->input('evaluationType.id'));
@@ -71,14 +71,14 @@ class QuestionController extends Controller
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
         $type = Catalogue::getInstance($request->input('type.id'));
 
-        $question = new Question();
-        $question->description = $request->input('question.name');
-        $question->evaluationTypes()->associate($evaluationType);
-        $question->type()->associate($type);
-        $question->save();
+        $evaluationType = new EvaluationType();
+        $evaluationType->name = $request->input('question.name');
+        $evaluationType->evaluationTypes()->associate($evaluationType);
+        $evaluationType->type()->associate($type);
+        $evaluationType->save();
 
         return response()->json([
-            'data' => $question,
+            'data' => $evaluationType,
             'msg' => [
                 'summary' => 'Pregunta creada',
                 'detail' => 'El registro fue creado',
@@ -86,17 +86,17 @@ class QuestionController extends Controller
             ]], 201);
     }
 
-    function update(UpdateQuestionRequest $request, Question $question)
+    function update(UpdateEvaluationTypeRequest $request, EvaluationType $evaluationType)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         $type = Catalogue::getInstance($request->input('type.id'));
 
-        $question->description = $request->input('question.name');
-        $question->type()->associate($type);    
-        $question->save();
+        $evaluationType->name = $request->input('question.name');
+        $evaluationType->type()->associate($type);    
+        $evaluationType->save();
 
         return response()->json([
-            'data' => $question,
+            'data' => $evaluationType,
             'msg' => [
                 'summary' => 'Pregunta actualizada',
                 'detail' => 'El registro fue actualizado',
@@ -104,10 +104,10 @@ class QuestionController extends Controller
             ]], 201);
     }
 
-    function delete(DeleteQuestionRequest $request)
+    function delete(DeleteEvaluationTypeRequest $request)
     {
         // Es una eliminación lógica
-        Question::destroy($request->input('ids'));
+        EvaluationType::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,

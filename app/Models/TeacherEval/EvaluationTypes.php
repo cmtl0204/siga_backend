@@ -9,8 +9,12 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property BigInteger id 
+ * @property string name
+ * @property string code
+ * @property double percentage
+ * @property double global_percentage
  */
-class PairResults Model implements Auditable
+class EvaluationType Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -18,7 +22,7 @@ class PairResults Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.pair_results';
+    protected $table = 'teacher_eval.evaluation_types';
 
     protected $fillable = {
         'name',
@@ -37,11 +41,12 @@ class PairResults Model implements Auditable
     }
 
     //relantioships 
-    public function catalogues(){
-        return $this->belongsTo(catalogues::class);
-    }
     public function evaluationTypes(){
-        return $this->belongsTo(evaluationTypes::class);
+        return $this->belongsTo(EvaluationTypes::class);
+    }
+    public function status()
+    {
+        return $this->belongsTo(Catalogue::class);
     }
     
 }
