@@ -17,7 +17,7 @@ class CreateRegistrationEnrollmentsTable extends Migration
             $table->foreignId('enrollment_type_id')->constrained('registration.enrollment_types');
             $table->foreignId('working_day_id')->constrained('app.catalogues');
             $table->foreignId('working_day_operative_id')->constrained('app.catalogues');
-            $table->foreignId('main_parallel')->constrained('app.catalogues');
+            $table->foreignId('main_parallel_id')->constrained('app.catalogues');
             $table->foreignId('type_id')->constrained('app.catalogues');
             $table->string('code')->nullable();
             $table->dateTime('date')->nullable();

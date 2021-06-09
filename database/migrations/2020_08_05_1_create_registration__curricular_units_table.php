@@ -11,7 +11,6 @@ class CreateRegistrationCurricularUnitsTable extends Migration
         Schema::connection('pgsql-registration')->create('curricular_units', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->boolean('state');
             $table->softDeletes();
             $table->timestamps();
         });
