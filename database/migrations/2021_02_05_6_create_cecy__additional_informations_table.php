@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCecyAdditionalInformationsTable extends Migration
+class CreateAdditionalInformationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,20 @@ class CreateCecyAdditionalInformationsTable extends Migration
      */
     public function up()
     {
+        //convenios
         Schema::connection('pgsql-cecy')->create('additional_informations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('detail_registration_id')->constrained('cecy.detail_registrations');
-            $table->foreignId('instruction_level_id')->comment('Nivel de instrucción del participante')
-                ->constrained('app.catalogues');
-            $table->string('company_name')->comment('nombre de empresa o donde estudia');
-            $table->string('company_address')->comment('direccion fisica de empresa');
-            $table->string('company_email')->comment('correo de la empresa');
-            $table->string('company_phone')->comment('telefono de la empresa');
-            $table->string('company_activity')->comment('actividad de la empresa');
-            $table->boolean('is_company_sponsoring')->comment('la empresa patrocina ek curso (auspiciada)');
-            $table->string('contact_name')->comment('nombre de contacto q patrocina');
-            $table->json('know_course')->comment('como se entero del curso? Array (catalogo)');
-            $table->json('courses')->nullable()->comment('cursos que te gustaria seguir? Array');
-            $table->boolean('is_working')->comment('el participante trabaja?');
+            $table->string('level_instruction')->comment('Nivel de instrucción del participante'); 
+            $table->string('company_name')->comment('nombre de empresa'); 
+            $table->string('company_activity')->comment('actividad de la empresa'); 
+            $table->string('company_address')->comment('direccion fisica de empresa'); 
+            $table->string('company_phone')->comment('correo electronico  de empresa');            
+            $table->boolean('company_sponsor')->comment('la empresa patrocina ek curso (auspiciada)'); 
+            $table->string('name_contact')->comment('nombre de contacnto q patrocina'); 
+            $table->json('know_course')->comment('como se entero del curso? Array'); 
+            $table->json('course_follow')->nullable()->comment('cursos que te gustaria seguir? Array'); 
+            $table->boolean('works')->comment('el participante trabaja?'); 
+            $table->foreignId('level_instruction')->constrained('app.catalogues')->comment('id_nivel de instruccion'); 
             $table->softDeletes();
             $table->timestamps();
         });
