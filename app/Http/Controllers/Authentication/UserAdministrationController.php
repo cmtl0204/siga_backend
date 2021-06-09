@@ -213,7 +213,8 @@ class  UserAdministrationController extends Controller
         return $filters;
     }
 
-    public function getRolesUser(Request $request){
+    public function getRolesUser(Request $request)
+    {
 
         $user = User::find($request->input('id'));
         $roles = $user->roles()
@@ -239,7 +240,8 @@ class  UserAdministrationController extends Controller
             ]], 200);
     }
 
-    public function getRoles(Request $request){
+    public function getRoles(Request $request)
+    {
 
         $system = $request->input('system');
         $roles = Role::where('system_id', $system)
@@ -257,6 +259,20 @@ class  UserAdministrationController extends Controller
 
         return response()->json([
             'data' => $roles,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
+
+    public function setRoles(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        $user->roles()->sync($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
