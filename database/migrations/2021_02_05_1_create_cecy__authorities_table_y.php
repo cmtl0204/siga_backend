@@ -9,18 +9,11 @@ class CreateAuthoritiesTable extends Migration
 
     public function up()
     {
-        Schema::connection('pgsql-cecy')->create('authorities', function (Blueprint $table) {
+        Schema::connection('pgsql-ignug')->create('authorities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('authentication.users')->comment('usuario clave foreanea de Authentication.user ');
-<<<<<<< HEAD:database/migrations/2021_02_05_0_create_cecy__authorities_table.php
-            $table->foreignId('position_id')->constrained('app.catalogues')
-                ->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
-            $table->foreignId('status_id')->nullable()->constrained('app.catalogues')
-                ->comment('datos como suspendio o retirado de catologue');
-=======
             $table->foreignId('position_id')->constrained('app.catalogues')->comment('cargo en el cecy, datos como especialista,responsable de cecy,logistica');
             $table->foreignId('status_id')->nullable()->constrained('ignug.catalogues')->comment('datos como suspendio o retirado de catologue');
->>>>>>> mod_4_cecy:database/migrations/2021_02_05_1_create_cecy__authorities_table_y.php
             $table->json('functions')->nullable()->comment('Funciones que tiene dentro del Cecy');
             $table->date('start_date')->nullable()->comment('Fecha inicio de la gestión');
             $table->date('end_date')->nullable()->comment('Fecha fin de la gestión');
@@ -33,6 +26,6 @@ class CreateAuthoritiesTable extends Migration
 
     public function down()
     {
-        Schema::connection('pgsql-cecy')->dropIfExists('authorities');
+        Schema::connection('pgsql-ignug')->dropIfExists('authorities');
     }
 }
