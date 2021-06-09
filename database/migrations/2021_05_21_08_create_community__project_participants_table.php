@@ -15,7 +15,7 @@ class CreateCommunityProjectParticipantsTable extends Migration
     {
         Schema::connection('pgsql-community')->create('project_participants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable()->comment('FK del proyecto asociado')->constrained();
+            $table->foreignId('project_id')->nullable()->comment('FK del proyecto asociado')->constrained('projects');
             $table->foreignId('user_id')->nullable()->comment('FK users (Estudiante,docente,adminisrativo), cuando es rector se realiza un join con user_contrato y se extrae la información del contrato del rector')->constrained('authentication.users');
             $table->foreignId('type_id')->nullable()->comment('fk de catalogo, (coordinador, tutor, estudiante, rector, profesor)')->constrained('app.catalogues');
             $table->date('start_date')->nullable()->comment('Fecha de inicio del proyecto'); // tiempo

@@ -21,7 +21,7 @@ class CreateCommunityItvsTable extends Migration
 	    $table->string('object')->comment('objeto del ITV');
 	    $table->json('institute_obligations');
 	    $table->json('entity_obligations');
-	    //$table->foreignId(column:'project_id')->constrained(table:'community.projects');
+	    $table->foreignId('project_id')->constrained('community.projects');
 	    $table->string('justification');
 	    $table->text('conclusion');
 	    $table->text('recommendation');
