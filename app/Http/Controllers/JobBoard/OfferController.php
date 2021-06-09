@@ -174,8 +174,6 @@ class OfferController extends Controller
             ]], 201);
     }
 
-
-
     function changeStatus(UpdateStatusOfferRequest $request, Offer $offer){
         $offer->status()->associate(Status::find($request->input('offer.status.id')));        
         $offer->save();
