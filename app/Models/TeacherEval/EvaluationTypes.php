@@ -38,10 +38,10 @@ class PairResults Model implements Auditable
 
     //relantioships 
     public function catalogues(){
-        return $this->hasOne(catalogues::class);
+        return $this->belongsTo(catalogues::class);
     }
     public function evaluationTypes(){
-        return $this->hasMany(evaluationTypes::class);
+        return $this->belongsTo(evaluationTypes::class);
     }
     
 }
