@@ -20,7 +20,7 @@ class IndexEvaluationTypeRequest extends FormRequest
                 'integer'
             ],
         ];
-        return EvaluationTypeFormRequest::rules($rules);
+        return IndexEvaluationTypeRequest::rules($rules);
     }
 
     public function messages()
@@ -29,7 +29,7 @@ class IndexEvaluationTypeRequest extends FormRequest
             'evaluation_type_id.required' => 'El campo :attribute es obligatorio',
             'evaluation_type_id.integer' =>'El campo :attribute debe ser numérico',
         ];
-        return EvaluationTypeFormRequest::messages($messages);
+        return IndexEvaluationTypeRequest::messages($messages);
     }
 
     public function attributes()
@@ -37,6 +37,6 @@ class IndexEvaluationTypeRequest extends FormRequest
         $attributes = [
             'evaluation_types_id' => 'evaluation_types_id',
         ];
-        return EvaluationTypeFormRequest::attributes($attributes);
+        return IndexEvaluationTypeRequest::attributes($attributes);
     }
 }

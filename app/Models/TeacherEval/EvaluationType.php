@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property double percentage
  * @property double global_percentage
  */
-class EvaluationType Model implements Auditable
+class EvaluationType extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -24,13 +24,12 @@ class EvaluationType Model implements Auditable
     protected $connection = 'pgsql-teacher-eval';
     protected $table = 'teacher_eval.evaluation_types';
 
-    protected $fillable = {
+    protected $fillable = [
         'name',
         'code',
         'percentage',
         'global_percentage'
-
-    }
+        ]
 
     public static function getInstance($id){
         if(is_null(static::$instance)){

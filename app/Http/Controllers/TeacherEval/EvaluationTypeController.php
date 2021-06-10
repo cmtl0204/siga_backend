@@ -9,10 +9,10 @@ use App\Http\Controllers\App\ImageController;
 use App\Models\App\Catalogue;
 use App\Models\TeacherEval\Question;
 //formrRquest
-use App\Http\Requests\TeacherEval\Question\IndexQuestionRequest;
-use App\Http\Requests\TeacherEval\Question\UpdateQuestionRequest;
-use App\Http\Requests\TeacherEval\Question\DeleteQuestionRequest;
-use App\Http\Requests\TeacherEval\Question\StoreQuestionRequest;
+use App\Http\Requests\TeacherEval\EvaluationType\IndexEvaluationTypeRequest;
+use App\Http\Requests\TeacherEval\EvaluationType\UpdateEvaluationTypeRequest;
+use App\Http\Requests\TeacherEval\EvaluationType\DeleteEvaluationTypeRequest;
+use App\Http\Requests\TeacherEval\EvaluationType\StoreEvaluationTypeRequest;
 use App\Http\Requests\App\Image\UpdateImageRequest;
 use App\Http\Requests\App\Image\UploadImageRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
@@ -25,8 +25,15 @@ class EvaluationTypeController extends Controller
 {
     function index(IndexEvaluationTypeRequest $request)
 {
+    return response()->json([
+        'data' => $evaluationType,
+        'msg' => [
+            'summary' => 'success',
+            'detail' => '',
+            'code' => '200'
+        ]], 200);
     // Crea una instanacia del modelo Evaluation types para poder insertar en el modelo question.
-    $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
+/*     $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
 
     if ($request->has('search')) {
         $evaluationType = $evaluationType->evaluationTypes()
@@ -49,7 +56,7 @@ class EvaluationTypeController extends Controller
             ]], 404);
     }
 
-    return response()->json($evaluationType, 200);
+    return response()->json($evaluationType, 200); */
 }
 
     function show(EvaluationType $evaluationType)
@@ -65,20 +72,20 @@ class EvaluationTypeController extends Controller
 
     function store(StoreEvaluationTypeRequest $request)
     {
-        // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
-        $evaluationType = EvaluationType::getInstance($request->input('evaluationType.id'));
+/*         // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
+        $evaluationType = EvaluationType::getInstance($request->input('question.id'));
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
-        $type = Catalogue::getInstance($request->input('type.id'));
+        $type = Catalogue::getInstance($request->input('question.type.id'));
 
         $evaluationType = new EvaluationType();
         $evaluationType->name = $request->input('question.name');
         $evaluationType->evaluationTypes()->associate($evaluationType);
         $evaluationType->type()->associate($type);
-        $evaluationType->save();
+        $evaluationType->save(); */
 
         return response()->json([
-            'data' => $evaluationType,
+           // 'data' => $evaluationType,
             'msg' => [
                 'summary' => 'Pregunta creada',
                 'detail' => 'El registro fue creado',
