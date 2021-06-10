@@ -29,7 +29,7 @@ class EvaluationType extends Model implements Auditable
         'code',
         'percentage',
         'global_percentage'
-        ]
+    ]
 
     public static function getInstance($id){
         if(is_null(static::$instance)){
