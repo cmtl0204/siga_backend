@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Requests\Authentication;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\TeacherEval\DetailEvaluation;
 
-class DetailEvaluationFormRequest
+class IndexDetailEvaluationFormRequest
 {
     public static function rules($rules = [])
     {
@@ -26,15 +28,22 @@ class DetailEvaluationFormRequest
                 'required',
                 'integer'
             ],
-            'result' = => [
-                'required',
-                'double',
 
-            ],
-            return DetailEvaluationFormRequest::rules($rules);
-        ]
+
+
+        ];
+
+        return IndexDetailEvaluationRequest::rules($rules);
     }
 
+    public function messages()
+    {
+        $messages = [
+            'evaluation_id' => 'El campo :attribute es obligatorio',
+
+        ];
+        return IndexDetailEvaluationRequest::messages($messages);
+    }
 
 
 

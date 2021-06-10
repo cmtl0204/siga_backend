@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Authentication;
+namespace App\Models\TeacherEval;
 
 // Laravel
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -21,8 +22,8 @@ class DetailEvaluation extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected $connection = 'pgsql-authentication';
-    protected $table = 'authentication.modules';
+    protected $connection = 'pgsql-teacher-eval';
+    protected $table = 'teacher_eval.detail_evaluations';
 
     protected static $instance;
 
@@ -31,6 +32,11 @@ class DetailEvaluation extends Model implements Auditable
     'detail_evaluationable',
     'result',
     ];
+
+    protected $casts = [
+        'result' = 'array'
+    ];
+
 
     public static function getInstance($id)
     {

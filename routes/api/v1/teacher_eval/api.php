@@ -9,7 +9,7 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-
+use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
 
@@ -26,6 +26,7 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
+            'evaluation'=> DetailEvaluationController::class,
         ]);
 
         // Auth
@@ -55,6 +56,9 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+
+
+
     });
 
 // Without Middleware
@@ -67,5 +71,11 @@ Route::prefix('/')
             Route::post('reset-password', [AuthController::class, 'resetPassword']);
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+        });
+
+        Route::prefix('evaluation')->group(function () {
+            Route::get('all', [DetailEvaluationController::class, 'index']);
+            Route::get('show/{$id}', [DetailEvaluationController::class, 'show']);
+            Route::post('create',  [DetailEvaluationController::class, 'store']);
         });
     });
