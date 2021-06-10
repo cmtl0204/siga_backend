@@ -10,6 +10,8 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 
+use App\Http\Controllers\TeacherEval\QuestionController;
+
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
 
@@ -21,18 +23,20 @@ Route::middleware($middlewares)
         Route::apiResources([
             'user-admins' => UserAdministrationController::class,
             'users' => UserController::class,
-            'questions' => QuestionController::class,
             'permissions' => PermissionController::class,
             'routes' => RouteController::class,
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
+
+            //Question
+            //'questions' => QuestionController::class,
         ]);
 
         //Question
         Route::prefix('question')->group(function () {
-            Route::get('test', [QuestionController::class, 'test']);
-            Route::put('delete', [QuestionController::class, 'delete']);
+            //Route::get('test', [QuestionController::class, 'test']);
+           // Route::put('delete', [QuestionController::class, 'delete']);
             Route::post('image', [QuestionController::class, 'uploadImages']);
             Route::post('image/{image}', [QuestionController::class, 'updateImage']);
             Route::delete('image/{image}', [QuestionController::class, 'deleteImage']);
@@ -78,6 +82,16 @@ Route::middleware($middlewares)
     });
 
 // Without Middleware
+
+Route::prefix('/')
+    ->group(function () {
+        // ApiResources
+        Route::apiResource('systems', SystemController::class)->only(['show']);
+        // portfolio
+        Route::apiResource('questions', QuestionController::class);
+
+
+
 Route::prefix('/')
     ->group(function () {
         // Auth
@@ -87,5 +101,9 @@ Route::prefix('/')
             Route::post('reset-password', [AuthController::class, 'resetPassword']);
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+
+
+
         });
     });
+});

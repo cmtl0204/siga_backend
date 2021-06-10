@@ -8,6 +8,7 @@ use App\Http\Controllers\App\ImageController;
 //models
 use App\Models\App\Catalogue;
 use App\Models\TeacherEval\Question;
+use App\Models\TeacherEval\EvaluationType;
 //formrRquest
 use App\Http\Requests\TeacherEval\Question\IndexQuestionRequest;
 use App\Http\Requests\TeacherEval\Question\UpdateQuestionRequest;
@@ -65,7 +66,7 @@ class QuestionController extends Controller
     function store(StoreQuestionRequest $request)
     {
         // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
-        $evaluationType = EvaluationType::getInstance($request->input('evaluationType.id'));
+        $evaluationType = EvaluationType::getInstance($request->input('evaluation.evaluation_type.id'));
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
         $type = Catalogue::getInstance($request->input('type.id'));
@@ -119,7 +120,7 @@ class QuestionController extends Controller
     }
 
 
-    function uploadImages(UploadImageRequest $request)
+    /*function uploadImages(UploadImageRequest $request)
     {
         return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
     }
@@ -136,7 +137,7 @@ class QuestionController extends Controller
 
     function indexImage(IndexImageRequest $request)
     {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
+        return (new FileController())->index($request, Question::getInstance($request->input('id')));
     }
 
     function ShowImage($fileId)
@@ -146,7 +147,7 @@ class QuestionController extends Controller
 
     function uploadFiles(UploadFileRequest $request)
     {
-        return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
+        return (new FileController())->upload($request, Question::getInstance($request->input('id')));
     }
 
     function updateFile(UpdateFileRequest $request, $fileId)
@@ -161,11 +162,11 @@ class QuestionController extends Controller
 
     function indexFile(IndexFileRequest $request)
     {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
+        return (new FileController())->index($request, Question::getInstance($request->input('id')));
     }
 
     function ShowFile($fileId)
     {
         return (new FileController())->show($fileId);
-    }
+    }*/
 }

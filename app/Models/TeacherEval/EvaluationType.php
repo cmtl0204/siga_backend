@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\teacherEval;
+namespace App\Models\TeacherEval;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
- * @property BigInteger id 
+ * @property BigInteger id
  * @property string name
  * @property string code
  * @property double percentage
@@ -40,7 +40,7 @@ class EvaluationType Model implements Auditable
         return static::$instance;
     }
 
-    //relantioships 
+    //relantioships
     public function evaluationTypes(){
         return $this->belongsTo(EvaluationTypes::class);
     }
@@ -48,5 +48,5 @@ class EvaluationType Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
-    
+
 }
