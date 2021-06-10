@@ -9,6 +9,7 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 
 use App\Http\Controllers\TeacherEval\QuestionController;
 
@@ -27,11 +28,13 @@ Route::middleware($middlewares)
             'routes' => RouteController::class,
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
-            'systems' => SystemController::class,
-
             //Question
             //'questions' => QuestionController::class,
+            'systems' => SystemController::class
+
         ]);
+                // Auth
+
 
         //Question
         Route::prefix('question')->group(function () {
@@ -104,6 +107,11 @@ Route::prefix('/')
 
 
 
+        });
+        Route::prefix('evaluation-type')->group(function () {
+            Route::get('index', [EvaluationTypeController::class, 'index']);
+            Route::post('store', [EvaluationTypeController::class, 'store']);
+            Route::get('show', [EvaluationTypeController::class, 'show']);
         });
     });
 });

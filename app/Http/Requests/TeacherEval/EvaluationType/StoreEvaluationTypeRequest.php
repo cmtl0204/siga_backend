@@ -30,7 +30,7 @@ class StoreEvaluationTypeRequest extends FormRequest
 //                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
             ]
         ];
-        return EvaluationTypeFormRequest::rules($rules);
+        return StoreEvaluationTypeRequest::rules($rules);
     }
 
     public function attributes()
@@ -40,6 +40,6 @@ class StoreEvaluationTypeRequest extends FormRequest
             'evaluation_type.id' => 'evaluation_type_id',
             'stauts.id' => 'status-id',
         ];
-        return EvaluationTypeFormRequest::attributes($attributes);
+        return StoreEvaluationTypeRequest::attributes($attributes);
     }
 }
