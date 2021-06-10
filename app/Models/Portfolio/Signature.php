@@ -15,7 +15,7 @@ use App\Models\Authentication\User;
 
 /**
  * @property BigInteger id
- * @property 
+ * @property
  */
 
 
@@ -31,7 +31,7 @@ class Signature extends Model implements Auditable
     protected $table = 'portfolio.signatures';
 
     protected $fillable = [
-        '',
+        '', //todas FK
     ];
 
     public static function getInstance($id)

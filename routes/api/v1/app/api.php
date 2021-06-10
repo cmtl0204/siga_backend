@@ -39,5 +39,3 @@ Route::get('test', function () {
     return 'hola mundo';
 });
 
-// hola como
-//asd

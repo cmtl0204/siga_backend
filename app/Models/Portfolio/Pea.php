@@ -9,6 +9,15 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lcobucci\JWT\Signer;
 
+
+/**
+ * @property BigInteger id
+ * @property String student_assessment
+ * @property json basic_bibliographies
+ * @property json complementary_bibliographies
+ */
+
+
 class Pea extends Model implements Auditable
 {
     use HasFactory;
@@ -18,12 +27,18 @@ class Pea extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-portfolio';
-    protected $table = 'portfolio.Peas';
+    protected $table = 'portfolio.peas';
 
     protected $fillable = [
         'student_assessment',
-        'basic_biographies',
-        'complementary_biographies',
+        'basic_bibliographies',
+        'complementary_bibliographies',
+
+    ];
+
+    protected $casts = [
+        'basic_bibliographies' => 'array',
+        'complementary_bibliographies' => 'array'
     ];
 
     // Instance
@@ -41,7 +56,7 @@ class Pea extends Model implements Auditable
     {
         return $this->hasMany(Unit::class);
     }
-    
+
     public function methodologicalStrategies()
     {
         return $this->hasMany(MethodologicalStrategy::class);
@@ -55,5 +70,5 @@ class Pea extends Model implements Auditable
         return $this->belongsTo(Signature::class);
     }
 
-        
+
 }
