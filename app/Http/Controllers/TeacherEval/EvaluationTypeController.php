@@ -7,7 +7,7 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
 //models
 use App\Models\App\Catalogue;
-use App\Models\TeacherEval\Question;
+use App\Models\TeacherEval\EvaluationType;
 //formrRquest
 use App\Http\Requests\TeacherEval\EvaluationType\IndexEvaluationTypeRequest;
 use App\Http\Requests\TeacherEval\EvaluationType\UpdateEvaluationTypeRequest;
@@ -23,7 +23,7 @@ use App\Http\Requests\App\Image\IndexImageRequest;
 
 class EvaluationTypeController extends Controller
 {
-    function index(IndexEvaluationTypeRequest $request)
+    function index(IndexEvaluationTypeRequest $request, EvaluationType $evaluationType)
 {
     return response()->json([
         'data' => $evaluationType,
@@ -33,7 +33,7 @@ class EvaluationTypeController extends Controller
             'code' => '200'
         ]], 200);
     // Crea una instanacia del modelo Evaluation types para poder insertar en el modelo question.
-/*     $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
+    $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
 
     if ($request->has('search')) {
         $evaluationType = $evaluationType->evaluationTypes()
@@ -56,7 +56,7 @@ class EvaluationTypeController extends Controller
             ]], 404);
     }
 
-    return response()->json($evaluationType, 200); */
+    return response()->json($evaluationType, 200);
 }
 
     function show(EvaluationType $evaluationType)
