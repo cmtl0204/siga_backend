@@ -2,37 +2,30 @@
 
 namespace App\Models\Portfolio;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use App\Models\Authentication\System;
 
 
-class Module extends Model implements Auditable
+
+class PeaTeacher extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
-    protected $connection = 'pgsql-authentication';
-    protected $table = 'authentication.modules';
-
     protected static $instance;
 
+    protected $connection = 'pgsql-portfolio';
+    protected $table = 'portfolio.peas';
 
     protected $fillable = [
-    'code',
-    'name',
-    'description',
-    'icon',
-    'state'];
+        '',
+    ];
 
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -42,14 +35,5 @@ class Module extends Model implements Auditable
         return static::$instance;
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
-
-    public function system()
-    {
-        return $this->belongsTo(System::class);
-    }
-
+    // Relationships
 }

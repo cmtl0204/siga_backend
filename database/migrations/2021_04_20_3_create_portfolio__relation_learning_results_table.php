@@ -10,13 +10,13 @@ class CreatePortfolioRelationLearningResultsTable extends Migration
     {
         Schema::connection('pgsql-portfolio')->create('relation_learning_results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pea_id')->constrained('portfolio.peas')
+                   ->comment('fk de tabla pea');
             $table->foreignId('learning_result_id')->constrained('portfolio.learning_results')
-                ->comment('FK de la tabla learning_results (resultados de a_rendizaje)');
-            //tabla career no esta creada se direccina al ignug
-           // $table->foreignId('learning_result_career_id')->constrained('app.career_learning_results')
-             //   ->comment('FK de la tabla learning_results_career (resultados de a_rendizaje de la carrera)');
+                ->comment('FK de la tabla learning_results (resultados de aprendizaje)');
+
             $table->foreignId('contribution_id')->constrained('app.catalogues')
-                ->comment('fk de catalogo y posibles valoires (medio, alta,bajo)');
+                ->comment('fk de catálogo y posibles valores (medio, alta,bajo)');
             $table->timestamps();
             $table->softDeletes();
         });

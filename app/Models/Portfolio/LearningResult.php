@@ -9,7 +9,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-// modelos propios 
+// modelos propios
 
 /**
  * @property BigInteger id
@@ -49,12 +49,13 @@ class LearningResult extends Model implements Auditable
     {
         return $this->hasMany(Pea::class);
     }
-
-    public function parent()
-    {
-        return $this->belongsTo(LearningResult::class);
+// recursiva
+    public function parent(){
+        return $this->belongsTo(LearningResult::class, 'parent_id');
     }
-    
+    public function children(){
+        return $this->hasMany(LearningResult::class, 'parent_id');
+    }
 
     public function type()
     {

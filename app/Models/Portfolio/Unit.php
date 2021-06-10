@@ -8,6 +8,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property BigInteger id
+ * @property String 'description',
+ * @property Integer 'order',
+ * @property String 'name',
+ */
+
 class Unit extends Model implements Auditable
 {
     use HasFactory;
@@ -45,5 +52,5 @@ class Unit extends Model implements Auditable
     {
         return $this->belongsTo(Pea::class);
     }
-        
+
 }

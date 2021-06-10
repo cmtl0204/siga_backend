@@ -8,6 +8,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property BigInteger id
+ * @property String 'purpose'
+ */
+
 class MethodologicalStrategy extends Model implements Auditable
 {
     use HasFactory;
@@ -20,7 +25,7 @@ class MethodologicalStrategy extends Model implements Auditable
     protected $table = 'portfolio.methodological_strategies';
 
     protected $fillable = [
-        'purpose'
+
     ];
 
     // Instance
@@ -41,5 +46,5 @@ class MethodologicalStrategy extends Model implements Auditable
     {
         return $this->belongsTo(Strategy::class);
     }
-        
+
 }
