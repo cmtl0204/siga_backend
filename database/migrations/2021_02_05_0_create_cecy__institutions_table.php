@@ -25,7 +25,7 @@ class CreateCecyInstitutionsTable extends Migration
             $table->string('name')->comment('nombre de la institución');
             $table->string('slogan')->nullable()->comment('solgan  de la institución');
             $table->string('code')->nullable()->comment('codigo de la institución');
-            table->softDeletes();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
