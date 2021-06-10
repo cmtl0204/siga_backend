@@ -28,23 +28,23 @@ class CreateDetailPlanificationsTable extends Migration
             $table->foreignId('authority_instructor_firm')->constrained('authorities')->comment('Autoridad que firma el diploma de los instructores despues del rector'); 
             $table->string('location_certificate',900)->nullable()->comment('ubicacion del diploma del instructor dentro del servidor');
             $table->string('code_certificate',200)->nullable()->comment('codigo del diploma del instructor'); 
-            $table->foreignId('status_certificate_id')->constrained('ignug.catalogues')->comment('Estado del certificado'); //estado del certificado
+            $table->foreignId('status_certificate_id')->constrained('app.catalogues')->comment('Estado del certificado'); //estado del certificado
 
 
 
-            $table->foreignId('state_id')->constrained('ignug.states');//stado_id
+            $table->foreignId('status_id')->constrained('app.status');//stado_id
             // $table->foreignId('status_id')->constrained('catalogues');//status de la planificacion
            //  $table->foreignId('schedule_id')->constrained('schedule');//horario polimorfica
             //$table->foreignId('school_period_id')->constrained('school_periods')->nullable();//periodo_id
             // $table->foreignId('classroom_id')->constrained('ignug.classrooms');//id_aula
             $table->integer('capacity'); //capacidad_curso
 
-            $table->foreignId('site_dictate')->constrained('ignug.catalogues')->comment('lugar donde se dicta el curso');  //lugar donde se dicta
+            $table->foreignId('site_dictate')->constrained('app.catalogues')->comment('lugar donde se dicta el curso');  //lugar donde se dicta
 
             $table->string('observation',1000); //observaciones
-            $table->foreignId('conference')->constrained('ignug.catalogues'); //jornada
+            $table->foreignId('conference')->constrained('app.catalogues'); //jornada
             // $table->foreignId('responsible_id')->constrained('authorities'); //id autoridad a cargo responsable
-            $table->foreignId('parallel')->constrained('ignug.catalogues'); //jornada
+            $table->foreignId('parallel')->constrained('app.catalogues'); //jornada
             $table->json('needs'); //necesidades del curso es un array
             $table->date('need_date'); //fecha_registro de necesidad
             $table->timestamps();

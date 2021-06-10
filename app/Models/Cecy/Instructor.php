@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Cecy;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,10 +45,14 @@ class Instructor extends Model implements Auditable
     // Relationships
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Users::class);
+    }
+    public function responsible()
+    {
+        return $this->belongsTo(Users::class);
     }
 
-    public function type()
+    public function typeInstructor()
     {
         return $this->belongsTo(Catalogue::class);
     }

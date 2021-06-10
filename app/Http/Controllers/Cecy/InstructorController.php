@@ -6,20 +6,20 @@ use App\Http\Controllers\Controller;
 
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Cecy\Prerequisite\DeleteInstructorRequest;
-use App\Http\Requests\Cecy\Prerequisite\IndexInstructorRequest;
-use App\Http\Requests\Cecy\Prerequisite\StoreInstructorRequest;
-use App\Http\Requests\Cecy\Prerequisite\UpdateInstructorRequest;
+use App\Http\Requests\Cecy\Instructor\DeleteInstructorRequest;
+use App\Http\Requests\Cecy\Instructor\IndexInstructorRequest;
+use App\Http\Requests\Cecy\Instructor\StoreInstructorRequest;
+use App\Http\Requests\Cecy\Instructor\UpdateInstructorRequest;
 
 //models
 use App\Models\App\Catalogue;
 use App\Models\Authentication\User;
-use App\Models\Instructor;
-use GrahamCampbell\ResultType\Success;
+use App\Models\Cecy\Instructor;
+
 
 class InstructorController extends Controller
 {
-    public function index()
+    function index(IndexInstructorRequest $request)
     {
         $instructors = Instructor ::all();
 
