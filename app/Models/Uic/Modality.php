@@ -31,9 +31,9 @@ class Modality extends Model implements Auditable
     protected $with = ['career','status','modality'];
 
     protected $fillable = [
+        'id',
         'name',
-        'description',
-        'names'
+        'description'
     ];
 
     protected $casts = [
@@ -66,11 +66,11 @@ class Modality extends Model implements Auditable
     }
     public function modality()
     {
-        return $this->belongsTo('App\Models\Uic\Modality','parent_id');
+        return $this->belongsTo(Modality::class, 'parent_id');
     }
     public function modalities()
     {
-        return $this->hasMany('App\Models\Uic\Modality','parent_id');
+        return $this->hasMany(Modality::class,'parent_id');
     }
     public function status()
     {

@@ -33,12 +33,12 @@ class Enrollment extends Model implements Auditable
 
     protected $fillable = [
         'date',
-        'code',
-        'observations'
+        'code'
     ];
     // protected $cascadeDeletes = ['projects'];
 
     protected $casts = [
+        'observations' => 'array',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
