@@ -8,6 +8,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property BigInteger id
+ * @property
+ */
+
 class RelationLearningResult extends Model implements Auditable
 {
     use HasFactory;
@@ -18,6 +23,10 @@ class RelationLearningResult extends Model implements Auditable
 
     protected $connection = 'pgsql-portfolio';
     protected $table = 'portfolio.relation_learning_results';
+
+    protected $fillable = [
+        '', //todas FK
+    ];
 
 
     // Instance
@@ -39,5 +48,5 @@ class RelationLearningResult extends Model implements Auditable
     {
         return $this->belongsTo(Contribution::class);
     }
-        
+
 }

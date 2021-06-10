@@ -8,6 +8,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property BigInteger id
+ * @property json 'resources'
+ */
+
 class DidacticResource extends Model implements Auditable
 {
     use HasFactory;
@@ -43,5 +48,5 @@ class DidacticResource extends Model implements Auditable
     {
         return $this->belongsTo(Pea::class);
     }
-        
+
 }

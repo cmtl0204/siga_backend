@@ -8,6 +8,20 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
+/**
+ * @property BigInteger id
+ * @property Integer 'week',
+ * @property json 'contents',
+ * @property Integer 'teaching_hours',
+ * @property json 'teaching_activities',
+ * @property Integer 'practical_hours',
+ * @property json 'practical_activities',
+ * @property Integer 'autonomous_hours',
+ * @property json 'autonomous_activities',
+ * @property json 'observations'
+ */
+
 class Content extends Model implements Auditable
 {
     use HasFactory;
@@ -29,6 +43,8 @@ class Content extends Model implements Auditable
         'autonomous_hours',
         'autonomous_activities',
         'observations'
+
+
     ];
 
     // Instance
@@ -46,5 +62,4 @@ class Content extends Model implements Auditable
     {
         return $this->belongsTo(Unit::class);
     }
-        
 }
