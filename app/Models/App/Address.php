@@ -20,8 +20,8 @@ class Address extends Model implements Auditable
     protected $table = 'app.address';
 
     protected $fillable = [
-        'latitud',
-        'longitud',
+        'latitude',
+        'longitude',
         'main_street',
         'secondary_street',
         'number',

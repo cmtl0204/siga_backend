@@ -26,9 +26,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    function test(){
 
-}
     function getProfessionals(IndexCompanyRequest $request){
         $company = $request->user()->company()->first();
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
@@ -113,7 +111,6 @@ class CompanyController extends Controller
     }
     function register(StoreCompanyRequest  $request)
     {
-
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo company.
 
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -123,6 +120,10 @@ class CompanyController extends Controller
         $address->main_street = $request->input('company.user.address.main_street');
         $address->secondary_street = $request->input('company.user.address.secondary_street');
         $address->number = $request->input('company.user.address.number');
+        $address->post_code = $request->input('company.user.address.post_code');
+        $address->reference = $request->input('company.user.address.reference');
+        $address->longitude = $request->input('company.user.address.longitude');
+        $address->latitude = $request->input('company.user.address.latitude');
         $address->location()->associate($location);
         $address->sector()->associate($sector);
         $address->save();
@@ -178,6 +179,10 @@ class CompanyController extends Controller
             $address->main_street = $request->input('company.user.address.main_street');
             $address->secondary_street = $request->input('company.user.address.secondary_street');
             $address->number = $request->input('company.user.address.number');
+            $address->post_code = $request->input('company.user.address.post_code');
+            $address->reference = $request->input('company.user.address.reference');
+            $address->longitude = $request->input('company.user.address.longitude');
+            $address->latitude = $request->input('company.user.address.latitude');
             $address->location()->associate($location);
             $address->sector()->associate($sector);
             $address->save();
