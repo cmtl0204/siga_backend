@@ -94,67 +94,18 @@ class TopicController extends Controller
             ]], 201);
     }
 
-    function destroy(Skill $skill)
+    function delete(DeleteTopicRequest $request)
     {
         // Es una eliminación lógica
-        $skill->delete();
+        Topic::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $skill,
+            'data' => null,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Habilidad(es) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }
 
-    function uploadImages(UploadImageRequest $request)
-    {
-        return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
-    }
-
-    function updateImage(UpdateImageRequest $request, $imageId)
-    {
-        return (new ImageController())->update($request, $imageId);
-    }
-
-    function deleteImage($imageId)
-    {
-        return (new ImageController())->delete($imageId);
-    }
-
-    function indexImage(IndexImageRequest $request)
-    {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
-    }
-
-    function ShowImage($fileId)
-    {
-        return (new FileController())->show($fileId);
-    }
-
-    function uploadFiles(UploadFileRequest $request)
-    {
-        return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
-    }
-
-    function updateFile(UpdateFileRequest $request, $fileId)
-    {
-        return (new FileController())->update($request, $fileId);
-    }
-
-    function deleteFile($fileId)
-    {
-        return (new FileController())->delete($fileId);
-    }
-
-    function indexFile(IndexFileRequest $request)
-    {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
-    }
-
-    function ShowFile($fileId)
-    {
-        return (new FileController())->show($fileId);
-    }
-}
+    
