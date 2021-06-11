@@ -16,7 +16,7 @@ use App\Models\App\Catalogue;
  * 
  */
 
-class Skill extends Model implements Auditable
+class Participant extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -26,7 +26,7 @@ class Skill extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.skills';
+    protected $table = 'cecy.participants';
 
     protected $fillable = [
 
@@ -39,14 +39,14 @@ class Skill extends Model implements Auditable
     ];
 
     // Instance
-  //  public static function getInstance($id)
-   // {
-     //   if (is_null(static::$instance)) {
-       //     static::$instance = new static;
-        //}
-       // static::$instance->id = $id;
-       // return static::$instance;
-   // }
+    public static function getInstance($id)
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+        static::$instance->id = $id;
+        return static::$instance;
+    }
 
     // Relationships
     public function user()

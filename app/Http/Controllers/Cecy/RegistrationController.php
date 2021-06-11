@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Cecy;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
