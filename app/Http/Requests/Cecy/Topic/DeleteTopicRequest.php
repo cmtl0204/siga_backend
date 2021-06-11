@@ -1,30 +1,33 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cecy\Topic;
 
+use App\Http\Requests\Cecy\CecyFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DeleteTopicRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'ids' => [
+                'required',
+            ],
         ];
+        return CecyFormRequest::rules($rules);
+    }
+
+    public function attributes()
+    {
+        $attributes = [
+            'ids' => 'IDs',
+        ];
+        return CecyFormRequest::attributes($attributes);
     }
 }

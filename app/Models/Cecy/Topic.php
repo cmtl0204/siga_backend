@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cecy;
+namespace App\Models\Cecy\Topic;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +17,7 @@ use App\Models\App\Catalogue;
  * @property text description
  */
 
-class Skill extends Model implements Auditable
+class Topic extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
