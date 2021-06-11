@@ -117,10 +117,10 @@ Route::middleware($middlewares)
 
         Route::prefix('web-offer')->group(function () {
             Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
-            Route::get('private-offers', [WebOfferController::class, 'getOffers']);
+            Route::get('private-offers', [WebOfferController::class, 'getPrivateOffers']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
             Route::get('get-categories', [WebOfferController::class, 'getCategories']);
-            Route::post('index', [WebOfferController::class, 'index']);
+            Route::post('test', [WebOfferController::class, 'test']);
         });
     });
 
