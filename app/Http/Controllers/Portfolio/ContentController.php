@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
+    public function index(IndexUnitRequest $request)
+    {   
+         
+         // get all the Contents
+         $contents = Content::all();
+
+         return response()->json(['data' => $contents, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'Le busqueda se realizo con exito',
+            'code' => '200'
+        ]], 200);
+    }
  /**
      * Store a newly created resource in storage.
      *
