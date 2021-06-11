@@ -10,6 +10,8 @@ use App\Models\JobBoard\Offer;
 use App\Models\App\Status;
 use App\Models\App\Catalogue;
 use App\Models\App\Location;
+use App\Models\Authentication\Route;
+use Illuminate\Http\Request;
 use App\Http\Requests\JobBoard\Offer\IndexOfferRequest;
 use App\Http\Requests\JobBoard\Offer\StoreOfferRequest;
 use App\Http\Requests\JobBoard\Offer\UpdateOfferRequest; 
@@ -186,7 +188,20 @@ class OfferController extends Controller
             ]], 201);
     }
 
+    function getStatus(Request $request){
+        $route = Route::where('uri',$request->input('uri'))->first();
+        $status = $route->statusMorph()->get();
+        return response()->json([
+            'data' => $status,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 201);
+    }
+
     private function calculateEndOffer($startDate){
         return (Carbon::createFromFormat('Y-m-d', $startDate))->addMonth();
-    }
+    }    
 }

@@ -79,6 +79,7 @@ Route::middleware($middlewares)
             Route::get('{offer}/proffesionals', [OfferController::class, 'getProfessionals']);
             Route::put('end-offer/{offer}', [OfferController::class, 'changeStatus']);
             Route::put('delete', [OfferController::class, 'delete']);
+            Route::get('status', [OfferController::class, 'getStatus']);
         });
 
         Route::prefix('academic-formation')->group(function () {
@@ -152,4 +153,4 @@ Route::prefix('/')
         
     });
 
-
+    
