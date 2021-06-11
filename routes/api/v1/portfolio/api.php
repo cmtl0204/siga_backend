@@ -14,6 +14,7 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 
 
 use App\Http\Controllers\Portfolio\PeaController;
+use App\Http\Controllers\Portfolio\UnitController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
@@ -84,6 +85,7 @@ Route::prefix('/')
         Route::apiResource('systems', SystemController::class)->only(['show']);
         // portfolio
         Route::apiResource('peas', PeaController::class);
+        Route::apiResource('units', UnitController::class);
 
         // Auth
         Route::prefix('auth')->group(function () {

@@ -17,7 +17,7 @@ class DidacticResourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
