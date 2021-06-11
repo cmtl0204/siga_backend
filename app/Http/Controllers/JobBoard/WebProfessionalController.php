@@ -111,23 +111,24 @@ class WebProfessionalController extends Controller
     function applyProfessional(Request $request)
     {
         $professional = Professional::find($request->input('professional_id'));
-        $company = User::find($request->input('user_id'))->company();
+        // // $company = User::find($request->input('user_id'))->company();
+        // $company = $request->user();
 
-        if (!$company) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
+        // // if (!$company) {
+        // //     return response()->json([
+        // //         'data' => null,
+        // //         'msg' => [
+        // //             'summary' => 'success',
+        // //             'detail' => '',
+        // //             'code' => '404'
+        // //         ]
+        // //     ], 404);
+        // // }
         
-        $company->professionals()->attach($professional->id);
+        // $company->professionals()->attach($professional->id);
 
         return response()->json([
-            'data' => null,
+            'data' => $request->user(),
             'msg' => [
                 'summary' => 'success',
                 'detail' => 'Profesional contactado con éxito',
