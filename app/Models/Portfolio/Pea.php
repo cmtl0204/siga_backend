@@ -59,7 +59,6 @@ class Pea extends Model implements Auditable
     {
         return $this->hasMany(Unit::class);
     }
-
     public function methodologicalStrategies()
     {
         return $this->hasMany(MethodologicalStrategy::class);
@@ -72,6 +71,4 @@ class Pea extends Model implements Auditable
     {
         return $this->belongsTo(Signature::class);
     }
-
-
 }

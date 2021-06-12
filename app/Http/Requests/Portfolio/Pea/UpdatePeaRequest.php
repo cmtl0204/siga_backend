@@ -49,9 +49,12 @@ class UpdatePeaRequest extends FormRequest
     {
         $attributes = [
 
-            'student_assessment' => 'student_assessment',
-            'basic_biographies' => 'basic_biographies',
-            'complementary_biographies' => 'complementary_biographies',
+            'pea.subject.id' => 'pea.subject.id',
+            'pea.school_period.id' => 'pea.school_period.id',
+            'pea.student_assessment' => 'pea.student_assessment',
+            'pea.basic_bibliographies' => 'pea.basic_bibliographies',
+            'pea.complementary_bibliographies' => 'pea.complementary_bibliographies',
+
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

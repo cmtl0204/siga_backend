@@ -10,12 +10,16 @@ class CreatePortfolioDidacticResourcesTable extends Migration
     {
         Schema::connection('pgsql-portfolio')->create('didactic_resources', function (Blueprint $table) {
             $table->id();
+			
             $table->foreignId('pea_id')->constrained('portfolio.peas')
                 ->comment('fk de tabla pea');
+				
             $table->foreignId('type_id')->constrained('app.catalogues')
                 ->comment('fk de la tabla catalogo del esquema app posibles valores (MATERIALES CONVENCIONALES,NUEVAS TECNOLOGÍAS)');
-            $table->json('resources')->comment('Guarda los recursos didácticos');
-            $table->softDeletes();
+            
+			$table->json('resources')->comment('Guarda los recursos didácticos');
+            
+			$table->softDeletes();
             $table->timestamps();
         });
     }
