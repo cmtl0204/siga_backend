@@ -29,6 +29,18 @@ class WebOfferController extends Controller
             return response()->json($offers, 200);
         }
 
+        // por categorías.
+        if (!is_null($request->input('searchIDs'))) {
+            $categories = $request->input('searchIDs');
+
+            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            })->status(1)->paginate($request->input('per_page'));
+
+            return response()->json($offers, 200);
+
+        }
+
         $offers = Offer::province($request->input('searchProvince'))
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
@@ -59,6 +71,20 @@ class WebOfferController extends Controller
                 ->paginate($request->input('per_page'));
 
             return response()->json($offers, 200);
+        }
+
+        // por categorías.
+        if (!is_null($request->input('searchIDs'))) {
+            $categories = $request->input('searchIDs');
+
+            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            })->status(1)
+                ->professional($professional)
+                ->paginate($request->input('per_page'));
+
+            return response()->json($offers, 200);
+
         }
 
         $offers = Offer::professional($professional)
@@ -109,32 +135,31 @@ class WebOfferController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-//    function test(Request $request)
-//    {
-//        $professional = $request->user()->professional()->first();
-//
-//        // Por código.
-//        if (!is_null($request->input('searchCode'))) {
-//            $code = $request->input('searchCode');
-//
-//            $offers = Offer::professional($professional)
-//                ->status(1)
-//                ->where('code', 'ILIKE', "%$code%")
+    function test(Request $request)
+    {
+        $professional = $request->user()->professional()->first();
+
+        // Por campo amplio y especifico(categoría hija y padre)
+        if (!is_null($request->input('searchIDs'))) {
+            $categories = $request->input('searchIDs');
+
+            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            })->status(1)
+                ->professional($professional)
+                ->paginate($request->input('per_page'));
+
+//            $offers = Offer::categories($categories)->status(1)
+//                ->professional($professional)
 //                ->paginate($request->input('per_page'));
-//
-//            return response()->json($offers, 200);
-//        }
-//
-//        $offers = Offer::professional($professional)
-//            ->status(1)
-//            ->province($request->input('searchProvince'))
-//            ->canton($request->input('searchCanton'))
-//            ->position($request->input('searchPosition'))
-//            ->paginate($request->input('per_page'));
-//
+
+            return response()->json($offers, 200);
+
+        }
+
 //        return response()->json($offers, 200);
-//
-//    }
+
+    }
 
     function index2(Request $request)
     {

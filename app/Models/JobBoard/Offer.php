@@ -198,4 +198,12 @@ class Offer extends Model implements Auditable
         }
     }
 
+    public function scopeCategories($query, $categories){
+        if ($categories){
+            $query->whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            });
+        }
+    }
+
 }
