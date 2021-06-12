@@ -17,7 +17,7 @@ class SchoolPeriod extends Model implements Auditable
 
 
     protected $connection = 'pgsql-app';
-    protected $table = 'app.schoolPeriods';
+    protected $table = 'app.school_periods';
 
     protected $fillable = [];
 }

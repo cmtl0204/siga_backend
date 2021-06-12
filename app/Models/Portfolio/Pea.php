@@ -38,7 +38,10 @@ class Pea extends Model implements Auditable
 
     protected $casts = [
         'basic_bibliographies' => 'array',
-        'complementary_bibliographies' => 'array'
+        'complementary_bibliographies' => 'array',
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
     ];
 
     // Instance

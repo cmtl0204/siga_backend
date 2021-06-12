@@ -14,7 +14,7 @@ class CreatePortfolioDidacticResourcesTable extends Migration
                 ->comment('fk de tabla pea');
             $table->foreignId('type_id')->constrained('app.catalogues')
                 ->comment('fk de la tabla catalogo del esquema app posibles valores (MATERIALES CONVENCIONALES,NUEVAS TECNOLOGÍAS)');
-            $table->json('resources')->comment('Guarda los recursos didacticos');
+            $table->json('resources')->comment('Guarda los recursos didácticos');
             $table->softDeletes();
             $table->timestamps();
         });

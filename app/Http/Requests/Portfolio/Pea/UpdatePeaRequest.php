@@ -16,17 +16,27 @@ class UpdatePeaRequest extends FormRequest
     {
         $rules = [
             //evaluaciónEstudiante
-            'student_assessment' => [
+            'pea.subject.id' => [
                 'required',
-                'min:10',
+                'integer',
                 'max:1000',
             ],
-            'basic_bibliographies' => [
+            'pea.school_period.id' => [
+                'required',
+                'integer',
+                'max:1000',
+            ],
+            'pea.student_assessment' => [
                 '',
                 'min:10',
                 'max:1000',
             ],
-            'complementary_bibliographies' => [
+            'pea.basic_bibliographies' => [
+                '',
+                'min:10',
+                'max:1000',
+            ],
+            'pea.complementary_bibliographies' => [
                 '',
                 'min:10',
                 'max:1000',

@@ -5,17 +5,26 @@ namespace App\Http\Controllers\Portfolio;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio\MethodologicalStrategy;
 
+use App\Http\Requests\Portfolio\MethodologicalStrategy\IndexMethodologicalStrategyRequest;
+use App\Http\Requests\Portfolio\MethodologicalStrategy\StoreMethodologicalStrategyRequest;
+use App\Http\Requests\Portfolio\MethodologicalStrategy\UpdateMethodologicalStrategyRequest;
+
 use Illuminate\Http\Request;
 
 class MethodologicalStrategyController extends Controller
 {
+
+    public function index(IndexMethodologicalStrategyRequest $request)
+    {
+        //
+    }
      /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMethodologicalStrategyRequest $request)
     {
         //
     }
@@ -38,7 +47,7 @@ class MethodologicalStrategyController extends Controller
      * @param \Portfolio\MethodologicalStrategy $methodologicalStrategy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MethodologicalStrategy $methodologicalStrategy)
+    public function update(UpdateMethodologicalStrategyRequest $request, MethodologicalStrategy $methodologicalStrategy)
     {
         //
     }
