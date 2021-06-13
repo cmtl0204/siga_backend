@@ -17,19 +17,19 @@ class UpdateUnitRequest extends FormRequest
         $rules = [
             'description' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
 
             ],
             'order' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
 
             ],
             'name' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
 
             ]

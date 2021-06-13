@@ -9,7 +9,6 @@ use App\Http\Requests\Portfolio\Unit\StoreUnitRequest;
 use App\Http\Requests\Portfolio\Unit\IndexUnitRequest;
 use App\Http\Requests\Portfolio\Unit\UpdateUnitRequest;
 
-use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
@@ -72,13 +71,7 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        $unit = Unit::getInstance($request->input('unit.id'));
-        
-        $unit->description = $request->input('unit.description');
-        $unit->order = $request->input('unit.order');
-        $unit->name = $request->input('unit.name');
-        $unit->pea()->associate($pea);
-        $unit->save();
+        $unit->update($request->all());
 
         return response()->json([
             'data' => $unit,

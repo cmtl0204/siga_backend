@@ -86,6 +86,8 @@ Route::prefix('/')
         // portfolio
         Route::apiResource('peas', PeaController::class);
         Route::apiResource('units', UnitController::class);
+        Route::apiResource('unit', UnitController::class);
+        Route::put('unit/{unit}' , [UnitController::class, 'update']);
 
         // Auth
         Route::prefix('auth')->group(function () {
