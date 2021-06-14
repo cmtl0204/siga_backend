@@ -24,19 +24,19 @@ class StoreCompanyRequest extends FormRequest
                 'required'
             ],
             'company.user.address.number' => [
-                'required'
+
             ],
             'company.user.address.post_code' => [
-                'required'
+
             ],
             'company.user.address.reference' => [
-                'required'
+
             ],
             'company.user.address.longitude' => [
-                'required'
+
             ],
             'company.user.address.latitude' => [
-                'required'
+
             ],
             'company.user.identification_type.id' => [
                 'required',
@@ -45,7 +45,7 @@ class StoreCompanyRequest extends FormRequest
             'company.user.username' => [
                 'required',
                 'min:10',
-                'max:100',
+                'max:15',
             ],
             'company.user.identification' => [
                 'required',
@@ -107,11 +107,6 @@ class StoreCompanyRequest extends FormRequest
 
             'company.user.address.main_street'=>'calle principal',
             'company.user.address.secondary_street'=>'calle secundaria',
-            'company.user.address.number'=>'número',
-            'company.user.address.post_code'=>'código postal',
-            'company.user.address.reference'=>'referencia',
-            'company.user.address.longitude'=>'longitud',
-            'company.user.address.latitude'=>'latitud',
             'company.user.identification_type.id'=>'tipo de identificacion-ID',
             'company.user.username'=>'nombre de usuario',
             'company.user.identification'=>'identificacion',
