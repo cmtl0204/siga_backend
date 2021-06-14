@@ -75,10 +75,12 @@ Route::prefix('/')
         });
         
         //Courses
-        Route::prefix('courses')->group(function () {
-            Route::get('all-courses', [CourseController::class, 'index']);
-            Route::post('store-course', [CourseController::class, 'storeCourse']);
-            Route::put('course-approval', [CourseController::class, 'courseApproval']);
+        Route::prefix('course')->group(function () {
+            Route::get('all', [CourseController::class, 'index']);
+            Route::post('store', [CourseController::class, 'storeCourse']);
+            Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
+            Route::get('tutor-assignment', [CourseController::class, 'tutorAssignment']);
+
 
 
 

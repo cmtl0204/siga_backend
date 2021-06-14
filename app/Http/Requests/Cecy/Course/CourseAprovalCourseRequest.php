@@ -27,13 +27,11 @@ class CourseAprovalCourseRequest extends FormRequest
     {
         $rules = [
 
-            'id' => [
-                'required',
-            ],
-            'status' => [
+          
+            'course.status' => [
                 'required'
             ],
-            'approval_date' => [
+            'course.approval_date' => [
                 'required'
             ],
 
@@ -46,9 +44,8 @@ class CourseAprovalCourseRequest extends FormRequest
     public function attributes(){
         
         $attributes = [
-            'id' => 'id_curso',
-            'status' => 'estado',
-            'approval_date' =>'fecha de aprobacion',
+            'course.status' => 'status',
+            'course.approval_date' =>'approval_date',
 
             
         ];
