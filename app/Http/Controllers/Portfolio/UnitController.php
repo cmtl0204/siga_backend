@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Portfolio\Unit;
 use App\Models\Portfolio\Pea;
 use App\Http\Requests\Portfolio\Unit\StoreUnitRequest;
-use App\Http\Requests\Portfolio\Unit\IndexUnitRequest;
 use App\Http\Requests\Portfolio\Unit\UpdateUnitRequest;
 
 
@@ -18,7 +17,7 @@ class UnitController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(IndexUnitRequest $request)
+    public function index()
     {   
          
          // get all the Units

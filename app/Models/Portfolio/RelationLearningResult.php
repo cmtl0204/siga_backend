@@ -2,6 +2,7 @@
 
 namespace App\Models\Portfolio;
 
+use App\Models\App\Catalogue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -25,7 +26,9 @@ class RelationLearningResult extends Model implements Auditable
     protected $table = 'portfolio.relation_learning_results';
 
     protected $fillable = [
-        '', //todas FK
+        'pea_id',
+        'learning_result_id',
+        'contribution_id',  //todas FK
     ];
 
 
@@ -40,13 +43,17 @@ class RelationLearningResult extends Model implements Auditable
     }
 
     // Relationships
+    public function pea()
+    {
+        return $this->belongsTo(Pea::class);
+    }
     public function learningResult()
     {
         return $this->belongsTo(LearningResult::class);
     }
     public function contribution()
     {
-        return $this->belongsTo(Contribution::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
 }

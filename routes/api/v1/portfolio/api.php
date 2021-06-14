@@ -15,6 +15,10 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 
 use App\Http\Controllers\Portfolio\PeaController;
 use App\Http\Controllers\Portfolio\UnitController;
+use App\Http\Controllers\Portfolio\ContentController;
+use App\Http\Controllers\Portfolio\DidacticResourceController;
+use App\Http\Controllers\Portfolio\MethodologicalStrategyController;
+use App\Http\Controllers\Portfolio\RelationLearningResultController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
@@ -86,8 +90,16 @@ Route::prefix('/')
         // portfolio
         Route::apiResource('peas', PeaController::class);
         Route::apiResource('units', UnitController::class);
+        Route::apiResource('contents', ContentController::class);
+        Route::apiResource('didactic-resources', DidacticResourceController::class);
+        Route::apiResource('methodological-strategies', MethodologicalStrategyController ::class);
+        Route::apiResource('relation-learning-results', RelationLearningResultController ::class);
         Route::apiResource('unit', UnitController::class);
         Route::put('unit/{unit}' , [UnitController::class, 'update']);
+        Route::put('content/{content}' , [ContentController::class, 'update']);
+        Route::put('didactic-resource/{didacticResource}' , [DidacticResourceController::class, 'update']);
+        Route::put('methodological-strategy/{methodologicalStrategy}' , [MethodologicalStrategyController::class, 'update']);
+        Route::put('relation-learning-result/{relationLearningResult}' , [RelationLearningResultController::class, 'update']);
 
         // Auth
         Route::prefix('auth')->group(function () {
