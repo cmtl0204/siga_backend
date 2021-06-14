@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Cecy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cecy\Course\IndexCourseRequest;
 use App\Http\Requests\Cecy\Course\CourseAprovalCourseRequest;
+use App\Http\Requests\Cecy\Course\TutorAsisignmentRequest;
 use App\Models\App\Status;
 use App\Models\Authentication\User;
+use App\Models\Cecy\Authority;
 use Illuminate\Http\Request;
 
 //Models
 use App\Models\Cecy\Course;
+use App\Models\Cecy\Planification;
+use Illuminate\Support\Facades\DB;
 
 //FormRequest
 
@@ -65,13 +69,36 @@ class CourseController extends Controller
     }
 
 
-   function tutorAssignment(){
+   function getResponsables(){
 
-        $tutors = User::all();
-        
+        $responsables = DB::table('cecy.authorities')
+        ->join('authentication.users', 'cecy.authorities.user_id', '=','authentication.users.id')->get();
+
+         return $responsables;
+    }
+
+
+    function tutorAssignment(TutorAsisignmentRequest $request, Planification $planification ){
+
+    // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
+        $responsable = Authority::getInstance($request->input('id'));
+
+        $responsable->responsable()->associate($responsable);
+        $responsable->save();
+
+        return response()->json([
+            'data' => $responsable->fresh(),
+            'msg' => [
+                'summary' => 'Habilidad actualizada',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]], 201);
+            
         
 
     }
+
+
 
 
 

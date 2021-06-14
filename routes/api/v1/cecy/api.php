@@ -79,12 +79,8 @@ Route::prefix('/')
             Route::get('all', [CourseController::class, 'index']);
             Route::post('store', [CourseController::class, 'storeCourse']);
             Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
-            Route::get('tutor-assignment', [CourseController::class, 'tutorAssignment']);
-
-
-
-
-       
+            Route::get('responsables', [CourseController::class, 'getResponsables']);
+            Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);       
         });
         
 
