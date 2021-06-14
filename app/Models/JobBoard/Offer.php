@@ -61,7 +61,8 @@ class Offer extends Model implements Auditable
         'trainingHours',
         'experienceTime',
         'workingDay',
-        'sector'
+        'sector',
+        'status'
     ];
 
     protected $casts = [
