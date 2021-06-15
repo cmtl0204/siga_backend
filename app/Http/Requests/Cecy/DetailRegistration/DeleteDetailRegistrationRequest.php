@@ -24,3 +24,10 @@ class DeleteDetailRegistrationRequest extends FormRequest
     }
 
     public function attributes()
+    {
+        $attributes = [
+            'ids' => 'IDs',
+        ];
+        return CecyFormRequest::attributes($attributes);
+    }
+}

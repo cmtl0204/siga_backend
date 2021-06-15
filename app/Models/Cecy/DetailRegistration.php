@@ -30,7 +30,7 @@ class DetailRegistration extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.detailregistrations';
+    protected $table = 'cecy.detail_registrations';
 
     protected $fillable = [
         'partial_grade',
@@ -42,6 +42,7 @@ class DetailRegistration extends Model implements Auditable
     ];
 
     protected $casts = [
+        'observation'=> 'array',
         'deleted_at'=>'date:Y-m-d h:m:s',
         'created_at'=>'date:Y-m-d h:m:s',
         'updated_at'=>'date:Y-m-d h:m:s',
@@ -63,9 +64,9 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(Registration::class);
     }
 
-    public function additionalinformation()
+    public function additionalInformation()
     {
-        return $this->belongsTo(Additionalinformation::class);
+        return $this->belongsTo(AdditionalInformation::class);
     }
 
     public function detailplanification()
@@ -73,12 +74,12 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(Detailplanification::class);
     }
 
-    public function staus()
+    public function status()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function statuscertificate()
+    public function statusCertificate()
     {
         return $this->belongsTo(Catalogue::class);
     }
@@ -141,13 +142,13 @@ class DetailRegistration extends Model implements Auditable
         $this->attributes['location_certificate'] = strtoupper($value);
     }
 
-    public function setFullObservationAttribute()
-    {
-        $this->attributes['observation'] = strtoupper($value);
-    }
+   // public function setFullObservationAttribute()
+    //{
+      //  $this->attributes['observation'] = strtoupper($value);
+    //}
 
     // Scopes
-    public function scopePartialGrade($query, $partial_grade)
+   /*  public function scopePartialGrade($query, $partial_grade)
     {
         if ($partial_grade) {
             return $query->where('partial_grade', 'ILIKE', "%$partial_grade%");
@@ -188,6 +189,6 @@ class DetailRegistration extends Model implements Auditable
             return $query->where('observation', 'ILIKE', "%$observation%");
         }
     }
-
+ */
 
 }

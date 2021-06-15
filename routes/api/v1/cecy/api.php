@@ -9,6 +9,7 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Cecy\DetailRegistrationController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -56,6 +57,9 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
     });
+
+    Route::apiResource('detailRegistrations', DetailRegistrationController::class);
+
 
 // Without Middleware
 Route::prefix('/')

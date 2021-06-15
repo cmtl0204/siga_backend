@@ -18,24 +18,24 @@ use App\Exports\RegistrationsExport;
 class DetailRegistrationController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
            // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
     $registration = Registration::getInstance($request->input('registration_id'));
 
     if ($request->has('search')) {
         $detailRegistrations = $registration->detailRegistrations()
-            ->description($request->input('search'));
-            ->additional_information_id($request->input('search'));
-            ->detail_planification_id($request->input('search'));
-            ->status_id($request->input('search'));
-            ->partial_grade($request->input('search'));
-            ->final_exam($request->input('search'));
-            ->code_certificate($request->input('search'));
-            ->status_certificate_id($request->input('search'));
-            ->certificate_withdrawn($request->input('search'));
-            ->location_certificate($request->input('search'));
-            ->observation($request->input('search'));
+            ->description($request->input('search'))
+            ->additional_information_id($request->input('search'))
+            ->detail_planification_id($request->input('search'))
+            ->status_id($request->input('search'))
+            ->partial_grade($request->input('search'))
+            ->final_exam($request->input('search'))
+            ->code_certificate($request->input('search'))
+            ->status_certificate_id($request->input('search'))
+            ->certificate_withdrawn($request->input('search'))
+            ->location_certificate($request->input('search'))
+            ->observation($request->input('search'))
             ->paginate($request->input('per_page'));
     } else {
         $detailRegistrations = $registration->detailRegistrations()->paginate($request->input('per_page'));
@@ -65,13 +65,18 @@ class DetailRegistrationController extends Controller
             ]], 200); 
     }
 
-    public function store()
+    public function store(Request $request)
     {
+
+        $data = $request -> json() ->all ();
+        //return $data;
+        $status = $data["detailRegistration"] ["status"];
+        $status_certificate = $data["detailRegistration"] ["status_certificate"];
        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-       $registration = Registration::getInstance($request->input('registration.id'));
+       //$registration = Registration::getInstance($request->input('registration.id'));
 
        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-       $status = Catalogue::getInstance($request->input('status.id'));
+       //$status = Catalogue::getInstance($request->input('status.id'));
 
        $detailRegistration = new DetailRegistration();
        $detailRegistration->partial_grade = $request->input('detailRegistration.partial_grade');
@@ -80,17 +85,23 @@ class DetailRegistrationController extends Controller
        $detailRegistration->certificate_withdrawn = $request->input('detailRegistration.certificate_withdrawn');
        $detailRegistration->location_certificate = $request->input('detailRegistration.location_certificate');
        $detailRegistration->observation = $request->input('detailRegistration.observation');
+       $detailRegistration->additional_information_id = $request->input('detailRegistration.additional_information_id');
+       $detailRegistration->detail_planification_id = $request->input('detailRegistration.detail_planification_id');
+       $detailRegistration->registration_id = $request->input('detailRegistration.registration_id');
+
+
+
        //$detailRegistration->registration()->associate($registration);
-       $detailRegistration->additionalInformation()->associate($additionalInformation);
-       $detailRegistration->detailPlanification()->associate($detailPlanification);
-       $detailRegistration->status()->associate($status);
-       $detailRegistration->statusCertificate()->associate($statusCertificate);
+       //$detailRegistration->additionalInformation()->associate($additionalInformation);
+       //$detailRegistration->detailPlanification()->associate($detailPlanification);
+       $detailRegistration->status()->associate (Status::findOrFail($status["id"]));
+       $detailRegistration->statusCertificate()->associate(Catalogue::findOrFail($status_certificate["id"]));
        $detailRegistration->save();
 
        return response()->json([
            'data' => $detailRegistration,
            'msg' => [
-               'summary' => 'Habilidad creada',
+               'summary' => 'Detalle creado',
                'detail' => 'El registro fue creado',
                'code' => '201'
            ]], 201); 
@@ -126,13 +137,13 @@ class DetailRegistrationController extends Controller
            ]], 201); 
     }
 
-    function delete(DeleteDetailRegistrationRequest $request)
+    function delete(DeleteDetailRegistrationRequest $request, DetailRegistration $detailRegistration)
     {
         // Es una eliminación lógica
-        DetailRegistration::destroy($request->input('ids'));
+        $detailRegistration->delete();
 
         return response()->json([
-            'data' => null,
+            'data' => $detailRegistration,
             'msg' => [
                 'summary' => 'Habilidad(es) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
