@@ -47,6 +47,14 @@ class Content extends Model implements Auditable
 
     ];
 
+    protected $casts = [
+        'contents' => 'array',
+        'teaching_activities' => 'array',
+        'practical_activities' => 'array',
+        'autonomous_activities' => 'array',
+        'observations' => 'array'
+    ];
+
     // Instance
     public static function getInstance($id)
     {

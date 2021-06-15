@@ -2,6 +2,7 @@
 
 namespace App\Models\Portfolio;
 
+use App\Models\App\Catalogue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -25,7 +26,7 @@ class MethodologicalStrategy extends Model implements Auditable
     protected $table = 'portfolio.methodological_strategies';
 
     protected $fillable = [
-
+        'purpose'
     ];
 
     // Instance
@@ -37,14 +38,14 @@ class MethodologicalStrategy extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-    // Relationships de donde sale Strategy?¿
+
     public function pea()
     {
         return $this->belongsTo(Pea::class);
     }
     public function strategy()
     {
-        return $this->belongsTo(Strategy::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
 }

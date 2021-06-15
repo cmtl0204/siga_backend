@@ -2,6 +2,7 @@
 
 namespace App\Models\Portfolio;
 
+use App\Models\App\Catalogue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -28,6 +29,10 @@ class DidacticResource extends Model implements Auditable
         'resources'
     ];
 
+    protected $casts = [
+        'resources' => 'array'
+    ];
+
     // Instance
     public static function getInstance($id)
     {
@@ -41,7 +46,7 @@ class DidacticResource extends Model implements Auditable
     // Relationships preguntar de donde sale la clase type
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     public function pea()
