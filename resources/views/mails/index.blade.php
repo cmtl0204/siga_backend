@@ -23,7 +23,7 @@
             </p>
             <p class="text-muted">
                 Estimado/a:
-                <b>{{$data->user->first_lastname}} {{$data->user->second_lastname}} {{$data->user->first_name}} {{$data->user->second_name}}</b>
+                <b>{{$data->user->first_lastname}} {{$data->user->second_lastname}} {{$data->user->names}}</b>
             </p>
             <br>
             @yield('content')

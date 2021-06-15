@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Authentication\NewUserMailable;
 
 class  UserAdministrationController extends Controller
 {
@@ -118,18 +121,22 @@ class  UserAdministrationController extends Controller
 
     public function store(Request $request)
     {
+        $passwordGenerated = Str::random(8);
+
         $user = new User();
         $user->identification = $request->input('identification');
         $user->username = $request->input('identification');
-        $user->first_name = $request->input('names');
+        $user->names = $request->input('names');
         $user->first_lastname = $request->input('first_lastname');
         $user->second_lastname = $request->input('second_lastname');
         $user->email = $request->input('email');
+        $user->password = $passwordGenerated;
         $user->status()->associate(Status::getInstance($request->input('user.status')));
         $user->save();
 
         $user->roles()->attach($request->input('roles'));
-
+        Mail::to($user->email)
+        ->send(new NewUserMailable(json_encode(['user' => $user, 'password' => $passwordGenerated]), $request->input('system')));
         return response()->json([
             'data' => null,
             'msg' => [
