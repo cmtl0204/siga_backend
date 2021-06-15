@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Portfolio\MethodologicalStrategy;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Portfolio\PortfolioFormRequest;
 
+use App\Http\Requests\Portfolio\PortfolioFormRequest;
 class IndexMethodologicalStrategyRequest extends FormRequest
 {
     public function authorize()
@@ -20,8 +20,8 @@ class IndexMethodologicalStrategyRequest extends FormRequest
                 'required',
                 'min:10',
                 'max:1000',
-            ],
 
+            ],
         ];
         return PortfolioFormRequest::rules($rules);
     }
@@ -29,10 +29,10 @@ class IndexMethodologicalStrategyRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-
             'purpose' => 'purpose',
+
 
         ];
         return PortfolioFormRequest::attributes($attributes);
-    }
 }
+    }

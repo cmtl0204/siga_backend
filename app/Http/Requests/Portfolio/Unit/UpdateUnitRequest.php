@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Portfolio\DidacticResource;
+namespace App\Http\Requests\Portfolio\Unit;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Portfolio\PortfolioFormRequest;
 
-class IndexDidacticResourceRequest extends FormRequest
+class UpdateUnitRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,21 +15,24 @@ class IndexDidacticResourceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-<<<<<<< HEAD
-            'resources' => [
-                'min:10',
-                'max:1000',
-            ]
-            
-=======
-
-            'resources' => [
+            'description' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
-            ],
 
->>>>>>> u_7_duque-marcelo
+            ],
+            'order' => [
+                'required',
+                'min:1',
+                'max:1000',
+
+            ],
+            'name' => [
+                'required',
+                'min:1',
+                'max:1000',
+
+            ]
         ];
         return PortfolioFormRequest::rules($rules);
     }
@@ -38,12 +41,9 @@ class IndexDidacticResourceRequest extends FormRequest
     {
         $attributes = [
 
-<<<<<<< HEAD
-            'resources' => 'resources'
-=======
-            'resources' => 'resources',
-
->>>>>>> u_7_duque-marcelo
+            'description' => 'description',
+            'order' => 'order',
+            'name' => 'name',
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

@@ -13,6 +13,7 @@ class CreateAppSubjectsTable extends Migration
             $table->foreignId('academic_period_id')->nullable()->constrained('app.academic_periods');
             $table->text('description')->nullable();
             $table->text('objective')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

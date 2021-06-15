@@ -20,7 +20,10 @@ class SchoolPeriod extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.school_periods';
 
-    protected $fillable = [];
+
+    protected $fillable = [ ];
+
+
 
     // Instance
     public static function getInstance($id)
@@ -30,5 +33,11 @@ class SchoolPeriod extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
+    }
+
+    // Relationships
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
     }
 }
