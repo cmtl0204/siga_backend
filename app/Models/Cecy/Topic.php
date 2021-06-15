@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cecy\Topic;
+namespace App\Models\Cecy;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,13 +8,12 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
-use App\Models\App\Topic;
 use App\Models\App\Course;
 use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
- * @property text description
+ * @property String description
  */
 
 class Topic extends Model implements Auditable
@@ -73,17 +72,17 @@ class Topic extends Model implements Auditable
 
 
     //mutatos
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = strtoupper($value);
-    }
+    //public function setDescriptionAttribute($value)
+    //{
+    //    $this->attributes['description'] = strtoupper($value);
+    //}
 
     //Scopers
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->where('description', 'ILIKE', "%$description%");
-        }
-    }
+   // public function scopeDescription($query, $description)
+    //{
+     //   if ($description) {
+     //       return $query->where('description', 'ILIKE', "%$description%");
+     //   }
+    //}
 
 }

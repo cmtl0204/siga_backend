@@ -39,8 +39,6 @@ class StoreTopicRequest extends FormRequest
 
     public function attributes()
     {
-        public function attributes()
-    {
         $attributes = [
             'topic.description' => 'descripción',
             'parent_code.id' => 'code-ID',

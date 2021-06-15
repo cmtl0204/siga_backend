@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Cecy\Registration\DeleTopicRequest;
-use App\Http\Requests\Cecy\Registration\IndexTopicRequest;
-use App\Http\Requests\Cecy\Registration\StoreTopicRequest;
-use App\Http\Requests\Cecy\Registration\UpdateTopicRequest;
+use App\Http\Requests\Cecy\Topic\DeleTopicRequest;
+use App\Http\Requests\Cecy\Topic\IndexTopicRequest;
+use App\Http\Requests\Cecy\Topic\StoreTopicRequest;
+use App\Http\Requests\Cecy\Topic\UpdateTopicRequest;
 
+
+use App\Models\App\Catalogue;
 use App\Models\Cecy\Topic;
 // use App\Models\JobBoard\Category;
 // use App\Models\JobBoard\Professional;
@@ -52,24 +54,28 @@ class TopicController extends Controller
             ]], 200);
     }
 
-    function store(StoreTopicRequest $request)
+        public function store(Request $request)
     {
+        $data = $request -> json() -> all();
+        $type  = $data ['topics'] ['type'];
        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-       $parentCode = ParentCode::getInstance($request->input('parent_code.id'));
+       //$parentCode = ParentCode::getInstance($request->input('parent_code.id'));
 
        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-       $type = Catalogue::getInstance($request->input('type.id'));
+       //$type = Catalogue::getInstance($request->input('type.id'));
 
         $topic = new Topic();
-        $topic->description = $request->input('topic.description');
-        $topic->course()->associate($course);
-        $topic->type()->associate($type);
+        
+        $topic->description = $request->input('topics.description');
+        $topic->parent_code_id = $request->input('topics.parent_code_id');
+        $topic->course_id = $request -> input ('topics.course_id');
+        $topic->type()->associate(Catalogue::findOrFail($type['id']));
         $topic->save();
 
         return response()->json([
             'data' => $topic->fresh(),
             'msg' => [
-                'summary' => 'Habilidad creada',
+                'summary' => 'Topic creada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
             ]], 201);
@@ -94,18 +100,20 @@ class TopicController extends Controller
             ]], 201);
     }
 
-    function delete(DeleteTopicRequest $request)
+    function delete(DeleteTopicRequest $request,Topic $topic)
     {
         // Es una eliminación lógica
-        Topic::destroy($request->input('ids'));
+        $topic->delete();
 
         return response()->json([
-            'data' => null,
+            'data' => $topic,
             'msg' => [
-                'summary' => 'Habilidad(es) eliminada(s)',
-                'detail' => 'Se eliminó correctamente',
+                'summary' => 'Habilidad eliminada',
+                'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]], 201);
     }
+}
+
 
     
