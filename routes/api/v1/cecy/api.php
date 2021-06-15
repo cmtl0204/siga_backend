@@ -74,13 +74,12 @@ Route::prefix('/')
 
 
     Route::apiResource('topics', TopicController::class);
+    Route::put ('topic/delete', [TopicController::class, 'delete']);
     Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
-    Route::get('excel/topic-export', [TopicController::class, 'exportTest']);
-    
     
     // Route::prefix('registration')
     //     ->group(function () {
-            Route::put('topic/delete', [TopicController::class, 'delete']);
-            Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
+           // Route::put('topic/delete', [TopicController::class, 'delete']);
+           // Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
         //     });
         // });

@@ -81,34 +81,43 @@ class TopicController extends Controller
             ]], 201);
     }
 
-    function update(UpdateTopicRequest $request, Topic $topic)
+    function update(Request $request, Topic $topic)
     {
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('topic.type.id'));
+        $data = $request -> json() -> all();
+        $type  = $data ['topics'] ['type'];
+       // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
+       //$parentCode = ParentCode::getInstance($request->input('parent_code.id'));
 
-        $topic->description = $request->input('topic.description');
-        $topic->course()->associate($course);
-        $topic->type()->associate($type);
+       // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
+       //$type = Catalogue::getInstance($request->input('type.id'));
+
+        
+        
+        $topic->description = $request->input('topics.description');
+        $topic->parent_code_id = $request->input('topics.parent_code_id');
+        $topic->course_id = $request -> input ('topics.course_id');
+        $topic->type()->associate(Catalogue::findOrFail($type['id']));
         $topic->save();
 
         return response()->json([
-            'data' => $skill->fresh(),
+            'data' => $topic->fresh(),
             'msg' => [
-                'summary' => 'Habilidad actualizada',
-                'detail' => 'El registro fue actualizado',
+                'summary' => 'Topic creada',
+                'detail' => 'El registro fue creado',
                 'code' => '201'
             ]], 201);
     }
 
-    function delete(DeleteTopicRequest $request,Topic $topic)
+    function delete(Request $request)
     {
+        Topic::destroy($request->input("ids"));
         // Es una eliminación lógica
-        $topic->delete();
+        //$topic->delete();
 
         return response()->json([
-            'data' => $topic,
+            'data' => null,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
+                'summary' => 'Topic eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]], 201);
