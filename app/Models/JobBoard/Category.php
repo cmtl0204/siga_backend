@@ -53,11 +53,6 @@ class Category extends Model implements Auditable
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function type()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
      // Mutators
      public function setCodeAttribute($value)
      {

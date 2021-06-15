@@ -50,15 +50,13 @@ class CategoryController extends Controller
 
     function store(StoreCategoryRequest $request)
     {
-        $parent= Category::getInstance($request->input('category.parent.id'));
+        $parent= Category::find($request->input('category.parent.id'));
         
-        $type = Catalogue::getInstance($request->input('category.type.id'));
 
         $category = new Category();
         $category->code = $request->input('category.code');
         $category->name = $request->input('category.name');
         $category->icon = $request->input('category.icon');
-        $category->type()->associate($type);
             if($parent){
            $category->parent()->associate($parent);
        }
@@ -74,14 +72,13 @@ class CategoryController extends Controller
 
     function update(UpdateCategoryRequest $request, Category $category)
     {
-        $parent= Category::getInstance($request->input('category.parent.id'));
+        $parent= Category::find($request->input('category.parent.id'));
         
-        $type = Catalogue::getInstance($request->input('category.type.id'));
+        $type = Catalogue::find($request->input('category.type.id'));
 
         $category->code = $request->input('category.code');
         $category->name = $request->input('category.name');
         $category->icon = $request->input('category.icon');
-        $category->type()->associate($type);
         if($parent){
             $category->parent()->associate($parent);
         }
