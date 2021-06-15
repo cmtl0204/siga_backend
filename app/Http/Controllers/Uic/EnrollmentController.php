@@ -15,8 +15,15 @@ use App\Models\Uic\Enrollment;
 class EnrollmentController extends Controller
 {
     public function index(IndexEnrollmentRequest $request)
-        {
-        $enrollments = Enrollment::paginate($request->input('per_page'));
+    {
+
+        if ($request->has('search')) {
+            $enrollments = Enrollment::date($request->input('search'))->code($request->input('search'))
+            ->paginate($request->input('per_page'));
+        } else {
+            $enrollments = Enrollment::paginate($request->input('per_page'));
+        }
+
         if($enrollments->count()===0){
             return response()->json([
                 'data'=>null,

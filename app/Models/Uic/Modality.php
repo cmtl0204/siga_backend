@@ -76,15 +76,21 @@ class Modality extends Model implements Auditable
     {
         return $this->belongsTo(Status::class);
     }
-    
-   
+
+
     //accesor - crea campo personalizado, es necesario el array attributes['nombreAtributo']
     public function getNameDescriptionAttribute(){
         return "{$this->attributes['name']}: {$this->attributes['description']}";
     }
 
-    //mutators - muta el registro de la tabla, es necesario llamar el método en el controller 
+    //mutators - muta el registro de la tabla, es necesario llamar el método en el controller
     public function setDescriptionAttribute($value) {
         $this->attributes['description'] = strtoupper($value);
+    }
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->orWhere('name', 'ILIKE', "%$name%");
+        }
     }
 }

@@ -72,4 +72,16 @@ class Enrollment extends Model implements Auditable
     public function status() {
         return $this->belongsTo(Status::class);
     }
+    public function scopeDate($query, $date)
+    {
+        if ($date) {
+            return $query->where('date', 'ILIKE', "%$date%");
+        }
+    }
+    public function scopeCode($query, $code)
+    {
+        if ($code) {
+            return $query->orWhere('code', 'ILIKE', "%$code%");
+        }
+    }
 }

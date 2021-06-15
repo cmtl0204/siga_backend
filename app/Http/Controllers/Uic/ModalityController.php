@@ -21,7 +21,9 @@ class ModalityController extends Controller
     //Obtener modalidades
     public function index(IndexModalityRequest $request)
     {
-        $modalities = Modality::paginate($request->input('per_page'));
+        $modalities = Modality::with('enrollments')
+        ->with('modalities')
+        ->paginate($request->input('per_page'));
         if ($modalities->count() === 0) {
             return response()->json([
                 'data' => null,
@@ -131,5 +133,5 @@ class ModalityController extends Controller
                 'code' => '201'
             ]], 201);
     }
-    
+
 }

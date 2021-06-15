@@ -16,12 +16,12 @@ class UpdateEnrollmentRequest extends FormRequest
     {
         $rules = [
             'enrollment.modality_id'=>[
-                'required',
-                'integer'
+                // 'required',
+                // 'integer'
             ],
             'enrollment.school_period_id'=>[
-                'required',
-                'integer'
+                // 'required',
+                // 'integer'
             ],
             'enrollment.date'=>[
                 'required'
@@ -30,8 +30,8 @@ class UpdateEnrollmentRequest extends FormRequest
                 'required'
             ],
             'enrollment.status_id'=>[
-                'required',
-                'integer'
+                // 'required',
+                // 'integer'
             ],
             'enrollment.observations'=>[
                 'nullable'
