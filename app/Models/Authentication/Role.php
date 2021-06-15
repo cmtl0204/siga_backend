@@ -84,4 +84,19 @@ class Role extends Model implements Auditable
     {
         $this->attributes['code'] = strtoupper(Str::of($value)->slug('-'));
     }
+
+    // Scopes
+    function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'ILIKE', "%$name%");
+        }
+    }
+
+    function scopeCode($query, $code)
+    {
+        if ($code) {
+            return $query->where('code', 'ILIKE', "%$code%");
+        }
+    }
 }

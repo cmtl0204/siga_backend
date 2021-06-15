@@ -63,9 +63,15 @@ Route::middleware($middlewares)
         //User Administration
         Route::prefix('user-admin')->group(function () {
             Route::put('delete', [UserAdministrationController::class, 'delete']);
+            Route::put('deleteRoles', [UserAdministrationController::class, 'deleteRoles']);
             Route::get('roles', [UserAdministrationController::class, 'getRoles']);
+            Route::get('permissions', [UserAdministrationController::class, 'getPermissions']);
+            Route::get('rolesP', [UserAdministrationController::class, 'getRolesP']);
             Route::get('rolesUser', [UserAdministrationController::class, 'getRolesUser']);
+            Route::get('permissionsRole', [UserAdministrationController::class, 'getPermissionsRole']);
             Route::put('setRoles', [UserAdministrationController::class, 'setRoles']);
+            Route::put('setPermissions', [UserAdministrationController::class, 'setPermissions']);
+            Route::put('updateRole', [UserAdministrationController::class, 'updateRole']);
         });
 
         // Role

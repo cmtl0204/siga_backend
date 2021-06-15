@@ -6,9 +6,8 @@
             <br>
             <p>Su usuario en <strong>{{$system->name}}</strong>ha sido generado satisfactoriamente!</p>
             {{$data->password}}
-            <p>Por favor inicie sesión con:</p>
-            <p>Usuario: <string>{{$data->identification}}</strong></p>
-            <p>Clave: <string>{{$data->password}}</strong></p>
+            <p>Por favor inicie sesión con su cedula de identidad com usuario:</p>
+            <p>y esta es su clave: <string>{{$data->password}}</strong></p>
             <p>Para ello simplemente debe hacer click en el siguiente enlace:</p>
             <div class=" text-center">
                 <a class="btn btn-primary text-center"

@@ -9,6 +9,7 @@ use App\Http\Requests\Authentication\UserAdministration\UserAdminIndexRequest;
 use App\Http\Requests\Authentication\UserRequest;
 use App\Models\Authentication\PassworReset;
 use App\Models\Authentication\Role;
+use App\Models\Authentication\Permission;
 use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use App\Models\Authentication\User;
@@ -258,7 +259,7 @@ class  UserAdministrationController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No tiene roles asignados',
+                    'summary' => 'No existen roles en este Sistema',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]], 404);
@@ -277,6 +278,113 @@ class  UserAdministrationController extends Controller
     {
         $user = User::find($request->input('id'));
         $user->roles()->sync($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
+
+    public function getRolesP (Request $request){
+        $system = $request->input('system');
+        $search = $request->input('search');
+
+        if ($request->has('search')) {
+            $roles = Role::where('system_id', $system)
+                ->where(function ($query) use ($search) {
+                    $query->name($search);
+                    $query->code($search);
+                })->paginate($request->input('per_page'));
+        } else {
+            $roles = Role::where('system_id', $system)
+                ->paginate($request->input('per_page'));
+        }
+
+        if ($roles->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No existen roles en este Sistema',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+        return response()->json($roles, 200);
+    }
+
+    public function deleteRoles(Request $request)
+    {        
+         Role::destroy($request->input('ids'));
+         
+                 return response()->json([
+                     'data' => null,
+                     'msg' => [
+                         'summary' => 'Rol(es) eliminado(s)',
+                         'detail' => 'Se eliminó correctamente',
+                         'code' => '201'
+                     ]], 201);
+    }
+
+    public function getPermissionsRole(Request $request)
+    {
+
+        $role = Role::find($request->input('id'));
+        $permissions = $role->permissions()
+        ->where('system_id', $request->input('system'))
+        ->get();
+
+        if ($permissions->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No tiene roles asignados',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        return response()->json([
+            'data' => $permissions,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
+
+    public function getPermissions(Request $request)
+    {
+
+        $system = $request->input('system');
+        $permissions = Permission::where('system_id', $system)
+        ->get();
+
+        if ($permissions->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No permisos para este rol',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        return response()->json([
+            'data' => $permissions,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    }
+
+    public function setPermissions(Request $request)
+    {
+        $role = Role::find($request->input('id'));
+        $role->permissions()->sync($request->input('ids'));
 
         return response()->json([
             'data' => null,

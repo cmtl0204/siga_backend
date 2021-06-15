@@ -114,4 +114,21 @@ class RoleController extends Controller
                 'code' => '200'
             ]], 200);
     }
+
+    public function update(Request $request, $roleId) 
+    {
+        $role = Role::find($roleId);
+        $role->name = $request->input('name');
+        $role->code = $request->input('code');
+
+        $role->save();
+            return response()->json([
+                'data' => $role,
+                'msg' => [
+                    'summary' => 'update',
+                    'detail' => '',
+                    'code' => '201'
+                ]
+            ], 201);
+    }
 }
