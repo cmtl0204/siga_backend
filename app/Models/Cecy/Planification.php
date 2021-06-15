@@ -47,6 +47,12 @@ class Planification extends Model implements Auditable
         'installations'
     ];
 
+    protected $casts = [
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
+    ];
+
     // Instance
     public static function getInstance($id)
     {

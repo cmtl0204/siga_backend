@@ -2,13 +2,12 @@
 
 namespace App\Models\Cecy;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use phpDocumentor\Reflection\DocBlock\Description;
+
 
 /**
  * @property BigInteger id
@@ -22,15 +21,22 @@ class EvaluationMechanism extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected $connection = 'pgsql-cecy';
-
-    protected $table = 'cecy.evaluation_mechanisms';
-
     protected static $instance;
 
+    protected $connection = 'pgsql-cecy';
+    //nombre del esquema
+    protected $table = 'cecy.evaluation_mechanisms';
+
     protected $fillable = [
-        'technique',
-        'instrument'
+        //campos propios de la tabla
+        'technique',  //tecnica
+        'instrument'  //instrumento
+    ];
+
+    protected $casts = [
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
     ];
 
     // Instance
@@ -44,14 +50,18 @@ class EvaluationMechanism extends Model implements Auditable
     }
 
     // Relationships
+    public function course(){
+        return $this->hasMany(Courses::class);
+    }
     public function routes(){
         return $this->hasMany(Route::class);
     }
     public function type(){
         return $this->hasMany(Catalogues::class);
     }
-    public function course(){
-        return $this->hasMany(Courses::class);
-    }
+
+
+    
+    
 
     

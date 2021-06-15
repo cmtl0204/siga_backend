@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Cecy\EvaluationMechanism;
 
-class StoreEvaluationMechanismRequest extends FormRequest
+class IndexEvaluationMechanismRequest extends FormRequest
 {
     public function authorize()
     {
@@ -30,10 +30,11 @@ class StoreEvaluationMechanismRequest extends FormRequest
             'status.id' => [
                 'required',
                 'integer'
-            ]
+            ] 
         ];
         return CecyFormRequest::rules($rules);
     }
+
 
     public function attributes()
     {
