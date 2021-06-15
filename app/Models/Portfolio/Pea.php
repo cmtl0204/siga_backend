@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Lcobucci\JWT\Signer;
 
 
+use App\Models\App\subject;
+use App\Models\App\SchoolPeriod;
+
+
+
 /**
  * @property BigInteger id
  * @property String student_assessment
@@ -30,6 +35,8 @@ class Pea extends Model implements Auditable
     protected $table = 'portfolio.peas';
 
     protected $fillable = [
+        'subject_id',
+        'school_period_id',
         'student_assessment',
         'basic_bibliographies',
         'complementary_bibliographies',
@@ -67,8 +74,8 @@ class Pea extends Model implements Auditable
     {
         return $this->hasMany(DidacticResource::class);
     }
-    public function signatures()
+    public function subject()
     {
-        return $this->belongsTo(Signature::class);
+        return $this->belongsTo(Subject::class);
     }
 }

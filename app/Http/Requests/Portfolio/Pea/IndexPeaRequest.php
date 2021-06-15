@@ -17,7 +17,7 @@ class IndexPeaRequest extends FormRequest
         $rules = [
             //evaluaciónEstudiante
             'student_assessment' => [
-                'required',
+                '',
                 'min:10',
                 'max:1000',
             ],

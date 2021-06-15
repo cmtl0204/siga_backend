@@ -84,6 +84,7 @@ Route::prefix('/')
         Route::apiResource('systems', SystemController::class)->only(['show']);
         // portfolio
         Route::apiResource('peas', PeaController::class);
+        Route::put('pea/{pea}', [PeaController::class, 'update']);
 
         // Auth
         Route::prefix('auth')->group(function () {
