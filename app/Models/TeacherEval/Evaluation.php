@@ -12,9 +12,9 @@ use OwenIt\Auditing\Auditable as Auditing;
 // Application
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
-use App\Models\TeacherEval\Evaluation;
-use App\Models\Authentication\System;
+use App\Models\App\Teacher;
 use phpseclib3\Math\BigInteger;
+use App\Models\TeacherEval\DetailEvaluation;
 
 /**
  * @property BigInteger id
@@ -23,32 +23,29 @@ use phpseclib3\Math\BigInteger;
 
  */
 
-
-class DetailEvaluation extends Model implements Auditable
+class Evaluation extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
     protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.detail_evaluations';
+    protected $table = 'teacher_eval.evaluations';
 
     protected static $instance;
 
 
     protected $fillable = [
     'result',
-    'evaluation_id'
+    'percentage'
     ];
 
-    /*protected $casts = [
-        'result' => 'array'
-    ];*/
-
-    protected $hidden = [
-    'detail_evaluationable_type',
-    'detail_evaluationable_id'
+    protected $casts = [
+        'result' => 'array',
+        'percentage' => 'array'
     ];
+
+    protected $hidden = ['detail_evaluationable_type'];
 
     public static function getInstance($id)
     {
@@ -60,22 +57,22 @@ class DetailEvaluation extends Model implements Auditable
     }
 
 
-    public function detailEvaluationable()
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+  /*  public function detailEvaluationable()
     {
         return $this->morphTo();
-    }
-
-
-    /*public function evaluation()
-    {
-        return $this->morphMany(Evaluation::class, 'detailEvaluationable');
-    }
-
-    public function scopeResult($query, $result)
-    {
-        if ($result) {
-            return $query->where('result', 'ILIKE', "%$result%");
-        }
     }*/
+
+    public function detailEvaluation()
+    {
+        return $this->morphMany(DetailEvaluation::class, 'detail_evaluationable');
+    }
+
+
 
 }

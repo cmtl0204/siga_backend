@@ -1,6 +1,6 @@
 <?php
 //ola
-namespace App\Http\Requests\Authentication;
+namespace App\Http\Requests\TeacherEval;
 
 class TeacherEvalFormRequest
 {
@@ -16,7 +16,7 @@ class TeacherEvalFormRequest
                 'integer',
             ],
             'search' => [
-                'min:3',
+                'min:1',
                 'max:100',
             ],
         ]);

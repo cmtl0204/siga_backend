@@ -26,7 +26,7 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
-            'evaluation'=> DetailEvaluationController::class,
+            //'evaluation'=> DetailEvaluationController::class,
         ]);
 
         // Auth
@@ -75,7 +75,8 @@ Route::prefix('/')
 
         Route::prefix('evaluation')->group(function () {
             Route::get('all', [DetailEvaluationController::class, 'index']);
-            Route::get('show/{$id}', [DetailEvaluationController::class, 'show']);
+            Route::get('show/{detail}', [DetailEvaluationController::class, 'show']);
             Route::post('create',  [DetailEvaluationController::class, 'store']);
+            Route::put('update/{detail}',  [DetailEvaluationController::class, 'update']);
         });
     });
