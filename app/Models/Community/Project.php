@@ -117,6 +117,7 @@ class Project extends Model implements Auditable
         return $this->belongsTo(User::class);
     }
 
+    // TODO: Not imported the required classes because they're not created yet
     public function entityPersons()
     {
         return $this->hasMany(EntityPerson::class);
