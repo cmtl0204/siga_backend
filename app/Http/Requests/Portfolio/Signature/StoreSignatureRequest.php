@@ -1,36 +1,29 @@
 <?php
 
-namespace App\Http\Requests\Portfolio\MethodologicalStrategy;
+namespace App\Http\Requests\Portfolio\Signature;
 
-use App\Http\Requests\Portfolio\PortfolioFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Portfolio\PortfolioFormRequest;
 
-class UpdateMethodologicalStrategyRequest extends FormRequest
+class StoreSignatureRequest extends FormRequest
 {
     public function authorize()
-        return true;
     {
+        return true;
     }
 
     public function rules()
     {
         $rules = [
 
-            'purpose' => [
-                'required',
-                'max:1000',
-                'min:10',
-            ],
-
         ];
         return PortfolioFormRequest::rules($rules);
     }
 
     public function attributes()
-
     {
         $attributes = [
-            'purpose' => 'purpose',
+
 
         ];
         return PortfolioFormRequest::attributes($attributes);

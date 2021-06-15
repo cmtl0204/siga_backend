@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Requests\Portfolio\DidacticResource;
-
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Portfolio\PortfolioFormRequest;
-
 class StoreDidacticResourceRequest extends FormRequest
 {
     public function authorize()
@@ -14,18 +11,21 @@ class StoreDidacticResourceRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [            
+        $rules = [
             'resources' => [
-                '',
-            ]
+                'required',
+                'min:10',
+                'max:1000',
+            ],
         ];
         return PortfolioFormRequest::rules($rules);
     }
 
-    public function attributes()
     {
+    public function attributes()
         $attributes = [
-            'resources' => 'resources'
+
+            'resources' => 'resources',
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

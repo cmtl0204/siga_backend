@@ -40,7 +40,10 @@ class Pea extends Model implements Auditable
 
     protected $casts = [
         'basic_bibliographies' => 'array',
-        'complementary_bibliographies' => 'array'
+        'complementary_bibliographies' => 'array',
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
     ];
 
     // Instance
@@ -58,7 +61,6 @@ class Pea extends Model implements Auditable
     {
         return $this->hasMany(Unit::class);
     }
-
     public function methodologicalStrategies()
     {
         return $this->hasMany(MethodologicalStrategy::class);
@@ -76,6 +78,4 @@ class Pea extends Model implements Auditable
         return $this->belongsTo(SchoolPeriod::class);
     }
     
-
-
 }

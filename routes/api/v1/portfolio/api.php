@@ -114,8 +114,6 @@ Route::prefix('/')
             Route::post('test-out', function (\Illuminate\Http\Request $request) {
                 $request->user()->sendEmailVerificationNotification();
 
-
-
             });
         });
 

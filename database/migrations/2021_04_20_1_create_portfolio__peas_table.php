@@ -20,8 +20,9 @@ class CreatePortfolioPeasTable extends Migration
                   ->comment('Bibliografía básica');
             $table->json('complementary_bibliographies')
                   ->comment('Bibliografía complementaria');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

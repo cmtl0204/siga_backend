@@ -16,17 +16,27 @@ class UpdatePeaRequest extends FormRequest
     {
         $rules = [
             //evaluaciónEstudiante
-            'student_assessment' => [
+            'pea.subject.id' => [
                 'required',
-                'min:10',
+                'integer',
                 'max:1000',
             ],
-            'basic_bibliographies' => [
+            'pea.school_period.id' => [
+                'required',
+                'integer',
+                'max:1000',
+            ],
+            'pea.student_assessment' => [
                 '',
                 'min:10',
                 'max:1000',
             ],
-            'complementary_bibliographies' => [
+            'pea.basic_bibliographies' => [
+                '',
+                'min:10',
+                'max:1000',
+            ],
+            'pea.complementary_bibliographies' => [
                 '',
                 'min:10',
                 'max:1000',
@@ -39,9 +49,12 @@ class UpdatePeaRequest extends FormRequest
     {
         $attributes = [
 
-            'student_assessment' => 'student_assessment',
-            'basic_biographies' => 'basic_biographies',
-            'complementary_biographies' => 'complementary_biographies',
+            'pea.subject.id' => 'pea.subject.id',
+            'pea.school_period.id' => 'pea.school_period.id',
+            'pea.student_assessment' => 'pea.student_assessment',
+            'pea.basic_bibliographies' => 'pea.basic_bibliographies',
+            'pea.complementary_bibliographies' => 'pea.complementary_bibliographies',
+
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

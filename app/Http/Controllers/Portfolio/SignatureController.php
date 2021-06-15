@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Portfolio;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Portfolio\Signature;
+
+use App\Http\Requests\Portfolio\Signature\IndexSignatureRequest;
+use App\Http\Requests\Portfolio\Signature\StoreSignatureRequest;
+use App\Http\Requests\Portfolio\Signature\UpdateSignatureRequest;
+
 use Illuminate\Http\Request;
 
 class SignatureController extends Controller
@@ -13,7 +19,7 @@ class SignatureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexSignatureRequest $request)
     {
         //
     }
@@ -34,7 +40,7 @@ class SignatureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSignatureRequest $request)
     {
         //
     }
@@ -68,7 +74,7 @@ class SignatureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSignatureRequest $request, Signature $signature)
     {
         //
     }

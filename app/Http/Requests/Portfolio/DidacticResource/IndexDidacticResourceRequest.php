@@ -15,11 +15,21 @@ class IndexDidacticResourceRequest extends FormRequest
     public function rules()
     {
         $rules = [
+<<<<<<< HEAD
             'resources' => [
                 'min:10',
                 'max:1000',
             ]
             
+=======
+
+            'resources' => [
+                'required',
+                'min:10',
+                'max:1000',
+            ],
+
+>>>>>>> u_7_duque-marcelo
         ];
         return PortfolioFormRequest::rules($rules);
     }
@@ -28,7 +38,12 @@ class IndexDidacticResourceRequest extends FormRequest
     {
         $attributes = [
 
+<<<<<<< HEAD
             'resources' => 'resources'
+=======
+            'resources' => 'resources',
+
+>>>>>>> u_7_duque-marcelo
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

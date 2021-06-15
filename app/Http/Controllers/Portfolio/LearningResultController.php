@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Portfolio;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Portfolio\LearningResult;
+
+use App\Http\Requests\Portfolio\LearningResult\IndexLearningResultRequest;
+use App\Http\Requests\Portfolio\LearningResult\StoreLearningResultRequest;
+use App\Http\Requests\Portfolio\LearningResult\UpdateLearningResultRequest;
+
 use Illuminate\Http\Request;
 
 class LearningResultController extends Controller
@@ -13,7 +19,7 @@ class LearningResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexLearningResultRequest $request)
     {
         //
     }
@@ -34,7 +40,7 @@ class LearningResultController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLearningResultRequest $request)
     {
         //
     }
@@ -68,7 +74,7 @@ class LearningResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateLearningResultRequest $request, LearningResult $learningResult )
     {
         //
     }

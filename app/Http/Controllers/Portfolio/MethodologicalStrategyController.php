@@ -7,23 +7,12 @@ use App\Http\Requests\Portfolio\MethodologicalStrategy\StoreMethodologicalStrate
 use App\Http\Requests\Portfolio\MethodologicalStrategy\UpdateMethodologicalStrategyRequest;
 use App\Models\App\Catalogue;
 use App\Models\Portfolio\MethodologicalStrategy;
+use App\Http\Requests\Portfolio\MethodologicalStrategy\IndexMethodologicalStrategyRequest;
 use App\Models\Portfolio\Pea;
 use Illuminate\Http\Request;
 
 class MethodologicalStrategyController extends Controller
 {
-    public function index()
-    {   
-         
-         // get all the Contents
-         $methodologicalStrategy = MethodologicalStrategy::all();
-
-         return response()->json(['data' => $methodologicalStrategy, 'msg' => [
-            'summary' => 'success',
-            'detail' => 'Le busqueda se realizo con exito',
-            'code' => '200'
-        ]], 200);
-    }
      /**
      * Store a newly created resource in storage.
      *

@@ -1,25 +1,30 @@
 <?php
 
-namespace App\Http\Requests\Portfolio\MethodologicalStrategy;
+namespace App\Http\Requests\Portfolio\LearningResult;
 
-use App\Http\Requests\Portfolio\PortfolioFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Portfolio\PortfolioFormRequest;
 
-class UpdateMethodologicalStrategyRequest extends FormRequest
+class IndexLearningResultRequest extends FormRequest
 {
     public function authorize()
-        return true;
     {
+        return true;
     }
 
     public function rules()
     {
         $rules = [
 
-            'purpose' => [
+            'code' => [
                 'required',
-                'max:1000',
                 'min:10',
+                'max:1000',
+            ],
+            'description' => [
+                '',
+                'min:10',
+                'max:1000',
             ],
 
         ];
@@ -27,10 +32,11 @@ class UpdateMethodologicalStrategyRequest extends FormRequest
     }
 
     public function attributes()
-
     {
         $attributes = [
-            'purpose' => 'purpose',
+
+            'code' => 'code',
+            'description' => 'description',
 
         ];
         return PortfolioFormRequest::attributes($attributes);
