@@ -56,7 +56,6 @@ class Offer extends Model implements Auditable
         'position',
         'location',
         'categories',
-        'location',
         'contractType',
         'trainingHours',
         'experienceTime',

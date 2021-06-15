@@ -91,7 +91,7 @@ class OfferController extends Controller
         
 
         return response()->json([
-            'data' => $offer,
+            'data' => $offer->refresh(),
             'msg' => [
                 'summary' => 'Oferta creada',
                 'detail' => 'El registro fue creado',
@@ -155,7 +155,7 @@ class OfferController extends Controller
         });
 
         return response()->json([
-            'data' => $offer,
+            'data' => $offer->refresh(),
             'msg' => [
                 'summary' => 'Oferta actualizada',
                 'detail' => 'El registro fue actualizado',
