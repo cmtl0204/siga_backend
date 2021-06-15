@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Portfolio;
 
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio\Unit;
+use App\Models\Portfolio\Pea;
+use App\Http\Requests\Portfolio\Unit\StoreUnitRequest;
+use App\Http\Requests\Portfolio\Unit\IndexUnitRequest;
+use App\Http\Requests\Portfolio\Unit\UpdateUnitRequest;
 
 use Illuminate\Http\Request;
 
@@ -15,9 +19,37 @@ class UnitController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function index(IndexUnitRequest $request)
+    {   
+         
+         // get all the Units
+         $units = Unit::all();
+
+         return response()->json(['data' => $units, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'Le busqueda se realizo con exito',
+            'code' => '200'
+        ]], 200);
+    }
+
+
+    public function store(StoreUnitRequest $request)
     {
-        //
+        $pea = Pea::find($request->input('unit.pea.id'));
+        $unit = new Unit();
+        $unit->description = $request->input('unit.description');
+        $unit->order = $request->input('unit.order');
+        $unit->name = $request->input('unit.name');
+        $unit->pea()->associate($pea);
+        $unit->save();
+
+        return response()->json([
+            'data' => $unit,
+            'msg' => [
+                'summary' => 'Unidad creada',
+                'detail' => 'La unidad fue creado exitósamente',
+                'code' => '201'
+            ]], 201);
     }
 
     /**
@@ -38,9 +70,23 @@ class UnitController extends Controller
      * @param \Portfolio\Unit $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        //
+        $unit = Unit::getInstance($request->input('unit.id'));
+        
+        $unit->description = $request->input('unit.description');
+        $unit->order = $request->input('unit.order');
+        $unit->name = $request->input('unit.name');
+        $unit->pea()->associate($pea);
+        $unit->save();
+
+        return response()->json([
+            'data' => $unit,
+            'msg' => [
+                'summary' => 'Unidad actualizada',
+                'detail' => 'La unidad fue actualizada exitósamente',
+                'code' => '201'
+            ]], 201);
     }
 
     /**

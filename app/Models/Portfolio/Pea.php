@@ -8,6 +8,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lcobucci\JWT\Signer;
+use App\Models\App\Subject;
+use App\Models\App\SchoolPeriod;
 
 
 /**
@@ -65,10 +67,15 @@ class Pea extends Model implements Auditable
     {
         return $this->hasMany(DidacticResource::class);
     }
-    public function signatures()
+    public function subject()
     {
-        return $this->belongsTo(Signature::class);
+        return $this->belongsTo(Subject::class);
     }
+    public function schoolPeriod()
+    {
+        return $this->belongsTo(SchoolPeriod::class);
+    }
+    
 
 
 }

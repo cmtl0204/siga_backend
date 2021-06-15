@@ -16,14 +16,6 @@ use Illuminate\Http\Request;
 
 class PeaController extends Controller
 {
-
-    protected $pea;
-
-    public function __construct(Pea $pea)
-    {
-        $this -> pea = $pea;
-
-    }
      /**
      * Display a listing of the resource.
      *

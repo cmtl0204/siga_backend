@@ -23,6 +23,7 @@ class CreatePeaTeachersTable extends Migration
                    ->comment('fk de la tabla catálogos');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
