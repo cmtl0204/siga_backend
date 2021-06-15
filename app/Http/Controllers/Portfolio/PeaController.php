@@ -108,8 +108,6 @@ class PeaController extends Controller
      */
     public function update(UpdatePeaRequest $request, Pea $pea)
     {
-
-
         //crea instancia de subject
         //$subject = Subject::getInstance($request->input('subject.id'));
         $subject = Subject::find($request->input('pea.subject.id'));
