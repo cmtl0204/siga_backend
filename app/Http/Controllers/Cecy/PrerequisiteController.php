@@ -64,10 +64,10 @@ class PrerequisiteController extends Controller
         } 
     }
 
-    public function store(Request $request)
+    public function store(StorePrerequisiteRequest $request)
     {
         $data = $request -> json() -> all();
-        $status = $data ['prerequisite'] ['status'];
+        $state = $data ['prerequisite'] ['state'];
     
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         //$course = Course::getInstance($request->input('course.id'));
@@ -75,9 +75,10 @@ class PrerequisiteController extends Controller
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         //$type = Catalogue::getInstance($request->input('type.id'));
 
+
         $prerequisite = new Prerequisite();
         $prerequisite->course_id =  $request -> input('prerequisite.course_id');
-        $prerequisite->state()->associate(Status::findOrFail($status['id']));
+        $prerequisite->state()->associate(Status::findOrFail($state['id']));
         $prerequisite->parent_code_id =  $request -> input('prerequisite.parent_code_id');
         $prerequisite->save();
 
@@ -93,31 +94,42 @@ class PrerequisiteController extends Controller
     public function update(UpdatePrerequisiteRequest $request, Prerequisite $prerequisite)
     {
 
+        $data = $request -> json() -> all();
+        $state = $data ['prerequisite'] ['state'];
+    
+        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
+        //$course = Course::getInstance($request->input('course.id'));
+
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $state= Status::getInstance($request->input('state.id'));
+        //$type = Catalogue::getInstance($request->input('type.id'));
+
+
         
-        $prerequisite->state()->associate($state);
+        $prerequisite->course_id =  $request -> input('prerequisite.course_id');
+        $prerequisite->state()->associate(Status::findOrFail($state['id']));
+        $prerequisite->parent_code_id =  $request -> input('prerequisite.parent_code_id');
         $prerequisite->save();
 
         return response()->json([
             'data' => $prerequisite,
             'msg' => [
-                'summary' => 'Habilidad actualizada',
-                'detail' => 'El registro fue actualizado',
+                'summary' => 'prerequisite creada',
+                'detail' => 'El registro fue creado',
                 'code' => '201'
             ]], 201);
     }
 
-    public function delete(DeletePrerequisiteRequest $request, Prerequisite $prerequisite)
+    public function delete(DeletePrerequisiteRequest $request)
     {
-         // Es una eliminación lógica
-        $prerequisite->delete();
+        Prerequisite::destroy($request->input("ids")); 
+        // Es una eliminación lógica
+        //$detailRegistration->delete();
 
         return response()->json([
-            'data' => $prerequisite,
+            'data' => null,
             'msg' => [
-                'summary' => 'Habilidad eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Detalle(es) eliminado(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }

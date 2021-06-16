@@ -61,7 +61,7 @@ Route::middleware($middlewares)
     });
 
 
-    Route ::apiResource ('/prerequisite',PrerequisiteController::class);
+    Route ::apiResource ('/prerequisites',PrerequisiteController::class);
     Route ::apiResource ('/instructors',InstructorController::class);
 
     Route::put('prerequisite/delete', [PrerequisiteController::class, 'delete']);

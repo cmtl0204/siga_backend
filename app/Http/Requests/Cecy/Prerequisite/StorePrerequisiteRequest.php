@@ -15,15 +15,15 @@ class StorePrerequisiteRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'course.id' => [
+            'prerequisite.course_id' => [
                 'required',
                 'integer',
             ],
-            'state.id' => [
+            'prerequisite.state.id' => [
                 'required',
                 'integer',
             ],
-            'parent_code.id' => [
+            'prerequisite.parent_code_id' => [
                 'required',
                 'integer',
             ]
@@ -34,9 +34,9 @@ class StorePrerequisiteRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'course.id' => 'course-id',
-            'state.id' => 'state-id',
-            'Parent_code.id' => 'Parent_code-id',
+            'prerequisite.course_id' => 'course-id',
+            'prerequisite.state.id' => 'state-id',
+            'prerequisite.parent_code_id' => 'Parent_code-id',
         ];
         return CecyFormRequest::attributes($attributes);
     }
