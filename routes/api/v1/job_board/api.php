@@ -138,6 +138,7 @@ Route::prefix('/')
         Route::prefix('web-offer')->group(function () {
             Route::post('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
             Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
+            Route::post('testing', [WebOfferController::class, 'test'])->withoutMiddleware('auth:api');;
         });
 
         Route::prefix('web-professional')->group(function () {

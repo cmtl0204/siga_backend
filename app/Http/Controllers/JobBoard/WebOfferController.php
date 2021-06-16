@@ -42,9 +42,11 @@ class WebOfferController extends Controller
         }
 
         $offers = Offer::province($request->input('searchProvince'))
+            ->status(1)
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
-            ->status(1)
+            ->idCategories($request->input('searchIdCategory'))
+            ->parentCategory($request->input('searchParentCategory'))
             ->paginate($request->input('per_page'));
 
         return response()->json($offers, 200);
@@ -92,6 +94,8 @@ class WebOfferController extends Controller
             ->province($request->input('searchProvince'))
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
+            ->idCategories($request->input('searchIdCategory'))
+            ->parentCategory($request->input('searchParentCategory'))
             ->paginate($request->input('per_page'));
 
         return response()->json($offers, 200);
@@ -137,28 +141,14 @@ class WebOfferController extends Controller
      */
     function test(Request $request)
     {
-        $professional = $request->user()->professional()->first();
+        $idCategory = $request->input('searchIdCategory');
+        $parentCategory = $request->input('searchParentCategory');
 
-        // Por campo amplio y especifico(categoría hija y padre)
-        if (!is_null($request->input('searchIDs'))) {
-            $categories = $request->input('searchIDs');
+        $offers = Offer::idCategories($idCategory)
+            ->parentCategory($parentCategory)
+            ->get();
 
-            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
-                $query->whereIn('categories.id', $categories);
-            })->status(1)
-                ->professional($professional)
-                ->paginate($request->input('per_page'));
-
-//            $offers = Offer::categories($categories)->status(1)
-//                ->professional($professional)
-//                ->paginate($request->input('per_page'));
-
-            return response()->json($offers, 200);
-
-        }
-
-//        return response()->json($offers, 200);
-
+        return $offers;
     }
 
     function index2(Request $request)
