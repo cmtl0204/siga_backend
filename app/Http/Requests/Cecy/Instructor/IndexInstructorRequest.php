@@ -15,7 +15,7 @@ class IndexInstructorRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'professional_id' => [
+            'user_id' => [
                 'required',
                 'integer'
             ],
@@ -26,8 +26,8 @@ class IndexInstructorRequest extends FormRequest
     public function messages()
     {
         $messages = [
-            'professional_id.required' => 'El campo :attribute es obligatorio',
-            'professional_id.integer' =>'El campo :attribute debe ser numérico',
+            'user_id.required' => 'El campo :attribute es obligatorio',
+            'user_id.integer' =>'El campo :attribute debe ser numérico',
         ];
         
     }
@@ -35,7 +35,7 @@ class IndexInstructorRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'professional_id' => 'profesional-ID',
+            'user_id' => 'user-ID',
         ];
         return CecyFormRequest::attributes($attributes);
     }

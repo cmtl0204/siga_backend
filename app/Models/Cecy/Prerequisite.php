@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Cecy;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,9 +8,15 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Course;
+use App\Models\App\Status;
+
+
+/**
+ * @property BigInteger id
+ * @property string description
+ */
 
 class Prerequisite extends Model implements Auditable
-
 {
     use HasFactory;
     use Auditing;
@@ -21,7 +27,6 @@ class Prerequisite extends Model implements Auditable
     protected $connection = 'pgsql-cecy';
     protected $table = 'cecy.prerequisites';
 
-    
 
     protected $casts = [
         'deleted_at'=>'date:Y-m-d h:m:s',
@@ -43,10 +48,14 @@ class Prerequisite extends Model implements Auditable
     {
         return $this->belongsTo(Course::class);
     }
-
-    public function prerequisite()
+    public function state()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Status::class);
+    }
+
+    public function parentCode()
+    {
+        return $this->belongsTo(Prerequisite::class);
     }
 
     // Accessors
@@ -59,7 +68,8 @@ class Prerequisite extends Model implements Auditable
     // Scopes
 
     
+      
 
 
-   
+    
 }

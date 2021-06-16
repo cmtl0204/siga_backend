@@ -1,30 +1,42 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cecy\Prerequisite;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Cecy\CecyFormRequest;
 
 class IndexPrerequisiteRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'course_id' => [
+                'required',
+                'integer'
+            ],
         ];
+        return CecyFormRequest::rules($rules);
+    }
+
+    public function messages()
+    {
+        $messages = [
+            'course_id.required' => 'El campo :attribute es obligatorio',
+            'course_id.integer' =>'El campo :attribute debe ser numérico',
+        ];
+        
+    }
+
+    public function attributes()
+    {
+        $attributes = [
+            'course_id' => 'course-ID',
+        ];
+        
     }
 }

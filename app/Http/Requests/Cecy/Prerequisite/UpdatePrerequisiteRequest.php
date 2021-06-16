@@ -1,30 +1,43 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cecy\Prerequisite;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Cecy\CecyFormRequest;
 
 class UpdatePrerequisiteRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'course.id' => [
+                'required',
+                'integer',
+            ],
+            'state.id' => [
+                'required',
+                'integer',
+            ],
+            'parent_code.id' => [
+                'required',
+                'integer',
+            ]
         ];
+        return CecyFormRequest::rules($rules);
+    }
+
+    public function attributes()
+    {
+        $attributes = [
+            'course.id' => 'course-id',
+            'state.id' => 'state-id',
+            'Parent_code.id' => 'Parent_code-id',
+        ];
+        return CecyFormRequest::attributes($attributes);
     }
 }

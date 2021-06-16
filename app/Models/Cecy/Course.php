@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Authentication\User;
+use App\Models\App\User;
 use App\Models\App\Catalogue;
 
 /**
@@ -15,7 +15,7 @@ use App\Models\App\Catalogue;
  * @property string description
  */
 
-class Instructor extends Model implements Auditable
+class Course extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -33,30 +33,10 @@ class Instructor extends Model implements Auditable
         'updated_at'=>'date:Y-m-d h:m:s',
     ];
 
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
+    
 
     // Relationships
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function responsible()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function typeInstructor()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
+    
     // Accessors
     public $timestamps = false;
     
@@ -65,9 +45,4 @@ class Instructor extends Model implements Auditable
     
 
     // Scopes
-    
-      
-
-
-    
 }
