@@ -85,7 +85,7 @@ class DetailRegistration extends Model implements Auditable
     }
 
     // Accessors
-    public function getFullPartialGradeAttribute()
+    /* public function getFullPartialGradeAttribute()
     {
         return "{$this->attributes['id']}.{$this->attributes['partial_grade']}";
     }
@@ -113,11 +113,11 @@ class DetailRegistration extends Model implements Auditable
     public function getFullObservationAttribute()
     {
         return "{$this->attributes['id']}.{$this->attributes['observation']}";
-    }
+    } */
 
 
     // Mutators
-    public function setFullPartialGradeAttribute()
+    /*public function setFullPartialGradeAttribute()
     {
         $this->attributes['partial_grade'] = strtoupper($value);
     }
@@ -140,7 +140,7 @@ class DetailRegistration extends Model implements Auditable
     public function setFullLocationCertificateAttribute()
     {
         $this->attributes['location_certificate'] = strtoupper($value);
-    }
+    }*/
 
    // public function setFullObservationAttribute()
     //{

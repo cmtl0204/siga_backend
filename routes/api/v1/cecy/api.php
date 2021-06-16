@@ -59,6 +59,7 @@ Route::middleware($middlewares)
     });
 
     Route::apiResource('detailRegistrations', DetailRegistrationController::class);
+    Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
 
 
 // Without Middleware

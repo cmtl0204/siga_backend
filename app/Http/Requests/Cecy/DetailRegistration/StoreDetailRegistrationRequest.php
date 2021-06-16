@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Requests\DetailRegistration;
+namespace App\Http\Requests\Cecy\DetailRegistration;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
+use Illuminate\Http\Request;
+use App\Models\Cecy\DetailRegistration;
+use App\Models\App\Status;
 
 class StoreDetailRegistrationRequest extends FormRequest
 {
@@ -15,58 +18,58 @@ class StoreDetailRegistrationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'detail_registrations.partial_grade' => [
+            'detailRegistration.partial_grade' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'detail_registrations.final_exam' => [
+            'detailRegistration.final_exam' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'detail_registrations.code_certificate' => [
+            'detailRegistration.code_certificate' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'detail_registrations.certificate_withdrawn' => [
+            'detailRegistration.certificate_withdrawn' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'detail_registrations.location_certificate' => [
+            'detailRegistration.location_certificate' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'detail_registrations.observation' => [
+            'detailRegistration.observation' => [
                 'required',
-                'min:10',
+                'min:1',
                 'max:1000',
             ],
-            'registration.id' => [
+            'detailRegistration.registration_id' => [
                 'required',
                 'integer',
             ],
-            'additional_information.id' => [
+            'detailRegistration.additional_information_id' => [
                 'required',
                 'integer',
 //                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
-            ]
-            'detail_planification.id' => [
+            ],
+            'detailRegistration.detail_planification_id' => [
                 'required',
                 'integer',
             ],
-            'staus.id' => [
+            'detailRegistration.status.id' => [
                 'required',
                 'integer',
             ],
-            'status_certificate.id' => [
+            'detailRegistration.status_certificate.id' => [
                 'required',
                 'integer',
             ],
-            'registration.id' => [
+            'detailRegistration.registration_id' => [
                 'required',
                 'integer',
             ],
@@ -83,12 +86,12 @@ class StoreDetailRegistrationRequest extends FormRequest
             'detail_registrations.certificate_withdrawn' => 'certificate_withdrawn',
             'detail_registrations.location_certificate' => 'location_certificate',
             'detail_registrations.observation' => 'observation',
-            'registration.id' => 'registration-id',
-            'additional_information.id' => 'additional_information-id',
-            'detail_planification.id' => 'detail_planification-id',
-            'staus.id' => 'staus-id',
-            'status_certificate.id' => 'status_certificate-id',
-            'registration.id' => 'registration-id',
+            'detail_registrations.registration.id' => 'registration-id',
+            'detail_registrations.additional_information.id' => 'additional_information-id',
+            'detail_registrations.detail_planification_id' => 'detail_planification-id',
+            'detail_registrations.staus.id' => 'staus-id',
+            'detail_registrations.status_certificate.id' => 'status_certificate-id',
+            'detail_registrations.registration.id' => 'registration-id',
         ];
         return CecyFormRequest::attributes($attributes);
     }
