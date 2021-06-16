@@ -74,6 +74,7 @@ Route::prefix('/')
         Route::prefix('evaluation-type')->group(function () {
             Route::get('index', [EvaluationTypeController::class, 'index']);
             Route::post('store', [EvaluationTypeController::class, 'store']);
-            Route::get('show', [EvaluationTypeController::class, 'show']);
+            Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
+            Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
         });
     });

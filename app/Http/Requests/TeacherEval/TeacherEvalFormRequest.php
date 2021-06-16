@@ -1,6 +1,6 @@
 <?php
 //ola
-namespace App\Http\Requests\Authentication;
+namespace App\Http\Requests\TeacherEval;
 
 class TeacherEvalFormRequest
 {

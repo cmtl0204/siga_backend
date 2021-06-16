@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\ImageController;
 //models
-use App\Models\App\Catalogue;
+use App\Models\App\Status;
 use App\Models\TeacherEval\EvaluationType;
 //formrRquest
 use App\Http\Requests\TeacherEval\EvaluationType\IndexEvaluationTypeRequest;
@@ -23,34 +23,24 @@ use App\Http\Requests\App\Image\IndexImageRequest;
 
 class EvaluationTypeController extends Controller
 {
-    function index(IndexEvaluationTypeRequest $request, EvaluationType $evaluationType)
+    function index(IndexEvaluationTypeRequest $request)
 {
-    return response()->json([
-        'data' => $evaluationType,
-        'msg' => [
-            'summary' => 'success',
-            'detail' => '',
-            'code' => '200'
-        ]], 200);
     // Crea una instanacia del modelo Evaluation types para poder insertar en el modelo question.
-    $evaluationType = EvaluationType::getInstance($request->input('evaluation_type_id'));
+    $evaluationTypeTable = EvaluationType::find($request->input('parent_id'));
 
     if ($request->has('search')) {
-        $evaluationType = $evaluationType->evaluationTypes()
-            ->code($request->input('search'))
+        $evaluationType = $evaluationTypeTable->parent()
             ->name($request->input('search'))
-            ->percentage($request->input('search'))
-            ->global_percentage($request->input('search'))
             ->paginate($request->input('per_page'));
     } else {
-        $evaluationType = $evaluationType->evaluationTypes()->paginate($request->input('per_page'));
+        $evaluationType = $evaluationTypeTable->parent()->paginate($request->input('per_page'));
     }
 
-    if ($evaluationType->count() === 0) {
+    if ($evaluationType->count() === 0) {   
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'No se encontraron preguntas',
+                'summary' => 'No se encontraron typos de evaluacones',
                 'detail' => 'Intente de nuevo',
                 'code' => '404'
             ]], 404);
@@ -72,20 +62,21 @@ class EvaluationTypeController extends Controller
 
     function store(StoreEvaluationTypeRequest $request)
     {
-/*         // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
-        $evaluationType = EvaluationType::getInstance($request->input('question.id'));
-
+        $evaluationTypeTable = EvaluationType::getInstance($request->input('parent.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
-        $type = Catalogue::getInstance($request->input('question.type.id'));
+        $type = Status::find($request->input('status.id'));
 
         $evaluationType = new EvaluationType();
-        $evaluationType->name = $request->input('question.name');
-        $evaluationType->evaluationTypes()->associate($evaluationType);
-        $evaluationType->type()->associate($type);
-        $evaluationType->save(); */
+        $evaluationType->name = $request->input('evaluation_type.name');
+        $evaluationType->code = $request->input('evaluation_type.code');
+        $evaluationType->percentage = $request->input('evaluation_type.percentage');
+        $evaluationType->global_percentage = $request->input('evaluation_type.global_percentage');
+        $evaluationType->parent()->associate($evaluationTypeTable);
+        $evaluationType->status()->associate($type);
+        $evaluationType->save();
 
         return response()->json([
-           // 'data' => $evaluationType,
+           'data' => $evaluationType,
             'msg' => [
                 'summary' => 'Pregunta creada',
                 'detail' => 'El registro fue creado',
@@ -96,10 +87,13 @@ class EvaluationTypeController extends Controller
     function update(UpdateEvaluationTypeRequest $request, EvaluationType $evaluationType)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
-
-        $evaluationType->name = $request->input('question.name');
-        $evaluationType->type()->associate($type);    
+        $type = Status::find($request->input('status.id'));
+        $evaluationType = new EvaluationType();
+        $evaluationType->name = $request->input('evaluation_type.name');
+        $evaluationType->code = $request->input('evaluation_type.code');
+        $evaluationType->percentage = $request->input('evaluation_type.percentage');
+        $evaluationType->global_percentage = $request->input('evaluation_type.global_percentage');
+        $evaluationType->status()->associate($type);   
         $evaluationType->save();
 
         return response()->json([

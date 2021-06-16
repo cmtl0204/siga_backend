@@ -12,7 +12,7 @@ class CreateTeacherEvalEvaluationTypesTable extends Migration
             $table->id();
             $table->foreignId('parent_id')->nullable()->comment('Hace tabla recursiva por eso hace referencia a una misma tabla')->constrained('evaluation_types');
             $table->softDeletes();
-            $table->foreignId('status_id')->constrained('app.catalogues');
+            $table->foreignId('status_id')->constrained('app.status');
             $table->string('name')->comment('Descripcion Tipo Evaluacion');
             $table->string('code')->comment('Codigo Tipo Evaluacion');
             $table->double('percentage')->nullable()->comment('Porcentaje cada Tipo Evaluacion');;

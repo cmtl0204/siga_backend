@@ -15,28 +15,20 @@ class IndexEvaluationTypeRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'evaluation_types_id' => [
+            'parent_id' => [
                 'required',
                 'integer'
             ],
         ];
-        return IndexEvaluationTypeRequest::rules($rules);
+        return TeacherEvalFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'evaluation_type_id.required' => 'El campo :attribute es obligatorio',
-            'evaluation_type_id.integer' =>'El campo :attribute debe ser numérico',
-        ];
-        return IndexEvaluationTypeRequest::messages($messages);
-    }
 
     public function attributes()
     {
         $attributes = [
-            'evaluation_types_id' => 'evaluation_types_id',
+            'parent_id' => 'id del padre',
         ];
-        return IndexEvaluationTypeRequest::attributes($attributes);
+        return TeacherEvalFormRequest::attributes($attributes);
     }
 }
