@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Cecy\Topic\DeleTopicRequest;
+use App\Http\Requests\Cecy\Topic\DeleteTopicRequest;
 use App\Http\Requests\Cecy\Topic\IndexTopicRequest;
 use App\Http\Requests\Cecy\Topic\StoreTopicRequest;
 use App\Http\Requests\Cecy\Topic\UpdateTopicRequest;
@@ -54,7 +54,7 @@ class TopicController extends Controller
             ]], 200);
     }
 
-        public function store(Request $request)
+        public function store(StoreTopicRequest $request)
     {
         $data = $request -> json() -> all();
         $type  = $data ['topics'] ['type'];
@@ -81,7 +81,7 @@ class TopicController extends Controller
             ]], 201);
     }
 
-    function update(Request $request, Topic $topic)
+    function update(UpdateTopicRequest $request, Topic $topic)
     {
         $data = $request -> json() -> all();
         $type  = $data ['topics'] ['type'];
@@ -91,8 +91,7 @@ class TopicController extends Controller
        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
        //$type = Catalogue::getInstance($request->input('type.id'));
 
-        
-        
+
         $topic->description = $request->input('topics.description');
         $topic->parent_code_id = $request->input('topics.parent_code_id');
         $topic->course_id = $request -> input ('topics.course_id');
@@ -108,7 +107,7 @@ class TopicController extends Controller
             ]], 201);
     }
 
-    function delete(Request $request)
+    function delete(DeleteTopicRequest $request)
     {
         Topic::destroy($request->input("ids"));
         // Es una eliminación lógica

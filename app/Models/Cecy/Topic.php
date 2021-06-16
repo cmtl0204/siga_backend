@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use App\Models\App\Course;
+use App\Models\App\Cecy\ParentCode;
+use App\Models\App\Cecy\Type;
+use App\Models\App\Cecy\Course;
 use App\Models\App\Catalogue;
 
 /**
@@ -49,9 +50,9 @@ class Topic extends Model implements Auditable
     }
 
     // Relationships
-    public function parent()
+    public function parentCode()
     {
-        return $this->hasMany(Topic::class);
+        return $this->belongsTo(Topic::class);
     }
 
     public function course()
@@ -65,10 +66,10 @@ class Topic extends Model implements Auditable
     }
 
     //acesors
-    public function getFullDescriptionAttribute()
-    {
-        return "{$this->attributes['id']}.{$this->attributes['description']}";
-    }
+    //public function getFullDescriptionAttribute()
+   // {
+    //    return "{$this->attributes['id']}.{$this->attributes['description']}";
+    //}
 
 
     //mutatos
