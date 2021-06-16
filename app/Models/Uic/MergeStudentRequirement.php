@@ -1,40 +1,28 @@
 <?php
 
-namespace App\Models\Uic;
+namespace App\Models;
 
-// Laravel
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-//obligado para la auditoria
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-// Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Status;
-use App\Models\Authentication\System;
 
+use App\Models\Uic\Requirement;
+//use App\Models\Uic\MergeStudents;
 
-class Module extends Model implements Auditable
+class MergeStudentRequirement extends Model
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
-    protected $connection = 'pgsql-authentication';
-    protected $table = 'authentication.modules';
-
     protected static $instance;
-   
 
-    protected $fillable = [
-    'code',
-    'name',
-    'description',
-    'icon',
-    'state'];
+    protected $connection = 'pgsql-uic';
+    protected $table = 'uic.merge_student_requirements';
 
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -44,14 +32,15 @@ class Module extends Model implements Auditable
         return static::$instance;
     }
 
-    public function status()
+    //Relationships
+    public function requirements()
     {
-        return $this->belongsTo(Status::class);
+        return $this->hasMany(Requirement::class);
     }
 
-    public function system()
-    {
-        return $this->belongsTo(System::class);
-    }
+    //public function mergeStudents()
+    //{
+    //    return $this->hasMany(MergeStudents::class);
+    //}
 
 }

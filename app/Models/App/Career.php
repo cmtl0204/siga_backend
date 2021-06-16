@@ -2,6 +2,7 @@
 
 namespace App\Models\App;
 
+use App\Models\Uic\Modality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -49,6 +50,11 @@ class Career extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
+    public function modalities()
+    {
+        return $this->hasMany(Modality::class);
+    }
+    
     public function type()
     {
         return $this->belongsTo(Catalogue::class);
