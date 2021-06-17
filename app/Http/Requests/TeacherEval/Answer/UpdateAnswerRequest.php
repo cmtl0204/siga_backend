@@ -6,7 +6,7 @@ use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class UpdateAnswerRequest extends FormRequest
 {
     public function authorize()
     {
@@ -18,24 +18,36 @@ class UpdateRequest extends FormRequest
         $rules = [
             'answer.code' => [
                 'required',
-                'min:3',
-                'max:20',
+                'integer',
+            ],
+            'answer.order' => [
+                'required',
+                'integer',
             ],
             'answer.name' => [
                 'required',
-                'min:3',
+                'min:6',
                 'max:250',
-            ]
+            ],
+            'answer.value' => [
+                'required',
+                'max:250',
+            ],
+            'status.id' => [
+                'required',
+            ],
         ];
-        return JobBoardFormRequest::rules($rules);
+        return TeacherEvalFormRequest::rules($rules);
     }
 
     public function attributes()
     {
         $attributes = [
-            'category.code' => 'código',
-            'category.name' => 'nombre',
+            'answer.code' => 'código',
+            'answer.order' => 'orden',
+            'answer.name' => 'nombre',
+            'answer.value' => 'valor'
         ];
-        return JobBoardFormRequest::attributes($attributes);
+        return TeacherEvalFormRequest::attributes($attributes);
     }
 }

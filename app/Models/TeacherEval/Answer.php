@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\File;
-use App\Models\App\Image;
-use App\Models\App\Catalogue;
+use App\Models\App\Status;
+use App\Models\App\AnswerQuestion;
 
 /**
  * @property BigInteger id
- * @property string description
+ * @property string name
  */
 
 class Answer extends Model implements Auditable
@@ -25,7 +25,7 @@ class Answer extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.answer';
+    protected $table = 'teacher_eval.answers';
 
     protected $fillable = [
         'code',
@@ -49,39 +49,48 @@ class Answer extends Model implements Auditable
         return static::$instance;
     }
 
-    // Relationships
-    public function answerQuestion()
+    public function question()
     {
         return $this->belongsTo(Answer::class);
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+   
     public function answerQuestion()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(AnswerQuestion::class);
     }
+    
+      // Mutators
+      public function setNameAttribute($value)
+      {
+          $this->attributes['name'] = strtoupper($value);
+      }
+  
+      public function setCodeAttribute($value)
+      {
+          $this->attributes['code'] = strtoupper($value);
+      }
 
-    public function Question()
-    {
-        return $this->belongsTo(Answer::class);
-    }
-
-    /* Accessors
-    public function getFullDescriptionAttribute()
-    {
-        return "{$this->attributes['id']}.{$this->attributes['description']}";
-    }*/
-
-    // Mutators
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['code'] = strtoupper($value);
-    }
 
     // Scopes
-    public function scopeDescription($query, $code)
+
+    public function scopeCode($query, $code)
     {
         if ($code) {
             return $query->where('code', 'ILIKE', "%$code%");
         }
     }
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->orwhere('name', 'ILIKE', "%$name%");
+        }
+    }
+    
 }
+

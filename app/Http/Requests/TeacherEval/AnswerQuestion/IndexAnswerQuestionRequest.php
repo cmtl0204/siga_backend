@@ -5,7 +5,7 @@ namespace App\Http\Requests\TeacherEval\AnswerQuestion;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 
-class IndexRequest extends FormRequest
+class IndexAnswerQuestionRequest extends FormRequest
 {
     public function authorize()
     {

@@ -9,6 +9,8 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\TeacherEval\AnswerController;
+use App\Http\Controllers\TeacherEval\AnswerQuestionController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -68,4 +70,13 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+        // rutas tabla answer
+        Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
+
     });

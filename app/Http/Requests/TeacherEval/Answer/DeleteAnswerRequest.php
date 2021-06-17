@@ -15,13 +15,11 @@ class DeleteAnswerRequest extends FormRequest
 
     public function rules()
     {
-        public function rules()
-        {
-            $rules = [
-                'ids' => [
-                    'required',
-                ],
-            ];
+        $rules = [
+            'ids' => [
+                'required',
+            ],
+        ];
         return TeacherEvalFormRequest::rules($rules);
     }
 

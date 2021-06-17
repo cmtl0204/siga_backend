@@ -12,15 +12,22 @@ class IndexAnswerRequest extends FormRequest
         return true;
     }
 
-        public function rules()
+    public function rules()
     {
-        $rules = [];
+        $rules = [
+            'status_id' => [
+                'required',
+            ],
+        ];
         return TeacherEvalFormRequest::rules($rules);
     }
 
     public function attributes()
     {
-        $attributes = [];
+        $attributes = [
+            'status_id' => 'Id estado de la respuesta',
+                
+        ];
         return TeacherEvalFormRequest::attributes($attributes);
     }
 }

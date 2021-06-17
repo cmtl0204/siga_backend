@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\File;
-use App\Models\App\Image;
-use App\Models\App\Catalogue;
+use App\Models\App\Answer;
+use App\Models\App\Question;
 
 /**
  * @property BigInteger id
@@ -28,7 +27,8 @@ class AnswerQuestion extends Model implements Auditable
     protected $table = 'teacher_eval.answer_question';
 
     protected $fillable = [
-        'description',
+        'answer_id',
+        'question_id'
     ];
 
     protected $casts = [
@@ -47,43 +47,14 @@ class AnswerQuestion extends Model implements Auditable
     }
 
     // Relationships
-    public function professional()
+    public function question()
     {
-        return $this->belongsTo(Professional::class);
+        return $this->belongsTo(Question::class);
     }
 
-    public function type()
+    public function answer()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Answer::class);
     }
-
-    public function files()
-    {
-        return $this->morphMany(File::class, 'fileable');
-    }
-
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'imageable');
-    }
-
-    // Accessors
-    public function getFullDescriptionAttribute()
-    {
-        return "{$this->attributes['id']}.{$this->attributes['description']}";
-    }
-
-    // Mutators
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = strtoupper($value);
-    }
-
-    // Scopes
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->where('description', 'ILIKE', "%$description%");
-        }
-    }
+    
 }

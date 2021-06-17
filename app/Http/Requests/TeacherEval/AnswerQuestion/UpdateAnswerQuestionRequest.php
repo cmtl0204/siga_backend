@@ -6,7 +6,7 @@ use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class UpdateAnswerQuestionRequest extends FormRequest
 {
     public function authorize()
     {

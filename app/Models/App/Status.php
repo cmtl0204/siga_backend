@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\TeacherEval\Answer;
 
 class Status extends Model implements Auditable
 {
@@ -28,5 +29,10 @@ class Status extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
+    }
+
+    public function answers()
+    {
+        return $this->HasMany(Answer::class);
     }
 }

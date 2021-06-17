@@ -10,8 +10,8 @@ class CreateTeacherEvalAnswerQuestionTable extends Migration
     {
         Schema::connection('pgsql-teacher-eval')->create('answer_question', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('answer_id')->comment('Relacion Respuesta')->schema('pgsql-teacher-eval');
-            $table->foreignId('question_id')->comment('Relacion Pregunta')->schema('pgsql-teacher-eval');
+            $table->foreignId('answer_id')->comment('Relacion Respuesta');
+            $table->foreignId('question_id')->comment('Relacion Pregunta');
             $table->timestamps();
         });
     }

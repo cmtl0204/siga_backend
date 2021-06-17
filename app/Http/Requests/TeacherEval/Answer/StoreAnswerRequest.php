@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\TeacherEval\Answer;
 
-use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 
-class StoreRequest extends FormRequest
+
+class StoreAnswerRequest extends FormRequest
 {
     public function authorize()
     {
@@ -17,23 +18,23 @@ class StoreRequest extends FormRequest
         $rules = [
             'answer.code' => [
                 'required',
-                'min:3',
-                'max:20',
+                'integer',
             ],
             'answer.order' => [
                 'required',
-                'min:3',
-                'max:250',
+                'integer',
             ],
             'answer.name' => [
                 'required',
-                'min:3',
+                'min:6',
                 'max:250',
             ],
             'answer.value' => [
                 'required',
-                'min:3',
                 'max:250',
+            ],
+            'status.id' => [
+                'required',
             ],
         ];
         return TeacherEvalFormRequest::rules($rules);
@@ -43,8 +44,8 @@ class StoreRequest extends FormRequest
     {
         $attributes = [
             'answer.code' => 'código',
-            'answer.name' => 'nombre',
             'answer.order' => 'orden',
+            'answer.name' => 'nombre',
             'answer.value' => 'valor'
         ];
         return TeacherEvalFormRequest::attributes($attributes);

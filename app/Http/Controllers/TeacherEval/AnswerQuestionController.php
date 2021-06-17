@@ -3,46 +3,46 @@
 namespace App\Http\Controllers\TeacherEval;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\App\FileController;
-use App\Http\Controllers\App\ImageController;
 use App\Models\App\TeacherEval;
 use App\Models\TeacherEval\AnswerQuestion;
-use App\Http\Requests\TeacherEval\AnswerQuestion\StoreRequest;
-use App\Http\Requests\TeacherEval\AnswerQuestion\IndexRequest;
-use App\Http\Requests\TeacherEval\AnswerQuestion\UpdateRequest;
-use App\Http\Requests\App\Image\UpdateImageRequest;
-use App\Http\Requests\App\Image\UploadImageRequest;
-use App\Http\Requests\App\File\UpdateFileRequest;
-use App\Http\Requests\App\File\UploadFileRequest;
-use App\Http\Requests\App\File\IndexFileRequest;
-use App\Http\Requests\App\Image\IndexImageRequest;
+use App\Models\TeacherEval\Answer;
+use App\Models\TeacherEval\Question;
+use App\Http\Requests\TeacherEval\AnswerQuestion\IndexAnswerQuestionRequest;
+use App\Http\Requests\TeacherEval\AnswerQuestion\StoreAnswerQuestionRequest;
+use App\Http\Requests\TeacherEval\AnswerQuestion\UpdateAnswerQuestionRequest;
+use App\Http\Requests\TeacherEval\AnswerQuestion\DeleteAnswerQuestionRequest;
+
 
 class AnswerQuestionController extends Controller
-{
-    function index(IndexRequest $request)
-{
-    // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-    $professional = Professional::getInstance($request->input('professional_id'));
 
+{
+
+function index(IndexAnswerQuestionRequest $request)
+
+{
     if ($request->has('search')) {
-        $skills = $professional->skills()
-            ->description($request->input('search'))
+        $answerQuestion = AnswerQuestion::
+              answer_id($request->input('search'))
+            ->question_id($request->input('search'))
             ->paginate($request->input('per_page'));
     } else {
-        $skills = $professional->skills()->paginate($request->input('per_page'));
-    }
+        $answerQuestion = AnswerQuestion::paginate($request->input('per_page'));
+     }
 
-    if ($skills->count() === 0) {
-        return response()->json([
-            'data' => null,
-            'msg' => [
-                'summary' => 'No se encontraron Habilidades',
-                'detail' => 'Intente de nuevo',
-                'code' => '404'
-            ]], 404);
-    }
 
-    return response()->json($skills, 200);
+if ($answerQuestion->count() === 0) {
+    return response()->json([
+        'data' => null,
+        'msg' => [
+            'summary' => 'No se encontraron Respuestas',
+            'detail' => 'Intente de nuevo',
+            'code' => '404'
+        ]], 404);
+}
+
+
+
+return response()->json($answerQuestion, 200);
 }
 
     function show(AnswerQuestion $answerQuestion)
@@ -57,108 +57,92 @@ class AnswerQuestionController extends Controller
             ]], 200);
     }
 
-    function store(StoreRequest $request)
+     function store(StoreAnswerQuestionRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-        $professional = Professional::getInstance($request->input('professional.id'));
+        //Crea una instanacia del modelo Answer para poder insertar en el modelo AnswerQuestion.
+        $answer= Answer::getInstance($request->input('answerQuestion.answer.id'));
 
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
+         //Crea una instanacia del modelo Question para poder insertar en el modelo AnswerQuestion.
+        $question = Question::getInstance($request->input('answerQuestion.question.id'));
 
-        $skill = new Skill();
-        $skill->description = $request->input('skill.description');
-        $skill->professional()->associate($professional);
-        $skill->type()->associate($type);
-        $skill->save();
+        $answerQuestion = new AnswerQuestion();
+        $answerQuestion->answer_id = $request->input('answerQuestion.answer.id');
+        $answerQuestion->question_id = $request->input('answerQuestion.question.id');
+        $answerQuestion->answer()->associate($answer);
+        $answerQuestion->question()->associate($question);
+        $answerQuestion->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $answerQuestion,
             'msg' => [
                 'summary' => 'Habilidad creada',
-                'detail' => 'El registro fue creado',
+                'detail' => 'Id creado correctamente',
                 'code' => '201'
             ]], 201);
     }
 
-    function update(UpdateRequest $request,Skill $skill)
+    function update(UpdateAnswerQuestionRequest $request, AnswerQuestion $answerQuestion)
     {
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
-        $type = Catalogue::getInstance($request->input('type.id'));
+           //Crea una instanacia del modelo Answer para poder insertar en el modelo AnswerQuestion.
+        $answer= Answer::getInstance($request->input('answerQuestion.answer.id'));
 
-        $skill->description = $request->input('skill.description');
-        $skill->type()->associate($type);
-        $skill->save();
+        //Crea una instanacia del modelo Question para poder insertar en el modelo AnswerQuestion.
+       $question = Question::getInstance($request->input('answerQuestion.question.id'));
+
+
+             // Valida que exista los Id, si no encuentra el registro en la base devuelve un mensaje de error
+             if (!$answerQuestion) {
+                return response()->json([
+                    'data' => null,
+                    'msg' => [
+                        'summary' => 'Id no encontrado',
+                        'detail' => 'Vuelva a intentar',
+                        'code' => '404'
+                    ]
+                ], 404);
+            }
+            $answerQuestion->answer_id = $request->input('answerQuestion.answer.id');
+            $answerQuestion->question_id = $request->input('answerQuestion.question.id');
+            $answerQuestion->answer()->associate($answer);
+            $answerQuestion->question()->associate($question);
+            $answerQuestion->save();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $answerQuestion,
             'msg' => [
-                'summary' => 'Habilidad actualizada',
-                'detail' => 'El registro fue actualizado',
+                'summary' => 'Id actualizada',
+                'detail' => 'El id fue actualizado',
                 'code' => '201'
             ]], 201);
     }
 
-    function destroy(Skill $skill)
+    /*function destroy(AnswerQuestion $answerQuestion)
     {
         // Es una eliminación lógica
-        $skill->delete();
+        $answerQuestion->delete();
 
         return response()->json([
-            'data' => $skill,
+            'data' => $answerQuestion,
             'msg' => [
                 'summary' => 'Habilidad eliminada',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]], 201);
+    }*/
+
+    function delete(DeleteAnswerQuestionRequest $request)
+    {
+        // Es una eliminación lógica
+        AnswerQuestion::destroy($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Question/Answer(s) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]], 201);
     }
 
-    function uploadImages(UploadImageRequest $request)
-    {
-        return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
-    }
 
-    function updateImage(UpdateImageRequest $request, $imageId)
-    {
-        return (new ImageController())->update($request, $imageId);
-    }
-
-    function deleteImage($imageId)
-    {
-        return (new ImageController())->delete($imageId);
-    }
-
-    function indexImage(IndexImageRequest $request)
-    {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
-    }
-
-    function ShowImage($fileId)
-    {
-        return (new FileController())->show($fileId);
-    }
-
-    function uploadFiles(UploadFileRequest $request)
-    {
-        return (new FileController())->upload($request, Skill::getInstance($request->input('id')));
-    }
-
-    function updateFile(UpdateFileRequest $request, $fileId)
-    {
-        return (new FileController())->update($request, $fileId);
-    }
-
-    function deleteFile($fileId)
-    {
-        return (new FileController())->delete($fileId);
-    }
-
-    function indexFile(IndexFileRequest $request)
-    {
-        return (new FileController())->index($request, Skill::getInstance($request->input('id')));
-    }
-
-    function ShowFile($fileId)
-    {
-        return (new FileController())->show($fileId);
-    }
 }
