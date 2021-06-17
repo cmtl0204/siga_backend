@@ -20,7 +20,7 @@ class CreateUicPlanningsTable extends Migration
             $table->string('event')->comment('tipo de evento(convocatoria, inscripcion, etc.)');
             $table->date('start_date')->comment('inicio evento');
             $table->date('end_date')->comment('fin evento, no dee ser menor al feha inicio');
-            $table->json('description')->nullable();
+            $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class CreateUicTutorsTable extends Migration
             $table->foreignId('project_id');
             $table->foreignId('teacher_id')->comment('id de la tabla')->constrained('app.teachers');
             $table->foreignId('type_id')->comment('para saber si es tutor, revisor ,etc')->constrained('app.catalogues');
-            $table->json('observations')->comment('registro de cambios');
+            $table->json('observations')->comment('registro de cambios')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
