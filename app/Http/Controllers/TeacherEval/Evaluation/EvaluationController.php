@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\TeacherEval\DetailEvaluation;
- use App\Models\TeacherEval\DetailEvaluation;
+namespace App\Http\Controllers\TeacherEval\Evaluation;
+ use App\Models\App\Status;
+ use App\Models\App\SchoolPeriod;
+ use App\Models\App\Teacher;
+ use App\Models\TeacherEval\EvaluationType;
  use App\Models\TeacherEval\Evaluation;
  use App\Http\Controllers\Controller;
- use App\Http\Requests\TeacherEval\DetailEvaluation\IndexDetailEvaluationRequest;
- use App\Http\Requests\TeacherEval\DetailEvaluation\StoreDetailEvaluationRequest;
- use App\Http\Requests\TeacherEval\DetailEvaluation\UpdateDetailEvaluationRequest;
- use App\Http\Requests\TeacherEval\DetailEvaluation\DeleteDetailEvaluationRequest;
+ use App\Http\Requests\TeacherEval\Evaluation\IndexEvaluationRequest;
+ use App\Http\Requests\TeacherEval\Evaluation\StoreEvaluationRequest;
+ use App\Http\Requests\TeacherEval\Evaluation\UpdateEvaluationRequest;
+ use App\Http\Requests\TeacherEval\Evaluation\DeleteEvaluationRequest;
 use Illuminate\Http\Request;
 
-class DetailEvaluationController extends Controller
+class EvaluationController extends Controller
 {
    /* public function index(IndexDetailEvaluationRequest $request)
     {
@@ -43,39 +46,39 @@ class DetailEvaluationController extends Controller
     }*/
 
 
-   /* function index(IndexDetailEvaluationRequest  $request)
+   function index(IndexEvaluationRequest  $request)
 {
     // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-    $evaluation = Evaluation::getInstance($request->input('evaluation_id'));
+    $evaluation = Teacher::getInstance($request->input('teacher_id'));
 
     if ($request->has('search')) {
-        $detail = $evaluation->detailEvaluation()
+        $detail = $evaluation->evaluation()
             ->result($request->input('search'))
-
+            //->percentage($request->input('search'))
             ->paginate($request->input('per_page'));
     } else {
-        $detail = $evaluation->detailEvaluation()->paginate($request->input('per_page'));
+        $detail = $evaluation->evaluation()->paginate($request->input('per_page'));
     }
 
     if ($detail->count() === 0) {
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'No se encontraron Habilidades',
+                'summary' => 'No se encontraron Resultados',
                 'detail' => 'Intente de nuevo',
                 'code' => '404'
             ]], 404);
     }
 
     return response()->json($detail, 200);
-}*/
+}
 
 
-    public function show(DetailEvaluation $detail)
+    public function show(Evaluation $evaluation)
     {
 
         return response()->json([
-            'data' => $detail,
+            'data' => $evaluation,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -83,32 +86,21 @@ class DetailEvaluationController extends Controller
             ]], 201);
     }
 
-   public function store(StoreDetailEvaluationRequest $request)
+   public function store(StoreEvaluationRequest $request)
     {
-        $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
-        $detail = new DetailEvaluation();
-        $detail->result = $request->input('detail.result');
-        $detail->evaluation_id = $evaluationResponce->id;
-        $evaluationResponce->detailEvaluation()->save($detail);
-
-        return response()->json([
-            'data' => $detail,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
-    }
-
-
-    public function update(Request $request, DetailEvaluation $detail)
-    {
-        $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
-
-        $detail->result = $request->input('detail.result');
-        $detail->evaluation_id = $evaluationResponce->id;
-        $evaluationResponce->detailEvaluation()->save($detail);
-
+        //$schoolPeriod = SchoolPeriod::findOrFail($request->input('shoolPeriod.id'));
+        $teacher = Teacher::getInstance($request->input('teacher.id'));
+        $evaluationType = EvaluationType::getInstance($request->input('evaluation_type.id'));
+        $schoolPeriod = SchoolPeriod::getInstance($request->input('shoolPeriod.id'));
+        $status = Status::getInstance($request->input('status.id'));
+        $detail = new Evaluation();
+        $detail->result = $request->input('evaluation.result');
+        $detail->percentage = $request->input('evaluation.percentage');
+        $detail->teacher()->associate($teacher);
+        $detail->evaluationType()->associate($evaluationType);
+        $detail->schoolPeriod()->associate($schoolPeriod);
+        $detail->status()->associate($status);
+        $detail->save();
         return response()->json([
             'data' => $detail,
             'msg' => [
@@ -119,29 +111,33 @@ class DetailEvaluationController extends Controller
     }
 
 
-    /*public function update(UpdateDetailEvaluationRequest $request, DetailEvaluation $detail  )
+    public function update(UpdateEvaluationRequest $request, Evaluation $detail  )
     {
-        $evaluationResponce = DetailEvaluation::find($detail->id);
-
-       // $detail->result = $request->input('result');
-        $evaluationResponce->fill([ 'result' => $request->input('detail.result') ]);
-        $evaluationResponce->save();
-        $evaluationResponce->refresh();
-
+        $teacher = Teacher::getInstance($request->input('teacher.id'));
+        $evaluationType = EvaluationType::getInstance($request->input('evaluation_type.id'));
+        $schoolPeriod = SchoolPeriod::getInstance($request->input('shoolPeriod.id'));
+        $status = Status::getInstance($request->input('status.id'));
+        $detail->result = $request->input('evaluation.result');
+        $detail->percentage = $request->input('evaluation.percentage');
+        $detail->teacher()->associate($teacher);
+        $detail->evaluationType()->associate($evaluationType);
+        $detail->schoolPeriod()->associate($schoolPeriod);
+        $detail->status()->associate($status);
+        $detail->save();
         return response()->json([
-            'data' => $evaluationResponce,
+            'data' => $detail,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '201'
             ]], 201);
-    }*/
+    }
 
 
-    function delete(DeleteDetailEvaluationRequest $request)
+    function delete(DeleteEvaluationRequest $request)
     {
         // Es una eliminación lógica
-        DetailEvaluation::destroy($request->input('ids'));
+        Evaluation::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
@@ -153,7 +149,7 @@ class DetailEvaluationController extends Controller
     }
 
 
-    /*public function destroy(DetailEvaluation $detail)
+   /* public function destroy(DetailEvaluation $detail)
     {
 
         $detail->delete();
@@ -170,8 +166,9 @@ class DetailEvaluationController extends Controller
     {
 
 
-        $detail = new Evaluation();
+        $detail = new EvaluationType();
         $detail->name = $request->input('name');
+
         $detail->save();
 
 

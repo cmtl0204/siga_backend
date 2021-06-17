@@ -16,10 +16,14 @@ use App\Models\TeacherEval\Evaluation;
 use App\Models\Authentication\System;
 use phpseclib3\Math\BigInteger;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+
+
+
 /**
  * @property BigInteger id
- * @property double name
- * @property double description
+ * @property double result
+
 
  */
 
@@ -69,13 +73,13 @@ class DetailEvaluation extends Model implements Auditable
     /*public function evaluation()
     {
         return $this->morphMany(Evaluation::class, 'detailEvaluationable');
-    }
+    }*/
 
     public function scopeResult($query, $result)
     {
         if ($result) {
-            return $query->where('result', 'ILIKE', "%$result%");
+            return $query->where('result', 'ILIKE', "$result");
         }
-    }*/
+    }
 
 }

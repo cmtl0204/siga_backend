@@ -13,13 +13,18 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
 use App\Models\App\Teacher;
+use App\Models\App\SchoolPeriod;
 use phpseclib3\Math\BigInteger;
 use App\Models\TeacherEval\DetailEvaluation;
+use App\Models\TeacherEval\EvaluationType;
+
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+
 
 /**
  * @property BigInteger id
- * @property double name
- * @property double description
+ * @property double result
+ * @property double percentage
 
  */
 
@@ -40,12 +45,12 @@ class Evaluation extends Model implements Auditable
     'percentage'
     ];
 
-    protected $casts = [
-        'result' => 'array',
+    /*protected $casts = [
+        'name' => 'array',
         'percentage' => 'array'
-    ];
+    ];*/
 
-    protected $hidden = ['detail_evaluationable_type'];
+
 
     public static function getInstance($id)
     {
@@ -63,6 +68,21 @@ class Evaluation extends Model implements Auditable
         return $this->belongsTo(Teacher::class);
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function schoolPeriod()
+    {
+        return $this->belongsTo(SchoolPeriod::class);
+    }
+
+    public function evaluationType()
+    {
+        return $this->belongsTo(EvaluationType::class);
+    }
+
   /*  public function detailEvaluationable()
     {
         return $this->morphTo();
@@ -73,6 +93,19 @@ class Evaluation extends Model implements Auditable
         return $this->morphMany(DetailEvaluation::class, 'detail_evaluationable');
     }
 
+    public function scopeResult($query, $result)
+    {
+        if ($result) {
+            return $query->where('result', 'ILIKE', "$result");
+        }
+    }
 
+
+    public function scopePercentage($query, $percentage)
+    {
+        if ($percentage) {
+            return $query->orWhere('result', 'ILIKE', "$percentage");
+        }
+    }
 
 }
