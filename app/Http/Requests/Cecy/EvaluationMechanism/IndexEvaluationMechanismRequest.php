@@ -15,22 +15,22 @@ class IndexEvaluationMechanismRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'instrument.evaluationMechanism' => [
+            'evaluationMechanism.instrument' => [
                 'required',
                 'string',
             ],
         
-            'technique.evaluationMechanism' => [
+            'evaluationMechanism.technique' => [
                 'required',
                 'string'
             ],
         
-            'type.id' => [
+            'evaluationMechanism.type_id' => [
                 'required',
                 'integer'
             ],
         
-            'status.id' => [
+            'evaluationMechanism.status_id' => [
                 'required',
                 'integer'
             ] 

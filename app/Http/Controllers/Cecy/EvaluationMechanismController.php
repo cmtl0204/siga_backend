@@ -18,6 +18,7 @@ use App\Http\Requests\Cecy\EvaluationMechanism\UpdateEvaluationMechanismRequest;
 class EvaluationMechanismController extends Controller
 {
     function index(IndexEvaluationMechanismRequest $request){
+        $evaluationMechanisms = EvaluationMechanism::all();
         if ($evaluationMechanisms->count() === 0) {
             return response()->json([
                 'data' => null,
