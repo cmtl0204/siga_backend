@@ -26,6 +26,7 @@ class Planification extends Model implements Auditable
 
     protected $fillable = [
 
+
     ];
 
     public static function getInstance($id)
@@ -39,9 +40,9 @@ class Planification extends Model implements Auditable
 
     //Relationships - Las relaciones van el orden alfabetico 
 
-    public function responsable()
+    public function course()
     {
-        return $this->belongsTo(Authority::class); 
+      return $this->belongsTo(Course::class); 
     }
 
 }

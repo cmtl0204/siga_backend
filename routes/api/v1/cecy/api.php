@@ -80,7 +80,9 @@ Route::prefix('/')
             Route::post('store', [CourseController::class, 'storeCourse']);
             Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
             Route::get('responsables', [CourseController::class, 'getResponsables']);
-            Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);       
+            Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);   
+            Route::get('planifications', [CourseController::class, 'getPlanifiation']);       
+    
         });
         
 

@@ -31,11 +31,7 @@ class CourseAprovalCourseRequest extends FormRequest
             'course.status' => [
                 'required'
             ],
-            'course.approval_date' => [
-                'required'
-            ],
-
-
+       
         ];
 
         return CecyFormRequest::rules($rules);
@@ -45,7 +41,6 @@ class CourseAprovalCourseRequest extends FormRequest
         
         $attributes = [
             'course.status' => 'status',
-            'course.approval_date' =>'approval_date',
 
             
         ];

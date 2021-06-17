@@ -27,7 +27,7 @@ class TutorAsisignmentRequest extends FormRequest
         $rules = [
 
           
-            'id' => [
+            'responsable.id' => [
                 'required'
             ],
         
@@ -41,10 +41,8 @@ class TutorAsisignmentRequest extends FormRequest
     public function attributes(){
         
         $attributes = [
-            'course.status' => 'status',
-            'course.approval_date' =>'approval_date',
-
-            
+            'responsable.id' => 'responsable_id',
+                   
         ];
 
         return CecyFormRequest::rules($attributes);
