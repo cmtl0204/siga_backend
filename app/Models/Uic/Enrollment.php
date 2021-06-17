@@ -29,7 +29,7 @@ class Enrollment extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.enrollments';
-    protected $with = ['modality','status']; //belongs to ,'shoolPeriod'
+    protected $with = ['modality','status','planning']; //belongs to ,'shoolPeriod'
 
     protected $fillable = [
         'id',
@@ -70,6 +70,9 @@ class Enrollment extends Model implements Auditable
     // public function projects(){
     //     return $this->hasMany(Project::class);
     // }
+    public function planning() {
+        return $this->belongsTo(Planning::class);
+    }
     public function status() {
         return $this->belongsTo(Status::class);
     }

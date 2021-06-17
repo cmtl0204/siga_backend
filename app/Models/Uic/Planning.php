@@ -63,8 +63,8 @@ class Planning extends Model implements Auditable
     }
 
     /*Relatioship*/
-    // public function enrollments()
-    // {
-    //     return $this->hasMany(Enrollment::class);
-    // }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }
