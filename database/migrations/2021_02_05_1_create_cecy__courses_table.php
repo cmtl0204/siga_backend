@@ -54,14 +54,14 @@ class CreateCecyCoursesTable extends Migration
             $table->date('approval_date')->nullable()->comment('fecha_aprobacion curso');
             //$table->date('need_date')->comment('fecha_registro de necesidad');
             $table->string('local_proposal')->nullable()->comment('local_propuesta_a_dictar');
-            $table->foreignId('schedules_id')->constrained('schedules')->nullable()->comment('id_horario_propuesta'); //id_horario_propuesta //tabla polimorfica
+            // $table->foreignId('schedules_id')->constrained('schedules')->nullable()->comment('id_horario_propuesta'); //id_horario_propuesta //tabla polimorfica
             $table->string('project')->nullable()->comment('proyecto_curso');
             $table->integer('capacity')->nullable()->comment('capacidad_curso');
             $table->foreignId('classroom_id')->constrained('app.classrooms')->nullable()->comment('id_aula');
             
             $table->foreignId('specialty_id')->constrained('app.catalogues')->nullable()->comment('fk de catalogo que guarda el id_especialidad posible valores Idioma, tecnología, pedagogia, etc');
             $table->foreignId('academic_period_id')->constrained('app.catalogues')->nullable()->comment('id_periodo_academico');
-            $table->foreignId('institution_id')->constrained('institutions')->nullable()->comment('id_institución');
+            // $table->foreignId('institution_id')->constrained('institutions')->nullable()->comment('id_institución');
             $table->string('place')->nullable()->comment('lugar donde se dictara el curso');
             $table->foreignId('career_id')->nullable()->constrained('app.careers')->comment('Se refiere a la carrera que le corresponde al curso');
             $table->string('setec_name')->comment('nombre_setec');
@@ -71,7 +71,7 @@ class CreateCecyCoursesTable extends Migration
             $table->json('bibliographys')->nullable()->comment('Bibliografia del curso');
 
 
-            $table->interger('status')->nullable()->default(1)->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
+            $table->integer('status')->nullable()->default(1)->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
             $table->timestamps();
             $table->softDeletes();
 /*                    
