@@ -15,22 +15,22 @@ class StoreRegistrationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'registration.date' => [
+            'registration.date_registration' => [
                 'required'
             ],
             'registration.number' => [
                 'required',
                 'min:10',
             ],
-            'registration.participant_id'=> [
+            'registration.planification_id'=> [
                 'required',
                 'integer'
             ],
-            'registration.status_id'=> [
+            'registration.status.id'=> [
                 'required',
                 'integer'
             ],
-            'registration.type_id'=> [
+            'registration.type.id'=> [
                 'required',
                 'integer'
             ]

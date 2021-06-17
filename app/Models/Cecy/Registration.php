@@ -29,7 +29,7 @@ class Registration extends Model implements Auditable
     protected static $instance;
 
     protected $fillable = [
-        'date',
+        'date_registration',
         'number'
     ];
 
@@ -50,19 +50,19 @@ class Registration extends Model implements Auditable
     }
 
     // Relationships
-    public function participant()
+    public function planification()
     {
-        return $this->belongsTo(Participant::class);
+        return $this->belongsTo(Planification::class);
     }
 
-    public function statu()
+    public function status()
     {
         return $this->belongsTo(Status::class);
     }
 
     public function type()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
 }

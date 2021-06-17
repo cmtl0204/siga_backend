@@ -10,6 +10,8 @@ use App\Http\Requests\Cecy\Registration\StoreRegistrationRequest;
 use App\Http\Requests\Cecy\Registration\UpdateRegistrationRequest;
 
 use App\Models\Cecy\Registration;
+use App\Models\App\Status;
+use App\Models\App\Catalogue;
 // use App\Models\JobBoard\Category;
 // use App\Models\JobBoard\Professional;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,6 +29,10 @@ class RegistrationController extends Controller
                 'summary' => 'success',
                 'detail' => ''
             ]], 200);
+
+            // if($request->has('search')){
+            //     $registration = $registration
+            // }
     }
 
     function show(Registration $registration)
@@ -47,13 +53,22 @@ class RegistrationController extends Controller
         // $dataParticipant = $data['participant_id'];
         // $dataStatu = $data['status_id'];
         // $dataType = $data['type_id'];
+        // $planification = Planification::find($request->input('registration.planification_id'));
+        // $status = Status::find($request->input('registration.status_id'));
+        // $type = Catalogue::find($request->input('registration.type_id'));
+        $status = $data['registration']['status'];
+        $type = $data['registration']['type'];
+        
 
         $registration = new Registration();
-         $registration->date = $request->input('registration.date');
+         $registration->date_registration = $request->input('registration.date_registration');
         $registration->number = $request->input('registration.number');
-        $registration->participant_id = $request->input('registration.participant_id');
-        $registration->status_id = $request->input('registration.status_id');
-        $registration->type_id = $request->input('registration.type_id');
+        $registration->planification_id = $request->input('registration.planification_id');
+        // $registration->status_id = $request->input('registration.status_id');
+        // $registration->type_id = $request->input('registration.type_id');
+        // $registration->planification()->assosiate($planification);
+        $registration->status()->associate(Status::findOrFail($status['id']));
+        $registration->type()->associate(Catalogue::findOrFail($type['id']));
         $registration->save();
 
         return response()->json([
@@ -67,12 +82,19 @@ class RegistrationController extends Controller
 
     function update(UpdateRegistrationRequest $request, Registration $registration)
     {
+        $data = $request->json()->all();
+
+        $status = $data['registration']['status'];
+        $type = $data['registration']['type'];
+
         // $registration->date = $request->input('registration.date');
-        $registration->date = $request->input('registration.date');
+        $registration->date_registration = $request->input('registration.date_registration');
         $registration->number = $request->input('registration.number');
-        $registration->participant_id = $request->input('registration.participant_id');
-        $registration->status_id = $request->input('registration.status_id');
-        $registration->type_id = $request->input('registration.type_id');
+        $registration->planification_id = $request->input('registration.planification_id');
+        // $registration->status_id = $request->input('registration.status_id');
+        // $registration->type_id = $request->input('registration.type_id');
+        $registration->status()->associate(Status::findOrFail($status['id']));
+        $registration->type()->associate(Catalogue::findOrFail($type['id']));
 
         $registration->save();
 

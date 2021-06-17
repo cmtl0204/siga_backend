@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdditionalInformationsTable extends Migration
+class CreateCecyAdditionalInformationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateAdditionalInformationsTable extends Migration
         //convenios
         Schema::connection('pgsql-cecy')->create('additional_informations', function (Blueprint $table) {
             $table->id();
-            $table->string('level_instruction')->comment('Nivel de instrucción del participante'); 
+            // $table->string('level_instruction')->comment('Nivel de instrucción del participante'); 
             $table->string('company_name')->comment('nombre de empresa'); 
             $table->string('company_activity')->comment('actividad de la empresa'); 
             $table->string('company_address')->comment('direccion fisica de empresa'); 

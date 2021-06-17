@@ -15,14 +15,14 @@ class UpdateRegistrationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'registration.date' => [
+            'registration.date_registration' => [
                 'required',
             ],
             'registration.number' => [
                 'required',
                 // 'min:10',
             ],
-            'registration.participant_id'=> [
+            'registration.planification_id'=> [
                 'required',
                 'integer',
             ],
