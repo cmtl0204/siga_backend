@@ -18,31 +18,24 @@ use App\Http\Requests\Cecy\EvaluationMechanism\UpdateEvaluationMechanismRequest;
 class EvaluationMechanismController extends Controller
 {
     function index(IndexEvaluationMechanismRequest $request){
-    //Crea una instancia  del modelo profesional para poder insertar en el modelo evalution_mechanism.
-    $type = Type::getInstance($request->input('type.id'));
-        //$types = Type::all();
-        
-        if($evaluation_mechanisms->count() === 0){
-            return response()->json([ 
-                'data'=> null,
-                'msg'=> [
-                    'detail'=> 'No se encontraron registros, intente denuevo.'
-                ]
-             ], 404);
-        } else{
-            return response()->json[ 
-            'data'=> [ 
-                 'type' => $type
-             ]
-         ], 200);
+        if ($evaluationMechanisms->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron Registros',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
         }
+
+        return response()->json($evaluationMechanisms, 200);
     };
 
     
     //obtener un único objeto o registro
-    function show(EvaluationMechanism $evaluation_mechanism){
+    function show(EvaluationMechanism $evaluationMechanism){
         return response()->json([
-            'data' => $skill,
+            'data' => $evaluationMechanism,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -57,15 +50,15 @@ class EvaluationMechanismController extends Controller
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         $type = Catalogue::getInstance($request->input('type.id'));
 
-        $evaluation_mechanism = new EvaluationMechanism();
-        $evalution_mechanism->type()->associate($type);
-        $evalution_mechanism->status()->associate($status);
-        $evaluation_mechanism->technique = $request->input('evaluation_mechanism.technique');
-        $evaluation_mechanism->instrument = $request->input('evaluation_mechanism.instrument');
-        $evalution_mechanism->save();
+        $evaluationMechanism = new EvaluationMechanism();
+        $evaluationMechanism->type()->associate($type);
+        $evaluationMechanism->status()->associate($status);
+        $evaluationMechanism->technique = $request->input('$evaluationMechanism.technique');
+        $evaluationMechanism->instrument = $request->input('$evaluationMechanism.instrument');
+        $evaluationMechanism->save();
 
         return response()->json([
-            'data' => $evalution_mechanism,
+            'data' => $evaluationMechanism,
             'msg' => [
                 'summary' => 'Se ha creado',
                 'detail' => 'El registro fue creado',
@@ -75,16 +68,16 @@ class EvaluationMechanismController extends Controller
     }
 
     //actualizar
-    function update(UpdateEvaluationMechanismRequest $request, EvaluationMechanism $EvaluationMechanismId){
+    function update(UpdateEvaluationMechanismRequest $request, EvaluationMechanism $EvaluationMechanism){
 
-        $evalution_mechanism->type()->associate($type);
-        $evalution_mechanism->status()->associate($status);
-        $evaluation_mechanism->technique = $request->input('evaluation_mechanism.technique');
-        $evaluation_mechanism->instrument = $request->input('evaluation_mechanism.instrument');
-        $evalution_mechanism->save();
+        $evaluationMechanism->type()->asociate($type);
+        $evaluationMechanism->status()->associate($status);
+        $evaluationMechanism->technique = $request->input('$evaluationMechanism.technique');
+        $evaluationMechanism->instrument = $request->input('$evaluationMechanism.instrument');
+        $evaluationMechanism->save();
 
         return response()->json([
-            'data' => $evalution_mechanism,
+            'data' => $evaluationMechanism,
             'msg' => [
                 'summary' => 'Se ha creado',
                 'detail' => 'El registro fue creado',
@@ -93,12 +86,12 @@ class EvaluationMechanismController extends Controller
     }
 
     //Eliminar
-    function destroy( EvaluationMechanism $evaluation_mechanism){
+    function destroy( EvaluationMechanism $evaluationMechanism){
         // Es una eliminación lógica
-        $skill->delete();
+        $evaluationMechanism->delete();
 
         return response()->json([
-            'data' => $evaluation_mechanism,
+            'data' => $evaluationMechanism,
             'msg' => [
                 'summary' => 'Se ha eliminado',
                 'detail' => 'El registro fue eliminado',

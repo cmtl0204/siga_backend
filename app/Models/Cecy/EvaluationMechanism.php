@@ -57,7 +57,7 @@ class EvaluationMechanism extends Model implements Auditable
         return $this->hasMany(Route::class);
     }
     public function type(){
-        return $this->hasMany(Catalogues::class);
+        return $this->belongsTo(Catalogues::class);
     }
 
 
