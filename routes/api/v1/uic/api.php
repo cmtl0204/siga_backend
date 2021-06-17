@@ -11,6 +11,8 @@ use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Uic\EnrollmentController;
 use App\Http\Controllers\Uic\ModalityController;
+use App\Http\Controllers\Uic\PlanningController;
+use App\Http\Controllers\Uic\TutorController;
 
 $middlewares = ['auth:api'];
 
@@ -18,15 +20,20 @@ Route::middleware($middlewares)
     ->group(function () {
         Route::apiResources([
             'modalities' => ModalityController::class,
-            'enrollments' => EnrollmentController::class
+            'enrollments' => EnrollmentController::class,
+            'plannings' => PlanningController::class,
+            'tutors' => TutorController::class
+
         ]);
 });
 
-    
+//without middleware
 Route::prefix('/')->group(function () {
         Route::apiResources([
             'modalities'=>ModalityController::class,
-            'enrollments' => EnrollmentController::class
+            'enrollments' => EnrollmentController::class,
+            'plannings' => PlanningController::class,
+            'tutors' => TutorController::class
         ]);
         Route::prefix('modality')->group(function(){
             Route::get('show-modalities/{modalityId}',[ModalityController::class,'showModalities']);
@@ -35,10 +42,15 @@ Route::prefix('/')->group(function () {
         Route::prefix('enrollment')->group(function(){
             Route::put('delete',[EnrollmentController::class,'delete']);
         });
+        Route::prefix('planning')->group(function(){
+            Route::put('delete',[PlanningController::class,'delete']);
+        });
+        Route::prefix('tutor')->group(function(){
+            Route::put('delete',[TutorController::class,'delete']);
+        });
         // Route::prefix('auth')->group(function () {
         //     Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
         //     Route::post('password-forgot', [AuthController::class, 'passwordForgot']);
             
         // });
     });
-    
