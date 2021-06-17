@@ -32,6 +32,7 @@ class Enrollment extends Model implements Auditable
     protected $with = ['modality','status']; //belongs to ,'shoolPeriod'
 
     protected $fillable = [
+        'id',
         'date',
         'code'
     ];
