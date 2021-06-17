@@ -21,7 +21,7 @@ class CreateCommunityCatalogueProjectTable extends Migration
 			$table->foreignId('area_id')->comment('FK de la tabla catalogo area ')->connstrained('app.catalogues');
 			$table->foreignId('type_id')->comment('FK de la tabla catalogo type ')->connstrained('app.catalogues');
 			
-            $table->softDeletes();
+            //$table->softDeletes();
 			$table->timestamps();
         });
     }
