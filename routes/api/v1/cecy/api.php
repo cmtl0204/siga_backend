@@ -60,6 +60,7 @@ Route::middleware($middlewares)
 
     Route::apiResource('detailRegistrations', DetailRegistrationController::class);
     Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
+    Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
 
 
 // Without Middleware

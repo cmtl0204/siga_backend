@@ -13,7 +13,7 @@ use App\Models\Cecy\Participant;
 use App\Models\Cecy\DetailRegistration;
 use App\Models\App\Catalogue;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\RegistrationsExport;
+use App\Exports\DetailRegistrationExport;
 
 class DetailRegistrationController extends Controller
 {
@@ -88,9 +88,6 @@ class DetailRegistrationController extends Controller
        $detailRegistration->additional_information_id = $request->input('detailRegistration.additional_information_id');
        $detailRegistration->detail_planification_id = $request->input('detailRegistration.detail_planification_id');
        $detailRegistration->registration_id = $request->input('detailRegistration.registration_id');
-
-
-
        //$detailRegistration->registration()->associate($registration);
        //$detailRegistration->additionalInformation()->associate($additionalInformation);
        //$detailRegistration->detailPlanification()->associate($detailPlanification);
@@ -161,6 +158,10 @@ class DetailRegistrationController extends Controller
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
+    }
+
+    function excel(){
+        return Excel::download(new DetailRegistrationExport, 'DetailRegistration.xlsx');
     }
 }
 
