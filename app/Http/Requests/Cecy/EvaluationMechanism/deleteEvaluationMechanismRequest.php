@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Cecy\EvaluationMechanism;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class IndexEvaluationMechanismRequest extends FormRequest
+class DeleteEvaluationMechanismRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,16 +15,19 @@ class IndexEvaluationMechanismRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [];
+        $rules = [
+            'ids' => [
+                'required',
+            ],
+        ];
         return CecyFormRequest::rules($rules);
     }
 
-
     public function attributes()
     {
-        $attributes = [];
+        $attributes = [
+            'ids' => 'IDs',
+        ];
         return CecyFormRequest::attributes($attributes);
     }
 }
-
-

@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\Cecy\EvaluationMechanism;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
+// use Illuminate\Validation\Rule;
 
 class StoreEvaluationMechanismRequest extends FormRequest
 {
@@ -15,36 +16,38 @@ class StoreEvaluationMechanismRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'evaluationMechanism.instrument' => [
+        
+            'evaluation_mechanisms.status.id' => [
                 'required',
-                'string',
+                'integer'
+            ],
+            'evaluation_mechanisms.type.id' => [
+                'required',
+                'integer'
             ],
         
-            'evaluationMechanism.technique' => [
+            'evaluation_mechanisms.technique' => [
                 'required',
                 'string'
             ],
-        
-            'evaluationMechanism.type_id' => [
+            'evaluation_mechanisms.instrument' => [
                 'required',
-                'integer'
-            ],
-        
-            'evaluationMechanism.status_id' => [
-                'required',
-                'integer'
-            ] 
+                'string'
+            ]
         ];
         return CecyFormRequest::rules($rules);
     }
 
+
+
     public function attributes()
     {
         $attributes = [
-            'evaluationMechanism.technique' => 'technique',
-            'evaluationMechanism.instrument' => 'instrument',
-            'type.id' => 'tipo-id',
-            'status.id' => 'status-id',
+            'evaluation_mechanisms.status.id' => 'estado',
+            'evaluation_mechanisms.type.id' => 'tipo',
+            'evaluation_mechanisms.technique' => 'technique',
+            'evaluation_mechanisms.instrument' => 'instrument',
+            
         ];
         return CecyFormRequest::attributes($attributes);
     }

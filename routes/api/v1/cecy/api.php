@@ -9,6 +9,7 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Cecy\EvaluationMechanismController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -69,3 +70,11 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
     });
+
+
+//EvaluationMechanisms
+
+Route::apiResource('evaluationMechanisms', EvaluationMechanismController::class);
+
+Route::put('evaluationMechanisms/delete', [EvaluationMechanismController::class, 'delete']);
+       
