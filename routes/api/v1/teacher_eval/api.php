@@ -10,6 +10,8 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\TeacherEval\EvaluationTypeController;
+use App\Http\Controllers\TeacherEval\AnswerController;
+use App\Http\Controllers\TeacherEval\AnswerQuestionController;
 
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
@@ -103,4 +105,13 @@ Route::prefix('/')
             Route::put('delete',  [EvaluationController::class, 'delete']);
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
         });
+        // rutas tabla answer
+        Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
+
     });

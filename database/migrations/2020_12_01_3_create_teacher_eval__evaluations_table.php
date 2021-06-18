@@ -17,7 +17,9 @@ class CreateTeacherEvalEvaluationsTable extends Migration
             $table->softDeletes();
             $table->double('result',5,2)->nullable()->comment('Total Evaluacion');
             $table->double('percentage')->nullable()->comment('Porcentaje cada Tipo Evaluacion');;
+            $table->softDeletes();
             $table->timestamps();
+
         });
     }
 
