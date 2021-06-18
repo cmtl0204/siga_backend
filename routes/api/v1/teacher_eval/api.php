@@ -13,6 +13,8 @@ use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 use App\Http\Controllers\TeacherEval\AnswerController;
 use App\Http\Controllers\TeacherEval\AnswerQuestionController;
 
+use App\Http\Controllers\TeacherEval\QuestionController;
+
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -34,7 +36,6 @@ Route::middleware($middlewares)
             //'evaluation'=> DetailEvaluationController::class,
         ]);
                 // Auth
-
 
         // Auth
         Route::prefix('auth')->group(function () {
@@ -64,6 +65,36 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
 
+<<<<<<< HEAD
+=======
+
+         // rutas tabla answer
+         Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
+
+
+    });
+
+// Without Middleware
+Route::prefix('/')
+    ->group(function () {
+        // Auth
+        Route::prefix('auth')->group(function () {
+            Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
+            Route::post('password-forgot', [AuthController::class, 'passwordForgot']);
+            Route::post('reset-password', [AuthController::class, 'resetPassword']);
+            Route::post('user-locked', [AuthController::class, 'userLocked']);
+            Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+
+
+
+        });
+>>>>>>> origin/u_10_condor-edwin
         Route::prefix('evaluation-type')->group(function () {
             Route::get('index', [EvaluationTypeController::class, 'index']);
             Route::post('store', [EvaluationTypeController::class, 'store']);
@@ -90,15 +121,16 @@ Route::middleware($middlewares)
             Route::put('delete',  [EvaluationController::class, 'delete']);
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
         });
-        // rutas tabla answer
-        Route::prefix('answer')->group(function () {
-            Route::get('index', [AnswerController::class, 'index']);
-            Route::get('show/{answer}', [AnswerController::class, 'show']);
-            Route::post('store', [AnswerController::class, 'store']);
-            Route::put('update/{answer}',  [AnswerController::class, 'update']);
-            Route::put('delete',  [AnswerController::class, 'delete']);
+
+        Route::prefix('question')->group(function () {
+            Route::post('store', [QuestionController::class, 'store']);
+            Route::put('put/{question}', [QuestionController::class, 'update']);
+            Route::get('index', [QuestionController::class, 'index']);
+            Route::get('show/{question}', [QuestionController::class, 'show']);
+            Route::put('delete', [QuestionController::class, 'delete']);
         });
 
+<<<<<<< HEAD
 
 
     });
@@ -115,5 +147,7 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
         
+=======
+>>>>>>> origin/u_10_condor-edwin
     });
-}); 
+});

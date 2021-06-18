@@ -36,7 +36,10 @@ class Status extends Model implements Auditable
     {
         return $this->hasMany(Evaluation::class);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/u_10_condor-edwin
     public function answers()
     {
         return $this->HasMany(Answer::class);
