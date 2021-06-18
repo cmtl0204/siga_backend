@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Uic;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\Modality\DeleteModalityRequest;
 use App\Http\Requests\Uic\Modality\IndexModalityRequest;
