@@ -69,8 +69,18 @@ class InstitutionController extends Controller
 
     public function update(UpdateInstitutionRequest $request, Institution $institution)
     {
-        $data = $request->all();
-        $institution = $institution->update($data);
+        $data = $request -> json() -> all();
+     // $institution = $institution->update($data);
+    // $institution = $state->institution()->create($data);
+       $institutions = $data ['institution']['institution'];
+       //$authority= $data ['institution']['authority'];
+       $institution -> ruc = $request ->input('institution.ruc');
+       $institution -> logo = $request ->input('institution.logo');
+       $institution -> name = $request ->input('institution.name');
+       $institution -> slogan = $request ->input('institution.slogan');
+       $institution -> code = $request ->input('institution.code');
+       $institution -> authority_id = $request ->input('institution.authority_id');
+       $institution -> institution()-> associate (Institution::findOrFail($institutions['id']));
         return response()->json([
             'data' => [
                 'attributes' => $institution,
@@ -82,52 +92,15 @@ class InstitutionController extends Controller
     
     function delete(DeleteInstitutionRequest $request)
     {
-        Institution::destroy($request->input("ids")); 
-        // Es una eliminación lógica
+        Institution::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Detalle(es) eliminado(s)',
+                'summary' => 'Registro(s) eliminado(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
     }
-
-    public function assignInstitution(Request $request)
-    {
-        $data = $request->json()->all();
-
-        $institution = Institution::findOrFail($data['institution_id']);
-        $user = User::findOrFail($data['user_id']);
-
-        $user->institutions()->syncWithoutDetaching($institution->id);
-
-        return response()->json(['data' => null,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]], 200);
-    }
-
-    public function removeInstitution(Request $request)
-    {
-        $data = $request->json()->all();
-        $institution = Institution::findOrFail($data['institution_id']);
-        $user = User::findOrFail($request->user_id);
-        $roles = Role::where('institution_id', $data['institution_id'])->get();
-
-        foreach ($roles as $role) {
-            $user->roles()->detach($role->id);
-        }
-        $user->institutions()->detach($institution->id);
-
-        return response()->json(['data' => null,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]], 200);
-    }
+    
 }

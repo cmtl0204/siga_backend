@@ -4,11 +4,9 @@ namespace App\Http\Requests\Cecy\Institutions;
 
 use App\Http\Requests\Cecy\CecyFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-
-class UpdateInstitutionrRequest extends FormRequest
+class UpdateInstitutionRequest extends FormRequest
 {
-    public function authorize()
+      public function authorize()
     {
         return true;
     }
@@ -24,7 +22,7 @@ class UpdateInstitutionrRequest extends FormRequest
                 'required',
                 'integer',
             ],
-        
+           
         ];
         return CecyFormRequest::rules($rules);
     }
@@ -34,7 +32,6 @@ class UpdateInstitutionrRequest extends FormRequest
         $attributes = [
             'institution.institution_id' => 'institution-id',
             'institution.authority_id' => 'authority-id',
-        ];
         ];
         return CecyFormRequest::attributes($attributes);
     }

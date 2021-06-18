@@ -4,8 +4,9 @@ namespace App\Http\Requests\Cecy\Institutions;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
-
-class DeleteDetailsPlanificationeRequest extends FormRequest
+use App\Models\Cecy\Institutions;
+use App\Models\App\Institution;
+class DeleteInstitutioneRequest extends FormRequest
 {
     public function authorize()
     {

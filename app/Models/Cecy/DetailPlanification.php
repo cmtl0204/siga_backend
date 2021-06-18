@@ -36,7 +36,7 @@ class DetailPlanification extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'detail_planifications';
+    protected $table = 'detail.planifications';
 
     protected static $instance;
 
@@ -104,6 +104,6 @@ class DetailPlanification extends Model implements Auditable
     }
     public function authorityRector()
     {
-        return $this->belongsTo(Authorities::class);
+        return $this->belongsTo(AuthorityRector::class);
     }
 }
