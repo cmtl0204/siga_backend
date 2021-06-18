@@ -64,21 +64,6 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
 
-
-
-    });
-
-// Without Middleware
-Route::prefix('/')
-    ->group(function () {
-        // Auth
-        Route::prefix('auth')->group(function () {
-            Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
-            Route::post('password-forgot', [AuthController::class, 'passwordForgot']);
-            Route::post('reset-password', [AuthController::class, 'resetPassword']);
-            Route::post('user-locked', [AuthController::class, 'userLocked']);
-            Route::post('unlock-user', [AuthController::class, 'unlockUser']);
-        });
         Route::prefix('evaluation-type')->group(function () {
             Route::get('index', [EvaluationTypeController::class, 'index']);
             Route::post('store', [EvaluationTypeController::class, 'store']);
@@ -96,6 +81,7 @@ Route::prefix('/')
         });
 
 
+        
         Route::prefix('evaluation')->group(function () {
             Route::get('all', [EvaluationController::class, 'index']);
             Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
@@ -112,5 +98,22 @@ Route::prefix('/')
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
         });
+
+
+
+    });
+
+// Without Middleware
+Route::prefix('/')
+    ->group(function () {
+        // Auth
+        Route::prefix('auth')->group(function () {
+            Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
+            Route::post('password-forgot', [AuthController::class, 'passwordForgot']);
+            Route::post('reset-password', [AuthController::class, 'resetPassword']);
+            Route::post('user-locked', [AuthController::class, 'userLocked']);
+            Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+        });
+        
     });
 }); 
