@@ -2,23 +2,12 @@
 
 namespace App\Models\App;
 
-// Laravel
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-
-
-// Traits State
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-
-// Models
-use App\Models\App\Status;
-/**
- * @property BigInteger id
- * @property string name
- */ 
+use App\Models\TeacherEval\Evaluation;
 
 class SchoolPeriod extends Model implements Auditable
 {
@@ -29,10 +18,19 @@ class SchoolPeriod extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-app';
-    protected $table = 'app.school-period';
+    protected $table = 'app.school_periods';
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+      'name',
+      'start_date'
+    ];
 
+
+    protected $casts = [
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
+    ];
     // Instance
     public static function getInstance($id)
     {
@@ -41,12 +39,32 @@ class SchoolPeriod extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
-    } 
-
-    // Relationsships
-    public function schoolPeriods()
-    {
-        return $this->morphTo();
     }
-    
+
+    public static function evaluation()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
+    // Mutators
+   /* public function setMainStreetAttribute($value)
+    {
+        $this->attributes['main_street'] = strtoupper($value);
+    }
+
+    public function setSecondaryStreetAttribute($value)
+    {
+        $this->attributes['secondary_street'] = strtoupper($value);
+    }
+
+    public function setNumberAttribute($value)
+    {
+        $this->attributes['number'] = strtoupper($value);
+    }
+
+    public function setPostCodeAttribute($value)
+    {
+        $this->attributes['post_code'] = strtoupper($value);
+    }*/
+
 }

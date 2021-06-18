@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 // Models
 use App\Models\Authentication\User;
 use App\Models\Attendance\Attendance;
+use App\Models\TeacherEval\Evaluation;
 
 class Teacher extends Model implements Auditable
 {
@@ -27,7 +28,7 @@ class Teacher extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.teachers';
 
-    protected $fillable = ['state'];
+    protected $fillable = ['name'];
 
     // Instance
     public static function getInstance($id)
@@ -54,4 +55,12 @@ class Teacher extends Model implements Auditable
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function evaluation()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
+
+
 }
