@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\TeacherEval;
-
 use App\Http\Controllers\Controller;
 use App\Models\App\TeacherEval;
 use App\Models\App\Status;
@@ -117,7 +116,6 @@ class AnswerController extends Controller
     
     {
         // Es una eliminación lógica
-        //Answer::destroy($request->input('id'));
         Answer::destroy($request->input('ids'));
 
         return response()->json([

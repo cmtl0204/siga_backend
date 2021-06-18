@@ -9,7 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
-use App\Models\App\AnswerQuestion;
+
 
 /**
  * @property BigInteger id
