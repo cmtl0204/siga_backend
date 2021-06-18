@@ -88,7 +88,6 @@ class EvaluationTypeController extends Controller
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
         $type = Status::find($request->input('status.id'));
-        $evaluationType = new EvaluationType();
         $evaluationType->name = $request->input('evaluation_type.name');
         $evaluationType->code = $request->input('evaluation_type.code');
         $evaluationType->percentage = $request->input('evaluation_type.percentage');

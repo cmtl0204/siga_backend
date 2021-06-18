@@ -76,5 +76,6 @@ Route::prefix('/')
             Route::post('store', [EvaluationTypeController::class, 'store']);
             Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
             Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
+            Route::put('delete', [EvaluationTypeController::class, 'delete']);
         });
     });

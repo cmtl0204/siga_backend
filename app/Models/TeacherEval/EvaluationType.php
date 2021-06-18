@@ -8,6 +8,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
+use CascadeSoftDeletes;
+
 /**
  * @property BigInteger id 
  * @property string name
@@ -68,4 +70,6 @@ class EvaluationType extends Model implements Auditable
                 return $query->where('name', 'ILIKE', "%$name%");
             }
         }
+
+        protected $cascadeDeletes = ['parent', 'status'];
 }
