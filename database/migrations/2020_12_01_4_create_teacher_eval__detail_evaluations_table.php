@@ -12,7 +12,7 @@ class CreateTeacherEvalDetailEvaluationsTable extends Migration
             $table->id();
             $table->softDeletes();
             $table->morphs('detail_evaluationable');
-            $table->foreignId('evaluation_id')->comment('Evaluacion Realizada');
+            $table->foreignId('evaluation_id')->comment('Evaluacion Realizada')->constrained('evaluations');
             $table->double('result',5,2)->nullable()->comment('Resultado Detalle Evaluacion');
             $table->timestamps();
         });

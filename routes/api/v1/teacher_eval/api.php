@@ -11,6 +11,8 @@ use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 
+use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
+use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
 
@@ -27,6 +29,8 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class
+            'systems' => SystemController::class,
+            //'evaluation'=> DetailEvaluationController::class,
         ]);
                 // Auth
 
@@ -58,6 +62,9 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+
+
+
     });
 
 // Without Middleware
@@ -77,5 +84,23 @@ Route::prefix('/')
             Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
             Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
             Route::put('delete', [EvaluationTypeController::class, 'delete']);
+
+        Route::prefix('evaluation-detail')->group(function () {
+            Route::get('all', [DetailEvaluationController::class, 'index']);
+            Route::get('show/{detail}', [DetailEvaluationController::class, 'show']);
+            Route::post('create',  [DetailEvaluationController::class, 'store']);
+            Route::put('update/{detail}',  [DetailEvaluationController::class, 'update']);
+            Route::put('delete',  [DetailEvaluationController::class, 'delete']);
+            //Route::delete('destroy/{detail}',  [DetailEvaluationController::class, 'destroy']);
+        });
+
+
+        Route::prefix('evaluation')->group(function () {
+            Route::get('all', [EvaluationController::class, 'index']);
+            Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
+            Route::post('create',  [EvaluationController::class, 'store']);
+            Route::put('update/{detail}',  [EvaluationController::class, 'update']);
+            Route::put('delete',  [EvaluationController::class, 'delete']);
+            //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
         });
     });
