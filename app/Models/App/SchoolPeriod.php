@@ -46,25 +46,4 @@ class SchoolPeriod extends Model implements Auditable
         return $this->hasMany(Evaluation::class);
     }
 
-    // Mutators
-   /* public function setMainStreetAttribute($value)
-    {
-        $this->attributes['main_street'] = strtoupper($value);
-    }
-
-    public function setSecondaryStreetAttribute($value)
-    {
-        $this->attributes['secondary_street'] = strtoupper($value);
-    }
-
-    public function setNumberAttribute($value)
-    {
-        $this->attributes['number'] = strtoupper($value);
-    }
-
-    public function setPostCodeAttribute($value)
-    {
-        $this->attributes['post_code'] = strtoupper($value);
-    }*/
-
 }

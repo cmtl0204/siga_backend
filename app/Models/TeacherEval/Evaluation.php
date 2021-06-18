@@ -83,10 +83,6 @@ class Evaluation extends Model implements Auditable
         return $this->belongsTo(EvaluationType::class);
     }
 
-  /*  public function detailEvaluationable()
-    {
-        return $this->morphTo();
-    }*/
 
     public function detailEvaluation()
     {
