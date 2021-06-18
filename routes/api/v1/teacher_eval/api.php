@@ -63,6 +63,34 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+        Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
+
+
+    });
+
+// Without Middleware
+Route::prefix('/')
+    ->group(function () {
+        // Auth
+        Route::prefix('auth')->group(function () {
+            Route::get('validate-attempts/{username}', [AuthController::class, 'validateAttempts']);
+            Route::post('password-forgot', [AuthController::class, 'passwordForgot']);
+            Route::post('reset-password', [AuthController::class, 'resetPassword']);
+            Route::post('user-locked', [AuthController::class, 'userLocked']);
+            Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+        });
+        Route::prefix('evaluation-type')->group(function () {
+            Route::get('index', [EvaluationTypeController::class, 'index']);
+            Route::post('store', [EvaluationTypeController::class, 'store']);
+            Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
+            Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
+            Route::put('delete', [EvaluationTypeController::class, 'delete']);
 
         Route::prefix('evaluation-detail')->group(function () {
             Route::get('all', [DetailEvaluationController::class, 'index']);
@@ -112,7 +140,8 @@ Route::prefix('/')
             Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
             Route::put('delete', [EvaluationTypeController::class, 'delete']);
 
-
+        });
+        // rutas tabla answer
 
     });
 });

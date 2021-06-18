@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
 {
-   /* public function index(IndexDetailEvaluationRequest $request)
+   /* function index(IndexDetailEvaluationRequest $request)
     {
 
        if ($request->has('search')){
@@ -74,7 +74,7 @@ class EvaluationController extends Controller
 }
 
 
-    public function show(Evaluation $evaluation)
+     function show(Evaluation $evaluation)
     {
 
         return response()->json([
@@ -86,7 +86,7 @@ class EvaluationController extends Controller
             ]], 201);
     }
 
-   public function store(StoreEvaluationRequest $request)
+    function store(StoreEvaluationRequest $request)
     {
         //$schoolPeriod = SchoolPeriod::findOrFail($request->input('shoolPeriod.id'));
         $teacher = Teacher::getInstance($request->input('teacher.id'));
@@ -111,7 +111,7 @@ class EvaluationController extends Controller
     }
 
 
-    public function update(UpdateEvaluationRequest $request, Evaluation $detail  )
+     function update(UpdateEvaluationRequest $request, Evaluation $detail  )
     {
         $teacher = Teacher::getInstance($request->input('teacher.id'));
         $evaluationType = EvaluationType::getInstance($request->input('evaluation_type.id'));
@@ -149,7 +149,7 @@ class EvaluationController extends Controller
     }
 
 
-   /* public function destroy(DetailEvaluation $detail)
+   /* function destroy(DetailEvaluation $detail)
     {
 
         $detail->delete();
@@ -163,6 +163,7 @@ class EvaluationController extends Controller
     }*/
 
   /* public function store(Request $request)
+   /* function store(Request $request)
     {
 
 
