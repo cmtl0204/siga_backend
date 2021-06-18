@@ -15,8 +15,7 @@ class CreateTeacherEvalEvaluationsTable extends Migration
             $table->foreignId('school_period_id')->comment('periodo academico')->constrained('app.school_periods');
             $table->foreignId('status_id')->constrained('app.status');
             $table->double('result',5,2)->nullable()->comment('Total Evaluacion');
-            $table->double('percentage')->nullable()->comment('Porcentaje cada Tipo Evaluacion');;
-            $table->softDeletes();
+            $table->double('percentage')->nullable()->comment('Porcentaje cada Tipo Evaluacion');
             $table->timestamps();
 
         });

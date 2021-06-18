@@ -71,7 +71,7 @@ class DetailEvaluationController extends Controller
 }*/
 
 
-    public function show(DetailEvaluation $detail)
+   function show(DetailEvaluation $detail)
     {
 
         return response()->json([
@@ -83,7 +83,7 @@ class DetailEvaluationController extends Controller
             ]], 201);
     }
 
-   public function store(StoreDetailEvaluationRequest $request)
+   function store(StoreDetailEvaluationRequest $request)
     {
         $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
         $detail = new DetailEvaluation();
@@ -101,7 +101,7 @@ class DetailEvaluationController extends Controller
     }
 
 
-    public function update(Request $request, DetailEvaluation $detail)
+    function update(Request $request, DetailEvaluation $detail)
     {
         $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
 
@@ -119,7 +119,7 @@ class DetailEvaluationController extends Controller
     }
 
 
-    /*public function update(UpdateDetailEvaluationRequest $request, DetailEvaluation $detail  )
+    /*function update(UpdateDetailEvaluationRequest $request, DetailEvaluation $detail  )
     {
         $evaluationResponce = DetailEvaluation::find($detail->id);
 
@@ -153,7 +153,7 @@ class DetailEvaluationController extends Controller
     }
 
 
-    /*public function destroy(DetailEvaluation $detail)
+    /*function destroy(DetailEvaluation $detail)
     {
 
         $detail->delete();
@@ -166,7 +166,7 @@ class DetailEvaluationController extends Controller
             ]], 201);
     }*/
 
-   /* public function store(Request $request)
+   /* function store(Request $request)
     {
 
 
