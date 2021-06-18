@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Enrollment;
+namespace App\Http\Requests\Uic\Project;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteEnrollmentRequest extends FormRequest
+class IndexProjectRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,19 +14,13 @@ class DeleteEnrollmentRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-            'ids' => [
-                'required',
-            ],
-        ];
+        $rules = [];
         return UicFormRequest::rules($rules);
     }
 
     public function attributes()
     {
-        $attributes = [
-            'ids' => 'IDs',
-        ];
+        $attributes = [];
         return UicFormRequest::attributes($attributes);
     }
 }

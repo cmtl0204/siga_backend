@@ -2,7 +2,13 @@
 
 namespace App\Http\Controller\Uic;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Uic\Requirement\IndexRequirementRequest;
+use App\Http\Requests\Uic\Requirement\DeleteRequirementRequest;
+use App\Http\Requests\Uic\Requirement\StoreRequirementRequest;
+use App\Http\Requests\Uic\Requirement\UpdateRequirementRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Uic\Requirement;
 
 class RequirementController extends Controller
@@ -14,8 +20,8 @@ class RequirementController extends Controller
      */
     public function index(IndexRequirementRequest $request)
     {
-        $requirement = Requirement::paginate($request->input('per_page'));
-        if($requirement->count()==0){
+        $requirements = Requirement::paginate($request->input('per_page'));
+        if($requirements->count()==0){
             return response()->json([
                 'data'=>null,
                 'msg'=>[
@@ -25,6 +31,7 @@ class RequirementController extends Controller
                 ]
             ], 404);
         }
+        return response()->json($requirements);
     }
 
     public function show($requirementId)

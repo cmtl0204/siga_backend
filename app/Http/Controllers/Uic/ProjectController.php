@@ -2,10 +2,12 @@
 
 namespace App\Http\Controller\Uic;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\Project\DeleteProjectRequest;
-use App\Http\Requests\Uic\Project\IndexnProjectRequest;
+use App\Http\Requests\Uic\Project\IndexProjectRequest;
 use App\Http\Requests\Uic\Project\StoreProjectRequest;
 use App\Http\Requests\Uic\Project\UpdateProjectRequest;
+use App\Models\Uic\Project;
 use Illuminate\Http\Request;
 use App\Models\Uic\Requirement;
 
@@ -52,7 +54,7 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $project = new Project;
-        $project->enrollment_id=$request->input('project.enrollment_id');
+        //$project->enrollment_id=$request->input('project.enrollment_id');
         $project->project_plan_id=$request->input('project.project_plan_id');
         $project->title=$request->input('project.title');
         $project->description=$request->input('project.description');
@@ -81,7 +83,7 @@ class ProjectController extends Controller
                 ]
             ],400);
         }
-        $project->enrollment_id=$request->input('project.enrollment_id');
+        //$project->enrollment_id=$request->input('project.enrollment_id');
         $project->project_plan_id=$request->input('project.project_plan_id');
         $project->title=$request->input('project.title');
         $project->description=$request->input('project.description');

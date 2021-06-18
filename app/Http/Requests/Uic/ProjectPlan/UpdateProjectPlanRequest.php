@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Enrollment;
+namespace App\Http\Requests\Uic\ProjectPlan;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEnrollmentRequest extends FormRequest
+class UpdateProjectPlanRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,10 +15,10 @@ class UpdateEnrollmentRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'projectPlan.project_id'=>[
-                'required',
-                'int'
-            ],
+            //'projectPlan.project_id'=>[
+            //    'required',
+            //    'int'
+            //],
             'projectPlan.theme'=>[
                 'required',
                 'string'
@@ -28,8 +28,8 @@ class UpdateEnrollmentRequest extends FormRequest
                 'string'
             ],
             'projectPlan.act_code'=>[
-                // 'required',
-                // 'int'
+                'required',
+                'int'
             ],
             'projectPlan.approval_date'=>[
                 'required',

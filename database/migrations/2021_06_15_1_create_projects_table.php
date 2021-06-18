@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectTable extends Migration
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,12 @@ class CreateProjectTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('enrollment_id')->constrained('uic.enrollments');
-            $table->foreignId('project_plan_id')->constrained('uic.projectPlans');
+            //$table->foreignId('enrollment_id')->constrained('uic.enrollments');
+            $table->foreignId('project_plan_id')->constrained('uic.project_plans');
             $table->string('title')->comment('titulo');
             $table->string('description');
             $table->json('observations')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

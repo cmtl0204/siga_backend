@@ -15,6 +15,8 @@ class CreateMergeStudentsRequirementsTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('merge_students_requirements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('requirement_id')->constrained('uic.requirements');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateMergeStudentsRequirementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('merge_students_requirements');
+        Schema::connection('pgsql-uic')->dropIfExists('merge_students_requirements');
     }
 }

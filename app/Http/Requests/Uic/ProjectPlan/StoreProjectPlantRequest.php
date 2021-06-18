@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Requirement;
+namespace App\Http\Requests\Uic\ProjectPlan;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequirementRequest extends FormRequest
+class StoreProjectPlanRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,33 +15,33 @@ class StoreRequirementRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'projectPlan.project_id'=>[
+            //'projectPlan.project_id'=>[
                 // 'required',
                 // 'int'
-            ],
+            //],
             'projectPlan.theme'=>[
-                // 'required',
-                // 'string'
+                'required',
+                'string'
             ],
             'projectPlan.description'=>[
-                // 'required',
-                // 'string'
+                'required',
+                'string'
             ],
             'projectPlan.act_code'=>[
-                // 'required',
-                // 'int'
+                'required',
+                'int'
             ],
             'projectPlan.approval_date'=>[
-                // 'required',
-                // 'date'
+                'required',
+                'date'
             ],
             'projectPlan.is_aprobed'=>[
-                // 'required',
-                // 'bool'
+                'required',
+                'bool'
             ],
             'projectPlan.observations'=>[
-                // 'required',
-                // 'string'
+                'required',
+                'string'
             ],
         ];
         return UicFormRequest::rules($rules);

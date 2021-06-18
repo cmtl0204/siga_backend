@@ -8,7 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\Uic\Enrollment;
+//use App\Models\Uic\Enrollment;
 
 class Project extends Model implements Auditable
 {
@@ -20,7 +20,7 @@ class Project extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.projects';
-    protected $with = ['enrrollments'];
+    //protected $with = ['enrrollments'];
 
     protected $fillable = [
         'title',
@@ -46,8 +46,8 @@ class Project extends Model implements Auditable
     }
 
     //Relationships
-    public function enrollment()
-    {
-        return $this->belongsTo(Enrollment::class);
-    }
+    //public function enrollment()
+    //{
+    //    return $this->belongsTo(Enrollment::class);
+    //}
 }

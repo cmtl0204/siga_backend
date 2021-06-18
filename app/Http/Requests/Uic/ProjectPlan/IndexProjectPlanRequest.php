@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Requirement;
+namespace App\Http\Requests\Uic\ProjectPlan;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexRequirementRequest extends FormRequest
+class IndexProjectPlanRequest extends FormRequest
 {
     public function authorize()
     {

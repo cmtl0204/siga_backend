@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Enrollment;
+namespace App\Http\Requests\Uic\MergeStudentRequirement;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEnrollmentRequest extends FormRequest
+class UpdateMergeStudentRequirementRequest extends FormRequest
 {
     public function authorize()
     {

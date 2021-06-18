@@ -13,8 +13,11 @@ class CreateRequirementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('requirements', function (Blueprint $table) {
+        Schema::connection('pgsql-uic')->create('requirements', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->boolean('is_required');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateRequirementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requirements');
+        Schema::connection('pgsql-uic')->dropIfExists('requirements');
     }
 }

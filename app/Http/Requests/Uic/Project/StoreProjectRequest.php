@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Requirement;
+namespace App\Http\Requests\Uic\Project;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequirementRequest extends FormRequest
+class StoreProjectRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,10 +15,10 @@ class StoreRequirementRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'project.enrollment_id'=>[
-                'required',
-                'int'
-            ],
+            //'project.enrollment_id'=>[
+            //    'required',
+            //    'int'
+            //],
             'project.project_plan_id'=>[
                 'required',
                 'int'
@@ -42,7 +42,7 @@ class StoreRequirementRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'project.enrollment_id'=>'id proyecto',
+            //'project.enrollment_id'=>'id proyecto',
             'project.project_plan_id'=>'tema proyecto',
             'project.title'=>'descripcion',
             'project.description'=>'codigo acta',

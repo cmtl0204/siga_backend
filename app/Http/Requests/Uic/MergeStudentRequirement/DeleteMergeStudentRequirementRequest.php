@@ -15,9 +15,7 @@ class DeleteMergeStudentRequirementRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'ids' => [
-                'required',
-            ],
+            'ids' => [],
         ];
         return UicFormRequest::rules($rules);
     }

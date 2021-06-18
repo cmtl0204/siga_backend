@@ -20,7 +20,14 @@ class MergeStudentRequirement extends Model
     protected static $instance;
 
     protected $connection = 'pgsql-uic';
-    protected $table = 'uic.merge_student_requirements';
+    protected $table = 'uic.merge_students_requirements';
+    protected $with = ['requirement'];
+
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
 
     // Instance
     public static function getInstance($id)
@@ -33,9 +40,9 @@ class MergeStudentRequirement extends Model
     }
 
     //Relationships
-    public function requirements()
+    public function requirement()
     {
-        return $this->hasMany(Requirement::class);
+        return $this->belongsTo(Requirement::class);
     }
 
     //public function mergeStudents()

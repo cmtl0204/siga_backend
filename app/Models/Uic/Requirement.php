@@ -8,6 +8,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Uic\MergeStudentRequirement;
+
 class Requirement extends Model implements Auditable
 {
     use HasFactory;
@@ -24,6 +26,12 @@ class Requirement extends Model implements Auditable
         'is-required'
     ];
 
+    protected $casts = [
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
     //Instance
     public static function getInstance($id)
     {
@@ -32,5 +40,9 @@ class Requirement extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
+    }
+
+    public function mergeStudentsRequirements(){
+        return $this->hasMany(MergeStudentRequirement::class);
     }
 }

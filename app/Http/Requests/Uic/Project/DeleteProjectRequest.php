@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\Modality;
+namespace App\Http\Requests\Uic\Project;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteModalityRequest extends FormRequest
+class DeleteProjectRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,9 +15,7 @@ class DeleteModalityRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'ids' => [
-                'required',
-            ],
+            'ids' => [],
         ];
         return UicFormRequest::rules($rules);
     }

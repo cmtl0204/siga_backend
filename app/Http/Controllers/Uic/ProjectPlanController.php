@@ -2,10 +2,12 @@
 
 namespace App\Http\Controller\Uic;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\ProjectPlan\DeleteProjectPlanRequest;
-use App\Http\Requests\Uic\ProjectPlan\IndexnProjectPlanRequest;
+use App\Http\Requests\Uic\ProjectPlan\IndexProjectPlanRequest;
 use App\Http\Requests\Uic\ProjectPlan\StoreProjectPlanRequest;
 use App\Http\Requests\Uic\ProjectPlan\UpdateProjectPlanRequest;
+use App\Models\Uic\ProjectPlan;
 use Illuminate\Http\Request;
 use App\Models\Uic\Requirement;
 
@@ -70,9 +72,9 @@ class ProjectPlanController extends Controller
         ],201);
     }
 
-    public function update(UpdateProjectRequest $request, $id)
+    public function update(UpdateProjectPlanRequest $request, $id)
     {
-        $projectPlan = Project::find($id);
+        $projectPlan = ProjectPlan::find($id);
         if(!$projectPlan){
             return response()->json([
                 'data'=>null,

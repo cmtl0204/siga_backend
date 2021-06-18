@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Uic;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\MergeStudentRequirement\DeleteMergeStudentRequirementRequest;
-use App\Http\Requests\Uic\MergeStudentRequirement\IndexMergeStudentRequirementRequest;
 use App\Http\Requests\Uic\MergeStudentRequirement\StoreMergeStudentRequirementRequest;
 use App\Http\Requests\Uic\MergeStudentRequirement\UpdateMergeStudentRequirementRequest;
-
-use App\Models\Uic\MergeStudentRequirement;
+use App\Http\Requests\Uic\MergeStudentRequirement\IndexMergeStudentRequirementRequest;
+use App\Models\MergeStudentRequirement;
 use App\Models\Uic\Requirement;
 //use App\Models\Uic\MergeStudents;
 
@@ -20,17 +20,18 @@ class MergeStudentRequirementController extends Controller
      */
     public function index(IndexMergeStudentRequirementRequest $request)
     {
-        $mergeStudentRequirement = MergeStudentRequirement::paginate($request->input('per_page'));
-        if($mergeStudentRequirement->count()==0){
+        $mergeStudentRequirements = MergeStudentRequirement::paginate($request->input('per_page'));
+        if($mergeStudentRequirements->count()==0){
             return response()->json([
                 'data'=>null,
                 'msg'=>[
-                    'summary'=>'No se encontraron registro',
+                    'summary'=>'No se encontraron registros',
                     'detail'=>'Intentalo de nuevo',
                     'code'=>'404'
                 ]
             ], 404);
         }
+        return response()->json($mergeStudentRequirements);
     }
 
     public function show($mergeStudentRequirementId)
