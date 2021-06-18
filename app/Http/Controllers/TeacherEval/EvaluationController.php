@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class EvaluationController extends Controller 
 {
     public function index (TeacherEvaluationRequest $request){
-        /**$evaluation = EvaluationType ::getInstance($request->input('evaluation_type_id'));
+        $evaluation = EvaluationType ::getInstance($request->input('evaluation_type_id'));
     
         $teacher = Teacher ::getInstance($request->input('teacher_id'));
 
@@ -39,6 +39,6 @@ class EvaluationController extends Controller
         }
     
         return response()->json($detail, 200);
-    **/
+    
     }
 }
