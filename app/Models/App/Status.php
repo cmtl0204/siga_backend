@@ -35,6 +35,7 @@ class Status extends Model implements Auditable
     public function evaluation()
     {
         return $this->hasMany(Evaluation::class);
+    }
     public function answers()
     {
         return $this->HasMany(Answer::class);
