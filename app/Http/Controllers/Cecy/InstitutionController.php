@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateInstitutionRequest;
-use App\Http\Requests\UpdateInstitutionRequest;
 use App\Models\Authentication\Permission;
 use App\Models\Authentication\Role;
 use App\Models\Authentication\User;
-use App\Models\Cecy\Institution;
+use App\Models\Cecy\Institutions;
+use App\Models\App\Institution;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Cecy\Institutions\IndexInstitutionRequest;
+use App\Http\Requests\Cecy\Institutions\CreateInstitutionRequest;
+use App\Http\Requests\Cecy\Institutions\DeleteInstitutionRequest;
+use App\Http\Requests\Cecy\Institutions\UpdateInstitutionRequest;
+
 
 class InstitutionController extends Controller
 {
-    public function index(Request $request)
+    public function index(IndexInstitutionRequest $request)
     {
         if ($request->has('search')) {
             $institutions = Institution::where('code', 'like', '%' . $request->search . '%')
@@ -33,11 +37,23 @@ class InstitutionController extends Controller
         ], 200);
     }
 
-    public function store(CreateInstitutionRequest $request)
+    public function store(Request $request)
     {
         $data = $request->all();
-        $state = State::firstWhere('code', State::ACTIVE);
-        $institution = $state->institution()->create($data);
+       // $institution = $state->institution()->create($data);
+       $institutions = $data ['institution']['institution'];
+       //$authority= $data ['institution']['authority'];
+       $institution = new Institutions();
+       $institution -> ruc = $request ->input('institution.ruc');
+       $institution -> logo = $request ->input('institution.logo');
+       $institution -> name = $request ->input('institution.name');
+       $institution -> slogan = $request ->input('institution.slogan');
+       $institution -> code = $request ->input('institution.code');
+       $institution -> authority_id = $request ->input('institution.authority_id');
+       $institution -> institution()-> associate (Institution::findOrFail($institutions['id']));
+       $institution -> save();
+
+
         return response()->json([
             'data' => [
                 'attributes' => $institution,
@@ -63,18 +79,19 @@ class InstitutionController extends Controller
         ], 201);
     }
 
-    public function destroy($id)
+    
+    function delete(DeleteInstitutionRequest $request)
     {
-        $state = State::where('code', '3')->first();
-        $institution = Institution::findOrFail($id);
-        $institution->state()->associate($state);
-        $institution->update();
+        Institution::destroy($request->input("ids")); 
+        // Es una eliminación lógica
+
         return response()->json([
-            'data' => [
-                'attributes' => $institution,
-                'type' => 'institution'
-            ]
-        ], 201);
+            'data' => null,
+            'msg' => [
+                'summary' => 'Detalle(es) eliminado(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]], 201);
     }
 
     public function assignInstitution(Request $request)
