@@ -71,7 +71,9 @@ class CreateCecyCoursesTable extends Migration
             $table->json('bibliographys')->nullable()->comment('Bibliografia del curso');
 
 
-            $table->integer('status')->nullable()->default(1)->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
+           // $table->foreignId('status')->nullable()->default()->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
+            $table->foreignId('status_id')->constrained('app.catalogues')->nullable()->comment('6:propuesto,7:cuando es completado por el docente encargado, 8: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS');
+
             $table->timestamps();
             $table->softDeletes();
 /*                    

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
 
 
-class CourseAprovalCourseRequest extends FormRequest
+class CourseShowByIdCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class CourseAprovalCourseRequest extends FormRequest
         $rules = [
 
           
-            'course.status' => [
-                'required'
+            'course.id' => [
+                ''
             ],
        
         ];
@@ -40,7 +40,7 @@ class CourseAprovalCourseRequest extends FormRequest
     public function attributes(){
         
         $attributes = [
-            'course.status' => 'status',
+            'course.id' => 'status',
 
             
         ];

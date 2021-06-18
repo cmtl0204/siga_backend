@@ -3,6 +3,9 @@
 namespace App\Models\Cecy;
 
 // Librerias que si o si deben importarse
+
+use App\Models\App\Career;
+use App\Models\App\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -50,11 +53,11 @@ class Course extends Model implements Auditable
         'name',
         'hours_duration',
         'free',
+        'cost',
         'summary',
         'observation',
         'objective',
         'needs',
-        'general_requirements',
         'Target_group',
         'facilities',
         'theoretical_phase',
@@ -95,12 +98,41 @@ class Course extends Model implements Auditable
     }
 
     //Relationships - Las relaciones van el orden alfabetico 
-    public function anc()
+    
+    public function modality()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
+    public function participantType()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+
+    public function level()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+    
+
+    public function cantonDictate()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+    
     public function capacitationType()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+
+    public function courseType()
     {
         return $this->belongsTo(Catalogue::class);
     }
@@ -110,33 +142,41 @@ class Course extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function institution()
+    public function personProposal()
     {
-        return $this->belongsTo(Institution::class);
+        return $this->belongsTo(Authentication::class);
     }
 
-
-    public function modality()
+    public function classroom()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(classroom::class);
     }
-
-    
-    public function type()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-   
 
     public function specialty()
     {
         return $this->belongsTo(Catalogue::class);
     } 
 
-    public function planificacion()
+    public function academicPeriod()
     {
-        return $this->belongsTo(Planification::class);
-    } 
+        return $this->belongsTo(Catalogue::class);
+    }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Career::class);
+    }
+
+    
 
 }

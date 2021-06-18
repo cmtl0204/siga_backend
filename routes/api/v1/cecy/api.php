@@ -82,7 +82,10 @@ Route::prefix('/')
             Route::get('responsables', [CourseController::class, 'getResponsables']);
             Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);   
             Route::get('planifications', [CourseController::class, 'getPlanifiation']);       
-    
+            Route::get('{courseId}', [CourseController::class, 'getCourse']);
+
+
+            
         });
         
 

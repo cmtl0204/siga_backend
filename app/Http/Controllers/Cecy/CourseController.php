@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cecy\Course\ApprovalCourseRequest;
 use App\Http\Requests\Cecy\Course\IndexCourseRequest;
 use App\Http\Requests\Cecy\Course\CourseAprovalCourseRequest;
+use App\Http\Requests\Cecy\Course\CourseShowByIdCourseRequest;
 use App\Http\Requests\Cecy\Course\TutorAsisignmentRequest;
 use App\Models\App\Status;
 use App\Models\Authentication\User;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
+    //Funcion para retornar todos los cursos
     function index(IndexCourseRequest $request)
     {
         $courses = Course::paginate($request->input('per_page'));
@@ -40,7 +43,7 @@ class CourseController extends Controller
         }
 
 
-        if ($courses->count() === 0) {
+        if (sizeof($courses) === 0){
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -55,10 +58,12 @@ class CourseController extends Controller
     }
 
     //Funcion para aprobar el curso 
-    function  approvalCourse(CourseAprovalCourseRequest $request, Course $course)
+    function  approvalCourse(ApprovalCourseRequest $request, Course $course)
     {
 
-        $course->status = $request->input('course.status');
+        $status = Status::getInstance($request->input('course.status.id'));
+
+        $course->status()->associate($status);
         $course->approval_date = date("Y-m-d H:i:s");
         $course->save();
 
@@ -72,11 +77,53 @@ class CourseController extends Controller
         ], 201);
     }
 
-    //Funcion para listar planificacion 
+    
 
 
-//Retorna todos los usuarios 
-   function getResponsables(){
+    
+
+    //Funciom para traer cursos por id
+    function getCourse($courseId)
+    {
+        if (!is_numeric($courseId)) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'ID no válido',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '400'
+                ]
+            ], 400);
+        }
+        
+        $course = Course::where( 'id' ,$courseId)->with('status')->get();
+        
+        
+        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
+        if (!$course) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Curso no encontrado',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+
+
+        return response()->json([
+            'data' => $course,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200',
+            ]], 200);
+    }
+
+    //Retorna todos los usuarios 
+    function getResponsables()
+    {
 
         $responsables = User::all();
 
@@ -91,43 +138,40 @@ class CourseController extends Controller
     }
 
 
-   
+
     //Funcion para traer planificaciones
-   function getPlanifiation(){
+    function getPlanifiation()
+    {
 
-    $planifications =  Planification::with('course')->get();
+        $planifications =  Planification::with('course')->get();
 
-    return response()->json([
-        'data' => $planifications,
-        'msg' => [
-            'summary' => 'REgistros ',
-            'detail' => 'El registro devueltos',
-            'code' => '201'
-        ]
-    ], 201);
-}
-
-
-
-    function tutorAssignment(Planification $planification, TutorAsisignmentRequest $request){
-
-       $user = User::getInstance($request->input('responsable.id'));
-
-       $planification->teacherResponsable()->associate($user);
-       $planification->save();
-
-       return response()->json([
-           'data' => $planification->fresh(),
-           'msg' => [
-               'summary' => 'Responsable asignado',
-               'detail' => 'El responsable fue asignado',
-               'code' => '201'
-           ]], 201);
-
+        return response()->json([
+            'data' => $planifications,
+            'msg' => [
+                'summary' => 'REgistros ',
+                'detail' => 'El registro devueltos',
+                'code' => '201'
+            ]
+        ], 201);
     }
 
 
 
+    function tutorAssignment(Planification $planification, TutorAsisignmentRequest $request)
+    {
 
+        $user = User::getInstance($request->input('responsable.id'));
 
+        $planification->teacherResponsable()->associate($user);
+        $planification->save();
+
+        return response()->json([
+            'data' => $planification->fresh(),
+            'msg' => [
+                'summary' => 'Responsable asignado',
+                'detail' => 'El responsable fue asignado',
+                'code' => '201'
+            ]
+        ], 201);
+    }
 }
