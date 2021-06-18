@@ -43,7 +43,7 @@ class DetailEvaluationController extends Controller
     }*/
 
 
-   /* function index(IndexDetailEvaluationRequest  $request)
+    function index(IndexDetailEvaluationRequest  $request)
 {
     // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
     $evaluation = Evaluation::getInstance($request->input('evaluation_id'));
@@ -68,7 +68,7 @@ class DetailEvaluationController extends Controller
     }
 
     return response()->json($detail, 200);
-}*/
+}
 
 
     public function show(DetailEvaluation $detail)

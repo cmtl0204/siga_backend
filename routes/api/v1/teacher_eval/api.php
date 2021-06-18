@@ -64,7 +64,33 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
 
+        Route::prefix('evaluation-detail')->group(function () {
+            Route::get('all', [DetailEvaluationController::class, 'index']);
+            Route::get('show/{detail}', [DetailEvaluationController::class, 'show']);
+            Route::post('create',  [DetailEvaluationController::class, 'store']);
+            Route::put('update/{detail}',  [DetailEvaluationController::class, 'update']);
+            Route::put('delete',  [DetailEvaluationController::class, 'delete']);
+            //Route::delete('destroy/{detail}',  [DetailEvaluationController::class, 'destroy']);
+        });
 
+
+        Route::prefix('evaluation')->group(function () {
+            Route::get('all', [EvaluationController::class, 'index']);
+            Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
+            Route::post('create',  [EvaluationController::class, 'store']);
+            Route::put('update/{detail}',  [EvaluationController::class, 'update']);
+            Route::put('delete',  [EvaluationController::class, 'delete']);
+            //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
+        });
+
+           // rutas tabla answer
+           Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
 
     });
 
@@ -86,31 +112,7 @@ Route::prefix('/')
             Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
             Route::put('delete', [EvaluationTypeController::class, 'delete']);
 
-        Route::prefix('evaluation-detail')->group(function () {
-            Route::get('all', [DetailEvaluationController::class, 'index']);
-            Route::get('show/{detail}', [DetailEvaluationController::class, 'show']);
-            Route::post('create',  [DetailEvaluationController::class, 'store']);
-            Route::put('update/{detail}',  [DetailEvaluationController::class, 'update']);
-            Route::put('delete',  [DetailEvaluationController::class, 'delete']);
-            //Route::delete('destroy/{detail}',  [DetailEvaluationController::class, 'destroy']);
-        });
 
 
-        Route::prefix('evaluation')->group(function () {
-            Route::get('all', [EvaluationController::class, 'index']);
-            Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
-            Route::post('create',  [EvaluationController::class, 'store']);
-            Route::put('update/{detail}',  [EvaluationController::class, 'update']);
-            Route::put('delete',  [EvaluationController::class, 'delete']);
-            //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
-        });
-        // rutas tabla answer
-        Route::prefix('answer')->group(function () {
-            Route::get('index', [AnswerController::class, 'index']);
-            Route::get('show/{answer}', [AnswerController::class, 'show']);
-            Route::post('store', [AnswerController::class, 'store']);
-            Route::put('update/{answer}',  [AnswerController::class, 'update']);
-            Route::put('delete',  [AnswerController::class, 'delete']);
-        });
     });
-}); 
+});
