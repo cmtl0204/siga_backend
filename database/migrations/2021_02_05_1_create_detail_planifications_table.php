@@ -32,7 +32,7 @@ class CreateDetailPlanificationsTable extends Migration
 
 
 
-            $table->foreignId('status_id')->constrained('app.status');//stado_id
+            $table->foreignId('state_id')->constrained('app.status');//stado_id
             // $table->foreignId('status_id')->constrained('catalogues');//status de la planificacion
            //  $table->foreignId('schedule_id')->constrained('schedule');//horario polimorfica
             //$table->foreignId('school_period_id')->constrained('school_periods')->nullable();//periodo_id
