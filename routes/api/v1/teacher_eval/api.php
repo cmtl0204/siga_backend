@@ -9,6 +9,10 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\TeacherEval\EvaluationTypeController;
+use App\Http\Controllers\TeacherEval\AnswerController;
+use App\Http\Controllers\TeacherEval\AnswerQuestionController;
+
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -29,6 +33,8 @@ Route::middleware($middlewares)
             'systems' => SystemController::class,
             //'evaluation'=> DetailEvaluationController::class,
         ]);
+                // Auth
+
 
         // Auth
         Route::prefix('auth')->group(function () {
@@ -73,6 +79,12 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+        Route::prefix('evaluation-type')->group(function () {
+            Route::get('index', [EvaluationTypeController::class, 'index']);
+            Route::post('store', [EvaluationTypeController::class, 'store']);
+            Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
+            Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
+            Route::put('delete', [EvaluationTypeController::class, 'delete']);
 
         Route::prefix('evaluation-detail')->group(function () {
             Route::get('all', [DetailEvaluationController::class, 'index']);
@@ -92,4 +104,13 @@ Route::prefix('/')
             Route::put('delete',  [EvaluationController::class, 'delete']);
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
         });
+        // rutas tabla answer
+        Route::prefix('answer')->group(function () {
+            Route::get('index', [AnswerController::class, 'index']);
+            Route::get('show/{answer}', [AnswerController::class, 'show']);
+            Route::post('store', [AnswerController::class, 'store']);
+            Route::put('update/{answer}',  [AnswerController::class, 'update']);
+            Route::put('delete',  [AnswerController::class, 'delete']);
+        });
     });
+}); 
