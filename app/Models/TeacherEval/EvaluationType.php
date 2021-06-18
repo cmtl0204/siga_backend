@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\TeacherEval;
-
+use App\Models\TeacherEval\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -45,6 +45,11 @@ class EvaluationType extends Model implements Auditable
     public function status()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
     }
 
 }

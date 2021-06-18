@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
-use Dyrynda\Database\Support\CascadeSoftDeletes;
+//use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\File;
 use App\Models\App\Image;
 use App\Models\App\Catalogue;
+use App\Models\App\Status;
+use App\Models\TeacherEval\EvaluationType;
 
 /**
  * @property BigInteger id
@@ -25,7 +27,7 @@ class Question extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
-    use CascadeSoftDeletes;
+    //use CascadeSoftDeletes;
 
     protected static $instance;
 
@@ -37,6 +39,7 @@ class Question extends Model implements Auditable
         'order',
         'name',
         'description',
+        'evaluation_type_id',
 
     ];
 
@@ -45,7 +48,7 @@ class Question extends Model implements Auditable
         'created_at'=>'date:Y-m-d h:m:s',
         'updated_at'=>'date:Y-m-d h:m:s',
     ];
-    protected $cascadeDeletes = ['files','evaluationTypes','images','status','type'];
+    protected $cascadeDeletes = ['files','evaluationType','images','status','type'];
 
     public static function getInstance($id)
     {
@@ -58,7 +61,7 @@ class Question extends Model implements Auditable
 
     // Relationships
 
-    public function evaluationTypes()
+    public function evaluationType()
     {
         return $this->belongsTo(EvaluationType::class);
     }

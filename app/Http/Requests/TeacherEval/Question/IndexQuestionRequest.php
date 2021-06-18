@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\TeacherEval\Question;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 
 class IndexQuestionRequest extends FormRequest
@@ -17,27 +16,51 @@ class IndexQuestionRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            /*'question.code' => [
+                'required',
+
+                'max:10',
+            ],
+            'question.order' => [
+                '',
+
+                'max:10',
+            ],
+            'question.name' => [
+                'required',
+
+                'max:10',
+            ],
+            'question.description' => [
+                'required',
+
+                'max:10',
+            ],
+*/
             'evaluation_type_id' => [
                 'required',
-                'integer'
+                'integer',
             ],
+           /* 'status.id' => [
+                '',
+                'integer',
+            ],
+            'type.id' => [
+                '',
+                'integer',
+
+            ]*/
         ];
         return TeacherEvalFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'evaluation_type_id' => 'El campo :attribute es obligatorio',
-            'evaluation_type_id.integer' =>'El campo :attribute debe ser numérico',
-        ];
-        return TeacherEvalFormRequest::messages($messages);
-    }
 
     public function attributes()
     {
         $attributes = [
-            'evaluation_type_id' => 'evaluation_type-ID',
+            'question.description' => 'descripción',
+            'evaluation_type.id' => 'evaluation_type-id',
+            'type.id' => 'tipo-id',
         ];
         return TeacherEvalFormRequest::attributes($attributes);
     }

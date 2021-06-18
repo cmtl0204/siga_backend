@@ -13,7 +13,7 @@ class CreateTeacherEvalQuestionsTable extends Migration
             $table->foreignId('evaluation_type_id')->nullable()->comment('Tipo Evaluacion; Pares-Autoevaluacion-Coordinacion-Docente')
             ->constrained('teacher_eval.evaluation_types');
             $table->foreignId('type_id')->comment('Tipo Pregunta, Cuantitativa o Cualitativa')->constrained('app.catalogues');
-            $table->foreignId('status_id')->constrained('app.catalogues');
+            $table->foreignId('status_id')->constrained('app.status');
             $table->string('code')->comment('Codigo Pregunta');
             $table->integer('order')->comment('Orden Pregunta');
             $table->string('name')->comment('Pregunta');

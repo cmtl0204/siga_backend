@@ -33,27 +33,6 @@ Route::middleware($middlewares)
             'systems' => SystemController::class
 
         ]);
-                // Auth
-
-
-        //Question
-        Route::prefix('question')->group(function () {
-            //Route::get('test', [QuestionController::class, 'test']);
-           // Route::put('delete', [QuestionController::class, 'delete']);
-            Route::post('image', [QuestionController::class, 'uploadImages']);
-            Route::post('image/{image}', [QuestionController::class, 'updateImage']);
-            Route::delete('image/{image}', [QuestionController::class, 'deleteImage']);
-            Route::get('image', [QuestionController::class, 'indexImage']);
-            Route::get('image/{image}', [QuestionController::class, 'showImage']);
-
-            Route::prefix('file')->group(function () {
-                Route::post('', [QuestionController::class, 'uploadFiles']);
-                Route::delete('{image}', [QuestionController::class, 'deleteFile']);
-                Route::get('', [QuestionController::class, 'indexFile']);
-                Route::get('{file}', [QuestionController::class, 'showFile']);
-            });
-
-        });
 
         // Auth
         Route::prefix('auth')->group(function () {
@@ -85,16 +64,6 @@ Route::middleware($middlewares)
     });
 
 // Without Middleware
-
-Route::prefix('/')
-    ->group(function () {
-        // ApiResources
-        Route::apiResource('systems', SystemController::class)->only(['show']);
-        // portfolio
-        Route::apiResource('questions', QuestionController::class);
-
-
-
 Route::prefix('/')
     ->group(function () {
         // Auth
@@ -113,5 +82,12 @@ Route::prefix('/')
             Route::post('store', [EvaluationTypeController::class, 'store']);
             Route::get('show', [EvaluationTypeController::class, 'show']);
         });
-    });
+
+        Route::prefix('question')->group(function () {
+            Route::post('store', [QuestionController::class, 'store']);
+            Route::put('put/{question}', [QuestionController::class, 'update']);
+            Route::get('index', [QuestionController::class, 'index']);
+            Route::get('show/{question}', [QuestionController::class, 'show']);
+            Route::put('delete', [QuestionController::class, 'delete']);
+        });
 });

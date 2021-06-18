@@ -15,19 +15,40 @@ class StoreQuestionRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'question.description' => [
+
+            'question.code' => [
                 'required',
-                'min:10',
+
                 'max:1000',
             ],
-            'evaluation_type.id' => [
+            'question.order' => [
                 'required',
+
+                'max:1000',
+            ],
+            'question.name' => [
+                'required',
+
+                'max:1000',
+            ],
+            'question.description' => [
+                'required',
+
+                'max:1000',
+            ],
+
+            'evaluation_type.id' => [
+                '',
+                'integer',
+            ],
+            'status.id' => [
+                '',
                 'integer',
             ],
             'type.id' => [
-                'required',
+                '',
                 'integer',
-//                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
+
             ]
         ];
         return TeacherEvalFormRequest::rules($rules);
@@ -37,7 +58,7 @@ class StoreQuestionRequest extends FormRequest
     {
         $attributes = [
             'question.description' => 'descripción',
-            'evaluation_type.id' => 'evaluation_type-id',
+            'evaluation_type.id' => 'evaluation_type_id',
             'type.id' => 'tipo-id',
         ];
         return TeacherEvalFormRequest::attributes($attributes);
