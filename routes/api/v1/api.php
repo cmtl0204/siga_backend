@@ -45,4 +45,6 @@ Route::get('init', function (CreateClientRequest $request) {
         ],
         'client' => $clientSecret[0]->secret
     ]);
+
+   
 });
