@@ -36,7 +36,7 @@ class InstitutionController extends Controller
             ]
         ], 200);
     }
-
+//funcion  store
     public function store(Request $request)
     {
         $data = $request->all();
