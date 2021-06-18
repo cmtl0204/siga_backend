@@ -30,7 +30,6 @@ Route::middleware($middlewares)
             'routes' => RouteController::class,
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
-            'systems' => SystemController::class
             'systems' => SystemController::class,
             //'evaluation'=> DetailEvaluationController::class,
         ]);
@@ -113,5 +112,5 @@ Route::prefix('/')
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
         });
-
     });
+}); 
