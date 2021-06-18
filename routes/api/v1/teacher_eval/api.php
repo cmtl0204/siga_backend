@@ -74,7 +74,6 @@ Route::middleware($middlewares)
         });
 
 
-
     });
 
 // Without Middleware
