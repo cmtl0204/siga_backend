@@ -90,7 +90,7 @@ class InstitutionController extends Controller
     
     function destroy($id)
     {
-    Institutions::destroy($id);
+    Institutions::destroy($id); //borrado logico
         return response()->json([
             'data' => null,
             'msg' => [
