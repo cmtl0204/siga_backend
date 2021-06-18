@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\TeacherEval\EvaluationType;
+namespace App\Http\Requests\TeacherEval\Answer;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class IndexEvaluationTypeRequest extends FormRequest
+class DeleteAnswerRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,19 +16,17 @@ class IndexEvaluationTypeRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'parent_id' => [
+            'ids' => [
                 'required',
-                'integer'
             ],
         ];
         return TeacherEvalFormRequest::rules($rules);
     }
 
-
     public function attributes()
     {
         $attributes = [
-            'parent_id' => 'id del padre',
+            'ids' => 'IDs',
         ];
         return TeacherEvalFormRequest::attributes($attributes);
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\TeacherEval\EvaluationType;
+namespace App\Http\Requests\TeacherEval\EvaluationType  ;
 
 use App\Http\Requests\TeacherEval\TeacherEvalFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreEvaluationTypeRequest extends FormRequest
+class UpdateEvaluationTypeRequest extends FormRequest
 {
     public function authorize()
     {
@@ -18,10 +19,6 @@ class StoreEvaluationTypeRequest extends FormRequest
             'status.id' => [
                 'required',
                 'integer',
-            ],
-            'parent.id'=> [
-                'required',
-                'max:1000',
             ],
             'evaluation_type.name' => [
                 'required',
