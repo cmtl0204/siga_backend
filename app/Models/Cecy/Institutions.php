@@ -9,7 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use phpDocumentor\Reflection\DocBlock\Description;
 use App\Models\App\Institution;
-
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 /**
  * @property BigInteger id
@@ -26,12 +26,14 @@ class Institutions extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected $connection = 'pgsql-cecy';
 
     protected $table = 'cecy.institutions';
 
     protected static $instance;
+    protected $cascadeDeletes = ['institution','authority'];
 
     protected $fillable = [
         'ruc',

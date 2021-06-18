@@ -67,33 +67,30 @@ class InstitutionController extends Controller
         return $institution;
     }
 
-    public function update(UpdateInstitutionRequest $request, Institution $institution)
+    function update(UpdateInstitutionRequest $request, $id)
     {
-        $data = $request -> json() -> all();
-     // $institution = $institution->update($data);
-    // $institution = $state->institution()->create($data);
-       $institutions = $data ['institution']['institution'];
-       //$authority= $data ['institution']['authority'];
-       $institution -> ruc = $request ->input('institution.ruc');
-       $institution -> logo = $request ->input('institution.logo');
-       $institution -> name = $request ->input('institution.name');
-       $institution -> slogan = $request ->input('institution.slogan');
-       $institution -> code = $request ->input('institution.code');
-       $institution -> authority_id = $request ->input('institution.authority_id');
-       $institution -> institution()-> associate (Institution::findOrFail($institutions['id']));
+     
+       $institutions= Institutions::find($id);
+       $institutions -> ruc = $request ->input('institution.ruc');
+       $institutions -> logo = $request ->input('institution.logo');
+       $institutions -> name = $request ->input('institution.name');
+       $institutions -> slogan = $request ->input('institution.slogan');
+       $institutions -> code = $request ->input('institution.code');
+      // $institutions -> authority() -> associate(Authority::find($request ->input('institution.authority_id')));
+       //$institutions -> institution()-> associate (Institutions::find($request->input('institution.institution_id')));
+       $institutions -> save();
         return response()->json([
             'data' => [
-                'attributes' => $institution,
+                'attributes' => $institutions,
                 'type' => 'institution'
             ]
         ], 201);
     }
 
     
-    function delete(DeleteInstitutionRequest $request)
+    function destroy($id)
     {
-        Institution::destroy($request->input('ids'));
-
+    Institutions::destroy($id);
         return response()->json([
             'data' => null,
             'msg' => [

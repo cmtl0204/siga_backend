@@ -14,13 +14,25 @@ class UpdateInstitutionRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'institution.institution_id' => [
+            'institution.ruc' => [
                 'required',
-                'integer',
+                
             ],
-            'institution.authority_id' => [
+            'institution.logo' => [
                 'required',
-                'integer',
+                
+            ],
+            'institution.name' => [
+                'required',
+                
+            ],
+            'institution.slogan' => [
+                'required',
+                
+            ],
+            'institution.code' => [
+                'required',
+                
             ],
            
         ];
@@ -30,8 +42,14 @@ class UpdateInstitutionRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'institution.institution_id' => 'institution-id',
-            'institution.authority_id' => 'authority-id',
+            'institution.ruc' => 'institution-ruc',
+            'institution.logo' => 'institution-logo',
+            'institution.name' => 'institution-name',
+            'institution.slogan' => 'institution-slogan',
+            'institution.code' => 'institution-code',
+
+
+
         ];
         return CecyFormRequest::attributes($attributes);
     }

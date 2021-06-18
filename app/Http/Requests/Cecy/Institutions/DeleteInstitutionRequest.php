@@ -16,7 +16,7 @@ class DeleteInstitutioneRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'ids' => [
+            'id' => [
                 'required',
             ],
         ];
@@ -26,7 +26,7 @@ class DeleteInstitutioneRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'ids' => 'IDs',
+            'id' => 'ID',
         ];
         return CecyFormRequest::attributes($attributes);
     }

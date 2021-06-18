@@ -71,5 +71,4 @@ Route::prefix('/')
         });
     });
 
-Route::apiResource('institutions', institutionController::class);
-Route::put('institutions/delete', [institutionController::class,'delete']);
+Route::apiResource('institutions', InstitutionController::class);
