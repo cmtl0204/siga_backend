@@ -16,7 +16,7 @@ class CreateCommunityPortfoliosTable extends Migration
         Schema::connection('pgsql-community')->create('portfolios', function (Blueprint $table) {
 	    $table->id();
 	    $table->foreignId('student_id')->nullable()->constrained('authentication.users')->comment('fk de la tabla user , si es nulo es un documento del proyecto');
-	    $table->string('user_id')->comment('persona que carga el documento (estudiante,docente)');
+        $table->foreignId('user_id')->comment('FK de user,persona que carga el documento ')->connstrained('authentication.users'); // persona que carga el documento (estudiante,docente)
 	    $table->foreignId('project_id')->constrained('community.projects');
 	    $table->foreignId('document_type')->constrained('app.catalogues');
 	    $table->date('send_date')->format('d-m-Y')->comment('fecha de envio del documento');
