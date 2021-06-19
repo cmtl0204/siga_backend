@@ -17,7 +17,7 @@ class CreateCommunityAgreementsTable extends Migration
         Schema::connection('pgsql-community')->create('agreements', function (Blueprint $table) {
             $table->id();
 			$table->string('code')->nullable()->comment('Codigo del convenio.'); //codigo correspondiente al convenio, ejemplo VC-ISTBJ-2019-002
-            $table->foreignId('itv_id')->comment('FK del itv')->connstrained('community.itv');			
+            $table->foreignId('itv_id')->nullable()->constrained('community.itvs')->comment('FK del itv ');
             $table->date('suscription_date')->nullable()->comment('Fecha de suscripcion del convenio'); //fecha correspondiente a la suscripcion del convenio.
 		    $table->date('due_date')->nullable()->comment('Fecha en la que finaliza un convenio'); //indica la fecha en la que un convenio finaliza.
 		    $table->integer('time')->nullable()->comment('Guarda el numero de meses de un convenio ');//el numero de meses del convenio

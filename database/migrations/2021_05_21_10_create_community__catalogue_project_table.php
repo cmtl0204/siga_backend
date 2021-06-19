@@ -17,10 +17,11 @@ class CreateCommunityCatalogueProjectTable extends Migration
         Schema::connection('pgsql-community')->create('catalogue_project', function (Blueprint $table) {
             $table->id();
 			$table->string('code')->nullable()->comment('Codigo del convenio.'); //codigo correspondiente al convenio, ejemplo VC-ISTBJ-2019-002
-            $table->foreignId('project_id')->comment('FK de project ')->connstrained('community.projects');
-			$table->foreignId('area_id')->comment('FK de la tabla catalogo area ')->connstrained('app.catalogues');
-			$table->foreignId('type_id')->comment('FK de la tabla catalogo type ')->connstrained('app.catalogues');
-			
+			$table->foreignId('project_id')->nullable()->constrained('community.projects')->comment('FK de project');
+            $table->foreignId('area_id')->nullable()->constrained('app.catalogues')->comment('FK de la tabla catalogo area');
+            $table->foreignId('type_id')->nullable()->constrained('app.catalogues')->comment('FK de la tabla catalogo type ');                        
+            
+            
             $table->softDeletes();
 			$table->timestamps();
         });
