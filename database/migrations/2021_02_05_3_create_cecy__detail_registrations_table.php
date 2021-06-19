@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use app\Models\App;
-use app\Models\Cecy;
 
 class CreateCecyDetailRegistrationsTable extends Migration
 {
@@ -29,7 +27,7 @@ class CreateCecyDetailRegistrationsTable extends Migration
             //modulo de notas
             $table->decimal('partial_grade', 5, 2)
                    ->comment('nota de evaluación continua'); 
-            $table->decimal('final_exam', 5, 2)
+            $table->decimal('final exam', 5, 2)
                     ->comment('nota del proyecto final'); 
             //Modulo de Certificado
             $table->string('code_certificate')->nullable()
