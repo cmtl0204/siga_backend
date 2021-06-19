@@ -9,8 +9,11 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
+
+use App\Http\Controllers\Cecy\DetailRegistrationController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -59,6 +62,11 @@ Route::middleware($middlewares)
         });
     });
 
+    Route::apiResource('detailRegistrations', DetailRegistrationController::class);
+    Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
+    Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
+
+
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
@@ -70,16 +78,17 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+
     });
 
-Route::apiResource('registrations', RegistrationController::class);
-Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
-Route::get('excel/registration-export', [RegistrationController::class, 'exportTest']);
 
-
-// Route::prefix('registration')
-//     ->group(function () {
-        Route::put('registration/delete', [RegistrationController::class, 'delete']);
-        Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
-    //     });
-    // });
+    Route::apiResource('topics', TopicController::class);
+    Route::put ('topic/delete', [TopicController::class, 'delete']);
+    Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+    
+    // Route::prefix('registration')
+    //     ->group(function () {
+           // Route::put('topic/delete', [TopicController::class, 'delete']);
+           // Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
+        //     });
+        // });
