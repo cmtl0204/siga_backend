@@ -9,11 +9,10 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-<<<<<<< HEAD
+
 use App\Http\Controllers\Cecy\DetailRegistrationController;
-=======
 use App\Http\Controllers\Cecy\TopicController;
->>>>>>> mod_4_cecy
+
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
