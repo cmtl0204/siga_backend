@@ -12,7 +12,7 @@ class CreateAppSubjectsTable extends Migration
         Schema::connection('pgsql-app')->create('subjects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mesh_id')->constrained('app.meshes');
-            $table->foreignId('academic_period_id')->constrained('registration.academic_periods');
+            $table->foreignId('academic_period_id')->constrained('app.academic_periods');
             $table->foreignId('curricular_unit_id')->constrained('registration.curricular_units');
             $table->foreignId('type_id')->constrained('app.catalogues');
             $table->foreignId('training_camp_id')->constrained('app.training_camps');
@@ -22,7 +22,7 @@ class CreateAppSubjectsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('objective');
-            $table->integer('teaching_hours');
+            $table->integer('practice_hours');
             $table->integer('teaching_hours');
             $table->integer('autonomous_hours');
             $table->integer('number_weeks')->nullable();
