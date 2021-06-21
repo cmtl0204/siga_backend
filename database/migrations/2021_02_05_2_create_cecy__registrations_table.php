@@ -20,6 +20,11 @@ class CreateCecyRegistrationsTable extends Migration
                    ->comment('fecha_matricula'); 
             // $table->foreignId('participant_id')->constrained('cecy.participants')
             //       ->comment('Estudiantes a ser matriculados reistra el id_persona_participante'); 
+<<<<<<< HEAD
+=======
+            //$table->foreignId('participant_id')->constrained('cecy.participants')
+                  //->comment('Estudiantes a ser matriculados reistra el id_persona_participante'); 
+>>>>>>> mod_4_cecy
             $table->foreignId('status_id')->constrained('app.catalogues')
                   ->comment('Estado de la matricula (inscrito, matriculado, anulado, desertor)'); 
             $table->foreignId('type_id')->constrained('app.catalogues')

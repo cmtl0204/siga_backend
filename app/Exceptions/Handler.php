@@ -44,10 +44,8 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        
+
         if ($e instanceof OAuthServerException) {
-           
-//        return parent::render($request, $e);
 
             // grant type is not supported
             if ($e->getCode() === 2) {

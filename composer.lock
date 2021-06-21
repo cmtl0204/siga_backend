@@ -4,7 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "9e16f1016c09e35eb124e645a1235189",
+=======
+>>>>>>> mod_4_cecy
     "packages": [
         {
             "name": "asm89/stack-cors",

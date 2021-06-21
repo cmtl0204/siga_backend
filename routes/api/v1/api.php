@@ -20,7 +20,7 @@ Route::get('init', function (CreateClientRequest $request) {
     DB::select('create schema cecy;');
 
     Artisan::call('migrate', ['--seed' => true]);
-
+    
 //    Artisan::call('passport:keys');
 
     Artisan::call('passport:client', [
@@ -45,4 +45,6 @@ Route::get('init', function (CreateClientRequest $request) {
         ],
         'client' => $clientSecret[0]->secret
     ]);
+
+   
 });
