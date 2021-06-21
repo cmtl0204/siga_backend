@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Portfolio\LearningResult;
+namespace App\Http\Requests\App\Subject;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Portfolio\PortfolioFormRequest;
+use App\Http\Requests\App\AppFormRequest;
 
-class IndexLearningResultRequest extends FormRequest
+class IndexSubjectRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,30 +15,30 @@ class IndexLearningResultRequest extends FormRequest
     public function rules()
     {
         $rules = [
-
-            'code' => [
-                '',
-                'min:1',
-                'max:1000',
-            ],
+            //subjects
             'description' => [
                 '',
-                'min:1',
+                'min:10',
+                'max:1000',
+            ],
+            'objective' => [
+                '',
+                'min:10',
                 'max:1000',
             ],
 
         ];
-        return PortfolioFormRequest::rules($rules);
+        return AppFormRequest::rules($rules);
     }
 
     public function attributes()
     {
         $attributes = [
 
-            'code' => 'code',
             'description' => 'description',
+            'objective' => 'objective',
 
         ];
-        return PortfolioFormRequest::attributes($attributes);
+        return AppFormRequest::attributes($attributes);
     }
 }

@@ -19,7 +19,13 @@ class Subject extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.subjects';
 
-    protected $fillable = [];
+    protected $fillable = [
+
+        'academic_period_id',
+        'description',
+        'objective',
+
+    ];
 
     // Instance
     public static function getInstance($id)
@@ -30,4 +36,12 @@ class Subject extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
+// Relationships
+
+
+    public function academicPeriod()
+    {
+        return $this->belongsTo(academicPeriod::class);
+    }
+
 }

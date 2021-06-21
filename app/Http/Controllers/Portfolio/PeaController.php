@@ -50,12 +50,14 @@ class PeaController extends Controller
                 ]
             ], 404);
         } */
-        $peas = Storage::allFiles($peas);
+        // get all the Units
+        $peas = Pea::all();
 
-
-
-
-        return response()->json($peas, 200);
+        return response()->json(['data' => $peas, 'msg' => [
+           'summary' => 'success',
+           'detail' => 'La búsqueda se realizo con éxito',
+           'code' => '200'
+       ]], 200);
     }
 
 

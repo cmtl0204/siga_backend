@@ -36,4 +36,19 @@ class PeaTeacher extends Model implements Auditable
     }
 
     // Relationships
+
+    public function pea()
+    {
+        return $this->belongsTo(Pea::class);
+    }
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
+    public function jornada()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+
 }

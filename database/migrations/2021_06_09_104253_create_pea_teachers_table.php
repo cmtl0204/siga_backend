@@ -17,9 +17,9 @@ class CreatePeaTeachersTable extends Migration
             $table->id();
             $table->foreignId('pea_id')->constrained('portfolio.peas')
                    ->comment('fk de tabla pea');
-                   $table->foreignId('teacher_id')->constrained('app.teachers')
+            $table->foreignId('teacher_id')->constrained('app.teachers')
                   ->comment('fk de profesores');
-                   $table->foreignId('jornada_id')->constrained('app.catalogues')
+            $table->foreignId('jornada_id')->constrained('app.catalogues')
                    ->comment('fk de la tabla catálogos');
 
             $table->timestamps();

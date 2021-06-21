@@ -21,7 +21,13 @@ class LearningResultController extends Controller
      */
     public function index(IndexLearningResultRequest $request)
     {
-        //
+        $learningResult = LearningResult::all();
+
+        return response()->json(['data' => $learningResult, 'msg' => [
+           'summary' => 'success',
+           'detail' => 'La búsqueda se realizo con éxito',
+           'code' => '200'
+       ]], 200);
     }
 
     /**
