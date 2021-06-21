@@ -9,14 +9,12 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-<<<<<<< HEAD
+
 use App\Http\Controllers\Cecy\EvaluationMechanismController;
-=======
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
 use App\Http\Controllers\Cecy\DetailRegistrationController;
 use App\Http\Controllers\Cecy\TopicController;
->>>>>>> mod_4_cecy
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -84,15 +82,12 @@ Route::prefix('/')
 
     });
 
-<<<<<<< HEAD
-
 //EvaluationMechanisms
 
 Route::apiResource('evaluationMechanisms', EvaluationMechanismController::class);
 
 Route::put('evaluationMechanisms/delete', [EvaluationMechanismController::class, 'delete']);
        
-=======
 Route::apiResource('registrations', RegistrationController::class);
 Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
 Route::get('excel/registration-export', [RegistrationController::class, 'exportTest']);
@@ -115,4 +110,3 @@ Route::get('excel/registration-export', [RegistrationController::class, 'exportT
            // Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
         //     });
         // });
->>>>>>> mod_4_cecy
