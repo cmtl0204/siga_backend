@@ -22,6 +22,7 @@ class CreateCecyEvaluationMechanismsTable extends Migration
             $table->string('technique',200); //tecnica
             $table->string('instrument',200); //instrumento
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
