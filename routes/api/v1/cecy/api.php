@@ -20,10 +20,9 @@ use App\Http\Controllers\Cecy\InstructorController;
 use App\Http\Controllers\Cecy\PrerequisiteController;
 use App\Models\Cecy\Prerequisite;
 
-
+use App\Http\Controllers\Cecy\DetailRegistrationController;
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
-use App\Http\Controllers\Cecy\DetailRegistrationController;
 
 use App\Http\Controllers\Cecy\TopicController;
 
