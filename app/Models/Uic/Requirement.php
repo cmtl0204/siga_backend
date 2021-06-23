@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -41,7 +42,10 @@ class Requirement extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
     public function meshStudentRequirements(){
         return $this->hasMany(MeshStudentRequirement::class);
     }

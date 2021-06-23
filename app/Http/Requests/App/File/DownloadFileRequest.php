@@ -22,14 +22,6 @@ class DownloadFileRequest extends FormRequest
         return AppFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'full_path.required' => 'El campo :attribute es obligatorio',
-        ];
-        return AppFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [

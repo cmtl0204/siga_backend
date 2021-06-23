@@ -67,4 +67,35 @@ class Planning extends Model implements Auditable
     {
         return $this->hasMany(Enrollment::class);
     }
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'ILIKE', "%$name%");
+        }
+    }
+    public function scopeEvent($query, $event)
+    {
+        if ($event) {
+            return $query->orWhere('event', 'ILIKE', "%$event%");
+        }
+    }
+    public function scopeStartDate($query, $startDate)
+    {
+        if ($startDate) {
+            return $query->orWhere('start_date', 'ILIKE', "%$startDate%");
+        }
+    }
+    public function scopeEndDate($query, $endDate)
+    {
+        if ($endDate) {
+            return $query->orWhere('end_date', 'ILIKE', "%$endDate%");
+        }
+    }
+    public function scopeDescription($query, $description)
+    {
+        if ($description) {
+            return $query->orWhere('description', 'ILIKE', "%$description%");
+        }
+    }
 }

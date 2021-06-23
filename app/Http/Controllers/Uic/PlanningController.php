@@ -14,9 +14,18 @@ use App\Models\Uic\Planning;
 
 class PlanningController extends Controller
 {
-    public function index(IndexPlanningRequest $request)
-        {
-        $plannings = Planning::paginate($request->input('per_page'));
+    public function index(IndexPlanningRequest $request){
+        if ($request->has('search')) {
+            $plannings = Planning::name($request->input('search'))
+                ->event($request->input('search'))
+                ->description($request->input('search'))
+                ->startDate($request->input('search'))
+                ->endDate($request->input('search'))
+                ->paginate($request->input('per_page'));
+        } else {
+            $plannings = Planning::orderBy('id','desc')->paginate($request->input('per_page'));
+        }
+
         if($plannings->count()===0){
             return response()->json([
                 'data'=>null,
@@ -110,4 +119,5 @@ class PlanningController extends Controller
                 'code' => '201'
             ]], 201);
     }
+    
 }

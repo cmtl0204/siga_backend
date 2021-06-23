@@ -26,6 +26,7 @@ class MeshStudentRequirement extends Model implements Auditable
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
+
     ];
 
     // Instance

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Uic;
 
+use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\App\File\IndexFileRequest;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
 use App\Http\Requests\Uic\Requirement\IndexRequirementRequest;
 use App\Http\Requests\Uic\Requirement\DeleteRequirementRequest;
 use App\Http\Requests\Uic\Requirement\StoreRequirementRequest;
@@ -106,4 +110,32 @@ class RequirementController extends Controller
                 'code' => '201'
             ]], 201);
     }
+
+
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Requirement::getInstance($request->input('id')));
+    }
+
+    public function updateFile(UpdateFileRequest $request)
+    {
+        return (new FileController())->update($request, Requirement::getInstance($request->input('id')));
+
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Requirement::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
+    }
+   
 }

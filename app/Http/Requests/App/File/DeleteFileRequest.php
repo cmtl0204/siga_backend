@@ -5,7 +5,7 @@ namespace App\Http\Requests\App\File;
 use App\Http\Requests\App\AppFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadFileRequest extends FormRequest
+class DeleteFileRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,15 +15,9 @@ class UploadFileRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'id' => [
+            'ids' => [
                 'required'
-            ],
-            'files.*' => [
-                'required',
-                'mimes:pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx,zip,rar,7z,tar,jpg,jpeg,png,bmp,tiff,tif,svg',
-                'file',
-                'max:1024000',
-            ],
+            ]
         ];
         return AppFormRequest::rules($rules);
     }
@@ -31,7 +25,7 @@ class UploadFileRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'files.*' => 'archivo'
+            'ids' => 'IDs'
         ];
         return AppFormRequest::attributes($attributes);
     }

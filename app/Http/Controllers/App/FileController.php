@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\App\File\DeleteFileRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\App\File\DownloadFileRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
@@ -15,17 +16,16 @@ class FileController extends Controller
     public function download(DownloadFileRequest $request)
     {
         $path = $request->input('full_path');
-        if (Storage::exists($path)) {
-            return Storage::download($path);
+        if (!Storage::exists($path)) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'Archivo no encontrado',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
         }
-
-       return response()->json([
-        'data' => null,
-        'msg' => [
-            'summary' => 'Archivo no encontrado',
-            'detail' => 'Intente de nuevo',
-            'code' => '404'
-        ]], 404);
+        return Storage::download($path);
     }
 
     public function upload(UploadFileRequest $request, $model)
@@ -39,8 +39,8 @@ class FileController extends Controller
             $newFile->save();
 
             $file->storeAs(
-                'files',
-                $newFile->fullName,
+                '',
+                $newFile->full_path,
                 'private'
             );
 
@@ -50,31 +50,14 @@ class FileController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Archivo subido',
-                'detail' => 'El archivo fue subida correctamente',
+                'summary' => 'Archivo(s) subido(s)',
+                'detail' => 'Su petición se procesó correctamente',
                 'code' => '201'
             ]], 201);
     }
 
-    public function update(UpdateFileRequest $request, $fileId)
+    public function update(UpdateFileRequest $request, File $file)
     {
-        $file = File::find($fileId);
-        // Valida que exista el archivo, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$file) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Archivo no encontrado',
-                    'detail' => 'El archivo no pudo ser modificado',
-                    'code' => '404'
-                ]], 404);
-        }
-
-        $request->file('file')->storeAs(
-            'files',
-            $file->fullName,
-            'private'
-        );
         $file->name = $request->input('name');
         $file->description = $request->input('description');
         $file->save();
@@ -89,31 +72,41 @@ class FileController extends Controller
 
     }
 
-    public function delete($fileId)
+    public function delete(DeleteFileRequest $request)
     {
-        $file = File::find($fileId);
-        // Valida que exista el archivo, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$file) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Archivo no encontrado',
-                    'detail' => 'El archivo ya ha sido eliminada',
-                    'code' => '404'
-                ]], 404);
+        foreach ($request->input('ids') as $id) {
+            $file = File::find($id);
+            if ($file) {
+                $file->delete();
+                Storage::delete('files\\' . $file->partial_path);
+            }
         }
-        // Es una eliminación lógica
-        $file->state = false;
-        $file->save();
-
-        // Elimina los archivos del servidor
-        Storage::delete('files\\' . $file->fullName);
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Archivo eliminado',
-                'detail' => 'El archivo fue eliminada correctamente',
+                'summary' => 'Archivo(s) eliminado(s)',
+                'detail' => 'Su petición se procesó correctamente',
+                'code' => '201'
+            ]], 201);
+    }
+
+    public function forceDelete()
+    {
+        $filesDeleted = File::onlyTrashed()->get();
+
+        foreach ($filesDeleted as $file) {
+            if ($file) {
+                $file->forceDelete();
+                Storage::delete('files\\' . $file->partial_path);
+            }
+        }
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Archivo(s) eliminado(s)',
+                'detail' => 'Su petición se procesó correctamente',
                 'code' => '201'
             ]], 201);
     }
@@ -124,17 +117,17 @@ class FileController extends Controller
             $files = $model->files()
                 ->name($request->input('search'))
                 ->description($request->input('search'))
-                ->get();
+                ->paginate($request->input('per_page'));
         } else {
             $files = $model->files()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($files) === 0) {
+        if ($files->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron archivos',
-                    'detail' => 'Intente de nuevo',
+                    'summary' => 'No tiene archivos subidos',
+                    'detail' => 'Empiece a subir sus archivos',
                     'code' => '404'
                 ]], 404);
         }

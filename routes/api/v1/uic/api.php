@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App\FileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Authentication\UserController;
@@ -42,12 +43,20 @@ Route::middleware($middlewares)
         });
         Route::prefix('planning')->group(function(){
             Route::put('delete',[PlanningController::class,'delete']);
+        
         });
         Route::prefix('tutor')->group(function(){
             Route::put('delete',[TutorController::class,'delete']);
         });
         Route::prefix('requirement')->group(function(){
             Route::put('delete',[RequirementController::class,'delete']);
+            Route::prefix('file')->group(function () {
+                Route::post('', [RequirementController::class, 'uploadFile']);
+                Route::put('delete', [RequirementController::class, 'deleteFile']);
+                Route::get('', [RequirementController::class, 'indexFile']);
+                Route::put('update/{file}', [RequirementController::class, 'updateFile']);
+                Route::get('{file}', [RequirementController::class, 'showFile']);                
+            });
         });
         Route::prefix('mesh-student-requirement')->group(function(){
             Route::put('delete',[MeshStudentRequirementController::class,'delete']);
