@@ -61,6 +61,7 @@ class EnrollmentController extends Controller
         $enrollment->modality_id=$request->input('enrollment.modality_id');
         $enrollment->school_period_id=$request->input('enrollment.school_period_id');
         $enrollment->planning_id=$request->input('enrollment.planning_id');
+        $enrollment->mesh_student_id=$request->input('enrollment.mesh_student_id');
         $enrollment->date=$request->input('enrollment.date');
         $enrollment->code=$request->input('enrollment.code');
         $enrollment->status_id=$request->input('enrollment.status_id');
@@ -92,6 +93,7 @@ class EnrollmentController extends Controller
         $enrollment->modality_id=$request->input('enrollment.modality_id');
         $enrollment->school_period_id=$request->input('enrollment.school_period_id');
         $enrollment->planning_id=$request->input('enrollment.planning_id');
+        $enrollment->mesh_student_id=$request->input('enrollment.mesh_student_id');
         $enrollment->date=$request->input('enrollment.date');
         $enrollment->code=$request->input('enrollment.code');
         $enrollment->status_id=$request->input('enrollment.status_id');

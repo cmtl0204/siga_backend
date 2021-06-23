@@ -55,6 +55,7 @@ class MeshStudentRequirementController extends Controller
     public function store(StoreMeshStudentRequirementRequest $request)
     {
         $meshStudentRequirement = new MeshStudentRequirement;
+        $meshStudentRequirement->mesh_student_id=$request->input('meshStudentRequirement.mesh_student_id');
         $meshStudentRequirement->requirement_id=$request->input('meshStudentRequirement.requirement_id');
         $meshStudentRequirement->save();
         return response()->json([
@@ -80,6 +81,7 @@ class MeshStudentRequirementController extends Controller
                 ]
             ],400);
         }
+        $meshStudentRequirement->mesh_student_id=$request->input('meshStudentRequirement.mesh_student_id');
         $meshStudentRequirement->requirement_id=$request->input('meshStudentRequirement.requirement_id');
         $meshStudentRequirement->save();
         return response()->json([

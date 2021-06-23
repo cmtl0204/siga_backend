@@ -2,6 +2,8 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\MeshStudent;
+use App\Models\App\SchoolPeriod;
 use App\Models\App\Status;
 use App\Models\Uic\Modality;
 use Illuminate\Database\Eloquent\Model;
@@ -60,16 +62,17 @@ class Enrollment extends Model implements Auditable
         return $this->belongsTo(Modality::class);
     }
 // no hay el modelo
-    // public function shoolPeriod() {
-    //     return $this->belongsTo(SchoolPeriod::class);
-    // }
+    public function shoolPeriod() {
+        return $this->belongsTo(SchoolPeriod::class);
+    }
 //  no hay ese modelo
-    // public function meshStudent(){
-    //     return $this->belongsTo(MeshStudent::class);
-    // }
-    // public function projects(){
-    //     return $this->hasMany(Project::class);
-    // }
+    public function meshStudent(){
+        return $this->belongsTo(MeshStudent::class);
+    }
+
+    public function projects(){
+        return $this->hasMany(Project::class);
+    }
     public function planning() {
         return $this->belongsTo(Planning::class);
     }

@@ -17,7 +17,7 @@ class CreateUicTutorsTable extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained('uic.projects');
             $table->foreignId('teacher_id')->comment('id de la tabla')->constrained('app.teachers');
-            // $table->foreignId('mesh_student_id')->constrained('app.mesh_student') no hay la tabla;
+            $table->foreignId('mesh_student_id')->constrained('app.mesh_student');
             $table->foreignId('type_id')->comment('para saber si es tutor, revisor ,etc')->constrained('app.catalogues');
             $table->json('observations')->comment('registro de cambios')->nullable();
             $table->softDeletes();

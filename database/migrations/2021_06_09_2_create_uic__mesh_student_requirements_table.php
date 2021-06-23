@@ -15,7 +15,7 @@ class CreateUicMeshStudentRequirementsTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('mesh_student_requirements', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('mesh_student_id')->constrained('app.mesh_student') no hay la tabla;
+            $table->foreignId('mesh_student_id')->constrained('app.mesh_student');
             $table->foreignId('requirement_id')->constrained('uic.requirements');
             $table->softDeletes();
             $table->timestamps();
