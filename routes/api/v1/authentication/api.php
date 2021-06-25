@@ -74,6 +74,20 @@ Route::middleware($middlewares)
             Route::put('updateRole', [UserAdministrationController::class, 'updateRole']);
         });
 
+        //User Administration Institusion
+        Route::prefix('user-admin-institution')->group(function () {
+            Route::put('delete', [UserAdministrationInstitutionController::class, 'delete']);
+            Route::put('deleteRoles', [UserAdministrationInstitutionController::class, 'deleteRoles']);
+            Route::get('roles', [UserAdministrationInstitutionController::class, 'getRoles']);
+            Route::get('permissions', [UserAdministrationInstitutionController::class, 'getPermissions']);
+            Route::get('rolesP', [UserAdministrationInstitutionController::class, 'getRolesP']);
+            Route::get('rolesUser', [UserAdministrationInstitutionController::class, 'getRolesUser']);
+            Route::get('permissionsRole', [UserAdministrationInstitutionController::class, 'getPermissionsRole']);
+            Route::put('setRoles', [UserAdministrationInstitutionController::class, 'setRoles']);
+            Route::put('setPermissions', [UserAdministrationInstitutionController::class, 'setPermissions']);
+            Route::put('updateRole', [UserAdministrationInstitutionController::class, 'updateRole']);
+        });
+
         // Role
         Route::prefix('role')->group(function () {
             Route::post('users', [RoleController::class, 'getUsers']);
