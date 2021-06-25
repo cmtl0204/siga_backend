@@ -15,6 +15,10 @@ use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
 use App\Http\Requests\JobBoard\Course\CreateCourseRequest;
 use App\Http\Requests\JobBoard\Course\UpdateCourseRequest;
 use App\Http\Requests\JobBoard\Course\StoreCourseRequest;
+use App\Http\Controllers\App\FileController;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
+use App\Http\Requests\App\File\IndexFileRequest;
 
 use Illuminate\Support\Facades\Request;
 
@@ -177,5 +181,24 @@ class CourseController extends Controller
                 'code' => '201'
             ]
         ], 201);
+    }
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Course::getInstance($request->input('id')));
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Course::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
     }
 }

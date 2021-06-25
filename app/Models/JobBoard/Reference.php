@@ -8,6 +8,8 @@ use OwenIt\Auditing\Auditable as Auditing;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Brick\Math\BigInteger;
+use App\Models\App\Catalogue;
+use App\Models\App\File;
 
 /**
  * @property BigInteger id
@@ -52,6 +54,16 @@ class Reference extends Model implements Auditable
     {
         return $this->belongsTo(Professional::class);
     }
+
+    public function institution()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
 
     // Mutators
     public function setInstitutionAttribute($value)

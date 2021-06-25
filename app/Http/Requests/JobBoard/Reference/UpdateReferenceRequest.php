@@ -29,48 +29,27 @@ class UpdateReferenceRequest extends FormRequest
         $rules = [
             'reference.institution' => [
                 'required',
-                'min:5',
-                'max:30'
+         
             ],
             'reference.position' => [
                 'required',
-                'min:5',
-                'max:30'
+        
             ],
             'reference.contact_name' => [
                 'required',
-                'max:30'
+           
             ],
             'reference.contact_phone' => [
                 'required',
-                'numeric',
+         
             ],
             'reference.contact_email' => [
                 'required',
                 'regex:'.$this->regularExpresionEmail,
-            ],
+            ]
         ];
 
         return JobBoardFormRequest::rules($rules);
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'reference.institution.required' => 'El campo :attribute es obligatorio',
-            'reference.institution.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'reference.institution.max' => 'El campo :attribute debe tener maximo :max caracteres',
-            'reference.position.required' => 'El campo :attribute es obligatorio',
-            'reference.position.min' => 'El campo :attribute debe tener al menos :min caracteres',
-            'reference.position.max' => 'El campo :attribute debe tener maximo :max caracteres',
-            'reference.contact_name.required' => 'El campo :attribute es obligatorio',
-            'reference.contact_name.max' => 'El campo :attribute debe tener maximo :max caracteres',
-            'reference.contact_phone.required' => 'El campo :attribute es obligatorio',
-            'reference.contact_phone.numeric' => 'El campo :attribute debe ser numérico',
-            'reference.contact_email.required' => 'El campo :attribute es obligatorio',
-            'reference.contact_email.regex' => 'El campo :attribute debe ser un email valido',
-        ];
-        return JobBoardFormRequest::messages($messages);
     }
 
     public function attributes()

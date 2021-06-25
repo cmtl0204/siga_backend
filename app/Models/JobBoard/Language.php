@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Brick\Math\BigInteger;
 use App\Models\App\Catalogue;
+use App\Models\App\File;
 
 /**
  * @property BigInteger id
@@ -33,7 +34,8 @@ class Language extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-
+    
+   // Relationships
     public function professional()
     {
         return $this->belongsTo(Professional::class);
@@ -44,18 +46,22 @@ class Language extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function writtenLevel()
+    public function written_level()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function spokenLevel()
+    public function spoken_level()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function readLevel()
+    public function read_level()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 }

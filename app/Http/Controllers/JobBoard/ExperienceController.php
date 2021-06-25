@@ -15,6 +15,10 @@ use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\App\FileController;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
+use App\Http\Requests\App\File\IndexFileRequest;
 
 class ExperienceController extends Controller
 {
@@ -82,7 +86,7 @@ class ExperienceController extends Controller
         }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experience.
         // $professional = Professional::getInstance($request->input('professional.id'));
-        $area = Catalogue::getInstance($request->input('area.id'));
+        $area = Catalogue::getInstance($request->input('experience.area.id'));
 
         $experience = new Experience();
         $experience->employer = $request->input('experience.employer');
@@ -156,5 +160,24 @@ class ExperienceController extends Controller
                 'code' => '201'
             ]
         ], 201);
+    }
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Experience::getInstance($request->input('id')));
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Experience::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
     }
 }

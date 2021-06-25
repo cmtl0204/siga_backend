@@ -17,13 +17,17 @@ class StoreExperienceRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'experience.area.id' => [
+                'required',
+            
+            ],
             'experience.employer' => [
                 'required',
-                'string',
+            
             ],
             'experience.position' => [
                 'required',
-                'string',
+              
             ],
             'experience.start_date' => [
                 'required',
@@ -35,24 +39,15 @@ class StoreExperienceRequest extends FormRequest
             ],
             'experience.activities' => [
                 'required',
-                'boolean',
+         
             ],
             'experience.reason_leave' => [
                 'required',
-                'min:10',
-                'max:250',
+            
             ],
             'experience.is_working' => [
                 'required',
-                'boolean',
-            ],
-            'professional.id' => [
-                'required',
-                'integer',
-            ],
-            'area.id' => [
-                'required',
-                'integer',
+            
             ]
         ];
         return JobBoardFormRequest::rules($rules);
@@ -61,8 +56,7 @@ class StoreExperienceRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'professional.id' => 'profesional-ID',
-            'area.id' => 'area-ID',
+            'experience.area.id' => 'area-ID',
             'experience.employer' => 'nombre de empleadora',
             'experience.position' => 'posicion',
             'experience.start_date' => 'fecha inicio',

@@ -53,7 +53,7 @@ class Catalogue extends Model implements Auditable
     {
         return $this->morphedByMany(Role::class, 'catalogueable');
     }
-
+ 
     // Mutators
     public function setCodeAttribute($value)
     {

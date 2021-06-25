@@ -18,16 +18,16 @@ class StoreReferenceRequest extends FormRequest
             'reference.institution' => [
                 'required',
                 'min:5',
-                'max:30'
+                'max:30',
             ],
             'reference.position' => [
                 'required',
                 'min:5',
-                'max:30'
+                'max:30',
             ],
             'reference.contact_name' => [
                 'required',
-                'max:30'
+                'max:30',
             ],
             'reference.contact_phone' => [
                 'required',
@@ -36,7 +36,7 @@ class StoreReferenceRequest extends FormRequest
             'reference.contact_email' => [
                 'required',
                 'regex:'.$this->regularExpresionEmail,
-            ],
+            ]
         ];
 
         return JobBoardFormRequest::rules($rules);
@@ -44,7 +44,6 @@ class StoreReferenceRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'professional.id' => 'profesional-ID',
             'reference.institution' => 'institución',
             'reference.position' => 'posición',
             'reference.contact_name' => 'nombre de contacto',

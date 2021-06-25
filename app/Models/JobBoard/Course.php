@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Brick\Math\BigInteger;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Catalogue;
+use App\Models\App\File;
 
 /**
  * @property BigInteger id
@@ -77,6 +78,11 @@ class Course extends Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
 
     // Mutators
     public function setNameAttribute($value)

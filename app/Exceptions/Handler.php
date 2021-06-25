@@ -163,7 +163,7 @@ class Handler extends ExceptionHandler
                 'data' => $e->getMessage(),
                 'msg' => [
                     'summary' => 'Oops! Tuvimos un problema con el servidor',
-                    'detail' => 'Comnicate con el administrador',
+                    'detail' => 'Comunicate con el administrador',
                     'code' => $e->getCode(),
                 ]], 500);
         }
@@ -172,7 +172,7 @@ class Handler extends ExceptionHandler
             'data' => $e->getMessage(),
             'msg' => [
                 'summary' => $e->getMessage(),
-                'detail' => 'Comnicate con el administrador',
+                'detail' => 'Comunicate con el administrador',
                 'code' => $e->getCode()
             ]], 500);
 //        return parent::render($request, $e);
