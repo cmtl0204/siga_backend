@@ -4,18 +4,11 @@ namespace App\Http\Controllers\Authentication;
 
 use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Authentication\User\UserCreateRequest;
-use App\Http\Requests\Authentication\UserAdministration\UserAdminIndexRequest;
-use App\Http\Requests\Authentication\UserRequest;
-use App\Models\Authentication\PassworReset;
 use App\Models\Authentication\Role;
 use App\Models\Authentication\Permission;
-use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use App\Models\Authentication\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -27,10 +20,13 @@ class  UserAdministrationInstitutionController extends Controller
     {
         $system = $request->input('system');
         $search = $request->input('search');
+        $institution = $request->input('institution');
 
         if ($request->has('search')) {
             $users = User::whereHas('roles', function ($role) use ($system) {
                 $role->where('system_id', '=', $system);
+            })->whereHas('institutions', function ($institutions) use ($institution) {
+                $institutions->where('institutions.id', '=', $institution);
             })
                 ->where(function ($query) use ($search) {
                     $query->email($search);
@@ -39,8 +35,9 @@ class  UserAdministrationInstitutionController extends Controller
                     $query->identification($search);
                     $query->secondlastname($search);
                 })
-                ->with(['institutions' => function ($institutions) {
+                ->with(['institutions' => function ($institutions) use ($institution) {
                     $institutions->orderBy('name');
+                    $institutions->where('institutions.id', '=', $institution);
                 }])
                 ->with(['roles' => function ($roles) use ($request) {
                     $roles
@@ -54,9 +51,12 @@ class  UserAdministrationInstitutionController extends Controller
         } else {
             $users = User::whereHas('roles', function ($role) use ($system) {
                 $role->where('system_id', '=', $system);
+            })->whereHas('institutions', function ($institutions) use ($institution) {
+                $institutions->where('institutions.id', '=', $institution);
             })
-                ->with(['institutions' => function ($institutions) {
+                ->with(['institutions' => function ($institutions) use ($institution) {
                     $institutions->orderBy('name');
+                    $institutions->where('institutions.id', '=', $institution);
                 }])
                 ->with(['roles' => function ($roles) use ($request) {
                     $roles
@@ -137,7 +137,7 @@ class  UserAdministrationInstitutionController extends Controller
 
         $user->roles()->attach($request->input('roles'));
         Mail::to($user->email)
-        ->send(new NewUserMailable(json_encode(['user' => $user, 'password' => $passwordGenerated]), $request->input('system')));
+            ->send(new NewUserMailable(json_encode(['user' => $user, 'password' => $passwordGenerated]), $request->input('system')));
         return response()->json([
             'data' => null,
             'msg' => [
@@ -187,16 +187,17 @@ class  UserAdministrationInstitutionController extends Controller
     }
 
     public function delete(Request $request)
-    {        
-         User::destroy($request->input('ids'));
-         
-                 return response()->json([
-                     'data' => null,
-                     'msg' => [
-                         'summary' => 'Usuario(s) eliminado(s)',
-                         'detail' => 'Se eliminó correctamente',
-                         'code' => '201'
-                     ]], 201);
+    {
+        User::destroy($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Usuario(s) eliminado(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]
+        ], 201);
     }
 
     public function export()
@@ -226,8 +227,9 @@ class  UserAdministrationInstitutionController extends Controller
 
         $user = User::find($request->input('id'));
         $roles = $user->roles()
-        ->where('system_id', $request->input('system'))
-        ->get();
+            ->where('system_id', $request->input('system'))
+            ->where('institution_id', $request->input('institution'))
+            ->get();
 
         if ($roles->count() === 0) {
             return response()->json([
@@ -236,7 +238,8 @@ class  UserAdministrationInstitutionController extends Controller
                     'summary' => 'No tiene roles asignados',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json([
@@ -245,15 +248,18 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function getRoles(Request $request)
     {
 
         $system = $request->input('system');
+        $institution = $request->input('institution');
         $roles = Role::where('system_id', $system)
-        ->get();
+            ->where('institution_id', $institution)
+            ->get();
 
         if ($roles->count() === 0) {
             return response()->json([
@@ -262,7 +268,8 @@ class  UserAdministrationInstitutionController extends Controller
                     'summary' => 'No existen roles en este Sistema',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json([
@@ -271,7 +278,8 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function setRoles(Request $request)
@@ -285,21 +293,26 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
-    public function getRolesP (Request $request){
+    public function getRolesP(Request $request)
+    {
         $system = $request->input('system');
         $search = $request->input('search');
+        $institution = $request->input('institution');
 
         if ($request->has('search')) {
             $roles = Role::where('system_id', $system)
+                ->where('institution_id', $institution)
                 ->where(function ($query) use ($search) {
                     $query->name($search);
                     $query->code($search);
                 })->paginate($request->input('per_page'));
         } else {
             $roles = Role::where('system_id', $system)
+                ->where('institution_id', $institution)
                 ->paginate($request->input('per_page'));
         }
 
@@ -310,22 +323,24 @@ class  UserAdministrationInstitutionController extends Controller
                     'summary' => 'No existen roles en este Sistema',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
         return response()->json($roles, 200);
     }
 
     public function deleteRoles(Request $request)
-    {        
-         Role::destroy($request->input('ids'));
-         
-                 return response()->json([
-                     'data' => null,
-                     'msg' => [
-                         'summary' => 'Rol(es) eliminado(s)',
-                         'detail' => 'Se eliminó correctamente',
-                         'code' => '201'
-                     ]], 201);
+    {
+        Role::destroy($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Rol(es) eliminado(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]
+        ], 201);
     }
 
     public function getPermissionsRole(Request $request)
@@ -333,8 +348,9 @@ class  UserAdministrationInstitutionController extends Controller
 
         $role = Role::find($request->input('id'));
         $permissions = $role->permissions()
-        ->where('system_id', $request->input('system'))
-        ->get();
+            ->where('system_id', $request->input('system'))
+            ->where('institution_id', $request->input('institution'))
+            ->get();
 
         if ($permissions->count() === 0) {
             return response()->json([
@@ -343,7 +359,8 @@ class  UserAdministrationInstitutionController extends Controller
                     'summary' => 'No tiene roles asignados',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json([
@@ -352,7 +369,8 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function getPermissions(Request $request)
@@ -360,7 +378,7 @@ class  UserAdministrationInstitutionController extends Controller
 
         $system = $request->input('system');
         $permissions = Permission::where('system_id', $system)
-        ->get();
+            ->get();
 
         if ($permissions->count() === 0) {
             return response()->json([
@@ -369,7 +387,8 @@ class  UserAdministrationInstitutionController extends Controller
                     'summary' => 'No permisos para este rol',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json([
@@ -378,7 +397,8 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function setPermissions(Request $request)
@@ -392,6 +412,7 @@ class  UserAdministrationInstitutionController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 }
