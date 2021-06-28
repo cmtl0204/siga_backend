@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Community;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Community\Project\IndexProjectRequest;
+use App\Http\Requests\Community\Project\StoreProjectRequest;
+use App\Http\Requests\Community\Project\UpdateProjectRequest;
 use App\Models\Community\Project;
-use App\Models\App\Catalogue;
-use App\Models\Community\Entity;
-use App\Models\App\SchoolPeriod;
-use App\Models\App\Career;
-use App\Models\App\Location;
-use App\Models\Authentication\User;
 
 class ProjectController extends Controller
 {
     public function index(IndexProjectRequest $request)
     {
         $projects = Project::with('entity')->with('schoolPeriod')->with('career')->with('coverage')
-                    ->with('location')->with('frequency')->with('status')->with('createdBy')->get();
+                    ->with('location')->with('frequency')->with('status')->with('createdBy')
+                    ->paginate($request->input('per_page'));
         return response()->json([
             'data' => $projects,
             'msg' => [
@@ -38,57 +35,46 @@ class ProjectController extends Controller
             ]], 200);
     }
 
-    public function store(CreateProjectRequest $request)
+    public function store(StoreProjectRequest $request)
     {
-        $data = $request->json()->all();
-        $dataProject = $data['project'];
-        $dataEntityCode = $data['entity_code'];
-        $dataSchoolPeriodCode = $data['school_period_code'];
-        $dataCareerCode = $data['career_code'];
-        $dataCoverageCode = $data['coverage_code'];
-        $dataLocationCode = $data['location_code'];
-        $dataFrequencyCode = $data['frequency_code'];
-        $dataStatusCode = $data['status_code'];
-        $dataCreatedByCode = $data['created_by_code'];
-
         $project = new Project();
-        $project->code = $dataProject['code'];
-        $project->title = $dataProject['title'];
-        $project->date = $dataProject['date'];
-        $project->cycles = $dataProject['cycles'];
-        $project->lead_time = $dataProject['lead_time'];
-        $project->delivery_date = $dataProject['delivery_date'];
-        $project->start_date = $dataProject['start_date'];
-        $project->end_date = $dataProject['end_date'];
-        $project->description = $dataProject['description'];
-        $project->diagnosis = $dataProject['diagnosis'];
-        $project->justification = $dataProject['justification'];
-        $project->direct_beneficiaries = $dataProject['direct_beneficiaries'];
-        $project->indirect_beneficiaries = $dataProject['indirect_beneficiaries'];
-        $project->strategies = $dataProject['strategies'];
-        $project->bibliografies = $dataProject['bibliografies'];
-        $project->observations = $dataProject['observations'];
-        $project->send_quipux = $dataProject['send_quipux'];
-        $project->receive_quipux = $dataProject['receive_quipux'];
-        $project->state = $dataProject['state'];
+        $project->code = $request->input('project.code');
+        $project->title = $request->input('project.title');
+        $project->date = $request->input('project.date');
+        $project->cycles = $request->input('project.cycles');
+        $project->lead_time = $request->input('project.lead_time');
+        $project->delivery_date = $request->input('project.delivery_date');
+        $project->start_date = $request->input('project.start_date');
+        $project->end_date = $request->input('project.end_date');
+        $project->description = $request->input('project.description');
+        $project->diagnosis = $request->input('project.diagnosis');
+        $project->justification = $request->input('project.justification');
+        $project->direct_beneficiaries = $request->input('project.direct_beneficiaries');
+        $project->indirect_beneficiaries = $request->input('project.indirect_beneficiaries');
+        $project->strategies = $request->input('project.strategies');
+        $project->bibliografies = $request->input('project.bibliografies');
+        $project->observations = $request->input('project.observations');
+        $project->send_quipux = $request->input('project.send_quipux');
+        $project->receive_quipux = $request->input('project.receive_quipux');
+        $project->state = $request->input('project.state');
 
-        $entityCode = Entity::findOrFail($dataEntityCode['id']);
-        $schoolPeriodCode = SchoolPeriod::findOrFail($dataSchoolPeriodCode['id']);
-        $careerCode = Career::findOrFail($dataCareerCode['id']);
-        $coverageCode = Catalogue::findOrFail($dataCoverageCode['id']);
-        $locationCode = Location::findOrFail($dataLocationCode['id']);
-        $frequencyCode = Catalogue::findOrFail($dataFrequencyCode['id']);
-        $statusCode = Catalogue::findOrFail($dataStatusCode['id']);
-        $createdByCode = User::findOrFail($dataCreatedByCode['id']);
+        // $entityCode = Entity::findOrFail($request->input('entity.id'));
+        // $schoolPeriodCode = SchoolPeriod::findOrFail($request->input('school_period.id'));
+        // $careerCode = Career::findOrFail($request->input('career.id'));
+        // $coverageCode = Catalogue::findOrFail($request->input('coverage.id'));
+        // $locationCode = Location::findOrFail($request->input('location.id'));
+        // $frequencyCode = Catalogue::findOrFail($request->input('frequency.id'));
+        // $statusCode = Catalogue::findOrFail($request->input('status.id'));
+        // $createdByCode = User::findOrFail($request->input('created_by.id'));
 
-        $project->entity()->associate($entityCode);
-        $project->schoolPeriod()->associate($schoolPeriodCode);
-        $project->career()->associate($careerCode);
-        $project->coverage()->associate($coverageCode);
-        $project->location()->associate($locationCode);
-        $project->frequency()->associate($frequencyCode);
-        $project->status()->associate($statusCode);
-        $project->createdBy()->associate($createdByCode);
+        // $project->entity()->associate($entityCode);
+        // $project->schoolPeriod()->associate($schoolPeriodCode);
+        // $project->career()->associate($careerCode);
+        // $project->coverage()->associate($coverageCode);
+        // $project->location()->associate($locationCode);
+        // $project->frequency()->associate($frequencyCode);
+        // $project->status()->associate($statusCode);
+        // $project->createdBy()->associate($createdByCode);
 
         $project->save();
 
@@ -104,27 +90,25 @@ class ProjectController extends Controller
 
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $data = $request->json()->all();
-        $dataProject = $data['project'];
-        $project->code = $dataProject['code'];
-        $project->title = $dataProject['title'];
-        $project->date = $dataProject['date'];
-        $project->cycles = $dataProject['cycles'];
-        $project->lead_time = $dataProject['lead_time'];
-        $project->delivery_date = $dataProject['delivery_date'];
-        $project->start_date = $dataProject['start_date'];
-        $project->end_date = $dataProject['end_date'];
-        $project->description = $dataProject['description'];
-        $project->diagnosis = $dataProject['diagnosis'];
-        $project->justification = $dataProject['justification'];
-        $project->direct_beneficiaries = $dataProject['direct_beneficiaries'];
-        $project->indirect_beneficiaries = $dataProject['indirect_beneficiaries'];
-        $project->strategies = $dataProject['strategies'];
-        $project->bibliografies = $dataProject['bibliografies'];
-        $project->observations = $dataProject['observations'];
-        $project->send_quipux = $dataProject['send_quipux'];
-        $project->receive_quipux = $dataProject['receive_quipux'];
-        $project->state = $dataProject['state'];
+        $project->code = $request->input('project.code');
+        $project->title = $request->input('project.title');
+        $project->date = $request->input('project.date');
+        $project->cycles = $request->input('project.cycles');
+        $project->lead_time = $request->input('project.lead_time');
+        $project->delivery_date = $request->input('project.delivery_date');
+        $project->start_date = $request->input('project.start_date');
+        $project->end_date = $request->input('project.end_date');
+        $project->description = $request->input('project.description');
+        $project->diagnosis = $request->input('project.diagnosis');
+        $project->justification = $request->input('project.justification');
+        $project->direct_beneficiaries = $request->input('project.direct_beneficiaries');
+        $project->indirect_beneficiaries = $request->input('project.indirect_beneficiaries');
+        $project->strategies = $request->input('project.strategies');
+        $project->bibliografies = $request->input('project.bibliografies');
+        $project->observations = $request->input('project.observations');
+        $project->send_quipux = $request->input('project.send_quipux');
+        $project->receive_quipux = $request->input('project.receive_quipux');
+        $project->state = $request->input('project.state');
 
         $project->save();
         return response()->json([
