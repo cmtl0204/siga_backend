@@ -35,6 +35,7 @@ Route::middleware($middlewares)
             'offers' => OfferController::class,
             'skills' => SkillController::class,
             'academic-formations' => AcademicFormationController::class,
+            'catalogues' => CourseController::class,
             'courses' => CourseController::class,
             'catalogues' => LanguageController::class,
             'languages' => LanguageController::class,
@@ -139,20 +140,21 @@ Route::middleware($middlewares)
                 
             });
         
-
-        Route::prefix('reference')->group(function () {
-            Route::get('test', [ReferenceController::class, 'test']);
-            Route::put('delete', [ReferenceController::class, 'delete']);
+  
+         Route::prefix('reference')->group(function () {
+             Route::get('test', [ReferenceController::class, 'test']);
+             Route::put('delete', [ReferenceController::class, 'delete']);
+             Route::get('get', [ReferenceController::class, 'get']);
         
-            // ruta para hcer pruebas
-          //  Route::get('test', function () {
-            //    return 'test';
-            Route::prefix('file')->group(function () {
-                Route::post('', [ReferenceController::class, 'uploadFiles']);
-                Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
-                Route::get('', [ReferenceController::class, 'indexFile']);
+        //     // ruta para hcer pruebas
+        //   //  Route::get('test', function () {
+             //    return 'test';
+             Route::prefix('file')->group(function () {
+                 Route::post('', [ReferenceController::class, 'uploadFiles']);
+                 Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
+                 Route::get('', [ReferenceController::class, 'indexFile']);
                 Route::get('{file}', [ReferenceController::class, 'showFile']);
-             });
+           });
             
         });
 

@@ -45,11 +45,8 @@ class UpdateExperienceRequest extends FormRequest
         'required',
         'boolean',
     ],
-    'professional.id' => [
-        'required',
-        'integer',
-    ],
-    'area.id' => [
+ 
+    'experience.area.id' => [
         'required',
         'integer',
     ]
@@ -58,32 +55,7 @@ return JobBoardFormRequest::rules($rules);
 
 }
 
-public function messages()
-{
-    $messages = [
-        'professional.id.required' => 'El campo :attribute es obligatorio',
-        'professional.id.integer' => 'El campo :attribute debe ser numérico',
-        'area.id.required' => 'El campo :attribute es obligatorio',
-        'area.id.integer' => 'El campo :attribute debe ser numérico',  
-        'experience.employer.required' => 'El campo :attribute es obligatorio',
-        'experience.employer.string' => 'El campo :attribute debe ser numérico',
-        'experience.position.required' => 'El campo :attribute es obligatorio',
-        'experience.position.string' => 'El campo :attribute debe ser numérico',
-        'experience.start_date.required' => 'El campo :attribute es obligatorio',
-        'experience.start_date.date' => 'El campo :attribute debe ser numérico',
-        'experience.end_date.required' => 'El campo :attribute es obligatorio',
-        'experience.end_date.date' => 'El campo :attribute debe ser numérico',          
-        'experience.activities.required' => 'El campo :attribute es obligatorio',
-        'experience.activities.min' => 'El campo :attribute debe tener al menos :min caracteres',
-        'experience.reason_leave.required' => 'El campo :attribute es obligatorio',
-        'experience.reason_leave.min' => 'El campo :attribute debe tener al menos :min caracteres',
-        'experience.reason_leave.max' => 'El campo :attribute no debe superar los :max caracteres',
-        'experience.is_working.required' => 'El campo :attribute es obligatorio',
-        'experience.is_working.boolean' => 'El campo :attribute debe tener al menos :min caracteres',
-    
-    ];
-    return JobBoardFormRequest::messages($messages);
-}
+
 
 public function attributes()
 {
@@ -96,8 +68,7 @@ public function attributes()
         'experience.activities' => 'ocupaciones',
         'experience.reason_leave' => 'razon dejar',
         'experience.is_working' => 'está trabajando',
-        'professional.id' => 'profesional-ID',
-        'area.id' => 'area-ID',
+        'experience.area.id' => 'area-ID',
    
     ];
     return JobBoardFormRequest::attributes($attributes);

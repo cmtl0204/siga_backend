@@ -29,7 +29,7 @@ class Course extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.courses';
-    protected $with = ['type','institution','certificationType','area'];
+    protected $with = ['type','institution','certification_type','area'];
 
     protected $fillable = [
         'name',
@@ -69,7 +69,7 @@ class Course extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function certificationType()
+    public function certification_type()
     {
         return $this->belongsTo(Catalogue::class);
     }

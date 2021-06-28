@@ -9,6 +9,7 @@ use App\Http\Requests\JobBoard\Reference\IndexReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\UpdateReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\StoreReferenceRequest;
 use App\Http\Requests\JobBoard\Reference\DeleteReferenceRequest;
+use App\Http\Requests\JobBoard\Reference\GetReferenceRequest;
 
 use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\UpdateFileRequest;
@@ -74,6 +75,7 @@ class ReferenceController extends Controller
 
     function show(Reference $reference)
     {
+        
         return response()->json([
             'data' => $reference,
             'msg' => [
@@ -83,6 +85,32 @@ class ReferenceController extends Controller
             ]
         ], 200);
     }
+
+
+/*function get(GetReferenceRequest $request)
+    {
+        $reference = $request->user()->reference()
+            ->with(['institution'=>function($institution){
+                $user->with('name');      
+            }])->first();
+        if(!$reference){
+            return response()->json([
+                'data' => $reference,
+                'msg' => [
+                    'summary' => 'reference no encontrada',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404',
+                ]], 404);
+        }
+        return response()->json([
+            'data' => $reference,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200',
+            ]], 200);
+    }
+*/
 
     function store(CreateReferenceRequest $request)
     {
@@ -99,7 +127,7 @@ class ReferenceController extends Controller
             ], 404);
         }
         //$professional = Professional::getInstance($request->input('professional.id'));
-        $institution = Catalogue::getInstance($request->input('reference.institution'));
+        $institution = Catalogue::getInstance($request->input('reference.institution.id'));
         $reference = new Reference();
         //$reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');

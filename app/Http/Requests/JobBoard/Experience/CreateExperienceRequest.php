@@ -33,7 +33,7 @@ class CreateExperienceRequest extends FormRequest
             ],
             'experience.activities' => [
                 'required',
-                'boolean',
+             
             ],
             'experience.reason_leave' => [
                 'required',
@@ -42,13 +42,9 @@ class CreateExperienceRequest extends FormRequest
             ],
             'experience.is_working' => [
                 'required',
-                'boolean',
+             
             ],
-            'professional.id' => [
-                'required',
-                'integer',
-            ],
-            'area.id' => [
+            'experience.area.id' => [
                 'required',
                 'integer',
             ]
@@ -61,7 +57,7 @@ class CreateExperienceRequest extends FormRequest
     {
         $attributes = [
      
-            'area.id' => 'area-ID',
+            'experience.area.id' => 'area-ID',
             'experience.employer' => 'nombre de empleadora',
             'experience.position' => 'posicion',
             'experience.start_date' => 'fecha inicio',

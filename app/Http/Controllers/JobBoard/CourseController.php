@@ -15,6 +15,8 @@ use App\Http\Requests\JobBoard\Course\IndexCourseRequest;
 use App\Http\Requests\JobBoard\Course\CreateCourseRequest;
 use App\Http\Requests\JobBoard\Course\UpdateCourseRequest;
 use App\Http\Requests\JobBoard\Course\StoreCourseRequest;
+use App\Http\Requests\JobBoard\Course\DeleteCourseRequest;
+
 use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
@@ -97,21 +99,25 @@ class CourseController extends Controller
         }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
-        $type = Catalogue::getInstance($request->input('type.id'));
-        $institution = Catalogue::getInstance($request->input('institution.id'));
-        $certificationType = Catalogue::getInstance($request->input('certificationType.id'));
-        $area = Catalogue::getInstance($request->input('area.id'));
+        $type = Catalogue::getInstance($request->input('course.type.id'));
+        $institution = Catalogue::getInstance($request->input('course.institution.id'));
+        $certification_type = Catalogue::getInstance($request->input('course.certification_type.id'));
+        $area = Catalogue::getInstance($request->input('course.area.id'));
 
         $course = new Course();
         $course->name = $request->input('course.name');
         $course->description = $request->input('course.description');
         $course->start_date = $request->input('course.start_date');
+      //  $course->end_date = $this->calculateEndCourse($request->input('course.end_date'));
+       
+     //   $course->start_date = $request->input('course.start_date');
         $course->end_date = $request->input('course.end_date');
+      
         $course->hours = $request->input('course.hours');
         $course->professional()->associate($professional);
         $course->institution()->associate($institution);
         $course->type()->associate($type);
-        $course->certificationType()->associate($certificationType);
+        $course->certification_type()->associate($certification_type);
         $course->area()->associate($area);
         $course->save();
 
@@ -128,12 +134,12 @@ class CourseController extends Controller
     //Actualiza los datos del curso creado//
     function update(UpdateCourseRequest $request, Course $course)
     {
-        $type = Catalogue::getInstance($request->input('type.id'));
-        $institution = Catalogue::getInstance($request->input('institution.id'));
-        $certificationType = Catalogue::getInstance($request->input('certificationType.id'));
-        $area = Catalogue::getInstance($request->input('area.id'));
+        $type = Catalogue::getInstance($request->input('course.type.id'));
+        $institution = Catalogue::getInstance($request->input('course.institution.id'));
+        $certification_type = Catalogue::getInstance($request->input('course.certification_type.id'));
+        $area = Catalogue::getInstance($request->input('course.area.id'));
 
-        $course = Course::find($courseId);
+        //$course = Course::find($courseId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$course) {
@@ -154,7 +160,7 @@ class CourseController extends Controller
         $course->hours = $request->input('course.hours');
         $course->institution()->associate($institution);
         $course->type()->associate($type);
-        $course->certificationType()->associate($certificationType);
+        $course->certification_type()->associate($certification_type);
         $course->area()->associate($area);
         $course->save();
 
@@ -169,27 +175,29 @@ class CourseController extends Controller
     }
 
     //Elimina los datos del curso//
-    function destroy(Course $course)
+    function delete(DeleteCourseRequest $request)
     {
-        $course->delete();
+    
+           // Es una eliminación lógica
+           Course::destroy($request->input('ids'));
+
 
         return response()->json([
-            'data' => $course,
+            'data' => null,
             'msg' => [
-                'summary' => 'Oferta eliminada',
+                'summary' => 'Curso eliminado',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
-            ]
-        ], 201);
+            ]], 201);
     }
-    function uploadFiles(UploadFileRequest $request)
-    {
-        return (new FileController())->upload($request, Course::getInstance($request->input('id')));
-    }
-
     function deleteFile($fileId)
     {
         return (new FileController())->delete($fileId);
+    }
+
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request,Course::getInstance($request->input('id')));
     }
 
     function indexFile(IndexFileRequest $request)
@@ -201,4 +209,7 @@ class CourseController extends Controller
     {
         return (new FileController())->show($fileId);
     }
+   
 }
+
+
