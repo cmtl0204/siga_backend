@@ -10,6 +10,8 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Community\ProjectController;
+use App\Http\Controllers\Community\ProjectObjectiveController;
+use App\Http\Controllers\Community\ProjectParticipantController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
