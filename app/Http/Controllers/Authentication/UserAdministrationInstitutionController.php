@@ -8,6 +8,7 @@ use App\Models\Authentication\Role;
 use App\Models\Authentication\Permission;
 use App\Models\App\Status;
 use App\Models\Authentication\User;
+use App\Models\App\Institution;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
@@ -23,18 +24,16 @@ class  UserAdministrationInstitutionController extends Controller
         $institution = $request->input('institution');
 
         if ($request->has('search')) {
-            $users = User::whereHas('roles', function ($role) use ($system) {
+            $users = User::whereHas('roles', function ($role) use ($system, $institution) {
                 $role->where('system_id', '=', $system);
-            })->whereHas('institutions', function ($institutions) use ($institution) {
-                $institutions->where('institutions.id', '=', $institution);
+                $role->where('institution_id', '=', $institution);
+            })->where(function ($query) use ($search) {
+                $query->email($search);
+                $query->firstlastname($search);
+                $query->names($search);
+                $query->identification($search);
+                $query->secondlastname($search);
             })
-                ->where(function ($query) use ($search) {
-                    $query->email($search);
-                    $query->firstlastname($search);
-                    $query->names($search);
-                    $query->identification($search);
-                    $query->secondlastname($search);
-                })
                 ->with(['institutions' => function ($institutions) use ($institution) {
                     $institutions->orderBy('name');
                     $institutions->where('institutions.id', '=', $institution);
@@ -49,15 +48,13 @@ class  UserAdministrationInstitutionController extends Controller
                 }])
                 ->paginate($request->input('per_page'));
         } else {
-            $users = User::whereHas('roles', function ($role) use ($system) {
+            $users = User::whereHas('roles', function ($role) use ($system, $institution) {
                 $role->where('system_id', '=', $system);
-            })->whereHas('institutions', function ($institutions) use ($institution) {
+                $role->where('institution_id', '=', $institution);
+            })->with(['institutions' => function ($institutions) use ($institution) {
+                $institutions->orderBy('name');
                 $institutions->where('institutions.id', '=', $institution);
-            })
-                ->with(['institutions' => function ($institutions) use ($institution) {
-                    $institutions->orderBy('name');
-                    $institutions->where('institutions.id', '=', $institution);
-                }])
+            }])
                 ->with(['roles' => function ($roles) use ($request) {
                     $roles
                         ->with(['permissions' => function ($permissions) {
@@ -282,6 +279,33 @@ class  UserAdministrationInstitutionController extends Controller
         ], 200);
     }
 
+    public function getInstitutions(Request $request)
+    {
+
+        $system = $request->input('system');
+        $institutions = Institution::get();
+
+        if ($institutions->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No hay instituciones para este sistema',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $institutions,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
+    }
+
     public function setRoles(Request $request)
     {
         $user = User::find($request->input('id'));
@@ -349,14 +373,13 @@ class  UserAdministrationInstitutionController extends Controller
         $role = Role::find($request->input('id'));
         $permissions = $role->permissions()
             ->where('system_id', $request->input('system'))
-            ->where('institution_id', $request->input('institution'))
             ->get();
 
         if ($permissions->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No tiene roles asignados',
+                    'summary' => 'No tiene permisos para este rol',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]

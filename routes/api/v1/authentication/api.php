@@ -86,6 +86,7 @@ Route::middleware($middlewares)
             Route::put('setRoles', [UserAdministrationInstitutionController::class, 'setRoles']);
             Route::put('setPermissions', [UserAdministrationInstitutionController::class, 'setPermissions']);
             Route::put('updateRole', [UserAdministrationInstitutionController::class, 'updateRole']);
+            Route::get('institutions', [UserAdministrationInstitutionController::class, 'getInstitutions']);
         });
 
         // Role
