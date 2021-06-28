@@ -29,8 +29,8 @@ class DetailPlanificationController extends Controller
     }
     public function store(Request $request)
     {
-        $data = $request->all();
-       $detailPlanifications = $data ['detailPlanification']['detailPlanification'];
+       $data = $request->all();
+      // $detailPlanifications = $data ['detailPlanification']['detailPlanification'];
        $detailPlanification = new DetailPlanification();
        $detailPlanification -> date_start = $request ->input('detailPlanification.date_start');
        $detailPlanification -> date_end = $request ->input('detailPlanification.date_end');
@@ -41,10 +41,10 @@ class DetailPlanificationController extends Controller
        $detailPlanification -> observation = $request ->input('detailPlanification.observation');
        $detailPlanification -> needs = $request ->input('detailPlanification.needs');
        $detailPlanification -> needs_date= $request ->input('detailPlanification.needs_date');
-       $detailPlanification->statusCertificate()->associate(Catalogue::findOrFail($status_certificate["id"]));
+       $detailPlanification->statusCertificate()->associate(Catalogue::findOrFail($status_certificate_id["id"]));
        $detailPlanification->status()->associate (Status::findOrFail($status["id"]));
        $detailPlanification->course_id()->associate (Course::findOrFail($course_id["id"]));
-       $detailPlanification save();
+       $detailPlanification->save();
 
 
         return response()->json([
@@ -70,7 +70,7 @@ class DetailPlanificationController extends Controller
         $detailPlanification->statusCertificate()->associate(Catalogue::findOrFail($status_certificate["id"]));
         $detailPlanification->status()->associate (Status::findOrFail($status["id"]));
         $detailPlanification->course_id()->associate (Course::findOrFail($course_id["id"]));
-        $detailPlanification save();
+        $detailPlanification-> save();
  
         return response()->json([
             'data' => [

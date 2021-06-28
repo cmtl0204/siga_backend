@@ -9,17 +9,19 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Cecy\DetailPlanification;
 use phpDocumentor\Reflection\DocBlock\Description;
+use App\Models\App\Cecy\Registration;
+use App\Models\App\Catalogue;
+use App\Models\App\Cecy\AditionalInformation;
 
 /**
  * @property BigInteger id
- * @property integer  date_start
- * @property integer  date_end
- * @property time summary
- * @property time planned_end_date
- * @property date location_certificate
+ * @property date  date_start
+ * @property date  date_end
+ * @property string summary
+ * @property date planned_end_date
+ * @property string location_certificate
  * @property string code_certificate
- * @property string location_certificat
- * @property string  capacity
+ * @property integer  capacity
  * @property string observation
  * @property json needs
  * @property date need_date
@@ -44,13 +46,13 @@ class DetailPlanification extends Model implements Auditable
         'date_start',
         'date_end',
         'summary',
-        'planned_end_date'
+        'planned_end_date',
         'location_certificate',
-        'code_certificate'
-        'capacity'
+        'code_certificate',
+        'capacity',
         'observation',
         'needs',
-        'need_date'
+        'need_date',
     ];
 
     protected $casts = [
@@ -86,10 +88,6 @@ class DetailPlanification extends Model implements Auditable
         return $this->belongsTo(Status::class);
     }
 
-    public function parallel()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
     public function statusCertificate()
     {
         return $this->belongsTo(Catalogue::class);
