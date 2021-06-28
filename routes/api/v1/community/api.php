@@ -9,6 +9,7 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Community\ProjectController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -26,6 +27,7 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
+            'projects' => ProjectController::class,
         ]);
 
         // Auth
@@ -68,4 +70,10 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+
+        Route::apiResources([
+            'projects' => ProjectController::class,
+            'project_participants' => ProjectParticipantController::class,
+            'project_objectives' => ProjectObjectiveController::class,
+        ]);
     });
