@@ -38,6 +38,8 @@ class Portfolio extends Model implements Auditable
 		
     ];
 
+    protected $appends = ['full_name', 'full_lastname']; // crea campo a nivel de programacion.
+
     // Instance
     public static function getInstance($id)
     {
@@ -75,7 +77,22 @@ class Portfolio extends Model implements Auditable
     }
 	
 	
-	
+	// Accessors
+    function getFullNameAttribute()
+    {
+        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+    }
+
+    function getFullLastnameAttribute()
+    {
+        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+    }
+   	// Mutators 
+    
+
+    // Scopes
 	
 	
 }

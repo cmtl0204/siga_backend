@@ -14,7 +14,7 @@ class CreateCommunityRequestsTable extends Migration
 	 
     public function up()
     {
-        Schema::connection('pgsql-community')->create('requests', function (Blueprint $table) {
+        Schema::connection('pgsql-community')->create('community_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('authentication.users')->comment('FK de user'); // datos principales de estudiantes.		
             $table->date('date_request')->nullable()->comment('fecha que el estudiante realiza la solicitud. ');
@@ -35,6 +35,6 @@ class CreateCommunityRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('community_requests');
     }
 }

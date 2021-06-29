@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 
 
-class Request extends Model implements Auditable
+class CommunityRequest extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -28,7 +28,7 @@ class Request extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-community';
-    protected $table = 'community.requests';
+    protected $table = 'community.community_requests';
 
     protected $fillable = [
         'date_request',
