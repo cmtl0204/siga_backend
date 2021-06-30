@@ -59,10 +59,7 @@ class CreateAuthUsersTable extends Migration
             $table->string('identification')
                 ->unique();
 
-            $table->string('first_name')
-                ->nullable();
-
-            $table->string('second_name')
+            $table->string('names')
                 ->nullable();
 
             $table->string('first_lastname')

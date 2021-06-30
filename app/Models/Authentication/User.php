@@ -30,14 +30,13 @@ use App\Models\JobBoard\Professional;
  * @property string email
  * @property Date email_verified_at
  * @property string first_lastname
- * @property string first_name
+ * @property string names
  * @property string identification
  * @property boolean is_changed_password
  * @property string password
  * @property string personal_email
  * @property string phone
  * @property string second_lastname
- * @property string second_name
  * @property string username
  */
 class User extends Authenticatable implements Auditable, MustVerifyEmail
@@ -60,14 +59,13 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'email',
         'email_verified_at',
         'first_lastname',
-        'first_name',
+        'names',
         'identification',
         'is_changed_password',
         'password',
         'personal_email',
         'phone',
         'second_lastname',
-        'second_name',
         'username',
     ];
 
@@ -199,35 +197,34 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     // Accessors
     function getFullNameAttribute()
     {
+<<<<<<< HEAD
         return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+=======
+        return "{$this->attributes['names']}" .
+>>>>>>> mod_3.2_authentication
             "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
     function getFullLastnameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+        return "{$this->attributes['names']}" .
             "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
     function getPartialNameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['first_lastname']}";
+        return "{$this->attributes['names']} {$this->attributes['first_lastname']}";
     }
 
     function getPartialLastnameAttribute()
     {
-        return "{$this->attributes['first_lastname']} {$this->attributes['first_name']}";
+        return "{$this->attributes['first_lastname']} {$this->attributes['names']}";
     }
 
     // Mutators
     function setFirstnameAttribute($value)
     {
-        $this->attributes['first_name'] = strtoupper($value);
-    }
-
-    function setSecondnameAttribute($value)
-    {
-        $this->attributes['second_name'] = strtoupper($value);
+        $this->attributes['names'] = strtoupper($value);
     }
 
     function setFirstLastnameAttribute($value)
@@ -270,10 +267,10 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         }
     }
 
-    function scopeFirstName($query, $first_name)
+    function scopeNames($query, $names)
     {
-        if ($first_name) {
-            return $query->orWhere('first_name', 'ILIKE', "%$first_name%");
+        if ($names) {
+            return $query->orWhere('names', 'ILIKE', "%$names%");
         }
     }
 
@@ -288,13 +285,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     {
         if ($second_lastname) {
             return $query->orWhere('second_lastname', 'ILIKE', "%$second_lastname%");
-        }
-    }
-
-    function scopeSecondName($query, $second_name)
-    {
-        if ($second_name) {
-            return $query->orWhere('second_name', 'ILIKE', "%$second_name%");
         }
     }
 }

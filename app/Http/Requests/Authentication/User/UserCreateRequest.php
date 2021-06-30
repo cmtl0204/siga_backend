@@ -16,8 +16,7 @@ class UserCreateRequest extends FormRequest
         return [
             'user.username' => ['required', 'unique:pgsql-authentication.users,username', 'max:50'],
             'user.identification' => ['required', 'unique:pgsql-authentication.users,identification', 'max:20', 'min:9'],
-            'user.first_name' => ['required', 'min:3', 'max:50'],
-            'user.second_name' => ['min:3', 'max:50'],
+            'user.names' => ['required', 'min:8', 'max:100'],
             'user.first_lastname' => ['required', 'min:3', 'max:50'],
             'user.second_lastname' => ['min:3', 'max:50'],
             'user.personal_email' => ['max:50'],
