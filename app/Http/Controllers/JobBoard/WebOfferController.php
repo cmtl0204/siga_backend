@@ -29,10 +29,24 @@ class WebOfferController extends Controller
             return response()->json($offers, 200);
         }
 
+        // por categorías.
+        if (!is_null($request->input('searchIDs'))) {
+            $categories = $request->input('searchIDs');
+
+            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            })->status(1)->paginate($request->input('per_page'));
+
+            return response()->json($offers, 200);
+
+        }
+
         $offers = Offer::province($request->input('searchProvince'))
+            ->status(1)
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
-            ->status(1)
+            ->idCategories($request->input('searchIdCategory'))
+            ->parentCategory($request->input('searchParentCategory'))
             ->paginate($request->input('per_page'));
 
         return response()->json($offers, 200);
@@ -61,11 +75,27 @@ class WebOfferController extends Controller
             return response()->json($offers, 200);
         }
 
+        // por categorías.
+        if (!is_null($request->input('searchIDs'))) {
+            $categories = $request->input('searchIDs');
+
+            $offers = Offer::whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            })->status(1)
+                ->professional($professional)
+                ->paginate($request->input('per_page'));
+
+            return response()->json($offers, 200);
+
+        }
+
         $offers = Offer::professional($professional)
             ->status(1)
             ->province($request->input('searchProvince'))
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
+            ->idCategories($request->input('searchIdCategory'))
+            ->parentCategory($request->input('searchParentCategory'))
             ->paginate($request->input('per_page'));
 
         return response()->json($offers, 200);
@@ -109,32 +139,17 @@ class WebOfferController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-//    function test(Request $request)
-//    {
-//        $professional = $request->user()->professional()->first();
-//
-//        // Por código.
-//        if (!is_null($request->input('searchCode'))) {
-//            $code = $request->input('searchCode');
-//
-//            $offers = Offer::professional($professional)
-//                ->status(1)
-//                ->where('code', 'ILIKE', "%$code%")
-//                ->paginate($request->input('per_page'));
-//
-//            return response()->json($offers, 200);
-//        }
-//
-//        $offers = Offer::professional($professional)
-//            ->status(1)
-//            ->province($request->input('searchProvince'))
-//            ->canton($request->input('searchCanton'))
-//            ->position($request->input('searchPosition'))
-//            ->paginate($request->input('per_page'));
-//
-//        return response()->json($offers, 200);
-//
-//    }
+    function test(Request $request)
+    {
+        $idCategory = $request->input('searchIdCategory');
+        $parentCategory = $request->input('searchParentCategory');
+
+        $offers = Offer::idCategories($idCategory)
+            ->parentCategory($parentCategory)
+            ->get();
+
+        return $offers;
+    }
 
     function index2(Request $request)
     {

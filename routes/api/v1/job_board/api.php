@@ -166,10 +166,10 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('web-offer')->group(function () {
-            Route::get('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
-            Route::get('private-offers', [WebOfferController::class, 'getPrivateOffers']);
+//            Route::post('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+            Route::post('private-offers', [WebOfferController::class, 'getPrivateOffers']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-            Route::get('get-categories', [WebOfferController::class, 'getCategories']);
+//            Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
             Route::post('test', [WebOfferController::class, 'test']);
         });
     });
@@ -184,6 +184,12 @@ Route::prefix('/')
             Route::get('test', function () {
                 return 'test';
             });
+        });
+
+        Route::prefix('web-offer')->group(function () {
+            Route::post('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+            Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
+            Route::post('testing', [WebOfferController::class, 'test'])->withoutMiddleware('auth:api');;
         });
 
         Route::prefix('web-professional')->group(function () {

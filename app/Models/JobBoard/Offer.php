@@ -5,12 +5,15 @@ namespace App\Models\JobBoard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use App\Models\App\Location;
 use App\Models\JobBoard\Professional;
+use phpseclib3\Math\BigInteger;
+use PHPUnit\Util\Json;
 
 /**
  * @property BigInteger id
@@ -167,32 +170,52 @@ class Offer extends Model implements Auditable
     public function scopeStatus($query, $status)
     {
         if ($status) {
-            $query->whereHas('status', function ($query) use ($status){
+            $query->whereHas('status', function ($query) use ($status) {
                 $query->where('code', $status);
             });
         }
     }
 
-    public function scopeProvince($query, $province){
-        if ($province){
-            $query->whereHas('location', function ($location) use ($province){
+    public function scopeProvince($query, $province)
+    {
+        if ($province) {
+            $query->whereHas('location', function ($location) use ($province) {
                 $location->where('parent_id', $province);
             });
         }
     }
 
-    public function scopeCanton($query, $canton){
-        if ($canton){
+    public function scopeCanton($query, $canton)
+    {
+        if ($canton) {
             $query->where('location_id', $canton);
         }
     }
 
-    public function scopePosition($query, $position){
-        if ($position){
-            $query->whereHas('position', function ($query) use ($position){
+    public function scopePosition($query, $position)
+    {
+        if ($position) {
+            $query->whereHas('position', function ($query) use ($position) {
                 $query->where('name', 'ILIKE', "%$position%");
             });
         }
     }
 
+    public function scopeIdCategories($query, $categories)
+    {
+        if ($categories) {
+            $query->whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('categories.id', $categories);
+            });
+        }
+    }
+
+    public function scopeParentCategory($query, $category)
+    {
+        if ($category) {
+            $query->whereHas('categories', function ($query) use ($category) {
+                $query->whereIn('categories.parent_id', $category);
+            });
+        }
+    }
 }
