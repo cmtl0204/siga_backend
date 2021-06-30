@@ -15,11 +15,30 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'company.user.address.id' => [
-                'required',
-                'integer',
+
+            'company.user.address.main_street' => [
+                'required'
             ],
-            'company.user.identificationType.id' => [
+            'company.user.address.secondary_street' => [
+                'required'
+            ],
+            'company.user.address.number' => [
+
+            ],
+            'company.user.address.post_code' => [
+
+            ],
+            'company.user.address.reference' => [
+
+            ],
+            'company.user.address.longitude' => [
+
+            ],
+            'company.user.address.latitude' => [
+
+            ],
+
+            'company.user.identification_type.id' => [
                 'required',
                 'integer',
             ],
@@ -63,11 +82,11 @@ class UpdateCompanyRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'company.activityType.id' => [
+            'company.activity_type.id' => [
                 'required',
                 'integer',
             ],
-            'company.personType.id' => [
+            'company.person_type.id' => [
                 'required',
                 'integer',
             ],
@@ -79,8 +98,10 @@ class UpdateCompanyRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'company.user.address.id'=>'direccion-ID',
-            'company.user.identificationType.id'=>'tipo de identificacion-ID',
+
+            'company.user.address.main_street'=>'calle principal',
+            'company.user.address.secondary_street'=>'calle secundaria',
+            'company.user.identification_type.id'=>'tipo de identificacion-ID',
             'company.user.identification'=>'identificacion',
             'company.user.email'=>'email',
             'company.user.phone'=>'telefono',
@@ -88,8 +109,8 @@ class UpdateCompanyRequest extends FormRequest
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
             'company.type.id' => 'tipo-ID',
-            'company.activityType.id' => 'tipo de actividad-ID',
-            'company.personType.id' => 'tipo de persona-ID',
+            'company.activity_type.id' => 'tipo de actividad-ID',
+            'company.person_type.id' => 'tipo de persona-ID',
 
         ];
         return JobBoardFormRequest::attributes($attributes);
