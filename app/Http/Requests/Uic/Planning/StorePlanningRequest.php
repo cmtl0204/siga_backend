@@ -23,10 +23,6 @@ class StorePlanningRequest extends FormRequest
                 //'integer',
                 //'required'
             ],
-            'planning.event'=>[
-                //'required',
-                //'max:50',
-            ],
             'planning.start_date'=>[
                 'date',
                 //'required',

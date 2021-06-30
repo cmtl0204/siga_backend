@@ -11,6 +11,7 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Uic\EnrollmentController;
+use App\Http\Controllers\Uic\EventController;
 use App\Http\Controllers\Uic\ModalityController;
 use App\Http\Controllers\Uic\PlanningController;
 use App\Http\Controllers\Uic\TutorController;
@@ -43,8 +44,8 @@ Route::middleware($middlewares)
         });
         Route::prefix('planning')->group(function(){
             Route::put('delete',[PlanningController::class,'delete']);
-        
-        });
+        });                       
+                    
         Route::prefix('tutor')->group(function(){
             Route::put('delete',[TutorController::class,'delete']);
         });
@@ -79,7 +80,9 @@ Route::prefix('/')->group(function () {
             'requirements'=> RequirementController::class,
             'mesh-student-requirements'=> MeshStudentRequirementController::class,
             'projects'=> ProjectController::class,
-            'project-plans'=> ProjectPlanController::class
+            'project-plans'=> ProjectPlanController::class,
+            'events'=> EventController::class
+
         ]);
         Route::prefix('modality')->group(function(){
             Route::get('show-modalities/{modalityId}',[ModalityController::class,'showModalities']);
@@ -90,6 +93,17 @@ Route::prefix('/')->group(function () {
         });
         Route::prefix('planning')->group(function(){
             Route::put('delete',[PlanningController::class,'delete']);
+            Route::get('end',[PlanningController::class,'indexEnd']);
+            Route::prefix('file')->group(function () {
+            Route::post('', [PlanningController::class, 'uploadFile']);
+            Route::put('delete', [PlanningController::class, 'deleteFile']);
+            Route::get('', [PlanningController::class, 'indexFile']);
+            Route::put('update/{file}', [PlanningController::class, 'updateFile']);
+            Route::get('{file}', [PlanningController::class, 'showFile']);                
+            });
+        });
+        Route::prefix('event')->group(function(){
+            Route::put('delete',[EventController::class,'delete']);
         });
         Route::prefix('tutor')->group(function(){
             Route::put('delete',[TutorController::class,'delete']);

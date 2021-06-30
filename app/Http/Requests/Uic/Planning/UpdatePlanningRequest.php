@@ -23,10 +23,6 @@ class UpdatePlanningRequest extends FormRequest
                 //'integer',
                 //'required'
             ],
-            'planning.event'=>[
-                //'max:50',
-                //'required'
-            ],
             'planning.start_date'=>[
                 'date',
                 //'required'

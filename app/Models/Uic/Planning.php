@@ -3,6 +3,8 @@
 namespace App\Models\Uic;
 
 // Laravel
+
+use App\Models\App\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -42,9 +44,6 @@ class Planning extends Model implements Auditable
      'id',
      'name',
      'number',
-     'event',
-     'start_date',
-     'end_date',
      'description'];
 
     protected $casts = [
@@ -52,6 +51,7 @@ class Planning extends Model implements Auditable
        'created_at' => 'date:Y-m-d h:m:s',
        'updated_at' => 'date:Y-m-d h:m:s',
    ];
+    protected $cascadeDeletes = ['files'];
 
     public static function getInstance($id)
     {
@@ -62,10 +62,18 @@ class Planning extends Model implements Auditable
         return static::$instance;
     }
 
+     public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
     /*Relatioship*/
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 
     public function scopeName($query, $name)
@@ -98,4 +106,5 @@ class Planning extends Model implements Auditable
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
+    
 }

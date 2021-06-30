@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUicPlanningsTable extends Migration
+class CreateUicEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateUicPlanningsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-uic')->create('plannings', function (Blueprint $table) {
+        Schema::connection('pgsql-uic')->create('events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('number')->comment('numero convocatoria');
-            $table->date('start_date')->comment('inicio evento');
-            $table->date('end_date')->comment('fin evento, no dee ser menor al feha inicio');
             $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +29,6 @@ class CreateUicPlanningsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-uic')->dropIfExists('plannings');
+        Schema::connection('pgsql-uic')->dropIfExists('events');
     }
 }
