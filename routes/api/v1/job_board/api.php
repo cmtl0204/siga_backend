@@ -13,7 +13,7 @@ use App\Http\Controllers\JobBoard\ExperienceController;
 use App\Http\Controllers\JobBoard\ReferenceController;
 use App\Http\Controllers\JobBoard\WebProfessionalController;
 use App\Http\Controllers\JobBoard\WebOfferController;
-
+// hola
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -56,6 +56,7 @@ Route::middleware($middlewares)
 
         });
 
+
         Route::prefix('company')->group(function () {
             Route::get('show', [CompanyController::class, 'getCompany']);
             Route::get('professionals', [CompanyController::class, 'getProfessionals']);
@@ -65,6 +66,11 @@ Route::middleware($middlewares)
             Route::get('verify',[CompanyController::class,'verifyCompany']);
 
         });
+        Route::prefix('category')->group(function () {
+            Route::put('delete', [CategoryController::class, 'delete']);
+
+        });
+
 
         Route::prefix('professional')->group(function () {
             Route::get('{id}', [ProfessionalController::class, 'getOffers']);

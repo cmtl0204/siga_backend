@@ -2,17 +2,26 @@
 
 namespace App\Models\JobBoard;
 
-use App\Models\App\Catalogue;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\App\Catalogue;
+
+/**
+ * @property BigInteger id
+ * @property string code
+ * @property string name
+ * @property string icon
+ */
+
 
 class Category extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
-    use HasFactory;
+    use SoftDeletes;
 
     private static $instance;
 
@@ -24,7 +33,7 @@ class Category extends Model implements Auditable
         'name',
         'icon'
     ];
-
+//
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -36,7 +45,7 @@ class Category extends Model implements Auditable
 
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     public function parent()
@@ -44,13 +53,31 @@ class Category extends Model implements Auditable
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function type()
+     // Mutators
+     public function setCodeAttribute($value)
+     {
+         $this->attributes['code'] = strtoupper($value);
+     }
+ 
+     // Scopes
+     public function scopeCode($query, $code)
+     {
+         if ($code) {
+             return $query->where('code', 'ILIKE', "%$code%");
+         }
+     }
+    public function scopeName($query, $name)
     {
-        return $this->belongsTo(Catalogue::class);
+        if ($name) {
+            return $query->orWhere('name', 'ILIKE', "%$name%");
+        }
     }
 
-    public function offers()
+      // Mutators
+    public function setNameAttribute($value)
     {
-        return $this->belongsTo(Offer::class);
+        $this->attributes['name'] = strtoupper($value);
     }
+
+   
 }
