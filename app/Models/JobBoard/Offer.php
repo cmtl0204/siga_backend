@@ -154,4 +154,45 @@ class Offer extends Model implements Auditable
     {
         $this->attributes['code'] = strtoupper($value);
     }
+    
+    public function scopeProfessional($query, $professional)
+    {
+        if ($professional) {
+            $query->whereDoesntHave('professionals', function ($professionals) use ($professional) {
+                $professionals->where('professionals.id', $professional->id);
+            });
+        }
+    }
+
+    public function scopeStatus($query, $status)
+    {
+        if ($status) {
+            $query->whereHas('status', function ($query) use ($status){
+                $query->where('code', $status);
+            });
+        }
+    }
+
+    public function scopeProvince($query, $province){
+        if ($province){
+            $query->whereHas('location', function ($location) use ($province){
+                $location->where('parent_id', $province);
+            });
+        }
+    }
+
+    public function scopeCanton($query, $canton){
+        if ($canton){
+            $query->where('location_id', $canton);
+        }
+    }
+
+    public function scopePosition($query, $position){
+        if ($position){
+            $query->whereHas('position', function ($query) use ($position){
+                $query->where('name', 'ILIKE', "%$position%");
+            });
+        }
+    }
+
 }
