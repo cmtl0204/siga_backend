@@ -11,7 +11,7 @@ class CreateJobboardReferencesTable extends Migration
         Schema::connection('pgsql-job-board')->create('references', function (Blueprint $table) {
             $table->id();
             $table->foreignId('professional_id')->constrained('job_board.professionals');;
-            $table->string('institution');
+            $table->foreignId('institution_id')->constrained('app.catalogues');
             $table->string('position');
             $table->string('contact_name');
             $table->string('contact_phone');

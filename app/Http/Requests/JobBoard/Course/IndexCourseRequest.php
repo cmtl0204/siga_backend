@@ -14,8 +14,7 @@ class IndexCourseRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [],
-        ];
+        $rules = [];
         return JobBoardFormRequest::rules($rules);
     }
 

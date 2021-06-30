@@ -28,7 +28,9 @@ Route::middleware($middlewares)
             'offers' => OfferController::class,
             'skills' => SkillController::class,
             'academic-formations' => AcademicFormationController::class,
+            'catalogues' => CourseController::class,
             'courses' => CourseController::class,
+            'catalogues' => LanguageController::class,
             'languages' => LanguageController::class,
             'experiences' => ExperienceController::class,
             'references' => ReferenceController::class,
@@ -88,24 +90,66 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('course')->group(function () {
-            // ruta para hcer pruebas
+            Route::get('test', [CourseController::class, 'test']);
+            Route::put('delete', [CourseController::class, 'delete']);
+            /*ruta para hcer pruebas
             Route::get('test', function () {
-                return 'test';
+                return 'test';*/
+                Route::prefix('file')->group(function () {
+                    Route::post('', [CourseController::class, 'uploadFiles']);
+                    Route::delete('{image}', [CourseController::class, 'deleteFile']);
+                    Route::get('', [CourseController::class, 'indexFile']);
+                    Route::get('{file}', [CourseController::class, 'showFile']);
+                 });
             });
         });
 
         Route::prefix('language')->group(function () {
+            Route::get('test', [LanguageController::class, 'test']);
+            Route::put('delete', [LanguageController::class, 'delete']);
             // ruta para hcer pruebas
-            Route::get('test', function () {
-                return 'test';
+        //Route::get('test', function () {
+      //          return 'test';
+      Route::prefix('file')->group(function () {
+        Route::post('', [LanguageController::class, 'uploadFiles']);
+        Route::delete('{image}', [LanguageController::class, 'deleteFile']);
+        Route::get('', [LanguageController::class, 'indexFile']);
+        Route::get('{file}', [LanguageController::class, 'showFile']);
+     });
             });
-        });
+     
 
         Route::prefix('experience')->group(function () {
-            // ruta para hcer pruebas
+            Route::get('test', [ExperienceController::class, 'test']);
+            Route::put('delete', [ExperienceController::class, 'delete']);
+            /* ruta para hcer pruebas
             Route::get('test', function () {
-                return 'test';
+                return 'test';*/
+                Route::prefix('file')->group(function () {
+                    Route::post('', [ExperienceController::class, 'uploadFiles']);
+                    Route::delete('{image}', [ExperienceController::class, 'deleteFile']);
+                    Route::get('', [ExperienceController::class, 'indexFile']);
+                    Route::get('{file}', [ExperienceController::class, 'showFile']);
+                 });
+                
             });
+        
+  
+         Route::prefix('reference')->group(function () {
+             Route::get('test', [ReferenceController::class, 'test']);
+             Route::put('delete', [ReferenceController::class, 'delete']);
+             Route::get('get', [ReferenceController::class, 'get']);
+        
+        //     // ruta para hcer pruebas
+        //   //  Route::get('test', function () {
+             //    return 'test';
+             Route::prefix('file')->group(function () {
+                 Route::post('', [ReferenceController::class, 'uploadFiles']);
+                 Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
+                 Route::get('', [ReferenceController::class, 'indexFile']);
+                Route::get('{file}', [ReferenceController::class, 'showFile']);
+           });
+            
         });
 
         Route::prefix('reference')->group(function () {
@@ -124,6 +168,7 @@ Route::middleware($middlewares)
         });
     });
 
+    
 // Without Middleware
 Route::prefix('/')
     ->group(function () {

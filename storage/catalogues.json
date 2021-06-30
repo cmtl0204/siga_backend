@@ -114,6 +114,7 @@
             "widower": "WIDOWER",
             "union": "UNION"
         },
+        
         "sex": {
             "type": "SEX_TYPE",
             "male": "MALE",
@@ -154,6 +155,12 @@
             "o-": "O-",
             "o+": "O+"
         },
+        "idiom": {
+            "ingles": "INGLES",
+            "frances": "FRANCES",
+            "aleman": "ALEMAN"
+        },
+      
         "career_modality": {
             "type": "CAREER_MODALITY",
             "full_attendance": "1",
@@ -190,11 +197,29 @@
         "course_area": {
             "type": "COURSE_AREA"
         },
+        "experience_area": {
+            "type": "EXPERIENCE_AREA"
+        },
         "language_type": {
             "type": "LANGUAGE_TYPE"
         },
         "language_level": {
             "type": "LANGUAGE_LEVEL"
+        },
+        "language_idiom": {
+            "type": "LANGUAGE_IDIOM"
+        },
+        "language_written_level": {
+            "type": "LANGUAGE_WRITTEN_LEVEL"
+        },
+        "language_spoken_level": {
+            "type": "LANGUAGE_SPOKEN_LEVEL"
+        },
+        "language_read_level": {
+            "type": "LANGUAGE_READ_LEVEL"
+        },
+        "reference_institution": {
+            "type": "REFERENCE_INSTITUTION"
         },
         "company_type": {
             "type": "COMPANY_TYPE"

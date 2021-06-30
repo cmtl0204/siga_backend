@@ -16,54 +16,34 @@ class CreateLanguageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'professional.id' => [
+            'language.idiom.id' => [
                 'required',
-                'integer',
+          
             ],
-            'idiom.id' => [
+            'language.written_level.id' => [
                 'required',
-                'integer',
+            
             ],
-            'writtenLevel.id' => [
+            'language.spoken_level.id' => [
                 'required',
-                'integer',
+        
             ],
-            'spokenLevel.id' => [
+            'language.read_level.id' => [
                 'required',
-                'integer',
-            ],
-            'readLevel.id' => [
-                'required',
-                'integer',
+               
             ]
         ];
         return JobBoardFormRequest::rules($rules);
     }
-    public function messages()
-    {
-        $messages = [
-            'professional.id.required' => 'El campo :attribute es obligatorio',
-            'professional.id.integer' => 'El campo :attribute debe ser numérico',
-            'idiom.id.required' => 'El campo :attribute es obligatorio',
-            'idiom.id.integer' => 'El campo :attribute debe ser numérico',
-            'writtenLevel.id.required' => 'El campo :attribute es obligatorio',
-            'writtenLevel.id.integer' => 'El campo :attribute debe ser numérico',
-            'spokenLevel.id.required' => 'El campo :attribute es obligatorio',
-            'spokenLevel.id.integer' => 'El campo :attribute debe ser numérico',
-            'readLevel.id.required' => 'El campo :attribute es obligatorio',
-            'readLevel.id.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
-
+ 
     public function attributes()
     {
         $attributes = [
-            'professional.id' => 'profesional-ID',
-            'idiom.id' => 'idioma-ID',
-            'writtenLevel.id' => 'nivel escritura-ID',
-            'spokenLevel.id' => 'nivel hablado-ID',
-            'readLevel.id' => 'nivel lectura-ID',
+            'language.idiom.id' => 'idioma-ID',
+            'language.written_level.id' => 'nivel escritura-ID',
+            'language.spoken_level.id' => 'nivel hablado-ID',
+            'language.read_level.id' => 'nivel lectura-ID',
+       
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

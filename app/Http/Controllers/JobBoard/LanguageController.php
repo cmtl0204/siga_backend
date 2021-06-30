@@ -15,6 +15,14 @@ use App\Models\JobBoard\Language;
 use App\Http\Requests\JobBoard\Language\IndexLanguageRequest;
 use App\Http\Requests\JobBoard\Language\UpdateLanguageRequest;
 use App\Http\Requests\JobBoard\Language\CreateLanguageRequest;
+use App\Http\Requests\JobBoard\Language\StoreLanguageRequest;
+use App\Http\Requests\JobBoard\Language\DeleteLanguageRequest;
+use App\Http\Controllers\App\FileController;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
+use App\Http\Requests\App\File\IndexFileRequest;
+
+
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageController extends Controller
@@ -65,7 +73,7 @@ class LanguageController extends Controller
         ], 200);
     }
 
-    function store(CreateLanguageRequest $request)
+    function store(StoreLanguageRequest $request)
     {
         $professional = $request->user()->professional()->first();
         if (!$professional) {
@@ -78,19 +86,19 @@ class LanguageController extends Controller
                 ]
             ], 404);
         }
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-        $professional = Professional::getInstance($request->input('professional.id'));
-        $idiom = Catalogue::getInstance($request->input('idiom.id'));
-        $writtenLevel = Catalogue::getInstance($request->input('writtenLevel.id'));
-        $spokenLevel = Catalogue::getInstance($request->input('spokenLevel.id'));
-        $readLevel = Catalogue::getInstance($request->input('readLevel.id'));
+        // Crea una instanacia del modelo Professional para poder insertar en el modelo lenguage.
+      //  $professional = Professional::getInstance($request->input('language.professional.id'));
+        $idiom = Catalogue::getInstance($request->input('language.idiom.id'));
+        $written_level = Catalogue::getInstance($request->input('language.written_level.id'));
+        $spoken_level = Catalogue::getInstance($request->input('language.spoken_level.id'));
+        $read_level = Catalogue::getInstance($request->input('language.read_level.id'));
 
         $language = new Language();
         $language->professional()->associate($professional);
         $language->idiom()->associate($idiom);
-        $language->writtenLevel()->associate($writtenLevel);
-        $language->spokenLevel()->associate($spokenLevel);
-        $language->readLevel()->associate($readLevel);
+        $language->written_level()->associate($written_level);
+        $language->spoken_level()->associate($spoken_level);
+        $language->read_level()->associate($read_level);
         $language->save();
 
         return response()->json([
@@ -103,14 +111,14 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function update(UpdateLanguageRequest $request, $languageId)
+    function update(UpdateLanguageRequest $request, Language $language)
     {
-        $idiom = Catalogue::getInstance($request->input('idiom.id'));
-        $writtenLevel = Catalogue::getInstance($request->input('writtenLevel.id'));
-        $spokenLevel = Catalogue::getInstance($request->input('spokenLevel.id'));
-        $readLevel = Catalogue::getInstance($request->input('readLevel.id'));
+        $idiom = Catalogue::getInstance($request->input('language.idiom.id'));
+        $written_level = Catalogue::getInstance($request->input('language.written_level.id'));
+        $spoken_level = Catalogue::getInstance($request->input('language.spoken_level.id'));
+        $read_level = Catalogue::getInstance($request->input('language.read_level.id'));
 
-        $language = Language::find($languageId);
+      //  $language = Language::find($languageId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$language) {
@@ -120,14 +128,13 @@ class LanguageController extends Controller
                     'summary' => 'Lenguaje no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]
-            ], 404);
+                ]], 404);
         }
 
         $language->idiom()->associate($idiom);
-        $language->writtenLevel()->associate($writtenLevel);
-        $language->spokenLevel()->associate($spokenLevel);
-        $language->readLevel()->associate($readLevel);
+        $language->written_level()->associate($written_level);
+        $language->spoken_level()->associate($spoken_level);
+        $language->read_level()->associate($read_level);
         $language->save();
 
         return response()->json([
@@ -140,7 +147,7 @@ class LanguageController extends Controller
         ], 201);
     }
 
-    function destroy(Language $language)
+  /*  function destroy(Language $language)
     {
         $language->delete();
 
@@ -152,5 +159,37 @@ class LanguageController extends Controller
                 'code' => '201'
             ]
         ], 201);
+    }*/
+    function delete(DeleteLanguageRequest $request)
+    {
+        // Es una eliminación lógica
+        Language::destroy($request->input('ids'));
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'Idioma(s) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
+                'code' => '201'
+            ]], 201);
+    }
+    function uploadFiles(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Language::getInstance($request->input('id')));
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Language::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
     }
 }

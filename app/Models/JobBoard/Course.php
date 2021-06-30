@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Brick\Math\BigInteger;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Catalogue;
+use App\Models\App\File;
 
 /**
  * @property BigInteger id
@@ -28,7 +29,7 @@ class Course extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.courses';
-    protected $with = ['type','institution','certificationType','area'];
+    protected $with = ['type','institution','certification_type','area'];
 
     protected $fillable = [
         'name',
@@ -68,7 +69,7 @@ class Course extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function certificationType()
+    public function certification_type()
     {
         return $this->belongsTo(Catalogue::class);
     }
@@ -77,6 +78,11 @@ class Course extends Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
 
     // Mutators
     public function setNameAttribute($value)

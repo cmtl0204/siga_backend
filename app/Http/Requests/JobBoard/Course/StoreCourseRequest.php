@@ -29,31 +29,28 @@ class StoreCourseRequest extends FormRequest
                 'required',
             ],
             'course.end_date' => [
-                'required',
+                'required'
             ],
             'course.hours' => [
                 'required',
-                'integer',
+               // 'integer',
             ],
-            'professional.id' => [
+
+            'course.type.id' => [
                 'required',
-                'integer',
+              //  'integer',
             ],
-            'type.id' => [
+            'course.institution.id' => [
                 'required',
-                'integer',
+              //  'integer',
             ],
-            'institution.id' => [
+            'course.certification_type.id' => [
                 'required',
-                'integer',
+               // 'integer',
             ],
-            'certificationType.id' => [
+            'course.area.id' => [
                 'required',
-                'integer',
-            ],
-            'area.id' => [
-                'required',
-                'integer',
+               // 'integer',
             ]
         ];
         return JobBoardFormRequest::rules($rules);
@@ -66,12 +63,11 @@ class StoreCourseRequest extends FormRequest
             'course.description' => 'descripción',
             'course.start_date' => 'fecha inicial',
             'course.end_date' => 'fecha final', 
-            'course.hours' => 'horas', 
-            'professional.id' => 'profesional-ID',
-            'type.id' => 'tipo-ID',
-            'institution.id.id' => 'institución-ID',
-            'certificationType.id' => 'tipo certificación-ID',
-            'area.id' => 'area-ID',
+            'course.hours' => 'horas',
+            'course.type.id' => 'tipo-ID',
+            'course.institution.id' => 'institución-ID',
+            'course.certification_type.id' => 'tipo certificación-ID',
+            'course.area.id' => 'area-ID',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }
