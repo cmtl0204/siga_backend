@@ -28,9 +28,7 @@ Route::middleware($middlewares)
             'offers' => OfferController::class,
             'skills' => SkillController::class,
             'academic-formations' => AcademicFormationController::class,
-            'catalogues' => CourseController::class,
             'courses' => CourseController::class,
-            'catalogues' => LanguageController::class,
             'languages' => LanguageController::class,
             'experiences' => ExperienceController::class,
             'references' => ReferenceController::class,
@@ -125,7 +123,7 @@ Route::middleware($middlewares)
         Route::get('{file}', [LanguageController::class, 'showFile']);
      });
             });
-     
+
 
         Route::prefix('experience')->group(function () {
             Route::get('test', [ExperienceController::class, 'test']);
@@ -139,15 +137,15 @@ Route::middleware($middlewares)
                     Route::get('', [ExperienceController::class, 'indexFile']);
                     Route::get('{file}', [ExperienceController::class, 'showFile']);
                  });
-                
+
             });
-        
-  
+
+
          Route::prefix('reference')->group(function () {
              Route::get('test', [ReferenceController::class, 'test']);
              Route::put('delete', [ReferenceController::class, 'delete']);
              Route::get('get', [ReferenceController::class, 'get']);
-        
+
         //     // ruta para hcer pruebas
         //   //  Route::get('test', function () {
              //    return 'test';
@@ -157,7 +155,7 @@ Route::middleware($middlewares)
                  Route::get('', [ReferenceController::class, 'indexFile']);
                 Route::get('{file}', [ReferenceController::class, 'showFile']);
            });
-            
+
         });
 
         Route::prefix('reference')->group(function () {
@@ -174,9 +172,8 @@ Route::middleware($middlewares)
 //            Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
             Route::post('test', [WebOfferController::class, 'test']);
         });
-    });
 
-    
+
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
@@ -207,7 +204,7 @@ Route::prefix('/')
             Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
-        
+
     });
 
-    
+
