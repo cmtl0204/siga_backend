@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Catalogue;
 use App\Models\App\Image;
+use App\Models\App\Status;
 
 /**
  * @property BigInteger id
@@ -70,6 +71,11 @@ class Route extends Model implements Auditable
     public function status()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    function statusMorph()
+    {
+        return $this->morphToMany(Status::class, 'statusable', 'app.statusables');
     }
 
     public function permission()

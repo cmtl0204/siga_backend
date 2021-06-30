@@ -29,4 +29,9 @@ class Status extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
+
+    public function routes()
+    {
+        return $this->morphedByMany(Route::class, 'statusable', 'app.statusables');
+    }
 }
