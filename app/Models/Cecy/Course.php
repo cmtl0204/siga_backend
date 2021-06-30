@@ -5,6 +5,7 @@ namespace App\Models\Cecy;
 // Librerias que si o si deben importarse
 
 use App\Models\App\Career;
+use App\Models\App\Catalogue;
 use App\Models\App\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -174,7 +175,7 @@ class Course extends Model implements Auditable
 
     public function status()
     {
-        return $this->belongsTo(Career::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     

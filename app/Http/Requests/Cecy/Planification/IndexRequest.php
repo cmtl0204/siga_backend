@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Cecy\Course;
+namespace App\Http\Requests\Cecy\Planification;
 
 use App\Http\Requests\Cecy\CecyFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TutorAsisignmentRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,39 +14,28 @@ class TutorAsisignmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; 
+        return true;
     }
 
     /**
-     * Get the validation rules that apply to the request. 
+     * Get the validation rules that apply to the request.
      *
      * @return array
      */
     public function rules()
     {
-        $rules = [
-
-          
-            'responsable.id' => [
-                'required'
-            ],
-        
-
-
+        return [
+            
         ];
-
-        return CecyFormRequest::rules($rules);
     }
 
     public function attributes(){
         
         $attributes = [
-            'responsable.id' => 'responsable_id',
-                   
+            'id' => 'id',
+            
         ];
 
         return CecyFormRequest::rules($attributes);
     }   
-
-    
 }

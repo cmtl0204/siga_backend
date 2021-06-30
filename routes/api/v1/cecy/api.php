@@ -10,7 +10,8 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Cecy\CourseController;
-
+use App\Http\Controllers\Cecy\PlanificationController;
+use App\Models\Cecy\Planification;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -81,11 +82,16 @@ Route::prefix('/')
             Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
             Route::get('responsables', [CourseController::class, 'getResponsables']);
             Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);   
-            Route::get('planifications', [CourseController::class, 'getPlanifiation']);       
             Route::get('{courseId}', [CourseController::class, 'getCourse']);
+                       
+        });
 
-
-            
+        Route::prefix('planification')->group(function () {
+            Route::get('all', [PlanificationController::class, 'getPlanifiations']);       
+            Route::post('createPlanification', [PlanificationController::class, 'createPlanification']);
+            Route::put('{planification}', [PlanificationController::class, 'updatePlanification']);
+          
+                       
         });
         
 

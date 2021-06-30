@@ -22,7 +22,7 @@ class CreateCecyCoursesTable extends Migration
             $table->double('cost')->nullable()->comment('En caso que el curso es pagado, se debe especificar el valor');
            // $table->string('photo')->nullable()->comment('un curso debe registrase una foto esta foto se guarda en otra tabla');
             $table->string('summary')->nullable()->comment('Resumen del curso');
-            $table->foreignId('modality_id')->nullable()->constrained('app.catalogues')->comment('Modalidad del curso, si es Virtual,presencial, hibridas, etc, campo foraneo de la tabla catalogo');
+            $table->foreignId('modality_id')->constrained('app.catalogues')->comment('Modalidad del curso, si es Virtual,presencial, hibridas, etc, campo foraneo de la tabla catalogo');
             $table->string('observation')->nullable()->comment('Se escribe observaciones del curso en caso de tener');
             $table->string('objective')->nullable()->comment('Guarda el Objetivo del Curso');
             $table->json('needs')->nullable()->comment('necesidades del curso es un array');
@@ -35,21 +35,21 @@ class CreateCecyCoursesTable extends Migration
             $table->json('cross_cutting_topics')->nullable()->comment('temas trasversales');
             $table->json('bibliography')->nullable()->comment('bibliografias');
             $table->json('teaching_strategies')->nullable()->comment('estrategias de enseñanza - aprendizaje');
-            $table->foreignId('participant_type_id')->nullable()->constrained('app.catalogues')->comment('id_tipo_participante');
-            $table->foreignId('area_id')->constrained('app.catalogues')->nullable()->comment('id_area');
-            $table->foreignId('level_id')->constrained('app.catalogues')->nullable()->comment('id_niveles');
+            $table->foreignId('participant_type_id')->constrained('app.catalogues')->comment('id_tipo_participante');
+            $table->foreignId('area_id')->constrained('app.catalogues')->comment('id_area');
+            $table->foreignId('level_id')->constrained('app.catalogues')->comment('id_niveles');
             $table->string('required_installing_sources')->nullable()->comment('recursos_requeridos_instalacion');
             $table->integer('practice_hours')->nullable()->comment('horas_practicas');
             $table->integer('theory_hours')->nullable()->comment('horas_teoricas');
-            $table->foreignId('canton_dictate_id')->constrained('app.catalogues')->nullable()->comment('canton donde se dicta el curso');
-            $table->foreignId('capacitation_type_id')->constrained('app.catalogues')->nullable()->comment('Se refiere a si la capacitacion es tipo curso, taller o webinar');
-            $table->foreignId('course_type_id')->constrained('app.catalogues')->nullable()->comment('fk de catalogo guarda el id_tipo_curso posibles valores Setec o Senescyt');
+            $table->foreignId('canton_dictate_id')->constrained('app.catalogues')->comment('canton donde se dicta el curso');
+            $table->foreignId('capacitation_type_id')->constrained('app.catalogues')->comment('Se refiere a si la capacitacion es tipo curso, taller o webinar');
+            $table->foreignId('course_type_id')->constrained('app.catalogues')->comment('fk de catalogo guarda el id_tipo_curso posibles valores Setec o Senescyt');
 
-            $table->foreignId('entity_certification_type_id')->constrained('app.catalogues')->nullable()->comment('Se refiere a la entidad que imparte el curso (SENESCYT, SETEC)');
+            $table->foreignId('entity_certification_type_id')->constrained('app.catalogues')->comment('Se refiere a la entidad que imparte el curso (SENESCYT, SETEC)');
             $table->string('practice_requireds_resources')->nullable()->comment('recursos_requeridos_practica');
             $table->string('aimtheory_required_resources')->nullable()->comment('recursos_requeridos_teoricos');
             $table->string('learning_teaching_strategy')->nullable()->comment('estrategias_enseñanza_aprendizaje');
-            $table->foreignId('person_proposal_id')->constrained('authentication.users')->nullable()->comment('id_persona_propuesta');
+            $table->foreignId('person_proposal_id')->constrained('authentication.users')->comment('id_persona_propuesta');
             $table->date('proposed_date')->nullable()->comment('fecha_propuesta');
             $table->date('approval_date')->nullable()->comment('fecha_aprobacion curso');
             //$table->date('need_date')->comment('fecha_registro de necesidad');
@@ -57,22 +57,22 @@ class CreateCecyCoursesTable extends Migration
             //$table->foreignId('schedules_id')->constrained('schedules')->nullable()->comment('id_horario_propuesta'); //id_horario_propuesta //tabla polimorfica
             $table->string('project')->nullable()->comment('proyecto_curso');
             $table->integer('capacity')->nullable()->comment('capacidad_curso');
-            $table->foreignId('classroom_id')->constrained('app.classrooms')->nullable()->comment('id_aula');
+            $table->foreignId('classroom_id')->constrained('app.classrooms')->comment('id_aula');
             
-            $table->foreignId('specialty_id')->constrained('app.catalogues')->nullable()->comment('fk de catalogo que guarda el id_especialidad posible valores Idioma, tecnología, pedagogia, etc');
-            $table->foreignId('academic_period_id')->constrained('app.catalogues')->nullable()->comment('id_periodo_academico');
-            $table->foreignId('institution_id')->constrained('institutions')->nullable()->comment('id_institución');
+            $table->foreignId('specialty_id')->constrained('app.catalogues')->comment('fk de catalogo que guarda el id_especialidad posible valores Idioma, tecnología, pedagogia, etc');
+            $table->foreignId('academic_period_id')->constrained('app.catalogues')->comment('id_periodo_academico');
+            $table->foreignId('institution_id')->constrained('institutions')->comment('id_institución');
             $table->string('place')->nullable()->comment('lugar donde se dictara el curso');
-            $table->foreignId('career_id')->nullable()->constrained('app.careers')->comment('Se refiere a la carrera que le corresponde al curso');
+            $table->foreignId('career_id')->constrained('app.careers')->comment('Se refiere a la carrera que le corresponde al curso');
             $table->string('setec_name')->comment('nombre_setec');
             $table->string('abbreviation')->comment('abreviación del nombre del curso, esto es para la generación del certificado del curso');
             //$table->integer('attached')->comment('adjunto de la acta de aprovación del curso'); este campo va en  files
-            $table->foreignId('certified_type_id')->constrained('app.catalogues')->nullable()->comment('Fk de catalogo, tipo de certificado de asistencia o aprobación');
+            $table->foreignId('certified_type_id')->constrained('app.catalogues')->comment('Fk de catalogo, tipo de certificado de asistencia o aprobación');
             $table->json('bibliographys')->nullable()->comment('Bibliografia del curso');
 
 
            // $table->foreignId('status')->nullable()->default()->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
-            $table->foreignId('status_id')->constrained('app.catalogues')->nullable()->comment('6:propuesto,7:cuando es completado por el docente encargado, 8: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS');
+            $table->foreignId('status_id')->constrained('app.catalogues')->comment('6:propuesto,7:cuando es completado por el docente encargado, 8: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS');
 
             $table->timestamps();
             $table->softDeletes();

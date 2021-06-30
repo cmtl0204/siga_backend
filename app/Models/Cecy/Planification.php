@@ -2,6 +2,7 @@
 
 namespace App\Models\Cecy;
 
+use App\Models\App\Catalogue;
 use App\Models\Authentication\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,11 +24,17 @@ class Planification extends Model implements Auditable
     protected $connection = 'pgsql-cecy';
 
     protected $table = 'cecy.planifications';
+    
+    //Para arrays
+    protected $casts = [
+      'needs' => 'array'
+    ];
 
     protected $fillable = [
-
-
-    ];
+      'date_start',
+      'date_end',
+    
+  ];
 
     public static function getInstance($id)
     {
@@ -44,5 +51,19 @@ class Planification extends Model implements Auditable
     {
       return $this->belongsTo(Course::class); 
     }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class); 
+    }
+
+    public function status()
+    {
+      return $this->belongsTo(Catalogue::class); 
+    }
+
+
+
+    
 
 }

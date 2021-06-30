@@ -30,7 +30,7 @@ class CourseController extends Controller
     //Funcion para retornar todos los cursos
     function index(IndexCourseRequest $request)
     {
-        $courses = Course::paginate($request->input('per_page'));
+        $courses = Course::with('status','career')->paginate($request->input('per_page'));
         if (!$courses) {
             return response()->json([
                 'data' => null,
@@ -43,16 +43,7 @@ class CourseController extends Controller
         }
 
 
-        if (sizeof($courses) === 0){
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraron Cursos',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
+  
 
         return response()->json($courses, 200);
     }
@@ -140,20 +131,7 @@ class CourseController extends Controller
 
 
     //Funcion para traer planificaciones
-    function getPlanifiation()
-    {
-
-        $planifications =  Planification::with('course')->get();
-
-        return response()->json([
-            'data' => $planifications,
-            'msg' => [
-                'summary' => 'REgistros ',
-                'detail' => 'El registro devueltos',
-                'code' => '201'
-            ]
-        ], 201);
-    }
+ 
 
 
 
@@ -162,11 +140,15 @@ class CourseController extends Controller
 
         $user = User::getInstance($request->input('responsable.id'));
 
-        $planification->teacherResponsable()->associate($user);
+        $planification->user()->associate($user);
         $planification->save();
 
+
+        $course = Planification::select('course_id','user_id')->where( 'user_id' ,$request->input('responsable.id'))->with('user')->get();
+
+
         return response()->json([
-            'data' => $planification->fresh(),
+            'data' => $course,
             'msg' => [
                 'summary' => 'Responsable asignado',
                 'detail' => 'El responsable fue asignado',
