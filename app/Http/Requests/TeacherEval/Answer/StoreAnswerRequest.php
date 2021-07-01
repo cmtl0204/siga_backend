@@ -26,7 +26,7 @@ class StoreAnswerRequest extends FormRequest
             ],
             'answer.name' => [
                 'required',
-                'min:6',
+                'min:4',
                 'max:250',
             ],
             'answer.value' => [

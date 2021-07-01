@@ -70,25 +70,25 @@ class Answer extends Model implements Auditable
           $this->attributes['name'] = strtoupper($value);
       }
   
-      public function setCodeAttribute($value)
+      public function setValueAttribute($value)
       {
-          $this->attributes['code'] = strtoupper($value);
+          $this->attributes['value'] = strtoupper($value);
       }
 
 
     // Scopes
 
-    public function scopeCode($query, $code)
-    {
-        if ($code) {
-            return $query->where('code', 'ILIKE', "%$code%");
-        }
-    }
-
     public function scopeName($query, $name)
     {
         if ($name) {
-            return $query->orwhere('name', 'ILIKE', "%$name%");
+            return $query->where('name', 'ILIKE', "%$name%");
+        }
+    }
+
+    public function scopeValue($query, $value)
+    {
+        if ($value) {
+            return $query->orwhere('value', 'ILIKE', "%$value%");
         }
     }
     

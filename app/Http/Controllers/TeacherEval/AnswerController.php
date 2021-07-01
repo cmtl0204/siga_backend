@@ -22,8 +22,8 @@ class AnswerController extends Controller
         
             if ($request->has('search')) {
                 $answer = $status->answers()
-                    ->code($request->input('search'))
                     ->name($request->input('search'))
+                    //->value($request->input('search'))
                     ->paginate($request->input('per_page'));
             } else {
                 $answer = $status->answers()->paginate($request->input('per_page'));
