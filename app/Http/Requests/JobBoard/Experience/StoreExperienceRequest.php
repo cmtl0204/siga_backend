@@ -62,7 +62,7 @@ class StoreExperienceRequest extends FormRequest
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason-leave' => 'razon dejar',
+            'experience.reason_leave' => 'razon dejar',
             'experience.is_working' => 'está trabajando',
     ];
         return JobBoardFormRequest::attributes($attributes);

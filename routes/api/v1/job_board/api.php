@@ -111,11 +111,7 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('language')->group(function () {
-            Route::get('test', [LanguageController::class, 'test']);
             Route::put('delete', [LanguageController::class, 'delete']);
-            // ruta para hcer pruebas
-        //Route::get('test', function () {
-      //          return 'test';
       Route::prefix('file')->group(function () {
         Route::post('', [LanguageController::class, 'uploadFiles']);
         Route::delete('{image}', [LanguageController::class, 'deleteFile']);
