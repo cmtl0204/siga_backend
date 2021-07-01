@@ -80,6 +80,13 @@ class User extends Authenticatable implements Auditable
     }
 
     // Relationships
+    
+    // relacion uno a uno del modelo communityRequest del esquema community
+    public function community() 
+    {
+        return $this->hasOne(CommunityRequest::class);
+    }
+
     public function Address()
     {
         return $this->belongsTo(Address::class);
