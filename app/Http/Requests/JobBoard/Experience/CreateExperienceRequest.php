@@ -37,8 +37,7 @@ class CreateExperienceRequest extends FormRequest
             ],
             'experience.reason_leave' => [
                 'required',
-                'min:10',
-                'max:250',
+              
             ],
             'experience.is_working' => [
                 'required',
@@ -63,7 +62,7 @@ class CreateExperienceRequest extends FormRequest
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason-leave' => 'razon dejar',
+            'experience.reason_leave' => 'razon dejar',
             'experience.is_working' => 'está trabajando',
         ];
         return JobBoardFormRequest::attributes($attributes);
