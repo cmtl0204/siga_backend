@@ -197,11 +197,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     // Accessors
     function getFullNameAttribute()
     {
-<<<<<<< HEAD
-        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
-=======
         return "{$this->attributes['names']}" .
->>>>>>> mod_3.2_authentication
             "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
