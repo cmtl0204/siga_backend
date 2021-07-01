@@ -9,10 +9,19 @@ use App\Http\Controllers\App\InstitutionController;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
+use App\Http\Controllers\App\SubjectController;
+
 
 Route::apiResource('catalogues', CatalogueController::class);
 Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
 Route::get('countries', [LocationController::class, 'getCountries'])->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
+
+//prueba ruta de subject
+Route::apiResource('subjects', SubjectController::class);
+
+
+
+
 
 Route::group(['prefix' => 'image'], function () {
     Route::get('download', [ImageController::class, 'download']);

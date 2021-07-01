@@ -12,6 +12,7 @@ use App\Models\App\Subject;
 use App\Models\App\SchoolPeriod;
 
 
+
 /**
  * @property BigInteger id
  * @property String student_assessment
@@ -32,6 +33,8 @@ class Pea extends Model implements Auditable
     protected $table = 'portfolio.peas';
 
     protected $fillable = [
+        'subject_id',
+        'school_period_id',
         'student_assessment',
         'basic_bibliographies',
         'complementary_bibliographies',
@@ -77,5 +80,5 @@ class Pea extends Model implements Auditable
     {
         return $this->belongsTo(SchoolPeriod::class);
     }
-    
+
 }

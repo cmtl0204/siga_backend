@@ -15,13 +15,15 @@ class SchoolPeriod extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
+    protected static $instance;
 
     protected $connection = 'pgsql-app';
     protected $table = 'app.school_periods';
 
-    protected $fillable = [
 
-    ];
+    protected $fillable = [ ];
+
+
 
     // Instance
     public static function getInstance($id)

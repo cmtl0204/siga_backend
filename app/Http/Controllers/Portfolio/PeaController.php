@@ -14,6 +14,9 @@ use App\Models\App\Subject;
 use App\Models\App\SchoolPeriod;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
+
 class PeaController extends Controller
 {
     /**
@@ -24,7 +27,7 @@ class PeaController extends Controller
      */
     public function index(IndexPeaRequest $request)
     {
-        // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
+       /*  // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $subject = Subject::getInstance($request->input('pea.subject.id'));
         //crea instancia de school_period_id
         $schoolPeriod = SchoolPeriod::getInstance($request->input('pea.school_period.id'));
@@ -41,14 +44,20 @@ class PeaController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron Sílabos',
+                    'summary' => 'No se encontró ningún portafolio docente',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]
             ], 404);
-        }
+        } */
+        // get all the Units
+        $peas = Pea::all();
 
-        return response()->json($peas, 200);
+        return response()->json(['data' => $peas, 'msg' => [
+           'summary' => 'success',
+           'detail' => 'La búsqueda se realizo con éxito',
+           'code' => '200'
+       ]], 200);
     }
 
 
@@ -107,21 +116,23 @@ class PeaController extends Controller
      */
     public function update(UpdatePeaRequest $request, Pea $pea)
     {
-
-
         //crea instancia de subject
-        //$subject = Subject::getInstance($request->input('subject.id'));
-        $subject = Subject::find($request->input('pea.subject.id'));
-        //crea instancia de school_period_id
+
+         //$subject = Subject::getInstance($request->input('subject.id'));
+
+        /* $subject = Subject::find($request->input('pea.subject.id'));
+        // crea instancia de school_period_id
         $schoolPeriod = SchoolPeriod::find($request->input('pea.school_period.id'));
 
-        //$pea = new Pea();
-        $pea->student_assessment = $request->input('pea.student_assessment');
+       $pea = new Pea();
+         $pea->student_assessment = $request->input('pea.student_assessment');
         $pea->basic_bibliographies = $request->input('pea.basic_bibliographies');
-        $pea->complementary_bibliographies = $request->input('pea.complementary_bibliographies');
-        $pea->subject()->associate($subject);
-        $pea->schoolPeriod()->associate($schoolPeriod);
-        $pea->save();
+         $pea->complementary_bibliographies = $request->input('pea.complementary_bibliographies');
+         $pea->subject()->associate($subject);
+         $pea->schoolPeriod()->associate($schoolPeriod);
+         $pea->save(); */
+
+        $pea->update($request->all());
 
         return response()->json([
              'data' => $pea,

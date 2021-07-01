@@ -19,6 +19,7 @@ use App\Http\Controllers\Portfolio\ContentController;
 use App\Http\Controllers\Portfolio\DidacticResourceController;
 use App\Http\Controllers\Portfolio\MethodologicalStrategyController;
 use App\Http\Controllers\Portfolio\RelationLearningResultController;
+use App\Http\Controllers\Portfolio\LearningResultController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
@@ -89,11 +90,14 @@ Route::prefix('/')
         Route::apiResource('systems', SystemController::class)->only(['show']);
         // portfolio
         Route::apiResource('peas', PeaController::class);
+        Route::put('pea/{pea}', [PeaController::class, 'update']);
+
         Route::apiResource('units', UnitController::class);
         Route::apiResource('contents', ContentController::class);
         Route::apiResource('didactic-resources', DidacticResourceController::class);
         Route::apiResource('methodological-strategies', MethodologicalStrategyController ::class);
         Route::apiResource('relation-learning-results', RelationLearningResultController ::class);
+        Route::apiResource('learning-results', LearningResultController ::class);
         Route::apiResource('unit', UnitController::class);
         Route::put('unit/{unit}' , [UnitController::class, 'update']);
         Route::put('content/{content}' , [ContentController::class, 'update']);
