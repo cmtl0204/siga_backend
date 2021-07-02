@@ -32,6 +32,7 @@ Route::middleware($middlewares)
             'roles' => RoleController::class,
             'systems' => SystemController::class,
             'projects' => ProjectController::class,
+            'assignment' => AssignmentController::class,
         ]);
 
         // Auth
