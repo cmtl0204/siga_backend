@@ -11,6 +11,7 @@ class CreateCommunityAssignmentsTable extends Migration
      *
      * @return void
      */
+ 
     public function up()
     {
         Schema::connection('pgsql-community')->create('assignments', function (Blueprint $table) {
@@ -29,6 +30,7 @@ class CreateCommunityAssignmentsTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *
@@ -36,6 +38,6 @@ class CreateCommunityAssignmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignments');
+        Schema::connection('pgsql-community')->dropIfExists('assignments');
     }
 }
