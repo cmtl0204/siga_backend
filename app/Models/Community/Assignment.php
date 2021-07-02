@@ -20,7 +20,7 @@ use App\Models\Authentication\User;
  */
 
 
-class CommunityRequest extends Model implements Auditable
+class Assignment extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -29,7 +29,7 @@ class CommunityRequest extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-community';
-    protected $table = 'community.community_requests';
+    protected $table = 'community.assignments';
 
     protected $fillable = [
         'date_request',

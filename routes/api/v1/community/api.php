@@ -12,6 +12,8 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Community\ProjectController;
 use App\Http\Controllers\Community\ProjectObjectiveController;
 use App\Http\Controllers\Community\ProjectParticipantController;
+use App\Http\Controllers\Community\AssignmentController;
+
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -59,6 +61,12 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+
+        // Assignment
+        Route::prefix('community')->group(function () {
+            Route::post('assignment', [AssignmentController::class, 'getAssignment']);
+            Route::get('show', [AssignmentController::class, 'show']);
+            });
     });
 
 // Without Middleware

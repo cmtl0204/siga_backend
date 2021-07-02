@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommunityCommunityRequestsTable extends Migration
+class CreateCommunityAssignmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCommunityCommunityRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('community__community_requests', function (Blueprint $table) {
+        Schema::connection('pgsql-community')->create('assignments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('authentication.users')->comment('FK de user'); // datos principales de estudiantes.		
             $table->date('date_request')->nullable()->comment('fecha que el estudiante realiza la solicitud. ');
@@ -36,6 +36,6 @@ class CreateCommunityCommunityRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('community__community_requests');
+        Schema::dropIfExists('assignments');
     }
 }
