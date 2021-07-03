@@ -34,9 +34,8 @@ class MeshStudentRequirementController extends Controller
         return response()->json($meshStudentRequirements,200);
     }
 
-    public function show($meshStudentRequirementsId)
+    public function show(MeshStudentRequirement $meshStudentRequirement)
     {
-        $meshStudentRequirement = MeshStudentRequirement::find($meshStudentRequirementsId);
         if(!$meshStudentRequirement){
             return response()->json([
                 'data'=>null,
@@ -48,7 +47,12 @@ class MeshStudentRequirementController extends Controller
             ],404);
         }
         return response()->json([
-            'data'=>$meshStudentRequirement
+            'data'=>$meshStudentRequirement,
+            'msg'=>[
+                'summary'=>'El registro no existe',
+                'detail'=>'Intente con otro registro',
+                'code'=>'404'
+            ]
         ],200);
     }
 

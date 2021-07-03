@@ -24,7 +24,7 @@ class EventController extends Controller
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $events = Event::paginate($request->input('per_page')); //Where date se 
+            $events = Event::paginate($request->input('per_page')); //Where date se
         }
 
         if ($events->count() === 0) {
@@ -41,9 +41,8 @@ class EventController extends Controller
     }
 
 
-    public function show($eventId)
+    public function show(Event $event)
     {
-        $event = Event::find($eventId);
         if (!$event) {
             return response()->json([
                 'data' => null,
@@ -55,7 +54,12 @@ class EventController extends Controller
             ], 404);
         }
         return response()->json([
-            'data' => $event
+            'data' => $event,
+            'msg' => [
+                'summary' => 'El evento no existe',
+                'detail' => 'Intente otra vez',
+                'code' => '404'
+            ]
         ], 200);
     }
 
@@ -66,7 +70,7 @@ class EventController extends Controller
         $event->description = $request->input('event.description');
         $event->save();
         return response()->json([
-            'data' => $event->fresh(),
+            'data' => $event,
             'msg' => [
                 'summary' => 'Evento creado',
                 'detail' => 'El evento fue creado',

@@ -20,9 +20,14 @@ class ModalityController extends Controller
     //Obtener modalidades
     public function index(IndexModalityRequest $request)
     {
-        $modalities = Modality::with('enrollments')
-        ->with('modalities')
-        ->paginate($request->input('per_page'));
+        if ($request->has('search')) {
+            $modalities = Modality::name($request->input('search'))->description($request->input('search'))
+            ->paginate($request->input('per_page'));
+        } else {
+            $modalities = Modality::with('enrollments')
+            ->with('modalities')
+            ->paginate($request->input('per_page'));
+        }
         if ($modalities->count() === 0) {
             return response()->json([
                 'data' => null,
@@ -36,9 +41,8 @@ class ModalityController extends Controller
             return response()->json($modalities, 200);
     }
 
-    public function show($modalityId)
+    public function show(Modality $modality)
     {
-        $modality = Modality::find($modalityId);
         if (!$modality) {
             return response()->json([
                 'data' => null,
@@ -50,13 +54,17 @@ class ModalityController extends Controller
             ], 400);
         }
         return response()->json([
-            "data" => $modality
+            "data" => $modality,
+            'msg' => [
+                'summary' => 'La modalidad no existe',
+                'detail' => 'Intente con otra modalidad',
+                'code' => '404'
+            ]
         ], 200);
     }
 
-    public function showModalities($modalityId)
+    public function showModalities(Modality $modality)
     {
-        $modality = Modality::find($modalityId);
         if (!$modality) {
             return response()->json([
                 'data' => null,
@@ -69,6 +77,11 @@ class ModalityController extends Controller
         }
         return response()->json([
             "data" => $modality->modalities,
+            'msg' => [
+                'summary' => 'La modalidad no existe',
+                'detail' => 'Intente con otra modalidad',
+                'code' => '404'
+            ]
         ], 200);
     }
 

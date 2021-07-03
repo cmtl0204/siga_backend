@@ -37,9 +37,8 @@ class EnrollmentController extends Controller
         return response()->json($enrollments,200);
     }
 
-    public function show($enrollmentId)
+    public function show(Enrollment $enrollment)
     {
-        $enrollment = Enrollment::find($enrollmentId);
         if(!$enrollment){
             return response()->json([
                 'data'=>null,
@@ -51,7 +50,12 @@ class EnrollmentController extends Controller
             ],404);
         }
         return response()->json([
-            'data'=>$enrollment
+            'data'=>$enrollment,
+            'msg'=>[
+                'summary'=>'La inscripción no existe',
+                'detail'=>'Intente con otra inscripción',
+                'code'=>'404'
+            ]
         ],200);
     }
 
@@ -68,7 +72,7 @@ class EnrollmentController extends Controller
         $enrollment->observations=$request->input('enrollment.observations');
         $enrollment->save();
         return response()->json([
-            'data'=>$enrollment->fresh(),
+            'data'=>$enrollment,
             'msg'=>[
                 'summary'=>'Inscripción creada',
                 'detail'=>'El registro fue creado',
