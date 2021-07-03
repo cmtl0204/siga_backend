@@ -24,11 +24,7 @@ class EventPlanning extends Model implements Auditable
     use Auditing;
     use CascadeSoftDeletes;
     use SoftDeletes;
-<<<<<<< HEAD
-
-=======
     private static $instance;
->>>>>>> efb80b1a95fac11b0e676d0e939c7910e333b31e
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.event_planning';
     //hacer despues
