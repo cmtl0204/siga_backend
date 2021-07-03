@@ -59,8 +59,8 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $project = new Project;
-        $project->project_plan_id = $request->input('project.project_plan_id');
-        $project->enrollment_id = $request->input('project.enrollment_id');
+        $project->project_plan_id = $request->input('project.projectPlan.id');
+        $project->enrollment_id = $request->input('project.enrollment.id');
         $project->title = $request->input('project.title');
         $project->description = $request->input('project.description');
         $project->observations = $request->input('project.observations');
@@ -88,8 +88,8 @@ class ProjectController extends Controller
                 ]
             ], 400);
         }
-        $project->project_plan_id = $request->input('project.project_plan_id');
-        $project->enrollment_id = $request->input('project.enrollment_id');
+        $project->project_plan_id = $request->input('project.projectPlan.id');
+        $project->enrollment_id = $request->input('project.enrollment.id');
         $project->title = $request->input('project.title');
         $project->description = $request->input('project.description');
         $project->observations = $request->input('project.observations');

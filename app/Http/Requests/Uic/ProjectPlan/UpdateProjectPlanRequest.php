@@ -15,31 +15,27 @@ class UpdateProjectPlanRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            //'projectPlan.project_id'=>[
-            //    'required',
-            //    'int'
-            //],
-            'projectPlan.title'=>[
+            'projectPlan.title' => [
                 'required',
                 'string'
             ],
-            'projectPlan.description'=>[
+            'projectPlan.description' => [
                 'required',
                 'string'
             ],
-            'projectPlan.act_code'=>[
+            'projectPlan.act_code' => [
                 'required',
                 'int'
             ],
-            'projectPlan.approval_date'=>[
+            'projectPlan.approval_date' => [
                 'required',
                 'date'
             ],
-            'projectPlan.is_approved'=>[
+            'projectPlan.is_approved' => [
                 'required',
                 'bool'
             ],
-            
+
         ];
         return UicFormRequest::rules($rules);
     }
@@ -47,13 +43,11 @@ class UpdateProjectPlanRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'projectPlan.project_id'=>'id proyecto',
-            'projectPlan.theme'=>'tema proyecto',
-            'projectPlan.description'=>'descripcion',
-            'projectPlan.act_code'=>'codigo acta',
-            'projectPlan.approval_date'=>'fecha aprovacion',
-            'projectPlan.is_approved'=>'esta aprobado',
-            'projectPlan.observations'=>'observaciones'
+            'projectPlan.title' => 'título',
+            'projectPlan.description' => 'descripción',
+            'projectPlan.act_code' => 'codigo acta',
+            'projectPlan.approval_date' => 'fecha aprovacion',
+            'projectPlan.is_approved' => 'esta aprobado',
         ];
         return UicFormRequest::attributes($attributes);
     }

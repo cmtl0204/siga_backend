@@ -15,24 +15,25 @@ class UpdatePlanningRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'planning.name'=>[
-                //'max:50',
-                //'required'
+            'planning.name' => [
+                'required',
+                'max:50'
             ],
-            'planning.number'=>[
-                //'integer',
-                //'required'
+            'planning.number' => [
+                'required',
+                'integer',
             ],
-            'planning.start_date'=>[
+            'planning.start_date' => [
                 'date',
-                //'required'
+                'required',
             ],
-            'planning.end_date'=>[
+            'planning.end_date' => [
                 'date',
-
+                'required',
             ],
-            'planning.description'=>[
-                'max:100'
+            'planning.description' => [
+                'required',
+                'max:100',
             ],
 
         ];
@@ -42,14 +43,13 @@ class UpdatePlanningRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'planning.name'=>'nombre',
-            'planning.number'=>'numero',
-            'planning.event'=>'evento',
-            'planning.start_date'=>'fecha inicio',
-            'planning.end_date'=>'fecha fin',
-            'planning.description'=>'descripcion'
+            'planning.name' => 'nombre',
+            'planning.number' => 'número',
+            'planning.event' => 'evento',
+            'planning.start_date' => 'fecha inicio',
+            'planning.end_date' => 'fecha fin',
+            'planning.description' => 'descripción'
         ];
         return UicFormRequest::attributes($attributes);
     }
 }
-

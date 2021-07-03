@@ -16,23 +16,23 @@ class StorePlanningRequest extends FormRequest
     {
         $rules = [
             'planning.name' => [
-                //'required',
-                //'max:50'
+                'required',
+                'max:50'
             ],
             'planning.number' => [
-                //'integer',
-                //'required'
+                'required',
+                'integer',
             ],
             'planning.start_date' => [
                 'date',
-                //'required',
+                'required',
             ],
             'planning.end_date' => [
                 'date',
-                //'required',
+                'required',
             ],
             'planning.description' => [
-                //'required',
+                'required',
                 'max:100',
             ],
 
@@ -42,7 +42,7 @@ class StorePlanningRequest extends FormRequest
 
     public function attributes()
     {
-        $attributes = [ //verificar los nombres
+        $attributes = [
             'planning.name' => 'nombre',
             'planning.number' => 'número',
             'planning.event' => 'evento',

@@ -15,23 +15,22 @@ class UpdateProjectRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            //'project.enrollment_id'=>[
-            //    'required',
-            //    'int'
-            //],
-            'project.project_plan_id'=>[
+            'project.project_plan_id' => [
+                'required',
+                'integer'
+            ],
+            'project.enrollment_id' => [
                 'required',
                 'int'
             ],
-            'project.title'=>[
+            'project.title' => [
                 'required',
                 'string'
             ],
-            'project.description'=>[
+            'project.description' => [
                 'required',
                 'string'
             ],
-
         ];
         return UicFormRequest::rules($rules);
     }
@@ -39,11 +38,11 @@ class UpdateProjectRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            //'project.enrollment_id'=>'id proyecto',
-            'project.project_plan_id'=>'id plan proyecto',
-            'project.title'=>'titulo',
-            'project.description'=>'codigo acta',
-            'project.observations'=>'observacion'
+            'project.enrollment_id' => 'inscripción',
+            'project.project_plan_id' => 'proyecto',
+            'project.title' => 'título',
+            'project.description' => 'descripción',
+            'project.observations' => 'observación'
         ];
         return UicFormRequest::attributes($attributes);
     }

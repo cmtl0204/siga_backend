@@ -15,11 +15,11 @@ class UpdateRequirementRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'requirement.name'=>[
+            'requirement.name' => [
                 'required',
                 'string'
             ],
-            'requirement.is_required'=>[
+            'requirement.is_required' => [
                 'required',
                 'bool'
             ]
@@ -30,8 +30,8 @@ class UpdateRequirementRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'requirement.name'=>'nombre requerimiento',
-            'requirement.is_required'=>'es requerido'
+            'requirement.name' => 'nombre',
+            'requirement.is_required' => 'es requerido'
         ];
         return UicFormRequest::attributes($attributes);
     }

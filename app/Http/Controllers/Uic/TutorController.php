@@ -57,9 +57,9 @@ class TutorController extends Controller
     public function store(StoreTutorRequest $request)
     {
         $tutor = new Tutor;
-        $tutor->project_id = $request->input('tutor.project_id');
-        $tutor->teacher_id = $request->input('tutor.teacher_id');
-        $tutor->type_id = $request->input('tutor.type_id');
+        $tutor->project_id = $request->input('tutor.project.id');
+        $tutor->teacher_id = $request->input('tutor.teacher.id');
+        $tutor->type_id = $request->input('tutor.type.id');
         $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
@@ -85,9 +85,9 @@ class TutorController extends Controller
                 ]
             ], 400);
         }
-        $tutor->project_id = $request->input('tutor.project_id');
-        $tutor->teacher_id = $request->input('tutor.teacher_id');
-        $tutor->type_id = $request->input('tutor.type_id');
+        $tutor->project_id = $request->input('tutor.project.id');
+        $tutor->teacher_id = $request->input('tutor.teacher.id');
+        $tutor->type_id = $request->input('tutor.type.id');
         $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
