@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Uic;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\Modality\DeleteModalityRequest;
 use App\Http\Requests\Uic\Modality\IndexModalityRequest;
@@ -21,8 +22,8 @@ class ModalityController extends Controller
     public function index(IndexModalityRequest $request)
     {
         $modalities = Modality::with('enrollments')
-        ->with('modalities')
-        ->paginate($request->input('per_page'));
+            ->with('modalities')
+            ->paginate($request->input('per_page'));
         if ($modalities->count() === 0) {
             return response()->json([
                 'data' => null,
@@ -30,10 +31,10 @@ class ModalityController extends Controller
                     'summary' => 'No se encontraron modalidades',
                     'detail' => 'Intentelo de nuevo',
                     'code' => '404'
-                    ]
-                ], 404);
-            }
-            return response()->json($modalities, 200);
+                ]
+            ], 404);
+        }
+        return response()->json($modalities, 200);
     }
 
     public function show($modalityId)
@@ -50,7 +51,12 @@ class ModalityController extends Controller
             ], 400);
         }
         return response()->json([
-            "data" => $modality
+            "data" => $modality,
+            'msg' => [
+                'summary' => '',
+                'detail' => '',
+                'code' => '200'
+            ]
         ], 200);
     }
 
@@ -130,7 +136,7 @@ class ModalityController extends Controller
                 'summary' => 'Modalidad(es) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
-
 }

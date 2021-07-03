@@ -20,86 +20,88 @@ class ProjectController extends Controller
      */
     public function index(IndexProjectRequest $request)
     {
-        $projects = Project::paginate($request->input('per_page'));
-        if($projects->count()==0){
+        if ($request->has('search')) {
+            $projects = Project::title($request->input('search'))
+                ->description($request->input('search'));
+        } else {
+            $projects = Project::paginate($request->input('per_page'));
+        }
+        if ($projects->count() == 0) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'No se encontraron proyectos',
-                    'detail'=>'Intentalo de nuevo',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron proyectos',
+                    'detail' => 'Intentalo de nuevo',
+                    'code' => '404'
                 ]
             ], 404);
         }
-        return response()->json($projects,200);
+        return response()->json($projects, 200);
     }
 
-    public function show($projectId)
+    public function show(Project $project)
     {
-        $project = Project::find($projectId);
-        if(!$project){
+        if (!$project) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El proyecto no existe',
-                    'detail'=>'Intente con otro proyecto',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El proyecto no existe',
+                    'detail' => 'Intente con otro proyecto',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
         return response()->json([
-            'data'=>$project
-        ],200);
+            'data' => $project
+        ], 200);
     }
 
     public function store(StoreProjectRequest $request)
     {
         $project = new Project;
-        //$project->enrollment_id=$request->input('project.enrollment_id');
-        $project->project_plan_id=$request->input('project.project_plan_id');
-        $project->enrollment_id=$request->input('project.enrollment_id');
-        $project->title=$request->input('project.title');
-        $project->description=$request->input('project.description');
-        $project->observations=$request->input('project.observations');
+        $project->project_plan_id = $request->input('project.project_plan_id');
+        $project->enrollment_id = $request->input('project.enrollment_id');
+        $project->title = $request->input('project.title');
+        $project->description = $request->input('project.description');
+        $project->observations = $request->input('project.observations');
         $project->save();
         return response()->json([
-            'data'=>$project->fresh(),
-            'msg'=>[
-                'summary'=>'Proyecto creado',
-                'detail'=>'El proyecto fue creado con exito',
-                'code'=>'201'
+            'data' => $project->fresh(),
+            'msg' => [
+                'summary' => 'Proyecto creado',
+                'detail' => 'El proyecto fue creado con exito',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
 
     public function update(UpdateProjectRequest $request, $id)
     {
         $project = Project::find($id);
-        if(!$project){
+        if (!$project) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El proyecto no existe',
-                    'detail'=>'Intente con otro proyecto',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El proyecto no existe',
+                    'detail' => 'Intente con otro proyecto',
+                    'code' => '404'
                 ]
-            ],400);
+            ], 400);
         }
-        //$project->enrollment_id=$request->input('project.enrollment_id');
-        $project->project_plan_id=$request->input('project.project_plan_id');
-        $project->enrollment_id=$request->input('project.enrollment_id');
-        $project->title=$request->input('project.title');
-        $project->description=$request->input('project.description');
-        $project->observations=$request->input('project.observations');
+        $project->project_plan_id = $request->input('project.project_plan_id');
+        $project->enrollment_id = $request->input('project.enrollment_id');
+        $project->title = $request->input('project.title');
+        $project->description = $request->input('project.description');
+        $project->observations = $request->input('project.observations');
         $project->save();
         return response()->json([
-            'data'=>$project->fresh(),
-            'msg'=>[
-                'summary'=>'Proyecto actualizado',
-                'detail'=>'El proyecto fue actualizado',
-                'code'=>'201'
+            'data' => $project,
+            'msg' => [
+                'summary' => 'Proyecto actualizado',
+                'detail' => 'El proyecto fue actualizado',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
 
     function delete(DeleteProjectRequest $request)
@@ -112,6 +114,7 @@ class ProjectController extends Controller
                 'summary' => 'Proyectos eliminados',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 }
