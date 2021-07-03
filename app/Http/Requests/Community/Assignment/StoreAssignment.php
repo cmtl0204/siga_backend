@@ -19,11 +19,12 @@ class StoreAssignmentRequest extends FormRequest
                 'date',
             ],
             'assignment.status' => [
-                'min:1',
+                'min:5',
                 'string',
             ],
             'assignment.observation' => [
-                'min:1',
+                'min:10',
+                'min:500',
                 'string',
             ],
             'assignment.academic_period' => [
