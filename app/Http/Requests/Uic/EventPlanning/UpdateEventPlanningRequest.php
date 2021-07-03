@@ -16,20 +16,20 @@ class UpdateEventPlanningRequest extends FormRequest
     {
         $rules = [
             'eventPlanning.planning.id' => [
-                'required',
-                //'max:50'
+                'integer',
+                'required'
             ],
             'eventPlanning.event.id' => [
-                //'integer',
+                'integer',
                 'required'
             ],
             'eventPlanning.start_date' => [
                 'date',
-                //'required',
+                'required',
             ],
             'eventPlanning.end_date' => [
                 'date',
-                //'required',
+                'required',
             ]
 
         ];

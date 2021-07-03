@@ -15,9 +15,16 @@ class UpdateEventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'event.name'=>[
-                //'max:50',
-                'required'
+            'event.name' => [
+                'string',
+                'required',
+                'max:50'
+
+            ],
+            'event.description' => [
+                'string',
+                'required',
+                'max:50'
             ]
 
         ];
@@ -27,11 +34,9 @@ class UpdateEventRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'event.name'=>'nombre',
-            'event.start_date'=>'fecha inicio',
-            'event.end_date'=>'fecha fin',
+            'event.name' => 'nombre',
+            'event.description' => 'descripcion'
         ];
         return UicFormRequest::attributes($attributes);
     }
 }
-

@@ -15,24 +15,25 @@ class StoreModalityRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'modality.parent_id'=>[
+            'modality.parent_id' => [
                 'integer',
                 'nullable'
             ],
-            'modality.name'=>[
+            'modality.name' => [
+                'string',
                 'required',
                 'max:50'
             ],
-            'modality.description'=>[
+            'modality.description' => [
                 'required',
                 'min:10',
                 'max:1000'
             ],
-            'modality.career_id'=>[
+            'modality.career_id' => [
                 'required',
                 'integer'
             ],
-            'modality.status_id'=>[
+            'modality.status_id' => [
                 'required',
                 'integer'
             ]
@@ -43,11 +44,11 @@ class StoreModalityRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'modality.parent_id'=>'modalidad padre id',
-            'modality.career_id'=>'carrera id',
-            'modality.name'=>'nombre',
-            'modality.description'=>'descripción',
-            'modality.status_id'=>'estado id'
+            'modality.parent_id' => 'modalidad padre id',
+            'modality.career_id' => 'carrera id',
+            'modality.name' => 'nombre',
+            'modality.description' => 'descripción',
+            'modality.status_id' => 'estado id'
         ];
         return UicFormRequest::attributes($attributes);
     }

@@ -15,10 +15,18 @@ class StoreEventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'event.name'=>[
+            'event.name' => [
+                'string',
                 'required',
-                //'max:50'
+                'max:50'
+
+            ],
+            'event.description' => [
+                'string',
+                'required',
+                'max:50'
             ]
+
         ];
         return UicFormRequest::rules($rules);
     }
@@ -26,7 +34,8 @@ class StoreEventRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'event.name'=>'nombre'
+            'event.name' => 'nombre',
+            'event.description' => 'descripcion'
         ];
         return UicFormRequest::attributes($attributes);
     }

@@ -16,9 +16,10 @@ class UpdateMeshStudentRequirementRequest extends FormRequest
     {
         $rules = [
 
-            'meshStudentRequirement.requirement_id'=>[
-                'required',
-                'int'
+            'meshStudentRequirement.requirement_id' => [
+                'int',
+                'required'
+
             ]
         ];
         return UicFormRequest::rules($rules);
@@ -27,7 +28,7 @@ class UpdateMeshStudentRequirementRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'meshStudentRequirement.requirement_id'=>'requerimiento id '
+            'meshStudentRequirement.requirement_id' => 'requerimiento id '
         ];
         return UicFormRequest::attributes($attributes);
     }

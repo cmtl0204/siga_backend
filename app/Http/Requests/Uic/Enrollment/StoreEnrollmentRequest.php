@@ -15,25 +15,25 @@ class StoreEnrollmentRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'enrollment.modality_id'=>[
-                // 'required',
-                // 'integer'
+            'enrollment.modality_id' => [
+                'required',
+                'integer'
             ],
-            'enrollment.school_period_id'=>[
-                // 'required',
-                // 'integer'
+            'enrollment.school_period_id' => [
+                'required',
+                'integer'
             ],
-            'enrollment.date'=>[
+            'enrollment.date' => [
                 'required'
             ],
-            'enrollment.code'=>[
+            'enrollment.code' => [
                 'required'
             ],
-            'enrollment.status_id'=>[
-                // 'required',
-                // 'integer'
+            'enrollment.status_id' => [
+                'required',
+                'integer'
             ],
-            'enrollment.observations'=>[
+            'enrollment.observations' => [
                 'nullable'
             ]
         ];
@@ -43,12 +43,12 @@ class StoreEnrollmentRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'enrollment.modality_id'=>'modalidad id',
-            'enrollment.school_period_id'=>'periodo académico',
-            'enrollment.date'=>'fecha',
-            'enrollment.code'=>'código',
-            'enrollment.status_id'=>'estado id',
-            'enrollment.observations'=>'observaciones'
+            'enrollment.modality_id' => 'modalidad',
+            'enrollment.school_period_id' => 'periodo académico',
+            'enrollment.date' => 'fecha',
+            'enrollment.code' => 'código',
+            'enrollment.status_id' => 'estado',
+            'enrollment.observations' => 'observaciones'
         ];
         return UicFormRequest::attributes($attributes);
     }
