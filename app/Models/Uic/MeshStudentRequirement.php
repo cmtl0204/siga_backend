@@ -9,18 +9,17 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Uic\Requirement;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 class MeshStudentRequirement extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
-    use SoftDeletes;
-
-    protected static $instance;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.mesh_student_requirements';
-    protected $with = ['requirement'];
+    //hacer despues
+    protected $with = [];
 
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
@@ -28,16 +27,6 @@ class MeshStudentRequirement extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
 
     ];
-
-    // Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     //Relationships
     public function requirement()

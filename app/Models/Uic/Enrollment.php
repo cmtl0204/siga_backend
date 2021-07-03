@@ -24,21 +24,20 @@ class Enrollment extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
-    use SoftDeletes;
     use CascadeSoftDeletes;
-    
+
     protected static $instance;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.enrollments';
-    protected $with = ['modality','status','planning']; //belongs to ,'shoolPeriod'
+    //hacer despues
+    protected $with = []; //belongs to ,'shoolPeriod'
 
     protected $fillable = [
-        'id',
         'date',
         'code'
     ];
-    // protected $cascadeDeletes = ['projects'];
+    protected $cascadeDeletes = ['projects'];
 
     protected $casts = [
         'observations' => 'array',
@@ -46,16 +45,6 @@ class Enrollment extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     //relationships
     public function modality() {
