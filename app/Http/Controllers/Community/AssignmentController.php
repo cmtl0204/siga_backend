@@ -37,7 +37,7 @@ class AssignmentController extends Controller
         $assignment->status = $request->input('assignment.status');
         $assignment->observation = $request->input('assignment.observation');
         $assignment->academic_period = $request->input('assignment.academic_period');
-        $assignment->nivel = $request->input('assignment.nivel');
+        $assignment->level = $request->input('assignment.level');
 
         $project_participant->save();
 

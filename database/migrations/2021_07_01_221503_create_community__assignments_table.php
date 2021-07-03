@@ -21,7 +21,7 @@ class CreateCommunityAssignmentsTable extends Migration
 			$table->string('status')->nullable()->comment('estado en la que se encuetra la solicitud.'); //Guarda el nombre del encabezado de la clausula.
 			$table->text('observation')->nullable()->comment('contenido de la clusula del convenio.'); // texto que describe la clausula del convenio.
 			$table->text('academic_period')->nullable()->comment('preriodo academico en el que hace la solicitud.'); 
-			$table->text('nivel')->nullable()->comment('nivel que se encuentra el estudiante.'); 
+			$table->text('level')->nullable()->comment('nivel que se encuentra el estudiante.'); 
 			
 			$table->softDeletes();
 			$table->timestamps();

@@ -36,7 +36,7 @@ class Assignment extends Model implements Auditable
         'status',
         'observation',
         'academic_period',
-        'nivel',
+        'level',
 		
 		
     ];
