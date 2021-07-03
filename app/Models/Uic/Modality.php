@@ -24,14 +24,12 @@ class Modality extends Model implements Auditable
     use SoftDeletes;
     use CascadeSoftDeletes;
 
-    protected static $instance;
-
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.modalities';
-    protected $with = ['career', 'status', 'modality'];
+    //hacer despues
+    protected $with = [];
 
     protected $fillable = [
-        'id', //quitar
         'name',
         'description'
     ];
@@ -45,15 +43,6 @@ class Modality extends Model implements Auditable
 
     //campos extras funciona con accesor
     //protected $appends = ['name_description'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     //relationships
     public function career()

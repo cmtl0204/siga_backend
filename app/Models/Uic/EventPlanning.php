@@ -10,26 +10,30 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
 // Application
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 
+/**
+ * @property BigInteger id
+ * @property string start_date
+ * @property string end_date
+ */
 class EventPlanning extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
-    use SoftDeletes;
-
-
-    protected static $instance;
+    use CascadeSoftDeletes;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.event_planning';
+    //hacer despues
+    protected $with = [];
 
     protected $fillable = [
-        'id',
         'start_date',
         'end_date',
     ];
+
+    protected $cascadeDeletes = ['files'];
 
     protected $casts = [
         'observations' => 'array',
@@ -38,22 +42,10 @@ class EventPlanning extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    protected $with = ['event', 'planning', 'files'];
-
-    protected $cascadeDeletes = ['files'];
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
     }
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
-
 
     public function event()
     {
