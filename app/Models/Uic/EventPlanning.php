@@ -11,6 +11,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 
 // Application
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property BigInteger id
@@ -22,7 +23,8 @@ class EventPlanning extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use CascadeSoftDeletes;
-	private static $instance;
+    use SoftDeletes;
+    private static $instance;
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.event_planning';
     //hacer despues
@@ -41,7 +43,7 @@ class EventPlanning extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
- // Instance
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -49,7 +51,7 @@ class EventPlanning extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
-    } 
+    }
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');

@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Application
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+
 /**
  * @property BigInteger id
  * @property string name
@@ -20,7 +22,7 @@ class Event extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use CascadeSoftDeletes;
-
+    use SoftDeletes;
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.events';
     //hacer despues

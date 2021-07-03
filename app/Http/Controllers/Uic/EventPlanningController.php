@@ -26,9 +26,6 @@ class EventPlanningController extends Controller
 {
     public function index(IndexEventPlanningRequest $request)
     {
-        $hoy = Carbon::today();
-        $hoy->format('Y-m-d h:m:s');
-
         if ($request->has('search')) {
         } else {
             $eventplannings = EventPlanning::paginate($request->input('per_page')); //Where date se encarga de hacer la comparación entre  fechas
@@ -72,30 +69,20 @@ class EventPlanningController extends Controller
     public function store(StoreEventPlanningRequest $request)
     {
         $eventplanning = new EventPlanning;
-        if ($request->input('eventPlanning.start_date') <= $request->input('eventPlanning.end_date')) {
-            $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
-            $eventplanning->event_id = $request->input('eventPlanning.event.id');
-            $eventplanning->start_date = $request->input('eventPlanning.start_date');
-            $eventplanning->end_date = $request->input('eventPlanning.end_date');
-            $eventplanning->observations = $request->input('eventPlanning.observations');
-            $eventplanning->save();
-            return response()->json([
-                'data' => $eventplanning,
-                'msg' => [
-                    'summary' => 'Asignación creada',
-                    'detail' => 'La asignación fue creada',
-                    'code' => '201'
-                ]
-            ], 201);
-        }
+        $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
+        $eventplanning->event_id = $request->input('eventPlanning.event.id');
+        $eventplanning->start_date = $request->input('eventPlanning.start_date');
+        $eventplanning->end_date = $request->input('eventPlanning.end_date');
+        $eventplanning->observations = $request->input('eventPlanning.observations');
+        $eventplanning->save();
         return response()->json([
-            'data' => null,
+            'data' => $eventplanning,
             'msg' => [
-                'summary' => 'La fecha final debe ser mayor a la fecha de inicio',
-                'detail' => 'Intente otra vez',
-                'code' => '404'
+                'summary' => 'Asignación creada',
+                'detail' => 'La asignación fue creada',
+                'code' => '201'
             ]
-        ], 404);
+        ], 201);
     }
 
     public function update(UpdateEventPlanningRequest $request, $id)
@@ -111,22 +98,21 @@ class EventPlanningController extends Controller
                 ]
             ], 400);
         }
-        if ($request->input('eventPlanning.start_date') <= $request->input('eventPlanning.end_date')) {
-            $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
-            $eventplanning->event_id = $request->input('eventPlanning.event.id');
-            $eventplanning->start_date = $request->input('eventPlanning.start_date');
-            $eventplanning->end_date = $request->input('eventPlanning.end_date');
-            $eventplanning->observations = $request->input('eventPlanning.observations');
-            $eventplanning->save();
-            return response()->json([
-                'data' => $eventplanning,
-                'msg' => [
-                    'summary' => 'Asignación actualizada',
-                    'detail' => 'La asignación fue actualizada',
-                    'code' => '201'
-                ]
-            ], 201);
-        }
+
+        $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
+        $eventplanning->event_id = $request->input('eventPlanning.event.id');
+        $eventplanning->start_date = $request->input('eventPlanning.start_date');
+        $eventplanning->end_date = $request->input('eventPlanning.end_date');
+        $eventplanning->observations = $request->input('eventPlanning.observations');
+        $eventplanning->save();
+        return response()->json([
+            'data' => $eventplanning,
+            'msg' => [
+                'summary' => 'Asignación actualizada',
+                'detail' => 'La asignación fue actualizada',
+                'code' => '201'
+            ]
+        ], 201);
     }
     function delete(DeleteEventPlanningRequest $request)
     {

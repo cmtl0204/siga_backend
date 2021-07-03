@@ -14,6 +14,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Type;
 use App\Models\App\Teacher;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 //use App\Models\Uic\Project;
 
@@ -29,6 +30,7 @@ class Tutor extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected static $instance;
 
