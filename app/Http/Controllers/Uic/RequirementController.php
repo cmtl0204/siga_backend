@@ -24,7 +24,7 @@ class RequirementController extends Controller
     public function index(IndexRequirementRequest $request)
     {
         if ($request->has('search')) {
-            $requirements = Requirement::name(($request->input('search')));
+            $requirements = Requirement::name(($request->input('search')))->paginate($request->input('per_page'));
         } else {
             $requirements = Requirement::paginate($request->input('per_page'));
         }

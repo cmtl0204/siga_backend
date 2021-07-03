@@ -47,9 +47,8 @@ class EventPlanningController extends Controller
         return response()->json($eventplannings, 200);
     }
 
-    public function show($planningId)
+    public function show(EventPlanning $eventplanning)
     {
-        $eventplanning = EventPlanning::find($planningId);
         if (!$eventplanning) {
             return response()->json([
                 'data' => null,
@@ -61,7 +60,12 @@ class EventPlanningController extends Controller
             ], 404);
         }
         return response()->json([
-            'data' => $eventplanning
+            'data' => $eventplanning,
+            'msg' => [
+                'summary' => 'La asignación no existe',
+                'detail' => 'Intente otra vez',
+                'code' => '404'
+            ]
         ], 200);
     }
 
@@ -78,7 +82,7 @@ class EventPlanningController extends Controller
             $eventplanning->observations = $request->input('eventPlanning.observations');
             $eventplanning->save();
             return response()->json([
-                'data' => $eventplanning->fresh(),
+                'data' => $eventplanning,
                 'msg' => [
                     'summary' => 'Asignación creada',
                     'detail' => 'La asignación fue creada',
@@ -119,7 +123,7 @@ class EventPlanningController extends Controller
             $eventplanning->observations = $request->input('eventPlanning.observations');
             $eventplanning->save();
             return response()->json([
-                'data' => $eventplanning->fresh(),
+                'data' => $eventplanning,
                 'msg' => [
                     'summary' => 'Asignación actualizada',
                     'detail' => 'La asignación fue actualizada',

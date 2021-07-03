@@ -22,7 +22,7 @@ class ProjectPlanController extends Controller
     {
         if ($request->has('search')) {
             $projectPlans = ProjectPlan::title($request->input('search'))
-                ->description($request->input('search'));
+                ->description($request->input('search'))->paginate($request->input('per_page'));
         } else {
             $projectPlans = ProjectPlan::paginate($request->input('per_page'));
         }
