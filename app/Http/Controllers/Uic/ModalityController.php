@@ -25,9 +25,7 @@ class ModalityController extends Controller
             $modalities = Modality::name($request->input('search'))->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $modalities = Modality::with('enrollments')
-                ->with('modalities')
-                ->paginate($request->input('per_page'));
+            $modalities = Modality::paginate($request->input('per_page'));
         }
         if ($modalities->count() === 0) {
             return response()->json([
