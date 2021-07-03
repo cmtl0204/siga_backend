@@ -71,7 +71,7 @@ class RequirementController extends Controller
         $requirement->is_required = $request->input('requirement.is_required');
         $requirement->save();
         return response()->json([
-            'data' => $requirement,
+            'data' => $requirement->fresh(),
             'msg' => [
                 'summary' => 'Requerimiento creado',
                 'detail' => 'El requerimiento fue creado con exito',

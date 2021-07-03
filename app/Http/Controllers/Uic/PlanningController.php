@@ -74,7 +74,7 @@ class PlanningController extends Controller
             $planning->description = $request->input('planning.description');
             $planning->save();
             return response()->json([
-                'data' => $planning, //revisar el fresh -> id
+                'data' => $planning->fresh(), //revisar el fresh -> id
                 'msg' => [
                     'summary' => 'Convocatoria creada',
                     'detail' => 'La planificacion fue creado',
@@ -111,7 +111,7 @@ class PlanningController extends Controller
         $planning->description = $request->input('planning.description');
         $planning->save();
         return response()->json([
-            'data' => $planning,
+            'data' => $planning->fresh(),
             'msg' => [
                 'summary' => 'Convocatoria actualizada',
                 'detail' => 'La convocatoria fue actualizado',

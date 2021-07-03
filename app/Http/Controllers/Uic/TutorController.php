@@ -63,7 +63,7 @@ class TutorController extends Controller
         $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
-            'data' => $tutor,
+            'data' => $tutor->fresh(),
             'msg' => [
                 'summary' => 'Tutor creado',
                 'detail' => 'El tutor fue creado',
@@ -91,7 +91,7 @@ class TutorController extends Controller
         $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
-            'data' => $tutor,
+            'data' => $tutor->fresh(),
             'msg' => [
                 'summary' => 'Tutor actualizado',
                 'detail' => 'El tutor fue actualizado',

@@ -95,7 +95,7 @@ class ProjectController extends Controller
         $project->observations = $request->input('project.observations');
         $project->save();
         return response()->json([
-            'data' => $project,
+            'data' => $project->fresh(),
             'msg' => [
                 'summary' => 'Proyecto actualizado',
                 'detail' => 'El proyecto fue actualizado',

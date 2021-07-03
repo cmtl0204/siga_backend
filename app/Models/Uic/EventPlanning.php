@@ -11,6 +11,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 
 // Application
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property BigInteger id
@@ -22,6 +23,7 @@ class EventPlanning extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use CascadeSoftDeletes;
+    use SoftDeletes;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.event_planning';
