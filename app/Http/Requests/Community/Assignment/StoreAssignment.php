@@ -1,11 +1,11 @@
 <?php
 
-/* namespace App\Http\Requests\Community\Assignment;
+namespace App\Http\Requests\Community\Assignment;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Community\CommunityFormRequest;
 
-class StoreProjectObjectiveRequest extends FormRequest
+class StoreAssignmentRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,25 +15,31 @@ class StoreProjectObjectiveRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'project_objective.code' => [
-                'min:1',
-                'max:20',
-                'string',
+            'assignment.date_request' => [
+                'date',
             ],
-            'project_objective.description' => [
+            'assignment.status' => [
                 'min:1',
                 'string',
             ],
-            'project_objective.verification_means' => [
-                'json',
+            'assignment.observation' => [
+                'min:1',
+                'string',
             ],
-            'project.id' => [
+            'assignment.academic_period' => [
+                'min:1',
+                'string',
+            ],
+            'assignment.level' => [
+                'min:1',
+                'string',
+            ],
+            'assignment.user.id' => [
+                'required',
                 'integer',
             ],
-            'parent.id' => [
-                'integer',
-            ],
-            'type.id' => [
+           'assignment.id' => [
+                'required',
                 'integer',
             ],
         ];
@@ -43,13 +49,14 @@ class StoreProjectObjectiveRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'project_objective.code' => 'codigo',
-            'project_objective.description' => 'descripcion',
-            'project_objective.verification_means' => 'medios_verificacion',
-            'project.id' => 'proyecto-id',
-            'parent.id' => 'padre-id',
-            'type.id' => 'tipo-id',
+            'assignment.date_request' => 'date_request',
+            'assignment.status' => 'status',
+            'assignment.observation' => 'observation',
+            'assignment.academic_period' => 'academic_period',
+            'assignment.level' => 'level',
+            'assignment.user.id' => 'user-id',
+            'assignment.id' => 'assignment-id',
         ];
         return CommunityFormRequest::attributes($attributes);
     }
-}/*
+}

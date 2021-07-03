@@ -15,7 +15,7 @@ use App\Models\Authentication\User;
  * @property string status
  * @property string observation
  * @property string academic_period
- * @property string nivel
+ * @property string level
  *
  */
 
