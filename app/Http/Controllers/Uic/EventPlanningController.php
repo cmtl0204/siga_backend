@@ -76,7 +76,7 @@ class EventPlanningController extends Controller
         $eventplanning->observations = $request->input('eventPlanning.observations');
         $eventplanning->save();
         return response()->json([
-            'data' => $eventplanning,
+            'data' => $eventplanning->fresh(),
             'msg' => [
                 'summary' => 'Asignación creada',
                 'detail' => 'La asignación fue creada',
@@ -106,7 +106,7 @@ class EventPlanningController extends Controller
         $eventplanning->observations = $request->input('eventPlanning.observations');
         $eventplanning->save();
         return response()->json([
-            'data' => $eventplanning,
+            'data' => $eventplanning->fresh(),
             'msg' => [
                 'summary' => 'Asignación actualizada',
                 'detail' => 'La asignación fue actualizada',

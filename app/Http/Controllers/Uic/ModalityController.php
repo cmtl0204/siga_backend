@@ -53,7 +53,7 @@ class ModalityController extends Controller
             ], 400);
         }
         return response()->json([
-            "data" => $modality,
+            "data" => $modality->fresh(),
             'msg' => [
                 'summary' => 'La modalidad no existe',
                 'detail' => 'Intente con otra modalidad',
@@ -94,7 +94,7 @@ class ModalityController extends Controller
         $modality->status_id = $request->input('modality.status_id');
         $modality->save();
         return response()->json([
-            'data' => $modality,
+            'data' => $modality->fresh(),
             'msg' => [
                 'summary' => 'Modalidad creada',
                 'detail' => 'El registro fue creado',
@@ -123,7 +123,7 @@ class ModalityController extends Controller
         $modality->status_id = $request->input('modality.status_id');
         $modality->save();
         return response()->json([
-            'data' => $modality,
+            'data' => $modality->fresh(),
             'msg' => [
                 'summary' => 'Modalidad actualizada',
                 'detail' => 'El registro fue actualizado',

@@ -72,7 +72,7 @@ class EnrollmentController extends Controller
         $enrollment->observations = $request->input('enrollment.observations');
         $enrollment->save();
         return response()->json([
-            'data' => $enrollment,
+            'data' => $enrollment->fresh(),
             'msg' => [
                 'summary' => 'Inscripción creada',
                 'detail' => 'El registro fue creado',
@@ -104,7 +104,7 @@ class EnrollmentController extends Controller
         $enrollment->observations = $request->input('enrollment.observations');
         $enrollment->save();
         return response()->json([
-            'data' => $enrollment,
+            'data' => $enrollment->fresh(),
             'msg' => [
                 'summary' => 'Inscripción actualizada',
                 'detail' => 'La inscripción fue actualizado',
