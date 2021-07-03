@@ -41,6 +41,7 @@ class Assignment extends Model implements Auditable
 		
     ];
 
+    //protected $appends = ['full_name', 'full_lastname']; // crea campo a nivel de programacion.
     // Instance
     public static function getInstance($id)
     {
