@@ -71,12 +71,10 @@ class EventPlanningController extends Controller
 
     public function store(StoreEventPlanningRequest $request)
     {
-        $planning = Planning::getInstance($request->input('eventPlanning.planning.id'));
-        $event = Event::getInstance($request->input('eventPlanning.event.id'));
         $eventplanning = new EventPlanning;
         if ($request->input('eventPlanning.start_date') <= $request->input('eventPlanning.end_date')) {
-            $eventplanning->planning()->associate($planning);
-            $eventplanning->event()->associate($event);
+            $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
+            $eventplanning->event_id = $request->input('eventPlanning.event.id');
             $eventplanning->start_date = $request->input('eventPlanning.start_date');
             $eventplanning->end_date = $request->input('eventPlanning.end_date');
             $eventplanning->observations = $request->input('eventPlanning.observations');
@@ -114,10 +112,8 @@ class EventPlanningController extends Controller
             ], 400);
         }
         if ($request->input('eventPlanning.start_date') <= $request->input('eventPlanning.end_date')) {
-            $planning = Planning::getInstance($request->input('eventPlanning.planning.id'));
-            $event = Event::getInstance($request->input('eventPlanning.event.id'));
-            $eventplanning->planning()->associate($planning);
-            $eventplanning->event()->associate($event);
+            $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
+            $eventplanning->event_id = $request->input('eventPlanning.event.id');
             $eventplanning->start_date = $request->input('eventPlanning.start_date');
             $eventplanning->end_date = $request->input('eventPlanning.end_date');
             $eventplanning->observations = $request->input('eventPlanning.observations');
