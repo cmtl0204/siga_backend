@@ -21,9 +21,6 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
  * @property BigInteger id
  * @property String name
  * @property Integer number
- * @property String event
- * @property Date start_date
- * @property Date end_date
  * @property String description
  */
 
@@ -33,15 +30,10 @@ class Planning extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-
-    protected static $instance;
-
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.plannings';
 
     protected $fillable = [
-
-        'id',
         'name',
         'number',
         'description'
@@ -53,16 +45,8 @@ class Planning extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
-
+    protected $with = [];
+    protected $cascadeDeletes = ['enrollments', 'eventPlannings'];
 
     /*Relatioship*/
     public function enrollments()
@@ -73,24 +57,10 @@ class Planning extends Model implements Auditable
     {
         return $this->hasMany(EventPlanning::class);
     }
-
-    public function scopeName($query, $name) //scope solo para strings
+    public function scopeName($query, $name)
     {
         if ($name) {
             return $query->where('name', 'ILIKE', "%$name%");
-        }
-    }
-
-    public function scopeStartDate($query, $startDate) //quitar el de fechas en el index
-    {
-        if ($startDate) {
-            return $query->orWhere('start_date', 'ILIKE', "%$startDate%");
-        }
-    }
-    public function scopeEndDate($query, $endDate)
-    {
-        if ($endDate) {
-            return $query->orWhere('end_date', 'ILIKE', "%$endDate%");
         }
     }
     public function scopeDescription($query, $description)

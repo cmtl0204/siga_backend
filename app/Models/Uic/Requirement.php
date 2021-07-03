@@ -17,36 +17,33 @@ class Requirement extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected static $instance;
-
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.requirements';
 
     protected $fillable = [
         'name',
-        'is-required'
     ];
 
     protected $casts = [
+        'is-required' => 'boolean',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-
-    //Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
+    protected $with = [];
+    protected $cascadeDeletes = ['meshStudentRequirements', 'files'];
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
     }
-    public function meshStudentRequirements(){
+    public function meshStudentRequirements()
+    {
         return $this->hasMany(MeshStudentRequirement::class);
+    }
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name', 'ILIKE', "%$name%");
+        }
     }
 }

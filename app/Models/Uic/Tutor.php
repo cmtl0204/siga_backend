@@ -3,6 +3,8 @@
 namespace App\Models\Uic;
 
 // Laravel
+
+use App\Models\App\MeshStudent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -33,40 +35,32 @@ class Tutor extends Model implements Auditable
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.tutors';
 
-    protected $fillable = [
+    protected $fillable = [];
 
-     'observation'];
-     
 
-     protected $casts = [
+    protected $casts = [
         'observations' => 'array',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    public static function getInstance($id)
+    protected $with = ['project', 'teacher', 'meshStudent'];
+    protected $cascadeDeletes = [];
+
+    /*Relatioship*/
+    public function project()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
+        return $this->belongsTo(Project::class);
     }
 
-   /*Relatioship*/
-    // public function project()
-    // {
-    //     return $this->belongsTo(Project::class);
-    // }
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 
-    // public function teacher()
-    // {
-    //     return $this->belongsTo(Teacher::class);
-    // }
-
-    // public function type()
-    // {
-    //     return $this->belongsTo(Type::class);
-    // }
+    public function meshStudent()
+    {
+        return $this->belongsTo(MeshStudent::class);
+    }
 }

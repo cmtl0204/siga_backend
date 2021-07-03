@@ -16,8 +16,6 @@ class ProjectPlan extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected static $instance;
-
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.project_plans';
 
@@ -26,30 +24,33 @@ class ProjectPlan extends Model implements Auditable
         'description',
         'act_code',
         'approval_date',
-        'is_approved',
-        'observations'
     ];
 
     protected $casts = [
+        'is_approved' => 'boolean',
         'observations' => 'array',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-
-    //Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
+    protected $with = [];
+    protected $cascadeDeletes = ['projects'];
 
     //Relationships
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+    public function scopeTitle($query, $title)
+    {
+        if ($title) {
+            return $query->where('title', 'ILIKE', "%$title%");
+        }
+    }
+    public function scopeDescription($query, $description)
+    {
+        if ($description) {
+            return $query->orWhere('description', 'ILIKE', "%$description%");
+        }
     }
 }

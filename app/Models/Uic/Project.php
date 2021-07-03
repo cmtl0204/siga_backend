@@ -9,18 +9,20 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 //use App\Models\Uic\Enrollment;
-
+/**
+ * @property BigInteger id
+ * @property String title
+ * @property String description
+ */
 class Project extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
-    protected static $instance;
-
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.projects';
-    //protected $with = ['enrrollments'];
+    //protected $with = ['projectPlan'];
 
     protected $fillable = [
         'title',
@@ -34,19 +36,27 @@ class Project extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    //Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
+    protected $cascadeDeletes = ['tutors'];
 
     //Relationships
-    //public function enrollment()
-    //{
-    //    return $this->belongsTo(Enrollment::class);
-    //}
+    public function projectPlan()
+    {
+        return $this->belongsTo(ProjectPlan::class);
+    }
+    public function tutors()
+    {
+        return $this->hasMany(Tutor::class);
+    }
+    public function scopeTitle($query, $title)
+    {
+        if ($title) {
+            return $query->where('title', 'ILIKE', "%$title%");
+        }
+    }
+    public function scopeDescription($query, $description)
+    {
+        if ($description) {
+            return $query->orWhere('description', 'ILIKE', "%$description%");
+        }
+    }
 }
