@@ -90,7 +90,7 @@ class ModalityController extends Controller
         $modality->parent_id = $request->input('modality.parent_id');
         $modality->career_id = $request->input('modality.career_id');
         $modality->name = $request->input('modality.name');
-        $modality->setDescriptionAttribute($request->input('modality.description'));
+        $modality->description = ($request->input('modality.description'));
         $modality->status_id = $request->input('modality.status_id');
         $modality->save();
         return response()->json([
