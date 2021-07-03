@@ -25,7 +25,7 @@ class Enrollment extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use CascadeSoftDeletes;
-
+    use SoftDeletes;
     protected static $instance;
 
     protected $connection = 'pgsql-uic';
@@ -47,25 +47,31 @@ class Enrollment extends Model implements Auditable
     ];
 
     //relationships
-    public function modality() {
+    public function modality()
+    {
         return $this->belongsTo(Modality::class);
     }
-// no hay el modelo
-    public function shoolPeriod() {
+    // no hay el modelo
+    public function shoolPeriod()
+    {
         return $this->belongsTo(SchoolPeriod::class);
     }
-//  no hay ese modelo
-    public function meshStudent(){
+    //  no hay ese modelo
+    public function meshStudent()
+    {
         return $this->belongsTo(MeshStudent::class);
     }
 
-    public function projects(){
+    public function projects()
+    {
         return $this->hasMany(Project::class);
     }
-    public function planning() {
+    public function planning()
+    {
         return $this->belongsTo(Planning::class);
     }
-    public function status() {
+    public function status()
+    {
         return $this->belongsTo(Status::class);
     }
     public function scopeDate($query, $date)

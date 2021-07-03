@@ -54,7 +54,7 @@ class EventController extends Controller
             ], 404);
         }
         return response()->json([
-            'data' => $event,
+            'data' => $event->fresh(),
             'msg' => [
                 'summary' => 'El evento no existe',
                 'detail' => 'Intente otra vez',
@@ -70,7 +70,7 @@ class EventController extends Controller
         $event->description = $request->input('event.description');
         $event->save();
         return response()->json([
-            'data' => $event,
+            'data' => $event->fresh(),
             'msg' => [
                 'summary' => 'Evento creado',
                 'detail' => 'El evento fue creado',

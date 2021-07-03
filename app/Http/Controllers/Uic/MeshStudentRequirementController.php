@@ -47,7 +47,7 @@ class MeshStudentRequirementController extends Controller
             ], 404);
         }
         return response()->json([
-            'data' => $meshStudentRequirement,
+            'data' => $meshStudentRequirement->fresh(),
             'msg' => [
                 'summary' => 'El registro no existe',
                 'detail' => 'Intente con otro registro',
@@ -63,7 +63,7 @@ class MeshStudentRequirementController extends Controller
         $meshStudentRequirement->requirement_id = $request->input('meshStudentRequirement.requirement_id');
         $meshStudentRequirement->save();
         return response()->json([
-            'data' => $meshStudentRequirement,
+            'data' => $meshStudentRequirement->fresh(),
             'msg' => [
                 'summary' => 'Registro creado',
                 'detail' => 'El registro fue creado con exito',

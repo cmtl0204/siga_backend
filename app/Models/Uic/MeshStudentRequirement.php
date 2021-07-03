@@ -18,6 +18,8 @@ class MeshStudentRequirement extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.mesh_student_requirements';
+    use SoftDeletes;
+    use CascadeSoftDeletes;
     //hacer despues
     protected $with = [];
 

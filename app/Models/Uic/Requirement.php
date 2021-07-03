@@ -10,12 +10,14 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Uic\MeshStudentRequirement;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 class Requirement extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.requirements';

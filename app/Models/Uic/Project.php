@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -19,6 +20,7 @@ class Project extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.projects';

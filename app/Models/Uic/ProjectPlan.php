@@ -9,12 +9,14 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Uic\Project;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 class ProjectPlan extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
+    use CascadeSoftDeletes;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.project_plans';
