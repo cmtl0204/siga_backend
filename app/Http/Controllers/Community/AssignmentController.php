@@ -17,25 +17,60 @@ class AssignmentController extends Controller
 	{
     public function index(Assignment $request)
     {
+        //
+    }
+
+    public function store(StoreAssignmentRequest $request)
+    {
         
+       $data = $request -> json() ->all ();
+       $user  = $data ['assignment'] ['user'];
+      
+        
+        $assignment = new Assignment();
+        
+        
+        $userCode = User::findOrFail($request->input('user.id'));
+        $assignment->user()->associate($userCode);
+                
+        $assignment->date_request = $request->input('assignment.date_request');
+        $assignment->status = $request->input('assignment.status');
+        $assignment->observation = $request->input('assignment.observation');
+        $assignment->academic_period = $request->input('assignment.academic_period');
+        $assignment->nivel = $request->input('assignment.nivel');
+
+        $project_participant->save();
+
+        return response()->json([
+            'data' => $assignment,
+            'msg' => [
+                'summary' => 'Solicitud Asignación creado',
+                'detail' => 'El registro fue creado',
+                'code' => '201'
+            ]], 201);
+
     }
 
-    public function store(Assignment $request)
+    public function show(Assignment $assignment)
+    {
+        {
+
+            return response()->json([
+                'data' => $assignment,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => '',
+                    'code' => '200'
+                ]], 200);
+        } 
+    }
+
+    public function update(Assignment $request, Assignment $assignment)
     {
         //
     }
 
-    public function show(Assignment $permission)
-    {
-        //
-    }
-
-    public function update(Assignment $request, Assignment $permission)
-    {
-        //
-    }
-
-    public function destroy(Assignment $permission)
+    public function destroy(Assignment $assignment)
     {
         //
     }	
