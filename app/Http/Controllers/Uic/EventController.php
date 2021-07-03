@@ -17,98 +17,97 @@ use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
-    public function index(IndexEventRequest $request){
-        $hoy = Carbon::today();
-        $hoy->format('Y-m-d h:m:s');
-
+    public function index(IndexEventRequest $request)
+    {
         if ($request->has('search')) {
-           
-
+            $events = Event::name($request->input('search'))
+                ->description($request->input('search'))
+                ->paginate($request->input('per_page'));
         } else {
             $events = Event::paginate($request->input('per_page')); //Where date se 
         }
 
-        if($events->count()===0){
+        if ($events->count() === 0) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'No se encontraron eventos',
-                    'detail'=>'Intentelo de nuevo',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron eventos',
+                    'detail' => 'Intentelo de nuevo',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
-        return response()->json($events,200);
+        return response()->json($events, 200);
     }
 
 
     public function show($eventId)
     {
         $event = Event::find($eventId);
-        if(!$event){
+        if (!$event) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El evento no existe',
-                    'detail'=>'Intente otra vez',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El evento no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
         return response()->json([
-            'data'=>$event
-        ],200);
+            'data' => $event
+        ], 200);
     }
 
     public function store(StoreEventRequest $request)
     {
         $event = new Event;
-            $event->name=$request->input('event.name');
-            $event->description=$request->input('event.description');
-            $event->save();
-            return response()->json([
-                'data'=>$event->fresh(),
-                'msg'=>[
-                    'summary'=>'Evento creado',
-                    'detail'=>'El evento fue creado',
-                    'code'=>'201'
-                ]
-            ],201);
-  
-         return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'La fecha final debe ser mayor a la fecha de inicio',
-                    'detail'=>'Intente otra vez',
-                    'code'=>'404'
-                ]
-            ],404);
+        $event->name = $request->input('event.name');
+        $event->description = $request->input('event.description');
+        $event->save();
+        return response()->json([
+            'data' => $event->fresh(),
+            'msg' => [
+                'summary' => 'Evento creado',
+                'detail' => 'El evento fue creado',
+                'code' => '201'
+            ]
+        ], 201);
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'La fecha final debe ser mayor a la fecha de inicio',
+                'detail' => 'Intente otra vez',
+                'code' => '404'
+            ]
+        ], 404);
     }
 
     public function update(UpdateEventRequest $request, $id)
     {
         $event = Event::find($id);
-        if(!$event){
+        if (!$event) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El evento no existe',
-                    'detail'=>'Intente otra vez',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El evento no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
                 ]
-            ],400);
+            ], 400);
         }
-        $event->name=$request->input('event.name');
-        $event->description=$request->input('event.description');
+        $event->name = $request->input('event.name');
+        $event->description = $request->input('event.description');
         $event->save();
         return response()->json([
-            'data'=>$event->fresh(),
-            'msg'=>[
-                'summary'=>'Evento actualizado',
-                'detail'=>'El evento fue actualizado',
-                'code'=>'201'
+            'data' => $event->fresh(),
+            'msg' => [
+                'summary' => 'Evento actualizado',
+                'detail' => 'El evento fue actualizado',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
     function delete(DeleteEventRequest $request)
     {
@@ -121,7 +120,7 @@ class EventController extends Controller
                 'summary' => 'evento(es) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
-    
 }

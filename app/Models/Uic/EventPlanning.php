@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\File;
 use App\Models\Uic\Planning;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 
-class Event extends Model implements Auditable
+class EventPlanning extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -22,21 +23,28 @@ class Event extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-uic';
-    protected $table = 'uic.events';
+    protected $table = 'uic.event_planning';
 
     protected $fillable = [
-
         'id',
-        'name',
-        'description'
+        'start_date',
+        'end_date',
     ];
 
     protected $casts = [
+        'observations' => 'array',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
+    protected $with = ['event', 'planning', 'files'];
+
+    protected $cascadeDeletes = ['files'];
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -47,20 +55,12 @@ class Event extends Model implements Auditable
     }
 
 
-    public function eventPlannings()
+    public function event()
     {
-        return $this->hasMany(EventPlanning::class);
+        return $this->belongsTo(Event::class);
     }
-    public function scopeName($query, $name)
+    public function planning()
     {
-        if ($name) {
-            return $query->where('name', 'ILIKE', "%$name%");
-        }
-    }
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->orWhere('description', 'ILIKE', "%$description%");
-        }
+        return $this->belongsTo(Planning::class);
     }
 }

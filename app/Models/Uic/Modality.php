@@ -28,10 +28,10 @@ class Modality extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.modalities';
-    protected $with = ['career','status','modality'];
+    protected $with = ['career', 'status', 'modality'];
 
     protected $fillable = [
-        'id',
+        'id', //quitar
         'name',
         'description'
     ];
@@ -41,7 +41,7 @@ class Modality extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-    protected $cascadeDeletes = ['modalities','enrollments'];
+    protected $cascadeDeletes = ['modalities', 'enrollments'];
 
     //campos extras funciona con accesor
     //protected $appends = ['name_description'];
@@ -64,13 +64,13 @@ class Modality extends Model implements Auditable
     {
         return $this->hasMany(Enrollment::class);
     }
-    public function modality()
+    public function modality() //parent
     {
         return $this->belongsTo(Modality::class, 'parent_id');
     }
-    public function modalities()
+    public function modalities() //children
     {
-        return $this->hasMany(Modality::class,'parent_id');
+        return $this->hasMany(Modality::class, 'parent_id');
     }
     public function status()
     {
@@ -79,12 +79,14 @@ class Modality extends Model implements Auditable
 
 
     //accesor - crea campo personalizado, es necesario el array attributes['nombreAtributo']
-    public function getNameDescriptionAttribute(){
+    public function getNameDescriptionAttribute()
+    {
         return "{$this->attributes['name']}: {$this->attributes['description']}";
     }
 
     //mutators - muta el registro de la tabla, es necesario llamar el método en el controller
-    public function setDescriptionAttribute($value) {
+    public function setDescriptionAttribute($value)
+    {
         $this->attributes['description'] = strtoupper($value);
     }
     public function scopeName($query, $name)

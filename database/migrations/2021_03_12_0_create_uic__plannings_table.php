@@ -17,8 +17,8 @@ class CreateUicPlanningsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('number')->comment('numero convocatoria');
-            $table->date('start_date')->comment('inicio evento');
-            $table->date('end_date')->comment('fin evento, no dee ser menor al feha inicio');
+            $table->date('start_date')->comment('inicio convocatoria');
+            $table->date('end_date')->comment('fin convocatoria');
             $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -12,6 +12,7 @@ use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Uic\EnrollmentController;
 use App\Http\Controllers\Uic\EventController;
+use App\Http\Controllers\Uic\EventPlanningController;
 use App\Http\Controllers\Uic\ModalityController;
 use App\Http\Controllers\Uic\PlanningController;
 use App\Http\Controllers\Uic\TutorController;
@@ -29,95 +30,99 @@ Route::middleware($middlewares)
             'enrollments' => EnrollmentController::class,
             'plannings' => PlanningController::class,
             'tutors' => TutorController::class,
-            'requirements'=> RequirementController::class,
-            'mesh-student-requirements'=> MeshStudentRequirementController::class,
-            'projects'=> ProjectController::class,
-            'project-plans'=> ProjectPlanController::class
+            'requirements' => RequirementController::class,
+            'mesh-student-requirements' => MeshStudentRequirementController::class,
+            'projects' => ProjectController::class,
+            'project-plans' => ProjectPlanController::class
 
         ]);
-        Route::prefix('modality')->group(function(){
-            Route::get('show-modalities/{modalityId}',[ModalityController::class,'showModalities']);
-            Route::put('delete',[ModalityController::class,'delete']);
+        Route::prefix('modality')->group(function () {
+            Route::get('show-modalities/{modalityId}', [ModalityController::class, 'showModalities']);
+            Route::put('delete', [ModalityController::class, 'delete']);
         });
-        Route::prefix('enrollment')->group(function(){
-            Route::put('delete',[EnrollmentController::class,'delete']);
+        Route::prefix('enrollment')->group(function () {
+            Route::put('delete', [EnrollmentController::class, 'delete']);
         });
-        Route::prefix('planning')->group(function(){
-            Route::put('delete',[PlanningController::class,'delete']);
-        });                       
-                    
-        Route::prefix('tutor')->group(function(){
-            Route::put('delete',[TutorController::class,'delete']);
+        Route::prefix('planning')->group(function () {
+            Route::put('delete', [PlanningController::class, 'delete']);
         });
-        Route::prefix('requirement')->group(function(){
-            Route::put('delete',[RequirementController::class,'delete']);
+
+        Route::prefix('tutor')->group(function () {
+            Route::put('delete', [TutorController::class, 'delete']);
+        });
+        Route::prefix('requirement')->group(function () {
+            Route::put('delete', [RequirementController::class, 'delete']);
             Route::prefix('file')->group(function () {
                 Route::post('', [RequirementController::class, 'uploadFile']);
                 Route::put('delete', [RequirementController::class, 'deleteFile']);
                 Route::get('', [RequirementController::class, 'indexFile']);
                 Route::put('update/{file}', [RequirementController::class, 'updateFile']);
-                Route::get('{file}', [RequirementController::class, 'showFile']);                
+                Route::get('{file}', [RequirementController::class, 'showFile']);
             });
         });
-        Route::prefix('mesh-student-requirement')->group(function(){
-            Route::put('delete',[MeshStudentRequirementController::class,'delete']);
+        Route::prefix('mesh-student-requirement')->group(function () {
+            Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
         });
-        Route::prefix('project')->group(function(){
-            Route::put('delete',[ProjectController::class,'delete']);
+        Route::prefix('project')->group(function () {
+            Route::put('delete', [ProjectController::class, 'delete']);
         });
-        Route::prefix('project-plan')->group(function(){
-            Route::put('delete',[ProjectPlanController::class,'delete']);
+        Route::prefix('project-plan')->group(function () {
+            Route::put('delete', [ProjectPlanController::class, 'delete']);
         });
-});
+    });
 
 //without middleware
 Route::prefix('/')->group(function () {
-        Route::apiResources([
-            'modalities'=>ModalityController::class,
-            'enrollments' => EnrollmentController::class,
-            'plannings' => PlanningController::class,
-            'tutors' => TutorController::class,
-            'requirements'=> RequirementController::class,
-            'mesh-student-requirements'=> MeshStudentRequirementController::class,
-            'projects'=> ProjectController::class,
-            'project-plans'=> ProjectPlanController::class,
-            'events'=> EventController::class
+    Route::apiResources([
+        'modalities' => ModalityController::class,
+        'enrollments' => EnrollmentController::class,
+        'plannings' => PlanningController::class,
+        'event-plannings' => EventPlanningController::class,
+        'tutors' => TutorController::class,
+        'requirements' => RequirementController::class,
+        'mesh-student-requirements' => MeshStudentRequirementController::class,
+        'projects' => ProjectController::class,
+        'project-plans' => ProjectPlanController::class,
+        'events' => EventController::class
 
-        ]);
-        Route::prefix('modality')->group(function(){
-            Route::get('show-modalities/{modalityId}',[ModalityController::class,'showModalities']);
-            Route::put('delete',[ModalityController::class,'delete']);
+    ]);
+    Route::prefix('modality')->group(function () {
+        Route::get('show-modalities/{modalityId}', [ModalityController::class, 'showModalities']);
+        Route::put('delete', [ModalityController::class, 'delete']);
+    });
+    Route::prefix('enrollment')->group(function () {
+        Route::put('delete', [EnrollmentController::class, 'delete']);
+    });
+    Route::prefix('planning')->group(function () {
+        Route::put('delete', [PlanningController::class, 'delete']);
+        Route::get('end', [PlanningController::class, 'indexEnd']);
+    });
+    Route::prefix('event-planning')->group(function () {
+        Route::put('delete', [EventPlanningController::class, 'delete']);
+        Route::prefix('file')->group(function () {
+            Route::post('', [EventPlanningController::class, 'uploadFile']);
+            Route::put('delete', [EventPlanningController::class, 'deleteFile']);
+            Route::get('', [EventPlanningController::class, 'indexFile']);
+            Route::put('update/{file}', [EventPlanningController::class, 'updateFile']);
+            Route::get('{file}', [EventPlanningController::class, 'showFile']);
         });
-        Route::prefix('enrollment')->group(function(){
-            Route::put('delete',[EnrollmentController::class,'delete']);
-        });
-        Route::prefix('planning')->group(function(){
-            Route::put('delete',[PlanningController::class,'delete']);
-            Route::get('end',[PlanningController::class,'indexEnd']);
-            Route::prefix('file')->group(function () {
-            Route::post('', [PlanningController::class, 'uploadFile']);
-            Route::put('delete', [PlanningController::class, 'deleteFile']);
-            Route::get('', [PlanningController::class, 'indexFile']);
-            Route::put('update/{file}', [PlanningController::class, 'updateFile']);
-            Route::get('{file}', [PlanningController::class, 'showFile']);                
-            });
-        });
-        Route::prefix('event')->group(function(){
-            Route::put('delete',[EventController::class,'delete']);
-        });
-        Route::prefix('tutor')->group(function(){
-            Route::put('delete',[TutorController::class,'delete']);
-        });
-        Route::prefix('requirement')->group(function(){
-            Route::put('delete',[RequirementController::class,'delete']);
-        });
-        Route::prefix('mesh-student-requirement')->group(function(){
-            Route::put('delete',[MeshStudentRequirementController::class,'delete']);
-        });
-        Route::prefix('project')->group(function(){
-            Route::put('delete',[ProjectController::class,'delete']);
-        });
-        Route::prefix('project-plan')->group(function(){
-            Route::put('delete',[ProjectPlanController::class,'delete']);
-        });
+    });
+    Route::prefix('event')->group(function () {
+        Route::put('delete', [EventController::class, 'delete']);
+    });
+    Route::prefix('tutor')->group(function () {
+        Route::put('delete', [TutorController::class, 'delete']);
+    });
+    Route::prefix('requirement')->group(function () {
+        Route::put('delete', [RequirementController::class, 'delete']);
+    });
+    Route::prefix('mesh-student-requirement')->group(function () {
+        Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
+    });
+    Route::prefix('project')->group(function () {
+        Route::put('delete', [ProjectController::class, 'delete']);
+    });
+    Route::prefix('project-plan')->group(function () {
+        Route::put('delete', [ProjectPlanController::class, 'delete']);
+    });
 });

@@ -39,19 +39,20 @@ class Planning extends Model implements Auditable
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.plannings';
 
-     protected $fillable = [
+    protected $fillable = [
 
-     'id',
-     'name',
-     'number',
-     'description'];
+        'id',
+        'name',
+        'number',
+        'description'
+    ];
 
     protected $casts = [
-       'deleted_at' => 'date:Y-m-d h:m:s',
-       'created_at' => 'date:Y-m-d h:m:s',
-       'updated_at' => 'date:Y-m-d h:m:s',
-   ];
-    protected $cascadeDeletes = ['files'];
+        'deleted_at' => 'date:Y-m-d h:m:s',
+        'created_at' => 'date:Y-m-d h:m:s',
+        'updated_at' => 'date:Y-m-d h:m:s',
+    ];
+
 
     public static function getInstance($id)
     {
@@ -62,33 +63,25 @@ class Planning extends Model implements Auditable
         return static::$instance;
     }
 
-     public function files()
-    {
-        return $this->morphMany(File::class, 'fileable');
-    }
+
     /*Relatioship*/
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
     }
-    public function events()
+    public function eventPlannings()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(EventPlanning::class);
     }
 
-    public function scopeName($query, $name)
+    public function scopeName($query, $name) //scope solo para strings
     {
         if ($name) {
             return $query->where('name', 'ILIKE', "%$name%");
         }
     }
-    public function scopeEvent($query, $event)
-    {
-        if ($event) {
-            return $query->orWhere('event', 'ILIKE', "%$event%");
-        }
-    }
-    public function scopeStartDate($query, $startDate)
+
+    public function scopeStartDate($query, $startDate) //quitar el de fechas en el index
     {
         if ($startDate) {
             return $query->orWhere('start_date', 'ILIKE', "%$startDate%");
@@ -106,5 +99,4 @@ class Planning extends Model implements Auditable
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
-    
 }
