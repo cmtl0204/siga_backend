@@ -15,85 +15,89 @@ use App\Models\Uic\Tutor;
 class TutorController extends Controller
 {
     public function index(IndexTutorRequest $request)
-        {
+    {
 
         $tutor = Tutor::paginate($request->input('per_page'));
 
-        if($tutor->count()===0){
+        if ($tutor->count() === 0) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'No se encontraron tutores',
-                    'detail'=>'Intentelo de nuevo',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron tutores',
+                    'detail' => 'Intentelo de nuevo',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
-        return response() -> json ($tutor, 200);
+        return response()->json($tutor, 200);
     }
 
-    public function show($tutorId)
+    public function show(Tutor $tutor)
     {
-        $tutor = Tutor::find($tutorId);
-        if(!$tutor){
+        if (!$tutor) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El tutor no existe',
-                    'detail'=>'Intente otra vez',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El tutor no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
         return response()->json([
-            'data'=>$tutor
-        ],200);
+            'data' => $tutor,
+            'msg' => [
+                'summary' => '',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
     }
 
     public function store(StoreTutorRequest $request)
     {
         $tutor = new Tutor;
-        $tutor->project_id=$request->input('tutor.project_id');
-        $tutor->teacher_id=$request->input('tutor.teacher_id');
-        $tutor->type_id=$request->input('tutor.type_id');
-        $tutor->observations=$request->input('tutor.observations');
+        $tutor->project_id = $request->input('tutor.project_id');
+        $tutor->teacher_id = $request->input('tutor.teacher_id');
+        $tutor->type_id = $request->input('tutor.type_id');
+        $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
-            'data'=>$tutor->fresh(),
-            'msg'=>[
-                'summary'=>'Tutor creado',
-                'detail'=>'El tutor fue creado',
-                'code'=>'201'
+            'data' => $tutor,
+            'msg' => [
+                'summary' => 'Tutor creado',
+                'detail' => 'El tutor fue creado',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
 
     public function update(UpdateTutorRequest $request, $id)
     {
         $tutor = Tutor::find($id);
-        if(!$tutor){
+        if (!$tutor) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El tutor no existe',
-                    'detail'=>'Intente otra vez',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El tutor no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
                 ]
-            ],400);
+            ], 400);
         }
-        $tutor->project_id=$request->input('tutor.project_id');
-        $tutor->teacher_id=$request->input('tutor.teacher_id');
-        $tutor->type_id=$request->input('tutor.type_id');
-        $tutor->observations=$request->input('tutor.observations');
+        $tutor->project_id = $request->input('tutor.project_id');
+        $tutor->teacher_id = $request->input('tutor.teacher_id');
+        $tutor->type_id = $request->input('tutor.type_id');
+        $tutor->observations = $request->input('tutor.observations');
         $tutor->save();
         return response()->json([
-            'data'=>$tutor->fresh(),
-            'msg'=>[
-                'summary'=>'Tutor actualizado',
-                'detail'=>'El tutor fue actualizado',
-                'code'=>'201'
+            'data' => $tutor,
+            'msg' => [
+                'summary' => 'Tutor actualizado',
+                'detail' => 'El tutor fue actualizado',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
     function delete(DeleteTutorRequest $request)
     {
@@ -106,6 +110,7 @@ class TutorController extends Controller
                 'summary' => 'Tutor(es) eliminado(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 }

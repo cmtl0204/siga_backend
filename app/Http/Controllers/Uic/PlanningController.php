@@ -20,23 +20,19 @@ class PlanningController extends Controller
 {
     public function index(IndexPlanningRequest $request)
     {
-        $hoy = Carbon::today();
-        $hoy->format('Y-m-d h:m:s');
-
         if ($request->has('search')) {
-
             $plannings = Planning::name($request->input('search'))
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $plannings = Planning::where('end_date', '>=', $hoy)->paginate($request->input('per_page')); //Where date se encarga de hacer la comparación entre  fechas
+            $plannings = Planning::paginate($request->input('per_page'));
         }
 
         if ($plannings->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron planificaciones',
+                    'summary' => 'No se encontraron convocatorias',
                     'detail' => 'Intentelo de nuevo',
                     'code' => '404'
                 ]
@@ -51,7 +47,7 @@ class PlanningController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'La planificacion no existe',
+                    'summary' => 'La convocatoria no existe',
                     'detail' => 'Intente otra vez',
                     'code' => '404'
                 ]
@@ -78,9 +74,9 @@ class PlanningController extends Controller
             $planning->description = $request->input('planning.description');
             $planning->save();
             return response()->json([
-                'data' => $planning->fresh(), //revisar el fresh -> id
+                'data' => $planning, //revisar el fresh -> id
                 'msg' => [
-                    'summary' => 'Planificacion creada',
+                    'summary' => 'Convocatoria creada',
                     'detail' => 'La planificacion fue creado',
                     'code' => '201'
                 ]
@@ -89,7 +85,7 @@ class PlanningController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'La fecha final debe ser mayor a la fecha de inicio',
+                'summary' => 'No se encuentra la convocatoria',
                 'detail' => 'Intente otra vez',
                 'code' => '404'
             ]
@@ -102,7 +98,7 @@ class PlanningController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'La planificacion no existe',
+                    'summary' => 'La convocatoria no existe',
                     'detail' => 'Intente otra vez',
                     'code' => '404'
                 ]
@@ -115,10 +111,10 @@ class PlanningController extends Controller
         $planning->description = $request->input('planning.description');
         $planning->save();
         return response()->json([
-            'data' => $planning->fresh(),
+            'data' => $planning,
             'msg' => [
-                'summary' => 'PLanificación actualizada',
-                'detail' => 'La planificacion fue actualizado',
+                'summary' => 'Convocatoria actualizada',
+                'detail' => 'La convocatoria fue actualizado',
                 'code' => '201'
             ]
         ], 201);
@@ -131,7 +127,7 @@ class PlanningController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Planificacion(es) eliminada(s)',
+                'summary' => 'Convenios eliminados',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]

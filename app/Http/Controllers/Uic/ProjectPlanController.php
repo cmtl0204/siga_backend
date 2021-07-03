@@ -20,86 +20,96 @@ class ProjectPlanController extends Controller
      */
     public function index(IndexProjectPlanRequest $request)
     {
-        $projectPlans = ProjectPlan::paginate($request->input('per_page'));
-        if($projectPlans->count()==0){
+        if ($request->has('search')) {
+            $projectPlans = ProjectPlan::title($request->input('search'))
+                ->description($request->input('search'));
+        } else {
+            $projectPlans = ProjectPlan::paginate($request->input('per_page'));
+        }
+        if ($projectPlans->count() == 0) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'No se encontraron planes de proyectos',
-                    'detail'=>'Intentalo de nuevo',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron planes de proyectos',
+                    'detail' => 'Intentalo de nuevo',
+                    'code' => '404'
                 ]
             ], 404);
         }
-        return response()->json($projectPlans,200);
+        return response()->json($projectPlans, 200);
     }
 
-    public function show($projectPlanId)
+    public function show(ProjectPlan $projectPlan)
     {
-        $projectPlan = ProjectPlan::find($projectPlanId);
-        if(!$projectPlan){
+        if (!$projectPlan) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El plan de proyecto no existe',
-                    'detail'=>'Intente con otro plan de proyecto',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El plan de proyecto no existe',
+                    'detail' => 'Intente con otro plan de proyecto',
+                    'code' => '404'
                 ]
-            ],404);
+            ], 404);
         }
         return response()->json([
-            'data'=>$projectPlan
-        ],200);
+            'data' => $projectPlan,
+            'msg' => [
+                'summary' => '',
+                'detail' => '',
+                'code' => '200'
+            ]
+
+        ], 200);
     }
 
     public function store(StoreProjectPlanRequest $request)
     {
         $projectPlan = new ProjectPlan;
-        $projectPlan->title=$request->input('projectPlan.title');
-        $projectPlan->description=$request->input('projectPlan.description');
-        $projectPlan->act_code=$request->input('projectPlan.act_code');
-        $projectPlan->approval_date=$request->input('projectPlan.approval_date');
-        $projectPlan->is_approved=$request->input('projectPlan.is_approved');
-        $projectPlan->observations=$request->input('projectPlan.observations');
+        $projectPlan->title = $request->input('projectPlan.title');
+        $projectPlan->description = $request->input('projectPlan.description');
+        $projectPlan->act_code = $request->input('projectPlan.act_code');
+        $projectPlan->approval_date = $request->input('projectPlan.approval_date');
+        $projectPlan->is_approved = $request->input('projectPlan.is_approved');
+        $projectPlan->observations = $request->input('projectPlan.observations');
         $projectPlan->save();
         return response()->json([
-            'data'=>$projectPlan->fresh(),
-            'msg'=>[
-                'summary'=>'Proyecto creado',
-                'detail'=>'El proyecto fue creado con exito',
-                'code'=>'201'
+            'data' => $projectPlan->fresh(),
+            'msg' => [
+                'summary' => 'Proyecto creado',
+                'detail' => 'El proyecto fue creado con exito',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
 
     public function update(UpdateProjectPlanRequest $request, $id)
     {
         $projectPlan = ProjectPlan::find($id);
-        if(!$projectPlan){
+        if (!$projectPlan) {
             return response()->json([
-                'data'=>null,
-                'msg'=>[
-                    'summary'=>'El proyecto no existe',
-                    'detail'=>'Intente con otro proyecto',
-                    'code'=>'404'
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El proyecto no existe',
+                    'detail' => 'Intente con otro proyecto',
+                    'code' => '404'
                 ]
-            ],400);
+            ], 400);
         }
-        $projectPlan->title=$request->input('projectPlan.title');
-        $projectPlan->description=$request->input('projectPlan.description');
-        $projectPlan->act_code=$request->input('projectPlan.act_code');
-        $projectPlan->approval_date=$request->input('projectPlan.approval_date');
-        $projectPlan->is_approved=$request->input('projectPlan.is_approved');
-        $projectPlan->observations=$request->input('projectPlan.observations');
+        $projectPlan->title = $request->input('projectPlan.title');
+        $projectPlan->description = $request->input('projectPlan.description');
+        $projectPlan->act_code = $request->input('projectPlan.act_code');
+        $projectPlan->approval_date = $request->input('projectPlan.approval_date');
+        $projectPlan->is_approved = $request->input('projectPlan.is_approved');
+        $projectPlan->observations = $request->input('projectPlan.observations');
         $projectPlan->save();
         return response()->json([
-            'data'=>$projectPlan->fresh(),
-            'msg'=>[
-                'summary'=>'Proyecto actualizado',
-                'detail'=>'El proyecto fue actualizado',
-                'code'=>'201'
+            'data' => $projectPlan,
+            'msg' => [
+                'summary' => 'Proyecto actualizado',
+                'detail' => 'El proyecto fue actualizado',
+                'code' => '201'
             ]
-        ],201);
+        ], 201);
     }
 
     function delete(DeleteProjectPlanRequest $request)
@@ -112,6 +122,7 @@ class ProjectPlanController extends Controller
                 'summary' => 'Proyectos eliminados',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 }
