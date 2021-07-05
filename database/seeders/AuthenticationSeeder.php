@@ -125,66 +125,66 @@ class AuthenticationSeeder extends Seeder
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
 
         //$system = System::firstWhere('code', $catalogues['system']['code']);
-        foreach (Institution::all() as $institution) {
-            foreach (System::all() as $system) {
+        foreach (System::all() as $system) {
+            foreach (Institution::all() as $institution) {
                 // SIGA
                 Role::factory()->create([
                     'code' => $catalogues['role']['admin'],
-                    'name' => 'ADMINISTRADOR',
+                    'name' => $system->acronym.' - '.'ADMINISTRADOR',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['student'],
-                    'name' => 'ESTUDIANTE',
+                    'name' => $system->acronym.' - '.'ESTUDIANTE',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['teacher'],
-                    'name' => 'PROFESOR',
+                    'name' => $system->acronym.' - '.'PROFESOR',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['chancellor'],
-                    'name' => 'RECTOR',
+                    'name' => $system->acronym.' - '.'RECTOR',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['vice_chancellor'],
-                    'name' => 'VICERRECTOR',
+                    'name' => $system->acronym.' - '.'VICERRECTOR',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['concierge'],
-                    'name' => 'CONSERJE',
+                    'name' => $system->acronym.' - '.'CONSERJE',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['career_coordinator'],
-                    'name' => 'COORD. CARRERA',
+                    'name' => $system->acronym.' - '.'COORD. CARRERA',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['academic_coordinator'],
-                    'name' => 'COORD. ACADEMICO',
+                    'name' => $system->acronym.' - '.'COORD. ACADEMICO',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['community_coordinator'],
-                    'name' => 'COORD. VINCULACION',
+                    'name' => $system->acronym.' - '.'COORD. VINCULACION',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['investigation_coordinator'],
-                    'name' => 'COORD. INVESTIGACION',
+                    'name' => $system->acronym.' - '.'COORD. INVESTIGACION',
                     'system_id' => $system->id, 'institution_id' => $institution->id
                 ]);
                 Role::factory()->create([
                     'code' => $catalogues['role']['administrative_coordinator'],
-                    'name' => 'COORD. ADMINISTRATIVO',
+                    'name' => $system->acronym.' - '.'COORD. ADMINISTRATIVO',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
@@ -192,17 +192,20 @@ class AuthenticationSeeder extends Seeder
                 // JOB BOARD
                 Role::factory()->create([
                     'code' => $catalogues['role']['professional'],
-                    'name' => 'PROFSIONAL',
+                    'name' => $system->acronym.' - '.'PROFSIONAL',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
 
                 Role::factory()->create([
                     'code' => $catalogues['role']['company'],
-                    'name' => 'EMPRESA',
+                    'name' => $system->acronym.' - '.'EMPRESA',
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
+                if ($system->acronym === 'CECY') {
+                    break;
+                }
             }
         }
     }
