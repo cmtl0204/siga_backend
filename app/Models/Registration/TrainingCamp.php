@@ -25,18 +25,7 @@ class TrainingCamp extends Model implements Auditable
     protected $connection = 'pgsql-registration';
     protected $table = 'registration.training_camps';
 
-    protected static $instance;
-
     protected $fillable = [
         'name',];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
 }

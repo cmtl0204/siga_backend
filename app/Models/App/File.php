@@ -22,8 +22,6 @@ class File extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected static $instance;
-    
     protected $connection = 'pgsql-app';
     protected $table = 'app.files';
 
@@ -37,16 +35,6 @@ class File extends Model implements Auditable
     protected $hidden = ['fileable_type'];
 
     protected $appends = ['full_name', 'full_path'];
-
-    // Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     // Relationships
     public function fileable()

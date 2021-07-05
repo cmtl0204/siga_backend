@@ -27,21 +27,10 @@ class PeriodParameter extends Model implements Auditable
     protected $connection = 'pgsql-registration';
     protected $table = 'registration.period_parameters';
 
-    protected static $instance;
-
     protected $fillable = [
         'code',
         'name',
         'value'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     public function type()
     {

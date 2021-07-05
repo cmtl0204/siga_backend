@@ -14,20 +14,9 @@ class Subject extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    protected static $instance;
-
     protected $connection = 'pgsql-app';
     protected $table = 'app.subjects';
 
     protected $fillable = [];
 
-    // Instance
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 }

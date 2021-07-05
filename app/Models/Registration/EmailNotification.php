@@ -27,21 +27,10 @@ class EmailNotification extends Model implements Auditable
     protected $connection = 'pgsql-registration';
     protected $table = 'registration.email_notifications';
 
-    protected static $instance;
-
     protected $fillable = [
         'name',
         'lastname',
         'email'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     public function type()
     {

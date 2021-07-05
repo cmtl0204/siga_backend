@@ -24,19 +24,7 @@ class AcademicPeriod extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.academic_periods';
 
-    protected static $instance;
-
-
     protected $fillable = [
         'name'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
 }

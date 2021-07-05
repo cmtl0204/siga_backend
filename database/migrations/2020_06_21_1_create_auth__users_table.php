@@ -22,8 +22,7 @@ class CreateAuthUsersTable extends Migration
             $table->string('security_image')->nullable();
             $table->string('username')->unique();
             $table->string('identification');
-            $table->string('first_name')->nullable();
-            $table->string('second_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('first_lastname')->nullable();
             $table->string('second_lastname')->nullable();
             $table->string('personal_email')->nullable()->unique();

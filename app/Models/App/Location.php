@@ -14,8 +14,6 @@ class Location extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
 
-    private static $instance;
-
     protected $connection = 'pgsql-app';
     protected $table = 'app.locations';
 
@@ -24,15 +22,6 @@ class Location extends Model implements Auditable
         'name',
         'short_name',
     ];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     public function parent()
     {

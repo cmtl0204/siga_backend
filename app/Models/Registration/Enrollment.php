@@ -38,8 +38,6 @@ class Enrollment extends Model implements Auditable
     protected $connection = 'pgsql-registration';
     protected $table = 'registration.enrollments';
 
-    protected static $instance;
-
     protected $fillable = [
         'code',
         'date',
@@ -47,15 +45,6 @@ class Enrollment extends Model implements Auditable
         'form_date',
         'folio',
         'observations'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     public function workingDay()
     {

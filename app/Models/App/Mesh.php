@@ -29,23 +29,12 @@ class Mesh extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.meshes';
 
-    protected static $instance;
-
     protected $fillable = [
         'name',
         'start_date',
         'end_date',
         'resolution_number',
         'number_weeks'];
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     public function carrer()
     {
