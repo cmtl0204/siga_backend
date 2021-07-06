@@ -19,14 +19,18 @@ class  UserController extends Controller
 {
     public function show($username, Request $request)
     {
-        $user = User::
-        with('ethnicOrigin')
+        $user = User::with('ethnicOrigin')
             ->with('address')
             ->with('identificationType')
             ->with('sex')
             ->with('gender')
             ->with('bloodType')
-            ->with('roles')
+            ->with(['roles' => function ($roles) use ($request) {
+                $roles->where('system_id', $request->system);
+            }])
+            ->with(['institutions' => function ($institutions) use ($request) {
+                $institutions->where('system_id', $request->system);
+            }])
             ->where('username', $username)
             ->first();
 
@@ -36,7 +40,8 @@ class  UserController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function update(Request $request)
@@ -70,7 +75,8 @@ class  UserController extends Controller
                 'summary' => 'update',
                 'detail' => '',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     public function updateAuth(Request $request)
@@ -104,7 +110,8 @@ class  UserController extends Controller
                 'summary' => 'update',
                 'detail' => '',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     public function uploadAvatar(Request $request)
@@ -123,7 +130,8 @@ class  UserController extends Controller
                     'summary' => 'upload',
                     'detail' => '',
                     'code' => '201'
-                ]], 201);
+                ]
+            ], 201);
         } else {
             return response()->json([
                 'data' => null,
@@ -131,7 +139,8 @@ class  UserController extends Controller
                     'summary' => 'Archivo no valido',
                     'detail' => 'Intente de nuevo',
                     'code' => '400'
-                ]], 400);
+                ]
+            ], 400);
         }
     }
 }

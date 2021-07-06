@@ -203,9 +203,9 @@ class AuthenticationSeeder extends Seeder
                     'system_id' => $system->id,
                     'institution_id' => $institution->id
                 ]);
-                if ($system->acronym === 'CECY') {
-                    break;
-                }
+                // if ($system->acronym === 'CECY') {
+                //     break;
+                // }
             }
         }
     }

@@ -575,6 +575,7 @@ class  AuthController extends Controller
 
         $roles = $user->roles()
             ->where('system_id', $request->input('system'))
+            ->where('institution_id', $request->input('institution'))
             ->get();
 
         if ($roles->count() === 0) {
