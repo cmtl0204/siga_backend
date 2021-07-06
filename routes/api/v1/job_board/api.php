@@ -72,10 +72,10 @@ Route::middleware($middlewares)
 
         Route::prefix('professional')->group(function () {
             Route::get('{id}', [ProfessionalController::class, 'getOffers']);
-                Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
+            Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
               //   Route::get('test', function () {
                 //  return 'test';
-      //      });
+            //      });
         });
 
         Route::prefix('offer')->group(function () {
@@ -101,12 +101,11 @@ Route::middleware($middlewares)
             /*ruta para hcer pruebas
             Route::get('test', function () {
                 return 'test';*/
-                Route::prefix('file')->group(function () {
-                    Route::post('', [CourseController::class, 'uploadFiles']);
-                    Route::delete('{image}', [CourseController::class, 'deleteFile']);
-                    Route::get('', [CourseController::class, 'indexFile']);
-                    Route::get('{file}', [CourseController::class, 'showFile']);
-                 });
+            Route::prefix('file')->group(function () {
+                Route::post('', [CourseController::class, 'uploadFiles']);
+                Route::delete('{image}', [CourseController::class, 'deleteFile']);
+                Route::get('', [CourseController::class, 'indexFile']);
+                Route::get('{file}', [CourseController::class, 'showFile']);
             });
         });
 
@@ -114,15 +113,16 @@ Route::middleware($middlewares)
             Route::get('test', [LanguageController::class, 'test']);
             Route::put('delete', [LanguageController::class, 'delete']);
             // ruta para hcer pruebas
-        //Route::get('test', function () {
-      //          return 'test';
-      Route::prefix('file')->group(function () {
-        Route::post('', [LanguageController::class, 'uploadFiles']);
-        Route::delete('{image}', [LanguageController::class, 'deleteFile']);
-        Route::get('', [LanguageController::class, 'indexFile']);
-        Route::get('{file}', [LanguageController::class, 'showFile']);
-     });
+            //Route::get('test', function () {
+            //          return 'test';
+        
+            Route::prefix('file')->group(function () {
+                Route::post('', [LanguageController::class, 'uploadFiles']);
+                Route::delete('{image}', [LanguageController::class, 'deleteFile']);
+                Route::get('', [LanguageController::class, 'indexFile']);
+                Route::get('{file}', [LanguageController::class, 'showFile']);
             });
+        });
 
 
         Route::prefix('experience')->group(function () {
@@ -131,30 +131,29 @@ Route::middleware($middlewares)
             /* ruta para hcer pruebas
             Route::get('test', function () {
                 return 'test';*/
-                Route::prefix('file')->group(function () {
-                    Route::post('', [ExperienceController::class, 'uploadFiles']);
-                    Route::delete('{image}', [ExperienceController::class, 'deleteFile']);
-                    Route::get('', [ExperienceController::class, 'indexFile']);
-                    Route::get('{file}', [ExperienceController::class, 'showFile']);
-                 });
-
+            Route::prefix('file')->group(function () {
+                Route::post('', [ExperienceController::class, 'uploadFiles']);
+                Route::delete('{image}', [ExperienceController::class, 'deleteFile']);
+                Route::get('', [ExperienceController::class, 'indexFile']);
+                Route::get('{file}', [ExperienceController::class, 'showFile']);
             });
+        });
 
 
-         Route::prefix('reference')->group(function () {
-             Route::get('test', [ReferenceController::class, 'test']);
-             Route::put('delete', [ReferenceController::class, 'delete']);
-             Route::get('get', [ReferenceController::class, 'get']);
+        Route::prefix('reference')->group(function () {
+            Route::get('test', [ReferenceController::class, 'test']);
+            Route::put('delete', [ReferenceController::class, 'delete']);
+            Route::get('get', [ReferenceController::class, 'get']);
 
-        //     // ruta para hcer pruebas
-        //   //  Route::get('test', function () {
-             //    return 'test';
-             Route::prefix('file')->group(function () {
-                 Route::post('', [ReferenceController::class, 'uploadFiles']);
-                 Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
-                 Route::get('', [ReferenceController::class, 'indexFile']);
+            // ruta para hcer pruebas
+            //  Route::get('test', function () {
+            //    return 'test';
+            Route::prefix('file')->group(function () {
+                Route::post('', [ReferenceController::class, 'uploadFiles']);
+                Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
+                Route::get('', [ReferenceController::class, 'indexFile']);
                 Route::get('{file}', [ReferenceController::class, 'showFile']);
-           });
+            });
 
         });
 
@@ -177,7 +176,7 @@ Route::middleware($middlewares)
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
     });
-
+    
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
