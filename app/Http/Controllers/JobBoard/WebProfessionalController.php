@@ -127,7 +127,6 @@ class WebProfessionalController extends Controller
         $company->professionals()->attach($professional->id);
 
         return response()->json([
-            'data' => null,
             'msg' => [
                 'summary' => 'success',
                 'detail' => 'Profesional contactado con éxito',
