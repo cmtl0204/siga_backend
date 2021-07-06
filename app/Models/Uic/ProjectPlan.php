@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Uic\Project;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use App\Models\App\File;
 
 class ProjectPlan extends Model implements Auditable
 {
@@ -17,6 +18,8 @@ class ProjectPlan extends Model implements Auditable
     use Auditing;
     use SoftDeletes;
     use CascadeSoftDeletes;
+
+    private static $instance;
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.project_plans';
@@ -36,7 +39,16 @@ class ProjectPlan extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
     protected $with = [];
-    protected $cascadeDeletes = ['projects'];
+    protected $cascadeDeletes = ['projects', 'files'];
+
+    public static function getInstance($id)
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+        static::$instance->id = $id;
+        return static::$instance;
+    }
 
     //Relationships
     public function projects()
@@ -54,5 +66,10 @@ class ProjectPlan extends Model implements Auditable
         if ($description) {
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 }

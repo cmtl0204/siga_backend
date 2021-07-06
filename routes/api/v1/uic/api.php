@@ -68,6 +68,13 @@ Route::middleware($middlewares)
         });
         Route::prefix('project-plan')->group(function () {
             Route::put('delete', [ProjectPlanController::class, 'delete']);
+            Route::prefix('file')->group(function () {
+                Route::post('', [ProjectPlanController::class, 'uploadFile']);
+                Route::put('delete', [ProjectPlanController::class, 'deleteFile']);
+                Route::get('', [ProjectPlanController::class, 'indexFile']);
+                Route::put('update/{file}', [ProjectPlanController::class, 'updateFile']);
+                Route::get('{file}', [ProjectPlanController::class, 'showFile']);
+            });
         });
     });
 
@@ -124,5 +131,12 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('project-plan')->group(function () {
         Route::put('delete', [ProjectPlanController::class, 'delete']);
+        Route::prefix('file')->group(function () {
+            Route::post('', [ProjectPlanController::class, 'uploadFile']);
+            Route::put('delete', [ProjectPlanController::class, 'deleteFile']);
+            Route::get('', [ProjectPlanController::class, 'indexFile']);
+            Route::put('update/{file}', [ProjectPlanController::class, 'updateFile']);
+            Route::get('{file}', [ProjectPlanController::class, 'showFile']);
+        });
     });
 });

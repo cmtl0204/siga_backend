@@ -11,6 +11,11 @@ use App\Models\Uic\ProjectPlan;
 use Illuminate\Http\Request;
 use App\Models\Uic\Requirement;
 
+use App\Http\Controllers\App\FileController;
+use App\Http\Requests\App\File\IndexFileRequest;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
+
 class ProjectPlanController extends Controller
 {
     /**
@@ -30,7 +35,7 @@ class ProjectPlanController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron planes de proyectos',
+                    'summary' => 'No se encontraron actas de aprobación del anteproyecto',
                     'detail' => 'Intentalo de nuevo',
                     'code' => '404'
                 ]
@@ -45,8 +50,8 @@ class ProjectPlanController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'El plan de proyecto no existe',
-                    'detail' => 'Intente con otro plan de proyecto',
+                    'summary' => 'El acta de aprobación del anteproyecto no existe',
+                    'detail' => 'Intente con otro acta de aprobación del anteproyecto',
                     'code' => '404'
                 ]
             ], 404);
@@ -75,8 +80,8 @@ class ProjectPlanController extends Controller
         return response()->json([
             'data' => $projectPlan->fresh(),
             'msg' => [
-                'summary' => 'Proyecto creado',
-                'detail' => 'El proyecto fue creado con exito',
+                'summary' => 'Acta creado',
+                'detail' => 'El acta de aprobación del anteproyecto fue creado con exito',
                 'code' => '201'
             ]
         ], 201);
@@ -89,8 +94,8 @@ class ProjectPlanController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'El proyecto no existe',
-                    'detail' => 'Intente con otro proyecto',
+                    'summary' => 'El acta de aprobación del anteproyecto no existe',
+                    'detail' => 'Intente con otro acta',
                     'code' => '404'
                 ]
             ], 400);
@@ -105,8 +110,8 @@ class ProjectPlanController extends Controller
         return response()->json([
             'data' => $projectPlan->fresh(),
             'msg' => [
-                'summary' => 'Proyecto actualizado',
-                'detail' => 'El proyecto fue actualizado',
+                'summary' => 'Acta actualizado',
+                'detail' => 'El acta de aprobación del anteproyecto fue actualizado',
                 'code' => '201'
             ]
         ], 201);
@@ -119,10 +124,35 @@ class ProjectPlanController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Proyectos eliminados',
+                'summary' => 'Actas eliminados',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]
         ], 201);
+    }
+
+    function uploadFile(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, ProjectPlan::getInstance($request->input('id')));
+    }
+
+    public function updateFile(UpdateFileRequest $request)
+    {
+        return (new FileController())->update($request, ProjectPlan::getInstance($request->input('id')));
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, ProjectPlan::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
     }
 }
