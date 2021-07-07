@@ -19,6 +19,8 @@ class Requirement extends Model implements Auditable
     use SoftDeletes;
     use CascadeSoftDeletes;
 
+    private static $instance;
+
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.requirements';
 
@@ -32,6 +34,15 @@ class Requirement extends Model implements Auditable
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
+
+    public static function getInstance($id)
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+        static::$instance->id = $id;
+        return static::$instance;
+    }
     protected $with = [];
     protected $cascadeDeletes = ['meshStudentRequirements', 'files'];
     public function files()

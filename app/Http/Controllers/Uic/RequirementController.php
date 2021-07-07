@@ -121,7 +121,7 @@ class RequirementController extends Controller
     }
 
 
-    function uploadFiles(UploadFileRequest $request)
+    function uploadFile(UploadFileRequest $request)
     {
         return (new FileController())->upload($request, Requirement::getInstance($request->input('id')));
     }

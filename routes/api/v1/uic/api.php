@@ -122,6 +122,13 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('requirement')->group(function () {
         Route::put('delete', [RequirementController::class, 'delete']);
+        Route::prefix('file')->group(function () {
+            Route::post('', [RequirementController::class, 'uploadFile']);
+            Route::put('delete', [RequirementController::class, 'deleteFile']);
+            Route::get('', [RequirementController::class, 'indexFile']);
+            Route::put('update/{file}', [RequirementController::class, 'updateFile']);
+            Route::get('{file}', [RequirementController::class, 'showFile']);
+        });
     });
     Route::prefix('mesh-student-requirement')->group(function () {
         Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
