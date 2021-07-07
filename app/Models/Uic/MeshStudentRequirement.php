@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\MeshStudent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -20,8 +21,8 @@ class MeshStudentRequirement extends Model implements Auditable
     protected $table = 'uic.mesh_student_requirements';
     use SoftDeletes;
     use CascadeSoftDeletes;
-    //hacer despues
-    protected $with = [];
+
+    protected $with = ['requirement', 'meshStudent'];
 
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
@@ -36,9 +37,8 @@ class MeshStudentRequirement extends Model implements Auditable
         return $this->belongsTo(Requirement::class);
     }
 
-    //public function meshStudent()
-    //{
-    //    return $this->hasMany(MeshStudent::class);
-    //}
-
+    public function meshStudent()
+    {
+        return $this->belongsTo(MeshStudent::class);
+    }
 }
