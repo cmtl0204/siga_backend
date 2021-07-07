@@ -9,11 +9,13 @@ use App\Http\Requests\Cecy\DetailRegistration\IndexDetailRegistrationRequest;
 use App\Http\Requests\Cecy\DetailRegistration\UpdateDetailRegistrationRequest;
 use App\Http\Requests\Cecy\DetailRegistration\DeleteDetailRegistrationRequest;
 use App\Models\App\Status;
-use App\Models\Cecy\Participant;
 use App\Models\Cecy\DetailRegistration;
+use App\Models\Cecy\Registration;
 use App\Models\App\Catalogue;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DetailRegistrationExport;
+use App\Models\Cecy\Course;
+
 
 class DetailRegistrationController extends Controller
 {
@@ -160,8 +162,21 @@ class DetailRegistrationController extends Controller
             ]], 201);
     }
 
+  //  function excel(){
+    //    return Excel::download(new DetailRegistrationExport, 'DetailRegistration.xlsx');
+    //}
+
     function excel(){
-        return Excel::download(new DetailRegistrationExport, 'DetailRegistration.xlsx');
-    }
+  //  $course = Course::with(["personProposal"])->with([])
+    /* $detailPlanification = DetailPlanification::with(["course"=>function($query){
+        $query::with("personProposal");
+    }])->get();
+    , compact("detailPlanification") */
+
+    $pdf = \PDF::loadView('reports.cecy.final-report');
+    //$pdf->setPaper('A4', 'landscape');
+    return $pdf->download('archivo.pdf');
+
+   }
 }
 

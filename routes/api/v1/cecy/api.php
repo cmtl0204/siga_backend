@@ -10,20 +10,20 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 
-<<<<<<< HEAD
+
 use App\Http\Controllers\Cecy\DetailRegistrationController;
 use App\Http\Controllers\Cecy\TopicController;
-=======
+
 use App\Http\Controllers\Cecy\InstructorController;
 use App\Http\Controllers\Cecy\PrerequisiteController;
 use App\Models\Cecy\Prerequisite;
->>>>>>> mod_4_cecy
+
 
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
-use App\Http\Controllers\Cecy\DetailRegistrationController;
 
-use App\Http\Controllers\Cecy\TopicController;
+
+
 
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -85,7 +85,7 @@ Route::middleware($middlewares)
     Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
     Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
 
-
+    
 
 // Without Middleware
 Route::prefix('/')
