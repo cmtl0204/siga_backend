@@ -29,7 +29,12 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
+        ]);
+        
+        Route::apiResources([
             'projects' => ProjectController::class,
+            'project_participants' => ProjectParticipantController::class,
+            'project_objectives' => ProjectObjectiveController::class,
         ]);
 
         // Auth
@@ -72,10 +77,4 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
-
-        Route::apiResources([
-            'projects' => ProjectController::class,
-            'project_participants' => ProjectParticipantController::class,
-            'project_objectives' => ProjectObjectiveController::class,
-        ]);
     });

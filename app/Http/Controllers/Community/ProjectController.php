@@ -12,7 +12,9 @@ class ProjectController extends Controller
 {
     public function index(IndexProjectRequest $request)
     {
-        $projects = Project::with('entity')->with('schoolPeriod')->with('career')->with('coverage')
+        $projects = Project::
+        // with('entity')->
+        with('schoolPeriod')->with('career')->with('coverage')
                     ->with('location')->with('frequency')->with('status')->with('createdBy')
                     ->paginate($request->input('per_page'));
         return response()->json([
