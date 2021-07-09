@@ -16,7 +16,7 @@ class CreateCommunityAssignmentsTable extends Migration
     {
         Schema::connection('pgsql-community')->create('assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('authentication.users')->comment('FK de user'); // datos principales de estudiantes.		
+            $table->foreignId('user_id')->constrained('authentication.users')->comment('FK de user'); // datos principales de estudiantes.		
             $table->date('date_request')->nullable()->comment('fecha que el estudiante realiza la solicitud. ');
 			$table->string('status')->nullable()->comment('estado en la que se encuetra la solicitud.'); //Guarda el nombre del encabezado de la clausula.
 			$table->text('observation')->nullable()->comment('contenido de la clusula del convenio.'); // texto que describe la clausula del convenio.
@@ -41,3 +41,4 @@ class CreateCommunityAssignmentsTable extends Migration
         Schema::connection('pgsql-community')->dropIfExists('assignments');
     }
 }
+
