@@ -19,7 +19,7 @@ class WebProfessionalController extends Controller
     {
         $totalCompanies = Company::all()->count();
         $totalProfessionals = Professional::all()->count();
-        $toalOffers = Offer::all()->count();
+        $toalOffers = Offer::where('status_id', 1)->get()->count();
 
         return response()->json([
             'data' => [
@@ -43,9 +43,9 @@ class WebProfessionalController extends Controller
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
                 $academicFormations->with('professionalDegree');
             }])->paginate($request->input('per_page'));
-        } 
+        }
         else if ($request->input('ids') && !$request->input('search')) {
-            // Consulta todos los profesionales que concuerden con el id (categoría hija) 
+            // Consulta todos los profesionales que concuerden con el id (categoría hija)
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) use($request) {
                 $academicFormations->with(['professionalDegree' => function ($professionalDegree) use ($request) {
                     $professionalDegree->whereIn('id', $request->input('ids'));

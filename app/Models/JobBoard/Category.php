@@ -18,7 +18,10 @@ class Category extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.categories';
-    protected $with = ['parent'];
+//    protected $with = ['parent'];
+//    protected $with = ['children'];
+    protected $select = ['name as label'];
+
     protected $fillable = [
         'code',
         'name',
