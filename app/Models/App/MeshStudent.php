@@ -22,7 +22,7 @@ class MeshStudent extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.mesh_student';
 
-    protected $with = ['student', 'mesh'];
+    protected $with = ['mesh'];
 
     protected static $instance;
 
@@ -45,10 +45,10 @@ class MeshStudent extends Model implements Auditable
         return static::$instance;
     }
 
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
+    //public function student()
+    //{
+    //    return $this->belongsTo(Student::class);
+    //}
     public function mesh()
     {
         return $this->belongsTo(Mesh::class);
