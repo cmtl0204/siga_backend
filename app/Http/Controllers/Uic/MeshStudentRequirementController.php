@@ -61,6 +61,8 @@ class MeshStudentRequirementController extends Controller
         $meshStudentRequirement = new MeshStudentRequirement;
         $meshStudentRequirement->mesh_student_id = $request->input('meshStudentRequirement.mesh_student_id');
         $meshStudentRequirement->requirement_id = $request->input('meshStudentRequirement.requirement_id');
+        $meshStudentRequirement->is_approved = $request->input('meshStudentRequirement.is_approved');
+        $meshStudentRequirement->observations = $request->input('meshStudentRequirement.observations');
         $meshStudentRequirement->save();
         return response()->json([
             'data' => $meshStudentRequirement->fresh(),
@@ -87,6 +89,8 @@ class MeshStudentRequirementController extends Controller
         }
         $meshStudentRequirement->mesh_student_id = $request->input('meshStudentRequirement.mesh_student_id');
         $meshStudentRequirement->requirement_id = $request->input('meshStudentRequirement.requirement_id');
+        $meshStudentRequirement->is_approved = $request->input('meshStudentRequirement.is_approved');
+        $meshStudentRequirement->observations = $request->input('meshStudentRequirement.observations');
         $meshStudentRequirement->save();
         return response()->json([
             'data' => $meshStudentRequirement,

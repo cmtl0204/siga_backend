@@ -20,6 +20,21 @@ class StoreMeshStudentRequirementRequest extends FormRequest
                 'int',
                 'required'
 
+            ],
+            'meshStudentRequirement.mesh_student_id' => [
+                'int',
+                'required'
+
+            ],
+            'meshStudentRequirement.is_approved' => [
+                'boolean',
+                'required'
+
+            ],
+            'meshStudentRequirement.observations' => [
+                'json',
+                'required'
+
             ]
         ];
         return UicFormRequest::rules($rules);
@@ -28,7 +43,10 @@ class StoreMeshStudentRequirementRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'meshStudentRequirement.requirement_id' => 'requerimiento id '
+            'meshStudentRequirement.requirement_id' => 'requerimiento id ',
+            'meshStudentRequirement.mesh_student_id' => 'malla del estudiante id ',
+            'meshStudentRequirement.is_approved' => 'esta aprovado ',
+            'meshStudentRequirement.observations' => 'observaciones ',
         ];
         return UicFormRequest::attributes($attributes);
     }

@@ -25,6 +25,8 @@ class MeshStudentRequirement extends Model implements Auditable
     protected $with = ['requirement', 'meshStudent'];
 
     protected $casts = [
+        'observations' => 'array',
+        'is_approved' => 'boolean',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',

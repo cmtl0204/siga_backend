@@ -34,6 +34,10 @@ class StoreProjectRequest extends FormRequest
             'project.score' => [
                 'required',
                 'number'
+            ],
+            'project.observations' => [
+                'json',
+                'number'
             ]
         ];
         return UicFormRequest::rules($rules);
