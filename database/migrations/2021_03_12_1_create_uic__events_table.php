@@ -15,7 +15,7 @@ class CreateUicEventsTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('planning_id')->constrained('app.plannings');
+            $table->foreignId('planning_id')->constrained('uic.plannings');
             $table->foreignId('name_id')->constrained('app.catalogues');
             $table->date('start_date')->comment('fecha inicio');
             $table->date('end_date')->comment('fecha fin');

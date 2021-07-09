@@ -19,7 +19,7 @@ class CreateUicProjectsTable extends Migration
             $table->foreignId('project_plan_id')->constrained('uic.project_plans');
             $table->string('title')->comment('titulo');
             $table->string('description');
-            $table->number('score');
+            $table->integer('score');
             $table->json('observations')->nullable();
             $table->softDeletes();
             $table->timestamps();
