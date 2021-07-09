@@ -29,6 +29,7 @@ class Project extends Model implements Auditable
     protected $fillable = [
         'title',
         'description',
+        'score'
     ];
 
     protected $casts = [

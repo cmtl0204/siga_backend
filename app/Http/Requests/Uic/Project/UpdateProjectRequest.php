@@ -31,6 +31,10 @@ class UpdateProjectRequest extends FormRequest
                 'required',
                 'string'
             ],
+            'project.score' => [
+                'required',
+                'number'
+            ]
         ];
         return UicFormRequest::rules($rules);
     }
@@ -42,6 +46,7 @@ class UpdateProjectRequest extends FormRequest
             'project.project_plan_id' => 'proyecto',
             'project.title' => 'título',
             'project.description' => 'descripción',
+            'project.score' => 'nota',
             'project.observations' => 'observación'
         ];
         return UicFormRequest::attributes($attributes);
