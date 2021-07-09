@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Career;
+use App\Http\Requests\App\Career\IndexCareerRequest;
 
 use Illuminate\Http\Request;
 
@@ -14,11 +15,36 @@ class CareerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexCareerRequest $request)
     {
         // nombre, modalidad,
-        $careers = Career::with('modality')
-            ->get();
+        //$careers = Career::with('modality')
+        //    ->get();
+
+        if ($request->has('search')) {
+            $careers = Career::title($request->input('search'))
+                ->description($request->input('search'));
+        } else {
+            $careers = Career::all();
+        }
+        if ($careers->count() == 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron carreras',
+                    'detail' => 'Intentalo de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+		else{
+			return response()->json([
+                'data' => $careers,
+                'msg' => [
+                    'code' => '200'
+                ]
+            ], 200);
+		}
     }
 
     /**

@@ -68,7 +68,6 @@ class PlanningController extends Controller
         $planning = new Planning;
         if ($request->input('planning.start_date') <= $request->input('planning.end_date')) {
             $planning->name = $request->input('planning.name');
-            $planning->number = $request->input('planning.number');
             $planning->start_date = $request->input('planning.start_date');
             $planning->end_date = $request->input('planning.end_date');
             $planning->description = $request->input('planning.description');
@@ -105,7 +104,6 @@ class PlanningController extends Controller
             ], 400);
         }
         $planning->name = $request->input('planning.name');
-        $planning->number = $request->input('planning.number');
         $planning->start_date = $request->input('planning.start_date');
         $planning->end_date = $request->input('planning.end_date');
         $planning->description = $request->input('planning.description');

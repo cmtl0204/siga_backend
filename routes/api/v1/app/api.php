@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App\CareerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\App\CatalogueController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\App\InstitutionController;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
+
+Route::apiResource('careers', CareerController::class);
 
 Route::apiResource('catalogues', CatalogueController::class);
 Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);

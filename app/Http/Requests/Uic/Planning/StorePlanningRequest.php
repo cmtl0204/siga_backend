@@ -19,10 +19,6 @@ class StorePlanningRequest extends FormRequest
                 'required',
                 'max:50'
             ],
-            'planning.number' => [
-                'required',
-                'integer',
-            ],
             'planning.start_date' => [
                 'date',
                 'required',
@@ -44,7 +40,6 @@ class StorePlanningRequest extends FormRequest
     {
         $attributes = [
             'planning.name' => 'nombre',
-            'planning.number' => 'número',
             'planning.event' => 'evento',
             'planning.start_date' => 'fecha inicio',
             'planning.end_date' => 'fecha fin',
