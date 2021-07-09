@@ -22,6 +22,10 @@ class StoreRequirementRequest extends FormRequest
             'requirement.is_required' => [
                 'required',
                 'bool'
+            ],
+            'requirement.is_solicitable' => [
+                'required',
+                'bool'
             ]
         ];
         return UicFormRequest::rules($rules);
@@ -31,7 +35,8 @@ class StoreRequirementRequest extends FormRequest
     {
         $attributes = [
             'requirement.name' => 'nombre',
-            'requirement.is_required' => 'es requerido'
+            'requirement.is_required' => 'es requerido',
+            'requirement.is_solicitable' => 'es solicitado'
         ];
         return UicFormRequest::attributes($attributes);
     }

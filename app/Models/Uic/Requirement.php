@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\Career;
 use App\Models\App\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,13 +24,13 @@ class Requirement extends Model implements Auditable
 
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.requirements';
-
     protected $fillable = [
         'name',
     ];
 
     protected $casts = [
         'is-required' => 'boolean',
+        'is-is_solicitable' => 'boolean',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
@@ -43,11 +44,15 @@ class Requirement extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-    protected $with = [];
+    protected $with = ['career'];
     protected $cascadeDeletes = ['meshStudentRequirements', 'files'];
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
+    }
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
     }
     public function meshStudentRequirements()
     {

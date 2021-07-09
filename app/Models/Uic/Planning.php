@@ -4,6 +4,7 @@ namespace App\Models\Uic;
 
 // Laravel
 
+use App\Models\App\Career;
 use App\Models\App\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +36,6 @@ class Planning extends Model implements Auditable
 
     protected $fillable = [
         'name',
-        'number',
         'description'
     ];
 
@@ -45,10 +45,14 @@ class Planning extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    protected $with = [];
+    protected $with = ['career'];
     protected $cascadeDeletes = ['enrollments', 'eventPlannings'];
 
     /*Relatioship*/
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
+    }
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);

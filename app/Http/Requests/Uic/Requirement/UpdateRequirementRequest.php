@@ -22,6 +22,10 @@ class UpdateRequirementRequest extends FormRequest
             'requirement.is_required' => [
                 'required',
                 'bool'
+            ],
+            'requirement.is_solicitable' => [
+                'required',
+                'bool'
             ]
         ];
         return UicFormRequest::rules($rules);

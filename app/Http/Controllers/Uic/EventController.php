@@ -66,8 +66,10 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $event = new Event;
-        $event->name = $request->input('event.name');
-        $event->description = $request->input('event.description');
+        $event->planning_id = $request->input('event.planning.id');
+        $event->catalogues = $request->input('event.catalogues');
+        $event->start_date = $request->input('event.start_date');
+        $event->end_date = $request->input('event.end_date');
         $event->save();
         return response()->json([
             'data' => $event->fresh(),
@@ -101,8 +103,10 @@ class EventController extends Controller
                 ]
             ], 400);
         }
-        $event->name = $request->input('event.name');
-        $event->description = $request->input('event.description');
+        $event->planning_id = $request->input('event.planning.id');
+        $event->catalogues = $request->input('event.catalogues');
+        $event->start_date = $request->input('event.start_date');
+        $event->end_date = $request->input('event.end_date');
         $event->save();
         return response()->json([
             'data' => $event,

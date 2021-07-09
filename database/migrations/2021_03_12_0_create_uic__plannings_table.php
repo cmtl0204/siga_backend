@@ -16,6 +16,7 @@ class CreateUicPlanningsTable extends Migration
         Schema::connection('pgsql-uic')->create('plannings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('career_id')->constrained('app.careers');
+            $table->string('name')->nullable()->comment('UIC 2021-1');
             $table->date('start_date')->comment('fecha inicio');
             $table->date('end_date')->comment('fecha fin');
             $table->string('description')->nullable()->comment('descripcion evento');

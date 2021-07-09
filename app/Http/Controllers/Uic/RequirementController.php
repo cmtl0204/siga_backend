@@ -69,6 +69,7 @@ class RequirementController extends Controller
         $requirement = new Requirement;
         $requirement->name = $request->input('requirement.name');
         $requirement->is_required = $request->input('requirement.is_required');
+        $requirement->is_solicitable = $request->input('requirement.is_solicitable');
         $requirement->save();
         return response()->json([
             'data' => $requirement->fresh(),
@@ -95,6 +96,7 @@ class RequirementController extends Controller
         }
         $requirement->name = $request->input('requirement.name');
         $requirement->is_required = $request->input('requirement.is_required');
+        $requirement->is_solicitable = $request->input('requirement.is_solicitable');
         $requirement->save();
         return response()->json([
             'data' => $requirement->fresh(),

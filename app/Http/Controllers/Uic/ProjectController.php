@@ -63,6 +63,7 @@ class ProjectController extends Controller
         $project->enrollment_id = $request->input('project.enrollment.id');
         $project->title = $request->input('project.title');
         $project->description = $request->input('project.description');
+        $project->score = $request->input('project.score');
         $project->observations = $request->input('project.observations');
         $project->save();
         return response()->json([
@@ -92,6 +93,7 @@ class ProjectController extends Controller
         $project->enrollment_id = $request->input('project.enrollment.id');
         $project->title = $request->input('project.title');
         $project->description = $request->input('project.description');
+        $project->score = $request->input('project.score');
         $project->observations = $request->input('project.observations');
         $project->save();
         return response()->json([

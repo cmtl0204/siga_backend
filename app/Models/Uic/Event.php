@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\Catalogue;
 use App\Models\Uic\Planning;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,11 +30,11 @@ class Event extends Model implements Auditable
     protected $with = [];
 
     protected $fillable = [
-        'name',
-        'description'
+        'start_date',
+        'end_date'
     ];
 
-    protected $cascadeDeletes = ['EventPlannings'];
+    protected $cascadeDeletes = [];
 
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
@@ -41,20 +42,12 @@ class Event extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    public function eventPlannings()
+    public function planning()
     {
-        return $this->hasMany(EventPlanning::class);
+        return $this->belongsTo(Planning::class);
     }
-    public function scopeName($query, $name)
+    public function name()
     {
-        if ($name) {
-            return $query->where('name', 'ILIKE', "%$name%");
-        }
-    }
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->orWhere('description', 'ILIKE', "%$description%");
-        }
+        return $this->belongsTo(Catalogue::class);
     }
 }
