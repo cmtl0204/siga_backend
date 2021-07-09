@@ -12,9 +12,9 @@ class CreateAppMeshStudentTable extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('app.students');
             $table->foreignId('mesh_id')->constrained('app.meshes');
-            $table->date('start_cohort')->nullable();
-            $table->date('end_cohort')->nullable();
-            $table->boolean('is_graduated')->nullable();
+            $table->date('start_cohort')->nullable()->comment('cohorte de ingreso');
+            $table->date('end_cohort')->nullable()->comment('cohorte de salida');
+            $table->boolean('is_graduated')->nullable()->comment('true si ya está graduado');
             $table->softDeletes();
             $table->timestamps();
         });

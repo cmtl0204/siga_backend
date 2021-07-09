@@ -15,11 +15,10 @@ class CreateUicPlanningsTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('plannings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('number')->comment('numero convocatoria');
-            $table->date('start_date')->comment('inicio convocatoria');
-            $table->date('end_date')->comment('fin convocatoria');
-            $table->string('description')->nullable();
+            $table->foreignId('career_id')->constrained('app.careers');
+            $table->date('start_date')->comment('fecha inicio');
+            $table->date('end_date')->comment('fecha fin');
+            $table->string('description')->nullable()->comment('descripcion evento');
             $table->softDeletes();
             $table->timestamps();
         });
