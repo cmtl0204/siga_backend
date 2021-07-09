@@ -13,6 +13,7 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Uic\EnrollmentController;
 use App\Http\Controllers\Uic\EventController;
 use App\Http\Controllers\Uic\EventPlanningController;
+use App\Http\Controllers\Uic\InformationStudentController;
 use App\Http\Controllers\Uic\ModalityController;
 use App\Http\Controllers\Uic\PlanningController;
 use App\Http\Controllers\Uic\TutorController;
@@ -90,7 +91,8 @@ Route::prefix('/')->group(function () {
         'mesh-student-requirements' => MeshStudentRequirementController::class,
         'projects' => ProjectController::class,
         'project-plans' => ProjectPlanController::class,
-        'events' => EventController::class
+        'events' => EventController::class,
+        'information-students' => InformationStudentController::class
 
     ]);
     Route::prefix('modality')->group(function () {
@@ -145,5 +147,8 @@ Route::prefix('/')->group(function () {
             Route::put('update/{file}', [ProjectPlanController::class, 'updateFile']);
             Route::get('{file}', [ProjectPlanController::class, 'showFile']);
         });
+    });
+    Route::prefix('information-student')->group(function () {
+        Route::put('delete', [InformationStudentController::class, 'delete']);
     });
 });
