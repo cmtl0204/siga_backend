@@ -67,6 +67,7 @@ class RequirementController extends Controller
     public function store(StoreRequirementRequest $request)
     {
         $requirement = new Requirement;
+        $requirement->career_id = $request->input('requirement.career.id');
         $requirement->name = $request->input('requirement.name');
         $requirement->is_required = $request->input('requirement.is_required');
         $requirement->is_solicitable = $request->input('requirement.is_solicitable');
@@ -94,6 +95,7 @@ class RequirementController extends Controller
                 ]
             ], 400);
         }
+        $requirement->career_id = $request->input('requirement.career.id');
         $requirement->name = $request->input('requirement.name');
         $requirement->is_required = $request->input('requirement.is_required');
         $requirement->is_solicitable = $request->input('requirement.is_solicitable');

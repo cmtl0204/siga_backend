@@ -3,6 +3,7 @@
 namespace App\Models\App;
 
 // Laravel
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -10,28 +11,30 @@ use OwenIt\Auditing\Auditable as Auditing;
 
 // Application
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Career;
+use App\Models\Authentication\User;
 
-
-class MeshStudent extends Model implements Auditable
+class InformationStudent extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
     protected $connection = 'pgsql-app';
-    protected $table = 'app.mesh_student';
+    protected $table = 'uic.information_students';
 
-    protected $with = ['mesh', 'student'];
+    protected $with = ['student'];
 
     protected static $instance;
 
     protected $fillable = [
-        'is_graduated'
+        'province_birth',
+        'canton_birth',
+        'company_work',
+        'relation_laboral_career',
+        'area',
+        'position'
     ];
     protected $casts = [
-        'start_cohort' => 'date:Y-m-d h:m:s',
-        'end_cohort' => 'date:Y-m-d h:m:s',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
@@ -44,13 +47,8 @@ class MeshStudent extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-
     public function student()
     {
         return $this->belongsTo(Student::class);
-    }
-    public function mesh()
-    {
-        return $this->belongsTo(Mesh::class);
     }
 }
