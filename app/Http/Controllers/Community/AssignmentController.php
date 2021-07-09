@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Community;
 
 // Controllers
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\Community\Assignment\StoreAssignmentRequest;
 // Models
 use App\Models\Community\Assignment;
 use App\Models\Authentication\User;
@@ -14,10 +14,17 @@ use App\Models\Authentication\User;
 
 class AssignmentController extends Controller 
 {
-	{
-    public function index(Assignment $request)
+
+    public function getAssignment(Assignment $request)
     {
-        //
+        $assignment = Assignment::where('user_id', $request->input('user.id'))->with('user')->paginate($request->input('per_page'));
+        return response()->json([
+            'data' => $assignment,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
     }
 
     public function store(StoreAssignmentRequest $request)
@@ -39,7 +46,7 @@ class AssignmentController extends Controller
         $assignment->academic_period = $request->input('assignment.academic_period');
         $assignment->level = $request->input('assignment.level');
 
-        $project_participant->save();
+        $assignment->save();
 
         return response()->json([
             'data' => $assignment,
@@ -53,16 +60,13 @@ class AssignmentController extends Controller
 
     public function show(Assignment $assignment)
     {
-        {
-
-            return response()->json([
-                'data' => $assignment,
-                'msg' => [
-                    'summary' => 'success',
-                    'detail' => '',
-                    'code' => '200'
-                ]], 200);
-        } 
+        return response()->json([
+            'data' => $assignment,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
     }
 
     public function update(Assignment $request, Assignment $assignment)

@@ -35,6 +35,11 @@ Route::middleware($middlewares)
             'assignment' => AssignmentController::class,
         ]);
 
+        // Assignment
+        Route::prefix('assignment')->group(function () {
+            Route::get('get-assignment', [AssignmentController::class, 'getAssignment']);
+        });
+
         // Auth
         Route::prefix('auth')->group(function () {
             Route::get('roles', [AuthController::class, 'getRoles'])->withoutMiddleware(['check-permissions']);
