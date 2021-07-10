@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App\CareerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Authentication\UserController;
@@ -30,6 +31,8 @@ Route::middleware($middlewares)
             'roles' => RoleController::class,
             'systems' => SystemController::class,
         ]);
+
+        Route::get('careers', [CareerController::class, 'index']);
         
         Route::apiResources([
             'projects' => ProjectController::class,

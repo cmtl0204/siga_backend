@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\App\Career;
 use App\Models\App\Catalogue;
 use App\Models\App\Institution;
+use App\Models\App\Location;
 use App\Models\App\Status;
 use App\Models\Authentication\Module;
 use App\Models\Authentication\Permission;
@@ -70,6 +71,9 @@ class AuthenticationSeeder extends Seeder
 
         // Security Questions
         $this->createSecurityQuestions();
+
+        // Locations
+        $this->createLocations();
     }
 
     private function createSystem()
@@ -642,7 +646,24 @@ class AuthenticationSeeder extends Seeder
 
     private function createLocations()
     {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        Location::factory()->create([
+            'code' => 'PI',
+            'name' => 'PICHINCHA',
+            'type_id' => 37,
+        ]);
 
+        Location::factory()->create([
+            'code' => 'GY',
+            'name' => 'GUAYAS',
+            'type_id' => 37,
+        ]);
+
+        Location::factory()->create([
+            'code' => 'MA',
+            'name' => 'MANABÍ',
+            'type_id' => 37,
+        ]);
     }
 
     private function createCareerType()
@@ -792,6 +813,16 @@ class AuthenticationSeeder extends Seeder
             'name' => 'ADMINISTRACIÓN USUARIOS',
             'logo' => 'routes/route2.png',
             'order' => 2
+        ]);
+
+        Route::factory()->create([
+            'uri' => $catalogues['route']['community']['community'],
+            'module_id' => $moduleAuthentication->id,
+            'type_id' => $menuNormal->id,
+            'status_id' => $statusAvailable->id,
+            'name' => 'ADMINISTRACIÓN VINCULACIÓN',
+            'logo' => 'routes/route2.png',
+            'order' => 3
         ]);
     }
 
