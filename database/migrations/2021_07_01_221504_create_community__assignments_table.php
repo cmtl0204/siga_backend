@@ -22,7 +22,7 @@ class CreateCommunityAssignmentsTable extends Migration
 			$table->text('observation')->nullable()->comment('contenido de la clusula del convenio.'); // texto que describe la clausula del convenio.
 			$table->text('academic_period')->nullable()->comment('preriodo academico en el que hace la solicitud.'); 
 			$table->text('level')->nullable()->comment('nivel que se encuentra el estudiante.'); 
-			
+			// test
 			$table->softDeletes();
 			$table->timestamps();
 
