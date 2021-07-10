@@ -47,16 +47,6 @@ class CompanyController extends Controller
             $professionals = $company->professionals()->paginate($request->input('per_page'));
         }
 
-        if (sizeof($professionals) === 0) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraron profesionales en esta compañia',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]], 404);
-        }
-
         return response()->json($professionals, 200);
 
     }
