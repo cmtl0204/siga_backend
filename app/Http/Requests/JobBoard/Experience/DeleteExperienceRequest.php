@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Reference;
+namespace App\Http\Requests\JobBoard\Experience;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DeleteReferenceRequest extends FormRequest
+class DeleteExperienceRequest extends FormRequest
 {
     public function authorize()
     {

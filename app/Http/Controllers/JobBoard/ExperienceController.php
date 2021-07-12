@@ -155,7 +155,7 @@ class ExperienceController extends Controller
     function delete(DeleteExperienceRequest $request)
     {
         // Es una eliminación lógica
-        Reference::destroy($request->input('ids'));
+        Experience::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
