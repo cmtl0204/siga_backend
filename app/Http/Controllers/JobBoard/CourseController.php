@@ -99,10 +99,10 @@ class CourseController extends Controller
         }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo course.
-        $type = Catalogue::getInstance($request->input('course.type.id'));
-        $institution = Catalogue::getInstance($request->input('course.institution.id'));
-        $certification_type = Catalogue::getInstance($request->input('course.certification_type.id'));
-        $area = Catalogue::getInstance($request->input('course.area.id'));
+        $type = Catalogue::find($request->input('course.type.id'));
+        $institution = Catalogue::find($request->input('course.institution.id'));
+        $certification_type = Catalogue::find($request->input('course.certification_type.id'));
+        $area = Catalogue::find($request->input('course.area.id'));
 
         $course = new Course();
         $course->name = $request->input('course.name');
@@ -134,10 +134,10 @@ class CourseController extends Controller
     //Actualiza los datos del curso creado//
     function update(UpdateCourseRequest $request, Course $course)
     {
-        $type = Catalogue::getInstance($request->input('course.type.id'));
-        $institution = Catalogue::getInstance($request->input('course.institution.id'));
-        $certification_type = Catalogue::getInstance($request->input('course.certification_type.id'));
-        $area = Catalogue::getInstance($request->input('course.area.id'));
+        $type = Catalogue::find($request->input('course.type.id'));
+        $institution = Catalogue::find($request->input('course.institution.id'));
+        $certification_type = Catalogue::find($request->input('course.certification_type.id'));
+        $area = Catalogue::find($request->input('course.area.id'));
 
         //$course = Course::find($courseId);
 

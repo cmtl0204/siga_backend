@@ -127,7 +127,7 @@ class ReferenceController extends Controller
             ], 404);
         }
         //$professional = Professional::getInstance($request->input('professional.id'));
-        $institution = Catalogue::getInstance($request->input('reference.institution.id'));
+        $institution = Catalogue::find($request->input('reference.institution.id'));
         $reference = new Reference();
         //$reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');
@@ -172,7 +172,7 @@ class ReferenceController extends Controller
     }*/
     function update(UpdateReferenceRequest $request, Reference $reference)
     {
-        $institution = Catalogue::getInstance($request->input('reference.institution.id'));
+        $institution = Catalogue::find($request->input('reference.institution.id'));
 
        // $reference = Reference::find($id);
 

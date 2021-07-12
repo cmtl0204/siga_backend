@@ -48,6 +48,10 @@ class StoreExperienceRequest extends FormRequest
             'experience.is_working' => [
                 'required',
             
+            ],
+           'experience.is_disability' => [
+                'required',
+            
             ]
         ];
         return JobBoardFormRequest::rules($rules);
@@ -64,6 +68,8 @@ class StoreExperienceRequest extends FormRequest
             'experience.activities' => 'ocupaciones',
             'experience.reason-leave' => 'razon dejar',
             'experience.is_working' => 'está trabajando',
+            'experience.is_disability' => 'es discapacitado',
+
     ];
         return JobBoardFormRequest::attributes($attributes);
     }
