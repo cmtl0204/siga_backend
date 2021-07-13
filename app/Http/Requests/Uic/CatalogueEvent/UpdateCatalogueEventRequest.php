@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\EventPlanning;
+namespace App\Http\Requests\Uic\Event;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class DeleteEventPlanningRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,9 +15,18 @@ class DeleteEventPlanningRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'ids' => [
+            'event.name' => [
+                'string',
                 'required',
+                'max:50'
+
             ],
+            'event.description' => [
+                'string',
+                'required',
+                'max:50'
+            ]
+
         ];
         return UicFormRequest::rules($rules);
     }
@@ -26,7 +34,8 @@ class DeleteEventPlanningRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'ids' => 'IDs',
+            'event.name' => 'nombre',
+            'event.description' => 'descripcion'
         ];
         return UicFormRequest::attributes($attributes);
     }

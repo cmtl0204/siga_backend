@@ -27,7 +27,7 @@ class Event extends Model implements Auditable
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.events';
     //hacer despues
-    protected $with = [];
+    protected $with = ['planning', 'name'];
 
     protected $fillable = [
         'start_date',

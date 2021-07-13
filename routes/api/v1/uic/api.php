@@ -10,10 +10,9 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Uic\CatalogueEventController;
 use App\Http\Controllers\Uic\EnrollmentController;
 use App\Http\Controllers\Uic\EventController;
-use App\Http\Controllers\Uic\EventPlanningController;
-use App\Http\Controllers\Uic\InformationStudentController;
 use App\Http\Controllers\Uic\ModalityController;
 use App\Http\Controllers\Uic\PlanningController;
 use App\Http\Controllers\Uic\TutorController;
@@ -86,14 +85,15 @@ Route::prefix('/')->group(function () {
         'modalities' => ModalityController::class,
         'enrollments' => EnrollmentController::class,
         'plannings' => PlanningController::class,
-        'event-plannings' => EventPlanningController::class,
+        'event-plannings' => EventController::class,
         'tutors' => TutorController::class,
         'requirements' => RequirementController::class,
         'mesh-student-requirements' => MeshStudentRequirementController::class,
         'projects' => ProjectController::class,
         'project-plans' => ProjectPlanController::class,
         'events' => EventController::class,
-        'student-informations' => StudentInformationController::class
+        'student-informations' => StudentInformationController::class,
+        'catalogue-events' => CatalogueEventController::class
 
     ]);
     Route::prefix('modality')->group(function () {
@@ -107,17 +107,20 @@ Route::prefix('/')->group(function () {
         Route::put('delete', [PlanningController::class, 'delete']);
     });
     Route::prefix('event-planning')->group(function () {
-        Route::put('delete', [EventPlanningController::class, 'delete']);
+        Route::put('delete', [EventController::class, 'delete']);
         Route::prefix('file')->group(function () {
-            Route::post('', [EventPlanningController::class, 'uploadFile']);
-            Route::put('delete', [EventPlanningController::class, 'deleteFile']);
-            Route::get('', [EventPlanningController::class, 'indexFile']);
-            Route::put('update/{file}', [EventPlanningController::class, 'updateFile']);
-            Route::get('{file}', [EventPlanningController::class, 'showFile']);
+            Route::post('', [EventController::class, 'uploadFile']);
+            Route::put('delete', [EventController::class, 'deleteFile']);
+            Route::get('', [EventController::class, 'indexFile']);
+            Route::put('update/{file}', [EventController::class, 'updateFile']);
+            Route::get('{file}', [EventController::class, 'showFile']);
         });
     });
     Route::prefix('event')->group(function () {
         Route::put('delete', [EventController::class, 'delete']);
+    });
+    Route::prefix('catalogue-event')->group(function () {
+        Route::put('delete', [CatalogueEventController::class, 'delete']);
     });
     Route::prefix('tutor')->group(function () {
         Route::put('delete', [TutorController::class, 'delete']);

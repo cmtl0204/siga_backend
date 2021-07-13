@@ -46,6 +46,7 @@ class Planning extends Model implements Auditable
     ];
 
     protected $with = ['career'];
+    protected $appends = ['career_planning'];
     protected $cascadeDeletes = ['enrollments', 'events'];
 
     /*Relatioship*/
@@ -72,5 +73,10 @@ class Planning extends Model implements Auditable
         if ($description) {
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
+    }
+    // Accessors
+    public function getCareerPlanningAttribute()
+    {
+        return "{$this->career['short_name']} - {$this->attributes['name']}";
     }
 }

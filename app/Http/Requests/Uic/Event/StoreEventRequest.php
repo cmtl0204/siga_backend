@@ -15,11 +15,21 @@ class StoreEventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'event.name' => [
-                'string',
+            'event.planning.id' => [
+                'integer',
+                'required'
+            ],
+            'event.name.id' => [
+                'integer',
+                'required'
+            ],
+            'event.start_date' => [
+                'date',
                 'required',
-                'max:50'
-
+            ],
+            'event.end_date' => [
+                'date',
+                'required',
             ]
 
         ];
@@ -29,8 +39,10 @@ class StoreEventRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'event.name' => 'nombre',
-            'event.description' => 'descripcion'
+            'event.planning.id' => 'convocatoria',
+            'event.name.id' => 'evento',
+            'event.start_date' => 'fecha inicio',
+            'event.end_date' => 'fecha fin',
         ];
         return UicFormRequest::attributes($attributes);
     }

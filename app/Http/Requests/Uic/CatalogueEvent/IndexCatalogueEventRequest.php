@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\EventPlanning;
+namespace App\Http\Requests\Uic\Event;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexEventPlanningRequest extends FormRequest
+class IndexEventRequest extends FormRequest
 {
     public function authorize()
     {
