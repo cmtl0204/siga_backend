@@ -17,7 +17,7 @@ class CreateJobboardCoursesTable extends Migration
             $table->foreignId('certification_type_id')->constrained('app.catalogues');
             $table->foreignId('area_id')->constrained('app.catalogues');
             $table->text('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('hours');

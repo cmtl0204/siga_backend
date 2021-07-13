@@ -13,6 +13,7 @@ use App\Http\Controllers\JobBoard\ExperienceController;
 use App\Http\Controllers\JobBoard\ReferenceController;
 use App\Http\Controllers\JobBoard\WebProfessionalController;
 use App\Http\Controllers\JobBoard\WebOfferController;
+
 // hola
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -54,28 +55,25 @@ Route::middleware($middlewares)
 
         });
 
-
         Route::prefix('company')->group(function () {
             Route::get('show', [CompanyController::class, 'getCompany']);
             Route::get('professionals', [CompanyController::class, 'getProfessionals']);
             Route::get('detach', [CompanyController::class, 'detachProfessional']);
             Route::put('update', [CompanyController::class, 'updateCompany']);
             Route::post('register', [CompanyController::class, 'register']);
-            Route::get('verify',[CompanyController::class,'verifyCompany']);
+            Route::get('verify', [CompanyController::class, 'verifyCompany']);
 
         });
+
         Route::prefix('category')->group(function () {
             Route::put('delete', [CategoryController::class, 'delete']);
 
         });
 
-
         Route::prefix('professional')->group(function () {
             Route::get('{id}', [ProfessionalController::class, 'getOffers']);
             Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
-              //   Route::get('test', function () {
-                //  return 'test';
-            //      });
+            Route::get('curriculum/{professional}', [ProfessionalController::class, 'getCurriculum']);
         });
 
         Route::prefix('offer')->group(function () {
@@ -115,7 +113,6 @@ Route::middleware($middlewares)
             // ruta para hcer pruebas
             //Route::get('test', function () {
             //          return 'test';
-        
             Route::prefix('file')->group(function () {
                 Route::post('', [LanguageController::class, 'uploadFiles']);
                 Route::delete('{image}', [LanguageController::class, 'deleteFile']);
@@ -123,7 +120,6 @@ Route::middleware($middlewares)
                 Route::get('{file}', [LanguageController::class, 'showFile']);
             });
         });
-
 
         Route::prefix('experience')->group(function () {
             Route::get('test', [ExperienceController::class, 'test']);
@@ -139,14 +135,15 @@ Route::middleware($middlewares)
             });
         });
 
+        });
 
         Route::prefix('reference')->group(function () {
             Route::get('test', [ReferenceController::class, 'test']);
             Route::put('delete', [ReferenceController::class, 'delete']);
             Route::get('get', [ReferenceController::class, 'get']);
 
-            // ruta para hcer pruebas
-            //  Route::get('test', function () {
+            //     // ruta para hcer pruebas
+            //   //  Route::get('test', function () {
             //    return 'test';
             Route::prefix('file')->group(function () {
                 Route::post('', [ReferenceController::class, 'uploadFiles']);
@@ -206,7 +203,6 @@ Route::prefix('/')
             Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
-
     });
 
 
