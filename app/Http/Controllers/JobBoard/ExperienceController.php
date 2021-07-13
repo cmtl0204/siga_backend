@@ -14,8 +14,7 @@ use App\Http\Requests\JobBoard\Experience\DeleteExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\StoreExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Database\Eloquent\Model;
+
 use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
@@ -113,9 +112,9 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, $experienceId)
+    function update(UpdateExperienceRequest $request, Experience $experience)
     {
-        $area = Catalogue::find($request->input('area.id'));
+        $area = Catalogue::find($request->input('experience.area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.
       //  $experience = Experience::find($experienceId);
 
@@ -127,8 +126,7 @@ class ExperienceController extends Controller
                     'summary' => 'Experiencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]
-            ], 404);
+                ]], 404);
         }
 
         $experience->employer = $request->input('experience.employer');
