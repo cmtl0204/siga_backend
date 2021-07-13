@@ -21,6 +21,7 @@ use App\Http\Controllers\Uic\ProjectController;
 use App\Http\Controllers\Uic\ProjectPlanController;
 use App\Http\Controllers\Uic\RequirementController;
 use App\Http\Controllers\Uic\MeshStudentRequirementController;
+use App\Http\Controllers\Uic\StudentInformationController;
 
 $middlewares = ['auth:api'];
 
@@ -92,7 +93,7 @@ Route::prefix('/')->group(function () {
         'projects' => ProjectController::class,
         'project-plans' => ProjectPlanController::class,
         'events' => EventController::class,
-        'information-students' => InformationStudentController::class
+        'student-informations' => StudentInformationController::class
 
     ]);
     Route::prefix('modality')->group(function () {
@@ -147,7 +148,7 @@ Route::prefix('/')->group(function () {
             Route::get('{file}', [ProjectPlanController::class, 'showFile']);
         });
     });
-    Route::prefix('information-student')->group(function () {
-        Route::put('delete', [InformationStudentController::class, 'delete']);
+    Route::prefix('student-information')->group(function () {
+        Route::put('delete', [StudentInformationController::class, 'delete']);
     });
 });

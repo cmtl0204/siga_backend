@@ -15,21 +15,20 @@ class StoreStudentInformationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'informationStudent.student.id' => [
-                'required',
+            'studentInformation.student.id' => [
                 'integer'
             ],
-            'informationStudent.company_work' => [
+            'studentInformation.company_work' => [
                 'required',
                 'string'
             ],
-            'informationStudent.relation_laboral_career.id' => [
+            'studentInformation.relation_laboral_career.id' => [
                 'required'
             ],
-            'informationStudent.company_area.id' => [
+            'studentInformation.company_area.id' => [
                 'required'
             ],
-            'informationStudent.company_position.id' => [
+            'studentInformation.company_position.id' => [
                 'required'
             ]
         ];
@@ -39,11 +38,11 @@ class StoreStudentInformationRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'informationStudent.student.id' => 'estudiante id',
-            'informationStudent.company_work' => 'provincia de nacimiento',
-            'informationStudent.relation_laboral_career.id' => 'canton de nacimiento',
-            'informationStudent.company_area.id' => 'empresa donde labora',
-            'informationStudent.company_position.id' => 'relacion laboral vs carrera'
+            'studentInformation.student.id' => 'estudiante id',
+            'studentInformation.company_work' => 'empresa donde labora',
+            'studentInformation.relation_laboral_career.id' => 'relacion laboral vs carrera',
+            'studentInformation.company_area.id' => 'area',
+            'studentInformation.company_position.id' => 'cargo'
         ];
         return UicFormRequest::attributes($attributes);
     }

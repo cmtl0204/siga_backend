@@ -58,17 +58,17 @@ class StudentInformationController extends Controller
     public function store(StoreStudentInformationRequest $request)
     {
         $informationStudent = new StudentInformation;
-        $informationStudent->student_id = $request->input('informationStudent.student.id');
-        $informationStudent->company_work = $request->input('informationStudent.company_work');
-        $informationStudent->relation_laboral_career_id = $request->input('informationStudent.relation_laboral_career.id');
-        $informationStudent->company_area_id = $request->input('informationStudent.company_area.id');
-        $informationStudent->company_position_id = $request->input('informationStudent.company_position.id');
+        $informationStudent->student_id = $request->input('studentInformation.student.id');
+        $informationStudent->company_work = $request->input('studentInformation.company_work');
+        $informationStudent->relation_laboral_career_id = $request->input('studentInformation.relation_laboral_career.id');
+        $informationStudent->company_area_id = $request->input('studentInformation.company_area.id');
+        $informationStudent->company_position_id = $request->input('studentInformation.company_position.id');
         $informationStudent->save();
         return response()->json([
             'data' => $informationStudent->fresh(),
             'msg' => [
-                'summary' => 'StudentInformation creado',
-                'detail' => 'El informationStudent fue creado',
+                'summary' => 'Información creada',
+                'detail' => 'la información fue creada',
                 'code' => '201'
             ]
         ], 201);
@@ -87,11 +87,11 @@ class StudentInformationController extends Controller
                 ]
             ], 400);
         }
-        $informationStudent->student_id = $request->input('informationStudent.student.id');
-        $informationStudent->company_work = $request->input('informationStudent.company_work');
-        $informationStudent->relation_laboral_career_id = $request->input('informationStudent.relation_laboral_career.id');
-        $informationStudent->company_area_id = $request->input('informationStudent.company_area.id');
-        $informationStudent->company_position_id = $request->input('informationStudent.company_position.id');
+        $informationStudent->student_id = $request->input('studentInformation.student.id');
+        $informationStudent->company_work = $request->input('studentInformation.company_work');
+        $informationStudent->relation_laboral_career_id = $request->input('studentInformation.relation_laboral_career.id');
+        $informationStudent->company_area_id = $request->input('studentInformation.company_area.id');
+        $informationStudent->company_position_id = $request->input('studentInformation.company_position.id');
         $informationStudent->save();
         return response()->json([
             'data' => $informationStudent->fresh(),
