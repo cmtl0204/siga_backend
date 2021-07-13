@@ -13,7 +13,6 @@ use App\Http\Controllers\JobBoard\ExperienceController;
 use App\Http\Controllers\JobBoard\ReferenceController;
 use App\Http\Controllers\JobBoard\WebProfessionalController;
 use App\Http\Controllers\JobBoard\WebOfferController;
-// hola
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -51,9 +50,7 @@ Route::middleware($middlewares)
                 Route::get('', [SkillController::class, 'indexFile']);
                 Route::get('{file}', [SkillController::class, 'showFile']);
             });
-
         });
-
 
         Route::prefix('company')->group(function () {
             Route::get('show', [CompanyController::class, 'getCompany']);
@@ -61,21 +58,15 @@ Route::middleware($middlewares)
             Route::get('detach', [CompanyController::class, 'detachProfessional']);
             Route::put('update', [CompanyController::class, 'updateCompany']);
             Route::post('register', [CompanyController::class, 'register']);
-            Route::get('verify',[CompanyController::class,'verifyCompany']);
-
+            Route::get('verify', [CompanyController::class, 'verifyCompany']);
         });
         Route::prefix('category')->group(function () {
             Route::put('delete', [CategoryController::class, 'delete']);
-
         });
-
 
         Route::prefix('professional')->group(function () {
             Route::get('{id}', [ProfessionalController::class, 'getOffers']);
-                Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
-              //   Route::get('test', function () {
-                //  return 'test';
-      //      });
+            Route::get('{id}', [ProfessionalController::class, 'getCompanies']);
         });
 
         Route::prefix('offer')->group(function () {
@@ -89,86 +80,72 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('academic-formation')->group(function () {
-            // ruta para hcer pruebas
-            Route::get('test', function () {
-                return 'test';
-            });
         });
+    });
 
-        Route::prefix('course')->group(function () {
-            Route::get('test', [CourseController::class, 'test']);
-            Route::put('delete', [CourseController::class, 'delete']);
-            /*ruta para hcer pruebas
-            Route::get('test', function () {
-                return 'test';*/
-                Route::prefix('file')->group(function () {
-                    Route::post('', [CourseController::class, 'uploadFiles']);
-                    Route::delete('{image}', [CourseController::class, 'deleteFile']);
-                    Route::get('', [CourseController::class, 'indexFile']);
-                    Route::get('{file}', [CourseController::class, 'showFile']);
-                 });
-            });
-        });
+Route::prefix('course')->group(function () {
+    Route::get('test', [CourseController::class, 'test']);
+    Route::put('delete', [CourseController::class, 'delete']);
+    Route::prefix('file')->group(function () {
+        Route::post('', [CourseController::class, 'uploadFiles']);
+        Route::delete('{image}', [CourseController::class, 'deleteFile']);
+        Route::get('', [CourseController::class, 'indexFile']);
+        Route::get('{file}', [CourseController::class, 'showFile']);
+    });
+});
 
-        Route::prefix('language')->group(function () {
-            Route::put('delete', [LanguageController::class, 'delete']);
-      Route::prefix('file')->group(function () {
+Route::prefix('language')->group(function () {
+    Route::get('test', [LanguageController::class, 'test']);
+    Route::put('delete', [LanguageController::class, 'delete']);
+    Route::prefix('file')->group(function () {
         Route::post('', [LanguageController::class, 'uploadFiles']);
         Route::delete('{image}', [LanguageController::class, 'deleteFile']);
         Route::get('', [LanguageController::class, 'indexFile']);
         Route::get('{file}', [LanguageController::class, 'showFile']);
-     });
-            });
+    });
+});
 
+Route::prefix('experience')->group(function () {
+    Route::get('test', [ExperienceController::class, 'test']);
+    Route::put('delete', [ExperienceController::class, 'delete']);
+    Route::prefix('file')->group(function () {
+        Route::post('', [ExperienceController::class, 'uploadFiles']);
+        Route::delete('{image}', [ExperienceController::class, 'deleteFile']);
+        Route::get('', [ExperienceController::class, 'indexFile']);
+        Route::get('{file}', [ExperienceController::class, 'showFile']);
+    });
+});
 
-        Route::prefix('experience')->group(function () {
-            Route::get('test', [ExperienceController::class, 'test']);
-            Route::put('delete', [ExperienceController::class, 'delete']);
-            /* ruta para hcer pruebas
-            Route::get('test', function () {
-                return 'test';*/
-                Route::prefix('file')->group(function () {
-                    Route::post('', [ExperienceController::class, 'uploadFiles']);
-                    Route::delete('{image}', [ExperienceController::class, 'deleteFile']);
-                    Route::get('', [ExperienceController::class, 'indexFile']);
-                    Route::get('{file}', [ExperienceController::class, 'showFile']);
-                 });
+Route::prefix('reference')->group(function () {
+    Route::get('test', [ReferenceController::class, 'test']);
+    Route::put('delete', [ReferenceController::class, 'delete']);
+    Route::get('get', [ReferenceController::class, 'get']);
+    Route::prefix('file')->group(function () {
+        Route::post('', [ReferenceController::class, 'uploadFiles']);
+        Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
+        Route::get('', [ReferenceController::class, 'indexFile']);
+        Route::get('{file}', [ReferenceController::class, 'showFile']);
+    });
+});
 
-            });
+Route::prefix('reference')->group(function () {
+    // ruta para hcer pruebas
+    Route::get('test', function () {
+        return 'test';
+    });
+});
 
+Route::prefix('web-offer')->group(function () {
+    //            Route::post('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
+    Route::post('private-offers', [WebOfferController::class, 'getPrivateOffers']);
+    Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
+    //            Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
+    Route::post('test', [WebOfferController::class, 'test']);
+});
 
-         Route::prefix('reference')->group(function () {
-             Route::get('test', [ReferenceController::class, 'test']);
-             Route::put('delete', [ReferenceController::class, 'delete']);
-             Route::get('get', [ReferenceController::class, 'get']);
-
-        //     // ruta para hcer pruebas
-        //   //  Route::get('test', function () {
-             //    return 'test';
-             Route::prefix('file')->group(function () {
-                 Route::post('', [ReferenceController::class, 'uploadFiles']);
-                 Route::delete('{image}', [ReferenceController::class, 'deleteFile']);
-                 Route::get('', [ReferenceController::class, 'indexFile']);
-                Route::get('{file}', [ReferenceController::class, 'showFile']);
-           });
-
-        });
-
-        Route::prefix('reference')->group(function () {
-            // ruta para hcer pruebas
-            Route::get('test', function () {
-                return 'test';
-            });
-        });
-
-        Route::prefix('web-offer')->group(function () {
-//            Route::post('public-offers', [WebOfferController::class, 'getPublicOffers'])->withoutMiddleware('auth:api');
-            Route::post('private-offers', [WebOfferController::class, 'getPrivateOffers']);
-            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-//            Route::get('get-categories', [WebOfferController::class, 'getCategories'])->withoutMiddleware('auth:api');;
-            Route::post('test', [WebOfferController::class, 'test']);
-        });
-
+Route::prefix('web-professional')->group(function () {
+    Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
+});
 
 // Without Middleware
 Route::prefix('/')
@@ -191,7 +168,6 @@ Route::prefix('/')
             Route::get('total', [WebProfessionalController::class, 'total']);
             Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
-            Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
 
         Route::prefix('web-offer')->group(function () {
@@ -200,7 +176,4 @@ Route::prefix('/')
             Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
             Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
-
     });
-
-
