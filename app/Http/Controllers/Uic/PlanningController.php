@@ -66,7 +66,7 @@ class PlanningController extends Controller
     public function store(StorePlanningRequest $request)
     {
         $planning = new Planning;
-        if ($request->input('planning.start_date') <= $request->input('planning.end_date')) {
+            $planning->career_id = $request->input('planning.career.id');
             $planning->name = $request->input('planning.name');
             $planning->start_date = $request->input('planning.start_date');
             $planning->end_date = $request->input('planning.end_date');
@@ -80,7 +80,7 @@ class PlanningController extends Controller
                     'code' => '201'
                 ]
             ], 201);
-        }
+    
         return response()->json([
             'data' => null,
             'msg' => [
@@ -103,6 +103,7 @@ class PlanningController extends Controller
                 ]
             ], 400);
         }
+        $planning->career_id = $request->input('planning.career.id');
         $planning->name = $request->input('planning.name');
         $planning->start_date = $request->input('planning.start_date');
         $planning->end_date = $request->input('planning.end_date');
@@ -125,7 +126,7 @@ class PlanningController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Convenios eliminados',
+                'summary' => 'Convocatorias eliminados',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]

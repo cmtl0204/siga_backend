@@ -20,11 +20,6 @@ class StoreEventRequest extends FormRequest
                 'required',
                 'max:50'
 
-            ],
-            'event.description' => [
-                'string',
-                'required',
-                'max:50'
             ]
 
         ];

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Uic\InformationStudent;
+namespace App\Http\Requests\Uic\StudentInformation;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexInformationStudentRequest extends FormRequest
+class IndexStudentInformationRequest extends FormRequest
 {
     public function authorize()
     {

@@ -3,18 +3,11 @@
 namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Uic\EventPlanning\DeleteEventPlanningRequest;
-use App\Http\Requests\Uic\EventPlanning\IndexEventPlanningRequest;
-use App\Http\Requests\Uic\EventPlanning\StoreEventPlanningRequest;
-use App\Http\Requests\Uic\EventPlanning\UpdateEventPlanningRequest;
-use App\Models\Uic\EventPlanning;
-
-use App\Http\Controllers\App\FileController;
-use App\Http\Requests\App\File\IndexFileRequest;
-use App\Http\Requests\App\File\UpdateFileRequest;
-use App\Http\Requests\App\File\UploadFileRequest;
+use App\Http\Requests\Uic\Event\DeleteEventRequest;
+use App\Http\Requests\Uic\Event\IndexEventRequest;
+use App\Http\Requests\Uic\Event\StoreEventRequest;
+use App\Http\Requests\Uic\Event\UpdateEventRequest;
 use App\Models\Uic\Event;
-use App\Models\Uic\Planning;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -24,132 +17,109 @@ use Illuminate\Support\Facades\DB;
 
 class EventPlanningController extends Controller
 {
-    public function index(IndexEventPlanningRequest $request)
+    public function index(IndexEventRequest $request)
     {
         if ($request->has('search')) {
+            $events = Event::name($request->input('search'))
+                ->description($request->input('search'))
+                ->paginate($request->input('per_page'));
         } else {
-            $eventplannings = EventPlanning::paginate($request->input('per_page')); //Where date se encarga de hacer la comparación entre  fechas
+            $events = Event::paginate($request->input('per_page')); //Where date se
         }
 
-        if ($eventplannings->count() === 0) {
+        if ($events->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron Eventos asignados',
+                    'summary' => 'No se encontraron eventos',
                     'detail' => 'Intentelo de nuevo',
                     'code' => '404'
                 ]
             ], 404);
         }
-        return response()->json($eventplannings, 200);
+        return response()->json($events, 200);
     }
 
-    public function show(EventPlanning $eventplanning)
+
+    public function show(Event $event)
     {
-        if (!$eventplanning) {
+        if (!$event) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'La asignación no existe',
+                    'summary' => 'El evento no existe',
                     'detail' => 'Intente otra vez',
                     'code' => '404'
                 ]
             ], 404);
         }
         return response()->json([
-            'data' => $eventplanning,
+            'data' => $event->fresh(),
             'msg' => [
-                'summary' => 'La asignación no existe',
+                'summary' => 'El evento no existe',
                 'detail' => 'Intente otra vez',
                 'code' => '404'
             ]
         ], 200);
     }
 
-    public function store(StoreEventPlanningRequest $request)
+    public function store(StoreEventRequest $request)
     {
-        $eventplanning = new EventPlanning;
-        $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
-        $eventplanning->event_id = $request->input('eventPlanning.event.id');
-        $eventplanning->start_date = $request->input('eventPlanning.start_date');
-        $eventplanning->end_date = $request->input('eventPlanning.end_date');
-        $eventplanning->observations = $request->input('eventPlanning.observations');
-        $eventplanning->save();
+        $event = new Event;
+        $event->planning_id = $request->input('event.planning.id');
+        $event->catalogues = $request->input('event.catalogues');
+        $event->start_date = $request->input('event.start_date');
+        $event->end_date = $request->input('event.end_date');
+        $event->save();
         return response()->json([
-            'data' => $eventplanning->fresh(),
+            'data' => $event->fresh(),
             'msg' => [
-                'summary' => 'Asignación creada',
-                'detail' => 'La asignación fue creada',
+                'summary' => 'Evento creado',
+                'detail' => 'El evento fue creado',
                 'code' => '201'
             ]
         ], 201);
     }
 
-    public function update(UpdateEventPlanningRequest $request, $id)
+    public function update(UpdateEventRequest $request, $id)
     {
-        $eventplanning = EventPlanning::find($id);
-        if (!$eventplanning) {
+        $event = Event::find($id);
+        if (!$event) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'La planificacion no existe',
+                    'summary' => 'El evento no existe',
                     'detail' => 'Intente otra vez',
                     'code' => '404'
                 ]
             ], 400);
         }
-
-        $eventplanning->planning_id = $request->input('eventPlanning.planning.id');
-        $eventplanning->event_id = $request->input('eventPlanning.event.id');
-        $eventplanning->start_date = $request->input('eventPlanning.start_date');
-        $eventplanning->end_date = $request->input('eventPlanning.end_date');
-        $eventplanning->observations = $request->input('eventPlanning.observations');
-        $eventplanning->save();
+        $event->planning_id = $request->input('event.planning.id');
+        $event->catalogues = $request->input('event.catalogues');
+        $event->start_date = $request->input('event.start_date');
+        $event->end_date = $request->input('event.end_date');
+        $event->save();
         return response()->json([
-            'data' => $eventplanning->fresh(),
+            'data' => $event,
             'msg' => [
-                'summary' => 'Asignación actualizada',
-                'detail' => 'La asignación fue actualizada',
+                'summary' => 'Evento actualizado',
+                'detail' => 'El evento fue actualizado',
                 'code' => '201'
             ]
         ], 201);
     }
-    function delete(DeleteEventPlanningRequest $request)
+    function delete(DeleteEventRequest $request)
     {
         // Es una eliminación lógica
-        EventPlanning::destroy($request->input('ids'));
+        Event::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Asignación(es) eliminada(s)',
+                'summary' => 'evento(es) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]
         ], 201);
-    }
-    function uploadFile(UploadFileRequest $request)
-    {
-        return (new FileController())->upload($request, EventPlanning::getInstance($request->input('id')));
-    }
-
-    public function updateFile(UpdateFileRequest $request)
-    {
-        return (new FileController())->update($request, EventPlanning::getInstance($request->input('id')));
-    }
-
-    function deleteFile($fileId)
-    {
-        return (new FileController())->delete($fileId);
-    }
-
-    function indexFile(IndexFileRequest $request)
-    {
-        return (new FileController())->index($request, EventPlanning::getInstance($request->input('id')));
-    }
-
-    function ShowFile($fileId)
-    {
-        return (new FileController())->show($fileId);
     }
 }

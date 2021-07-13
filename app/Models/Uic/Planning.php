@@ -46,7 +46,7 @@ class Planning extends Model implements Auditable
     ];
 
     protected $with = ['career'];
-    protected $cascadeDeletes = ['enrollments', 'eventPlannings'];
+    protected $cascadeDeletes = ['enrollments', 'events'];
 
     /*Relatioship*/
     public function career()
@@ -57,9 +57,9 @@ class Planning extends Model implements Auditable
     {
         return $this->hasMany(Enrollment::class);
     }
-    public function eventPlannings()
+    public function events()
     {
-        return $this->hasMany(EventPlanning::class);
+        return $this->hasMany(Event::class);
     }
     public function scopeName($query, $name)
     {

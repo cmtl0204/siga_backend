@@ -104,7 +104,6 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('planning')->group(function () {
         Route::put('delete', [PlanningController::class, 'delete']);
-        Route::get('end', [PlanningController::class, 'indexEnd']);
     });
     Route::prefix('event-planning')->group(function () {
         Route::put('delete', [EventPlanningController::class, 'delete']);

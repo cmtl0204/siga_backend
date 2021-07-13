@@ -23,7 +23,8 @@ class CatalogueController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function show(Catalogue $catalogue)
@@ -31,14 +32,15 @@ class CatalogueController extends Controller
         return response()->json([
             'data' => [
                 'catalogue' => $catalogue
-            ]], 200);
+            ]
+        ], 200);
     }
 
     public function store(Request $request)
     {
         $data = $request->json()->all();
         $dataCatalogue = $data['catalogue'];
-        $dataParentCode = $data['parent_code'];
+        //$dataParentCode = $data['parent_code'];
 
         $catalogue = new Catalogue();
         $catalogue->code = $dataCatalogue['code'];
@@ -46,11 +48,11 @@ class CatalogueController extends Controller
         $catalogue->icon = $dataCatalogue['icon'];
         $catalogue->type = $dataCatalogue['type'];
 
-        $state = State::firstWhere('code', State::ACTIVE);
-        $parentCode = Catalogue::findOrFail($dataParentCode['id']);
+        //$state = State::firstWhere('code', State::ACTIVE);
+        //$parentCode = Catalogue::findOrFail($dataParentCode['id']);
 
-        $catalogue->state()->associate($state);
-        $catalogue->parentCode()->associate($parentCode);
+        //$catalogue->state()->associate($state);
+        //$catalogue->parentCode()->associate($parentCode);
 
         $catalogue->save();
 
@@ -66,16 +68,16 @@ class CatalogueController extends Controller
 
         $data = $request->json()->all();
         $dataCatalogue = $data['catalogue'];
-//        $dataParentCode = $data['parent_code'];
+        //        $dataParentCode = $data['parent_code'];
 
-//        $catalogue->code = $dataCatalogue['code'];
+        //        $catalogue->code = $dataCatalogue['code'];
         $catalogue->name = $dataCatalogue['name'];
         $catalogue->icon = $dataCatalogue['icon'];
         $catalogue->type = $dataCatalogue['type'];
 
-//        $parentCode = Catalogue::findOrFail($dataParentCode['id']);
+        //        $parentCode = Catalogue::findOrFail($dataParentCode['id']);
 
-//        $catalogue->parentCode()->associate($parentCode);
+        //        $catalogue->parentCode()->associate($parentCode);
         $catalogue->save();
         return response()->json([
             'data' => [
@@ -86,7 +88,7 @@ class CatalogueController extends Controller
 
     public function destroy(Catalogue $catalogue)
     {
-//        $catalogue->delete();
+        //        $catalogue->delete();
         $state = State::where('code', '3')->first();
         $catalogue->state()->associate($state);
         $catalogue->save();
@@ -96,5 +98,4 @@ class CatalogueController extends Controller
             ]
         ], 201);
     }
-
 }

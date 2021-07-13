@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Uic\InformationStudent\DeleteInformationStudentRequest;
-use App\Http\Requests\Uic\InformationStudent\IndexInformationStudentRequest;
-use App\Http\Requests\Uic\InformationStudent\StoreInformationStudentRequest;
-use App\Http\Requests\Uic\InformationStudent\UpdateInformationStudentRequest;
-use App\Models\App\InformationStudent;
+use App\Http\Requests\Uic\StudentInformation\DeleteStudentInformationRequest;
+use App\Http\Requests\Uic\StudentInformation\IndexStudentInformationRequest;
+use App\Http\Requests\Uic\StudentInformation\StoreStudentInformationRequest;
+use App\Http\Requests\Uic\StudentInformation\UpdateStudentInformationRequest;
+use App\Models\Uic\StudentInformation;
 
 // Models
 
 // FormRequest en el index store update
 
-class InformationStudentController extends Controller
+class StudentInformationController extends Controller
 {
-    public function index(IndexInformationStudentRequest $request)
+    public function index(IndexStudentInformationRequest $request)
     {
 
-        $informationStudent = InformationStudent::paginate($request->input('per_page'));
+        $informationStudent = StudentInformation::paginate($request->input('per_page'));
 
         if ($informationStudent->count() === 0) {
             return response()->json([
@@ -33,7 +33,7 @@ class InformationStudentController extends Controller
         return response()->json($informationStudent, 200);
     }
 
-    public function show(InformationStudent $informationStudent)
+    public function show(StudentInformation $informationStudent)
     {
         if (!$informationStudent) {
             return response()->json([
@@ -55,30 +55,28 @@ class InformationStudentController extends Controller
         ], 200);
     }
 
-    public function store(StoreInformationStudentRequest $request)
+    public function store(StoreStudentInformationRequest $request)
     {
-        $informationStudent = new InformationStudent;
+        $informationStudent = new StudentInformation;
         $informationStudent->student_id = $request->input('informationStudent.student.id');
-        $informationStudent->province_birth = $request->input('informationStudent.province_birth');
-        $informationStudent->canton_birth = $request->input('informationStudent.canton_birth');
         $informationStudent->company_work = $request->input('informationStudent.company_work');
-        $informationStudent->relation_laboral_career = $request->input('informationStudent.relation_laboral_career');
-        $informationStudent->area = $request->input('informationStudent.area');
-        $informationStudent->position = $request->input('informationStudent.position');
+        $informationStudent->relation_laboral_career_id = $request->input('informationStudent.relation_laboral_career.id');
+        $informationStudent->company_area_id = $request->input('informationStudent.company_area.id');
+        $informationStudent->company_position_id = $request->input('informationStudent.company_position.id');
         $informationStudent->save();
         return response()->json([
             'data' => $informationStudent->fresh(),
             'msg' => [
-                'summary' => 'InformationStudent creado',
+                'summary' => 'StudentInformation creado',
                 'detail' => 'El informationStudent fue creado',
                 'code' => '201'
             ]
         ], 201);
     }
 
-    public function update(UpdateInformationStudentRequest $request, $id)
+    public function update(UpdateStudentInformationRequest $request, $id)
     {
-        $informationStudent = InformationStudent::find($id);
+        $informationStudent = StudentInformation::find($id);
         if (!$informationStudent) {
             return response()->json([
                 'data' => null,
@@ -90,31 +88,29 @@ class InformationStudentController extends Controller
             ], 400);
         }
         $informationStudent->student_id = $request->input('informationStudent.student.id');
-        $informationStudent->province_birth = $request->input('informationStudent.province_birth');
-        $informationStudent->canton_birth = $request->input('informationStudent.canton_birth');
         $informationStudent->company_work = $request->input('informationStudent.company_work');
-        $informationStudent->relation_laboral_career = $request->input('informationStudent.relation_laboral_career');
-        $informationStudent->area = $request->input('informationStudent.area');
-        $informationStudent->position = $request->input('informationStudent.position');
+        $informationStudent->relation_laboral_career_id = $request->input('informationStudent.relation_laboral_career.id');
+        $informationStudent->company_area_id = $request->input('informationStudent.company_area.id');
+        $informationStudent->company_position_id = $request->input('informationStudent.company_position.id');
         $informationStudent->save();
         return response()->json([
             'data' => $informationStudent->fresh(),
             'msg' => [
-                'summary' => 'InformationStudent actualizado',
+                'summary' => 'StudentInformation actualizado',
                 'detail' => 'El informationStudent fue actualizado',
                 'code' => '201'
             ]
         ], 201);
     }
-    function delete(DeleteInformationStudentRequest $request)
+    function delete(DeleteStudentInformationRequest $request)
     {
         // Es una eliminación lógica
-        InformationStudent::destroy($request->input('ids'));
+        StudentInformation::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'InformationStudent(es) eliminado(s)',
+                'summary' => 'StudentInformation(es) eliminado(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]

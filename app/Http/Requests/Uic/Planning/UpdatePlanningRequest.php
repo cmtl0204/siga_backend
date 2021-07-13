@@ -15,6 +15,9 @@ class UpdatePlanningRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'planning.career.id' => [
+                'required'
+            ],
             'planning.name' => [
                 'required',
                 'max:50'
@@ -39,6 +42,7 @@ class UpdatePlanningRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
+            'planning.career.id' => 'carrera',
             'planning.name' => 'nombre',
             'planning.event' => 'evento',
             'planning.start_date' => 'fecha inicio',

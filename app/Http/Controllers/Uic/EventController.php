@@ -7,8 +7,10 @@ use App\Http\Requests\Uic\Event\DeleteEventRequest;
 use App\Http\Requests\Uic\Event\IndexEventRequest;
 use App\Http\Requests\Uic\Event\StoreEventRequest;
 use App\Http\Requests\Uic\Event\UpdateEventRequest;
+use App\Models\App\Catalogue;
 use App\Models\Uic\Event;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 // Models
@@ -19,12 +21,10 @@ class EventController extends Controller
 {
     public function index(IndexEventRequest $request)
     {
-        if ($request->has('search')) {
-            $events = Event::name($request->input('search'))
-                ->description($request->input('search'))
-                ->paginate($request->input('per_page'));
+        if ($request->has('per_page')) {
+            $events = Catalogue::where('type', 'CONVOCATORY_EVENT')->paginate($request->input('per_page'));
         } else {
-            $events = Event::paginate($request->input('per_page')); //Where date se
+            $events = Catalogue::where('type', 'CONVOCATORY_EVENT')->get();
         }
 
         if ($events->count() === 0) {
@@ -40,59 +40,29 @@ class EventController extends Controller
         return response()->json($events, 200);
     }
 
-
-    public function show(Event $event)
+    public function store(Request $request)
     {
-        if (!$event) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'El evento no existe',
-                    'detail' => 'Intente otra vez',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-        return response()->json([
-            'data' => $event->fresh(),
-            'msg' => [
-                'summary' => 'El evento no existe',
-                'detail' => 'Intente otra vez',
-                'code' => '404'
-            ]
-        ], 200);
-    }
+        $data = $request->json()->all();
+        $dataCatalogue = $data['event'];
 
-    public function store(StoreEventRequest $request)
-    {
-        $event = new Event;
-        $event->planning_id = $request->input('event.planning.id');
-        $event->catalogues = $request->input('event.catalogues');
-        $event->start_date = $request->input('event.start_date');
-        $event->end_date = $request->input('event.end_date');
-        $event->save();
+        $catalogue = new Catalogue();
+        $catalogue->name = $dataCatalogue['name'];
+        $catalogue->code = $dataCatalogue['name'];
+        $catalogue->type = 'CONVOCATORY_EVENT';
+        $catalogue->save();
+
         return response()->json([
-            'data' => $event->fresh(),
+            'data' =>  $catalogue,
             'msg' => [
                 'summary' => 'Evento creado',
                 'detail' => 'El evento fue creado',
                 'code' => '201'
             ]
         ], 201);
-
-        return response()->json([
-            'data' => null,
-            'msg' => [
-                'summary' => 'La fecha final debe ser mayor a la fecha de inicio',
-                'detail' => 'Intente otra vez',
-                'code' => '404'
-            ]
-        ], 404);
     }
-
-    public function update(UpdateEventRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $event = Event::find($id);
+        $event = Catalogue::find($id);
         if (!$event) {
             return response()->json([
                 'data' => null,
@@ -103,10 +73,12 @@ class EventController extends Controller
                 ]
             ], 400);
         }
-        $event->planning_id = $request->input('event.planning.id');
-        $event->catalogues = $request->input('event.catalogues');
-        $event->start_date = $request->input('event.start_date');
-        $event->end_date = $request->input('event.end_date');
+        $data = $request->json()->all();
+        $dataCatalogue = $data['event'];
+        $event->name = $dataCatalogue['name'];
+        $event->code = $dataCatalogue['name'];
+        $event->type = 'CONVOCATORY_EVENT';
+
         $event->save();
         return response()->json([
             'data' => $event,
@@ -120,12 +92,12 @@ class EventController extends Controller
     function delete(DeleteEventRequest $request)
     {
         // Es una eliminación lógica
-        Event::destroy($request->input('ids'));
+        Catalogue::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'evento(es) eliminada(s)',
+                'summary' => 'evento(s) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]
