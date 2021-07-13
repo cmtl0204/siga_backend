@@ -32,8 +32,7 @@ class CreateAuthUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('province_birth_id')->nullable()->constrained('app.locations'); //student
-            $table->foreignId('canton_birth_id')->nullable()->constrained('app.locations'); //student
+            $table->foreignId('location_birth_id')->nullable()->constrained('app.locations'); //student
             $table->boolean('is_changed_password')->default(false);
             $table->integer('attempts')->default(\App\Models\Authentication\User::ATTEMPTS);
             $table->rememberToken();

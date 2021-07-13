@@ -222,14 +222,14 @@
 		"uic_events_event_type":{
 			"type": "UIC.EVENTS.EVENT_TYPE"
 		},
-        "uic_relation_laboral_career":{
-			"type": "UIC.RELATIONAL_LABORAL_CAREER"
+        "uic_student_informations_relation_laboral_career":{
+			"type": "UIC.STUDENT_INFORMATIONS.RELATIONAL_LABORAL_CAREER"
 		},
-        "uic_company_area":{
-			"type": "UIC.COMPANY_AREA"
+        "uic_student_informations_company_area":{
+			"type": "UIC.STUDENT_INFORMATIONS.COMPANY_AREA"
 		},
-        "uic_company_position":{
-			"type": "UIC.COMPANY_POSITION"
+        "uic_student_informations_company_position":{
+			"type": "UIC.STUDENT_INFORMATIONS.COMPANY_POSITION"
 		}
     }
 }
