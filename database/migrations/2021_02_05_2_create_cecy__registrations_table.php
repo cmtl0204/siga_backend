@@ -18,8 +18,8 @@ class CreateCecyRegistrationsTable extends Migration
             $table->id();
             $table->date('date_registration')
                    ->comment('fecha_matricula'); 
-            // $table->foreignId('participant_id')->constrained('cecy.participants')
-            //       ->comment('Estudiantes a ser matriculados reistra el id_persona_participante'); 
+             $table->foreignId('participant_id')->constrained('cecy.participants')
+                  ->comment('Estudiantes a ser matriculados reistra el id_persona_participante'); 
             //$table->foreignId('participant_id')->constrained('cecy.participants')
                   //->comment('Estudiantes a ser matriculados reistra el id_persona_participante'); 
             $table->foreignId('status_id')->constrained('app.catalogues')

@@ -14,24 +14,30 @@ use App\Models\Cecy\DetailRegistration;
 use App\Models\Cecy\Attendance;
 use App\Exports\AttendancesExport;
 
+
 class AttendanceController extends Controller
 {
+
     function index(IndexAttendanceRequest $request)
+    
     {
+        
+        
         // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
         $detailRegistration = DetailRegistration::getInstance($request->input('detail_registration_id'));
     
         if ($request->has('search')) {
             $attendance = $detailRegistration->attendance()
                 ->date($request->input('search'))
+                ->assistance($request->input('search'))
                 ->observation($request->input('search'))
                 ->day_hours($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $attendance = $detailRegistration->attendance()->paginate($request->input('per_page'));
+            $attendance = Attendance::with("detailRegistration")->paginate($request->input('per_page'));
         }
 
-        if ($attendances->count() === 0) {
+        if ($attendance->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
@@ -41,7 +47,7 @@ class AttendanceController extends Controller
                 ]], 404);
         }
     
-        return response()->json($attendances, 200);
+        return response()->json($attendance, 200);
     }
     function show(Attendance $attendance)
     {
@@ -63,11 +69,12 @@ class AttendanceController extends Controller
         $attendance->detail_registration_id = $request->input('attendances.detail_registration_id');
         $attendance->date = $request->input('attendances.date');
         $attendance->day_hours = $request -> input ('attendances.day_hours');
+        $attendance->assistance = $request -> input ('attendances.assistance');
         $attendance->observations = $request->input('attendances.observations');
         $attendance->save();
 
         return response()->json([
-            'data' => $attendance->fresh(),
+            'data' => $attendance,
             'msg' => [
                 'summary' => 'attendance creada',
                 'detail' => 'El registro fue creado',
@@ -84,6 +91,7 @@ class AttendanceController extends Controller
         $attendance->detail_registration_id = $request->input('attendances.detail_registration_id');
         $attendance->date = $request->input('attendances.date');
         $attendance->day_hours = $request -> input ('attendances.day_hours');
+        $attendance->assistance = $request -> input ('attendances.assistance');
         $attendance->observations = $request->input('attendances.observations');
         $attendance->save();
 

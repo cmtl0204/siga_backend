@@ -17,6 +17,7 @@ use App\Http\Controllers\Cecy\InstructorController;
 use App\Http\Controllers\Cecy\PrerequisiteController;
 use App\Models\Cecy\Prerequisite;
 use App\Http\Controllers\Cecy\RegistrationController;
+use App\Http\Controllers\Cecy\PlanificationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
 
 
@@ -79,8 +80,7 @@ Route::middleware($middlewares)
     Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
     Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
 
-
-
+    
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
@@ -109,6 +109,11 @@ Route::get('excel/registration-export', [RegistrationController::class, 'exportT
 
     Route::apiResource('attendances', AttendanceController::class);
     Route::put ('attendance/delete', [AttendanceController::class, 'delete']);
+
+    Route::apiResource('planifications', PlanificationController::class);
+    Route::put('planification/delete', [PlanificationController::class, 'delete']);
+
+
 
     Route::apiResource('topics', TopicController::class);
     Route::put ('topic/delete', [TopicController::class, 'delete']);

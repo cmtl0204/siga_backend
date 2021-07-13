@@ -14,6 +14,7 @@ use App\Models\Cecy\DetailRegistration;
 use App\Models\App\Catalogue;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DetailRegistrationExport;
+use App\Models\Cecy\Registration;
 
 class DetailRegistrationController extends Controller
 {

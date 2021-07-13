@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Cecy\Attendance;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexAttendanceRequest extends FormRequest
+class UpdateParticipantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class IndexAttendanceRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Cecy\Topic;
+namespace App\Http\Requests\Cecy\Planification;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
 
-class IndexTopicRequest extends FormRequest
+class IndexPlanificationRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,12 +15,12 @@ class IndexTopicRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        return FormRequest::rules($rules);
+        return CecyFormRequest::rules($rules);
     }
 
     public function attributes()
     {
         $attributes = [];
-        return FormRequest::attributes($attributes);
+        return CecyFormRequest::attributes($attributes);
     }
-}
+}  

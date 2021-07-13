@@ -18,6 +18,7 @@ class CreateCecyAttendancesTable extends Migration
             $table->foreignId('detail_registration_id')->constrained('cecy.detail_registrations');
             $table->date('date')->nullable()->comment('fecha de la asistencia');
             $table->integer('day_hours')->default(0)->nullable()->comment('total de horas que asiste en el dia');
+            $table->boolean('assistance')->nullable()->comment('Registro de la asistencia');
             $table->json('observations')->nullable()->comment('Observaciones de la asistencia');
             $table->softDeletes();
             $table->timestamps();

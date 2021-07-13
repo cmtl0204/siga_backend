@@ -9,10 +9,11 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\App\Cecy\DetailRegistration;
-
+use App\Models\Cecy\DetailRegistration as CecyDetailRegistration;
 
 /**
  * @property BigInteger id
+ * @property Boolean assistance
  * @property String description
  */
 
@@ -31,10 +32,11 @@ class Attendance extends Model implements Auditable
     protected $fillable = [
         'date',
         'day_hours',
+        'assistance',
         'observations'
 
 ];
-
+protected $with = ['detailRegistration'];
 protected $casts = [
     'deleted_at' => 'date:Y-m-d h:m:s',
     'created_at' => 'date:Y-m-d h:m:s',
@@ -54,7 +56,7 @@ public static function getInstance($id)
 // Relationships
 public function detailRegistration()
 {
-    return $this->belongsTo(etailRegistration::class);
+    return $this->belongsTo(CecyDetailRegistration::class);
 }
 
 

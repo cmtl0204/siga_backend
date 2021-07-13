@@ -26,7 +26,7 @@ class CreateCecyDetailRegistrationsTable extends Migration
                   ->comment('se relaciona con la tabla detalle planificación ya que alli esta el detalle de aula,horario,etc'); 
             $table->foreignId('status_id')->constrained('app.catalogues')
                    ->comment('Estado de la matricula (retirado, aprobado,reprobado)'); 
-            //modulo de notas
+            //modulo de attendance
             $table->decimal('partial_grade', 5, 2)
                    ->comment('nota de evaluación continua'); 
             $table->decimal('final_exam', 5, 2)

@@ -160,27 +160,27 @@ class AuthenticationSeeder extends Seeder
                 'system_id' => $system->id
                 , 'institution_id' => $institution->id]);
             Role::factory()->create([
-                'code' => $catalogues['role']['career_coordinator'],
+                'code' => $catalogues['role']['career_participante'],
                 'name' => 'COORD. CARRERA',
                 'system_id' => $system->id
                 , 'institution_id' => $institution->id]);
             Role::factory()->create([
-                'code' => $catalogues['role']['academic_coordinator'],
+                'code' => $catalogues['role']['academic_participante'],
                 'name' => 'COORD. ACADEMICO',
                 'system_id' => $system->id
                 , 'institution_id' => $institution->id]);
             Role::factory()->create([
-                'code' => $catalogues['role']['community_coordinator'],
+                'code' => $catalogues['role']['community_participante'],
                 'name' => 'COORD. VINCULACION',
                 'system_id' => $system->id
                 , 'institution_id' => $institution->id]);
             Role::factory()->create([
-                'code' => $catalogues['role']['investigation_coordinator'],
+                'code' => $catalogues['role']['investigation_participante'],
                 'name' => 'COORD. INVESTIGACION',
                 'system_id' => $system->id
                 , 'institution_id' => $institution->id]);
             Role::factory()->create([
-                'code' => $catalogues['role']['administrative_coordinator'],
+                'code' => $catalogues['role']['administrative_participante'],
                 'name' => 'COORD. ADMINISTRATIVO',
                 'system_id' => $system->id,
                 'institution_id' => $institution->id]);

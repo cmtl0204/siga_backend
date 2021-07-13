@@ -30,6 +30,13 @@ class StoreAttendanceRequest extends FormRequest
                 'integer',
 
             ],
+
+            'attendances.assistance' => [
+                'required',
+                'boolean',
+
+            ],
+
             'attendances.observations' => [
                 'required',
                 'min:1',
@@ -45,6 +52,7 @@ class StoreAttendanceRequest extends FormRequest
             'attendances.detail_registration_id' => 'detail-ID',
             'attendances.date' => 'date',
             'attendances.day_hours' => 'day_hours',
+            'attendances.assistance' => 'assistance',
             'attendances.observations' => 'observation',
         ];
         return CecyFormRequest::attributes($attributes);

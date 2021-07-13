@@ -84,6 +84,10 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
     // Accessors
     /* public function getFullPartialGradeAttribute()
     {
