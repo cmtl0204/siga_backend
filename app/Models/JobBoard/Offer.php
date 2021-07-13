@@ -34,7 +34,7 @@ class Offer extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
-    use CascadeSoftDeletes;
+    // use CascadeSoftDeletes;
 
     private static $instance;
 

@@ -87,30 +87,7 @@ class ReferenceController extends Controller
     }
 
 
-/*function get(GetReferenceRequest $request)
-    {
-        $reference = $request->user()->reference()
-            ->with(['institution'=>function($institution){
-                $user->with('name');      
-            }])->first();
-        if(!$reference){
-            return response()->json([
-                'data' => $reference,
-                'msg' => [
-                    'summary' => 'reference no encontrada',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404',
-                ]], 404);
-        }
-        return response()->json([
-            'data' => $reference,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200',
-            ]], 200);
-    }
-*/
+
 
     function store(CreateReferenceRequest $request)
     {
@@ -127,7 +104,7 @@ class ReferenceController extends Controller
             ], 404);
         }
         //$professional = Professional::getInstance($request->input('professional.id'));
-        $institution = Catalogue::getInstance($request->input('reference.institution.id'));
+        $institution = Catalogue::find($request->input('reference.institution.id'));
         $reference = new Reference();
         //$reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');
@@ -148,31 +125,10 @@ class ReferenceController extends Controller
         ], 201);
     }
 
-/*function store(CreateReferenceRequest $request)
-    {
-        $professional = Professional::getInstance($request->input('professional.id'));
 
-        $reference = new Reference();
-        $reference->professional()->associate($professional);
-        $reference->institution = $request->input('reference.institution');
-        $reference->position = $request->input('reference.position');
-        $reference->contact_name = $request->input('reference.contact_name');
-        $reference->contact_phone = $request->input('reference.contact_phone');
-        $reference->contact_email = $request->input('reference.contact_email');
-
-        $reference->save();
-
-        return response()->json([
-            'data' => $reference,
-            'msg' => [
-                'summary' => 'Referencia creada',
-                'detail' => 'El registro fue creado',
-                'code' => '201'
-            ]], 201);
-    }*/
     function update(UpdateReferenceRequest $request, Reference $reference)
     {
-        $institution = Catalogue::getInstance($request->input('reference.institution.id'));
+        $institution = Catalogue::find($request->input('reference.institution.id'));
 
        // $reference = Reference::find($id);
 
@@ -204,20 +160,7 @@ class ReferenceController extends Controller
         ], 201);
     }
 
-  /*  function destroy(DeleteReferenceRequest $reference)
-    {
-        $reference->deletee();
-
-        return response()->json([
-            'data' => $reference,
-            'msg' => [
-                'summary' => 'Oferta eliminada',
-                'detail' => 'El registro fue eliminado',
-                'code' => '201'
-            ]
-        ], 201);
-    }*/
-    
+ 
     function delete(DeleteReferenceRequest $request)
     {
         // Es una eliminación lógica

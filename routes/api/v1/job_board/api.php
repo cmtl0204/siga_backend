@@ -133,6 +133,7 @@ Route::middleware($middlewares)
                 Route::get('', [ExperienceController::class, 'indexFile']);
                 Route::get('{file}', [ExperienceController::class, 'showFile']);
             });
+        });
 
         });
 
@@ -168,8 +169,11 @@ Route::middleware($middlewares)
             Route::post('test', [WebOfferController::class, 'test']);
         });
 
+        Route::prefix('web-professional')->group(function () {
+            Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
+        });
     });
-
+    
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
@@ -191,7 +195,6 @@ Route::prefix('/')
             Route::get('total', [WebProfessionalController::class, 'total']);
             Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
-            Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
 
         Route::prefix('web-offer')->group(function () {

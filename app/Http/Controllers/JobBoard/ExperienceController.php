@@ -10,11 +10,11 @@ use App\Models\App\Catalogue;
 use App\Models\JobBoard\Experience;
 
 // FormRequest
-use App\Http\Requests\JobBoard\Experience\CreateExperienceRequest;
+use App\Http\Requests\JobBoard\Experience\DeleteExperienceRequest;
+use App\Http\Requests\JobBoard\Experience\StoreExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\UpdateExperienceRequest;
 use App\Http\Requests\JobBoard\Experience\IndexExperienceRequest;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Database\Eloquent\Model;
+
 use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
@@ -87,7 +87,7 @@ class ExperienceController extends Controller
         }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo experience.
         // $professional = Professional::getInstance($request->input('professional.id'));
-        $area = Catalogue::getInstance($request->input('experience.area.id'));
+        $area = Catalogue::find($request->input('experience.area.id'));
 
         $experience = new Experience();
         $experience->employer = $request->input('experience.employer');
@@ -97,6 +97,7 @@ class ExperienceController extends Controller
         $experience->activities = $request->input('experience.activities');
         $experience->reason_leave = $request->input('experience.reason_leave');
         $experience->is_working = $request->input('experience.is_working');
+        $experience->is_disability = $request->input('experience.is_disability');
         $experience->professional()->associate($professional);
         $experience->area()->associate($area);
         $experience->save();
@@ -111,11 +112,11 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function update(UpdateExperienceRequest $request, $experienceId)
+    function update(UpdateExperienceRequest $request, Experience $experience)
     {
-        $area = Catalogue::getInstance($request->input('area.id'));
+        $area = Catalogue::find($request->input('experience.area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.
-        $experience = Experience::find($experienceId);
+      //  $experience = Experience::find($experienceId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$experience) {
@@ -125,8 +126,7 @@ class ExperienceController extends Controller
                     'summary' => 'Experiencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]
-            ], 404);
+                ]], 404);
         }
 
         $experience->employer = $request->input('experience.employer');
@@ -136,6 +136,7 @@ class ExperienceController extends Controller
         $experience->activities = $request->input('experience.activities');
         $experience->reason_leave = $request->input('experience.reason_leave');
         $experience->is_working = $request->input('experience.is_working');
+        $experience->is_disability = $request->input('experience.is_disability');
         $experience->area()->associate($area);
         $experience->save();
 
@@ -149,18 +150,18 @@ class ExperienceController extends Controller
         ], 201);
     }
 
-    function destroy(Experience $experience)
+    function delete(DeleteExperienceRequest $request)
     {
-        $experience->delete();
+        // Es una eliminación lógica
+        Experience::destroy($request->input('ids'));
 
         return response()->json([
-            'data' => $experience,
+            'data' => null,
             'msg' => [
-                'summary' => 'Oferta eliminada',
-                'detail' => 'El registro fue eliminado',
+                'summary' => 'Experience(s) eliminada(s)',
+                'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]
-        ], 201);
+            ]], 201);
     }
     function uploadFiles(UploadFileRequest $request)
     {
