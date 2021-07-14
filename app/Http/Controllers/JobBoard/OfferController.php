@@ -74,6 +74,7 @@ class OfferController extends Controller
         $offer->end_date = $this->calculateEndOffer($request->input('offer.start_date'));
         $offer->activities = $request->input('offer.activities');
         $offer->requirements = $request->input('offer.requirements');
+        $offer->aditional_information = $request->input('offer.aditional_information');
         $offer->company()->associate($company);
         $offer->location()->associate($location);
         $offer->contractType()->associate($contractType);
@@ -138,6 +139,7 @@ class OfferController extends Controller
         $offer->end_date = $this->calculateEndOffer($request->input('offer.start_date'));
         $offer->activities = $request->input('offer.activities');
         $offer->requirements = $request->input('offer.requirements');
+        $offer->aditional_information = $request->input('offer.aditional_information');
         $offer->location()->associate($location);
         $offer->contractType()->associate($contractType);
         $offer->position()->associate($position);

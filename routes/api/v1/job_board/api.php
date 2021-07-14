@@ -135,7 +135,7 @@ Route::middleware($middlewares)
             });
         });
 
-        });
+        
 
         Route::prefix('reference')->group(function () {
             Route::get('test', [ReferenceController::class, 'test']);
