@@ -29,6 +29,7 @@ class StorePlanningRequest extends FormRequest
             'planning.end_date' => [
                 'date',
                 'required',
+                'after_or_equal:planning.start_date'
             ],
             'planning.description' => [
                 'required',

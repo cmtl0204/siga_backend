@@ -85,7 +85,6 @@ Route::prefix('/')->group(function () {
         'modalities' => ModalityController::class,
         'enrollments' => EnrollmentController::class,
         'plannings' => PlanningController::class,
-        'event-plannings' => EventController::class,
         'tutors' => TutorController::class,
         'requirements' => RequirementController::class,
         'mesh-student-requirements' => MeshStudentRequirementController::class,
@@ -106,7 +105,7 @@ Route::prefix('/')->group(function () {
     Route::prefix('planning')->group(function () {
         Route::put('delete', [PlanningController::class, 'delete']);
     });
-    Route::prefix('event-planning')->group(function () {
+    Route::prefix('event')->group(function () {
         Route::put('delete', [EventController::class, 'delete']);
         Route::prefix('file')->group(function () {
             Route::post('', [EventController::class, 'uploadFile']);
@@ -115,9 +114,6 @@ Route::prefix('/')->group(function () {
             Route::put('update/{file}', [EventController::class, 'updateFile']);
             Route::get('{file}', [EventController::class, 'showFile']);
         });
-    });
-    Route::prefix('event')->group(function () {
-        Route::put('delete', [EventController::class, 'delete']);
     });
     Route::prefix('catalogue-event')->group(function () {
         Route::put('delete', [CatalogueEventController::class, 'delete']);

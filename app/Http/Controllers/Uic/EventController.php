@@ -20,11 +20,11 @@ class EventController extends Controller
     public function index(IndexEventRequest $request)
     {
         if ($request->has('search')) {
-            $events = Event::name($request->input('search'))
-                ->description($request->input('search'))
+            $events = Event::date()->name($request->input('search'))
+                ->planning($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $events = Event::paginate($request->input('per_page')); //Where date se
+            $events = Event::date()->paginate($request->input('per_page')); //Where date se
         }
 
         if ($events->count() === 0) {

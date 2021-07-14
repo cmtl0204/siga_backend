@@ -21,11 +21,11 @@ class PlanningController extends Controller
     public function index(IndexPlanningRequest $request)
     {
         if ($request->has('search')) {
-            $plannings = Planning::name($request->input('search'))
+            $plannings = Planning::date()->name($request->input('search'))
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $plannings = Planning::paginate($request->input('per_page'));
+            $plannings = Planning::date()->paginate($request->input('per_page'));
         }
 
         if ($plannings->count() === 0) {
@@ -66,21 +66,21 @@ class PlanningController extends Controller
     public function store(StorePlanningRequest $request)
     {
         $planning = new Planning;
-            $planning->career_id = $request->input('planning.career.id');
-            $planning->name = $request->input('planning.name');
-            $planning->start_date = $request->input('planning.start_date');
-            $planning->end_date = $request->input('planning.end_date');
-            $planning->description = $request->input('planning.description');
-            $planning->save();
-            return response()->json([
-                'data' => $planning->fresh(), //revisar el fresh -> id
-                'msg' => [
-                    'summary' => 'Convocatoria creada',
-                    'detail' => 'La planificacion fue creado',
-                    'code' => '201'
-                ]
-            ], 201);
-    
+        $planning->career_id = $request->input('planning.career.id');
+        $planning->name = $request->input('planning.name');
+        $planning->start_date = $request->input('planning.start_date');
+        $planning->end_date = $request->input('planning.end_date');
+        $planning->description = $request->input('planning.description');
+        $planning->save();
+        return response()->json([
+            'data' => $planning->fresh(), //revisar el fresh -> id
+            'msg' => [
+                'summary' => 'Convocatoria creada',
+                'detail' => 'La planificacion fue creado',
+                'code' => '201'
+            ]
+        ], 201);
+
         return response()->json([
             'data' => null,
             'msg' => [

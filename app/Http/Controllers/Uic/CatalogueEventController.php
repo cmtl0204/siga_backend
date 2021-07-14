@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Uic\Event\DeleteEventRequest;
-use App\Http\Requests\Uic\Event\IndexEventRequest;
-use App\Http\Requests\Uic\Event\StoreEventRequest;
-use App\Http\Requests\Uic\Event\UpdateEventRequest;
+use App\Http\Requests\Uic\CatalogueEvent\DeleteCatalogueEventRequest;
+use App\Http\Requests\Uic\CatalogueEvent\IndexCatalogueEventRequest;
+use App\Http\Requests\Uic\CatalogueEvent\StoreCatalogueEventRequest;
+use App\Http\Requests\Uic\CatalogueEvent\UpdateCatalogueEventRequest;
 use App\Models\App\Catalogue;
 use App\Models\Uic\Event;
 use Carbon\Carbon;
@@ -68,7 +68,7 @@ class CatalogueEventController extends Controller
             ]
         ], 201);
     }
-    function delete(DeleteEventRequest $request)
+    function delete(DeleteCatalogueEventRequest $request)
     {
         // Es una eliminación lógica
         Catalogue::destroy($request->input('ids'));

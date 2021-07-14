@@ -4,8 +4,9 @@ namespace App\Http\Requests\Uic\CatalogueEvent;
 
 use App\Http\Requests\Uic\UicFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCatalogueEventRequest extends FormRequest
+class DeleteCatalogueEventRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,13 +16,9 @@ class StoreCatalogueEventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'event.name' => [
-                'string',
+            'ids' => [
                 'required',
-                'max:50'
-
-            ]
-
+            ],
         ];
         return UicFormRequest::rules($rules);
     }
@@ -29,8 +26,7 @@ class StoreCatalogueEventRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'event.name' => 'nombre',
-            'event.description' => 'descripcion'
+            'ids' => 'IDs',
         ];
         return UicFormRequest::attributes($attributes);
     }

@@ -15,6 +15,8 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 
+use Carbon\Carbon;
+
 
 
 
@@ -36,7 +38,9 @@ class Planning extends Model implements Auditable
 
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'start_date',
+        'end_date'
     ];
 
     protected $casts = [
@@ -73,6 +77,14 @@ class Planning extends Model implements Auditable
         if ($description) {
             return $query->orWhere('description', 'ILIKE', "%$description%");
         }
+    }
+    public function scopeDate($query)
+    {
+
+        $date = Carbon::now();
+        $date = $date->toDateString();
+
+        return $query->whereDate('end_date', '>=', "%$date%");
     }
     // Accessors
     public function getCareerPlanningAttribute()

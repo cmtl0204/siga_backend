@@ -30,6 +30,7 @@ class StoreEventRequest extends FormRequest
             'event.end_date' => [
                 'date',
                 'required',
+                'after_or_equal:event.start_date'
             ]
 
         ];

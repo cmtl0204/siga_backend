@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 // Application
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 
+use Carbon\Carbon;
+
 /**
  * @property BigInteger id
  * @property string name
@@ -49,5 +51,30 @@ class Event extends Model implements Auditable
     public function name()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    //scope
+
+    public function scopeName($query, $name)
+    {
+        if ($name) {
+            return $query->where('name_id', 'ILIKE', "%$name%");
+        }
+    }
+
+    public function scopePlanning($query, $planning)
+    {
+        if ($planning) {
+            return $query->orWhere('planning_id', 'ILIKE', "%$planning%");
+        }
+    }
+
+    public function scopeDate($query)
+    {
+
+        $date = Carbon::now();
+        $date = $date->toDateString();
+
+        return $query->whereDate('end_date', '>=', "%$date%");
     }
 }
