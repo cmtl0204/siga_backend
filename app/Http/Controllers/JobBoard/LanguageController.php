@@ -52,7 +52,7 @@ class LanguageController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron Cursos',
+                    'summary' => 'No se encontraron Idiomas',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]
