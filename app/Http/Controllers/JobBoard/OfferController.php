@@ -51,14 +51,14 @@ class OfferController extends Controller
     function store(StoreOfferRequest $request)
     {
         $company = $request->user()->company->first();
-        $location = Location::getInstance($request->input('offer.location.id'));
-        $contractType = Catalogue::getInstance($request->input('offer.contract_type.id'));
-        $position = Catalogue::getInstance($request->input('offer.position.id'));
-        $sector = Catalogue::getInstance($request->input('offer.sector.id'));
-        $workingDay = Catalogue::getInstance($request->input('offer.working_day.id'));
-        $experienceTime = Catalogue::getInstance($request->input('offer.experience_time.id'));
-        $trainingHours = Catalogue::getInstance($request->input('offer.training_hours.id'));
-        $status = Status::getInstance($request->input('offer.status.id'));
+        $location = Location::find($request->input('offer.location.id'));
+        $contractType = Catalogue::find($request->input('offer.contract_type.id'));
+        $position = Catalogue::find($request->input('offer.position.id'));
+        $sector = Catalogue::find($request->input('offer.sector.id'));
+        $workingDay = Catalogue::find($request->input('offer.working_day.id'));
+        $experienceTime = Catalogue::find($request->input('offer.experience_time.id'));
+        $trainingHours = Catalogue::find($request->input('offer.training_hours.id'));
+        $status = Status::find($request->input('offer.status.id'));
         $lastOffer = Offer::get()->last();
         $number = $lastOffer?$lastOffer->id + 1:1;
 
@@ -120,14 +120,14 @@ class OfferController extends Controller
 
     function update(UpdateOfferRequest $request, Offer $offer)
     {
-        $location = Location::getInstance($request->input('offer.location.id'));
-        $contractType = Catalogue::getInstance($request->input('offer.contract_type.id'));
-        $position = Catalogue::getInstance($request->input('offer.position.id'));
-        $sector = Catalogue::getInstance($request->input('offer.sector.id'));
-        $workingDay = Catalogue::getInstance($request->input('offer.working_day.id'));
-        $experienceTime = Catalogue::getInstance($request->input('offer.experience_time.id'));
-        $trainingHours = Catalogue::getInstance($request->input('offer.training_hours.id'));
-        $status = Status::getInstance($request->input('offer.status.id'));
+        $location = Location::find($request->input('offer.location.id'));
+        $contractType = Catalogue::find($request->input('offer.contract_type.id'));
+        $position = Catalogue::find($request->input('offer.position.id'));
+        $sector = Catalogue::find($request->input('offer.sector.id'));
+        $workingDay = Catalogue::find($request->input('offer.working_day.id'));
+        $experienceTime = Catalogue::find($request->input('offer.experience_time.id'));
+        $trainingHours = Catalogue::find($request->input('offer.training_hours.id'));
+        $status = Status::find($request->input('offer.status.id'));
 
         $offer->contact_name = $request->input('offer.contact_name');
         $offer->contact_email = $request->input('offer.contact_email');
