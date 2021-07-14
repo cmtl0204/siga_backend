@@ -134,9 +134,12 @@ Route::middleware($middlewares)
                 Route::get('{file}', [ExperienceController::class, 'showFile']);
             });
         });
+<<<<<<< HEAD
 
         
 
+=======
+>>>>>>> 9518d8f4389bf792c07899bb3c06ca8441d8f6f9
         Route::prefix('reference')->group(function () {
             Route::get('test', [ReferenceController::class, 'test']);
             Route::put('delete', [ReferenceController::class, 'delete']);
@@ -173,7 +176,7 @@ Route::middleware($middlewares)
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
     });
-    
+
 // Without Middleware
 Route::prefix('/')
     ->group(function () {
