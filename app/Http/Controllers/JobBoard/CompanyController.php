@@ -39,7 +39,6 @@ class CompanyController extends Controller
                     'code' => '404'
                 ]], 404);
         }
-
         if ($request->has('search')) {
             $professionals = $company->professionals()
                 ->paginate($request->input('per_page'));
@@ -162,8 +161,7 @@ class CompanyController extends Controller
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Company.
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         $user = $request->user();
-        $address = $user->address()->first();
-        if($address){
+        $address = $user->address()->first()? $user->address()->first():new Address();
             $location = Location::find($request->input('company.user.address.location.id'));
             $sector = Catalogue::find($request->input('company.user.address.sector.id'));
             $address->main_street = $request->input('company.user.address.main_street');
@@ -176,13 +174,14 @@ class CompanyController extends Controller
             $address->location()->associate($location);
             $address->sector()->associate($sector);
             $address->save();
-        }
+
         $identificationType = Catalogue::find($request->input('company.user.identification_type.id'));
         $user->username = $request->input('company.user.identification');
         $user->identification= $request->input('company.user.identification');
         $user->email = $request->input('company.user.email');
-        $user->identificationType()->associate($identificationType);
         $user->phone = $request->input('company.user.phone');
+        $user->identificationType()->associate($identificationType);
+        $user->address()->associate($address);
         $user->save();
 
         $type = Catalogue::find($request->input('company.type.id'));
