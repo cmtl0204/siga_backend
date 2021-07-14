@@ -47,10 +47,10 @@ class CatalogueController extends Controller
         $catalogue->type = $dataCatalogue['type'];
 
         $state = State::firstWhere('code', State::ACTIVE);
-        $parentCode = Catalogue::findOrFail($dataParentCode['id']);
+        $parent = Catalogue::findOrFail($dataParentCode['id']);
 
         $catalogue->state()->associate($state);
-        $catalogue->parentCode()->associate($parentCode);
+        $catalogue->parent()->associate($parent);
 
         $catalogue->save();
 

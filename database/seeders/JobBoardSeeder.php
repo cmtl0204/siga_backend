@@ -9,6 +9,7 @@ use App\Models\JobBoard\AcademicFormation;
 use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Skill;
+use App\Models\App\Status;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Professional;
 use Database\Factories\JobBoard\LocationFactory;
@@ -194,5 +195,18 @@ class JobBoardSeeder extends Seeder
             $offer->categories()->attach($i++);
         }
     }
+
+    /*
+    private function createOfferStatus()
+    {
+        $status = Status::where('code', $catalogues['catalogue']['company_type']['type'])->get();
+        //$status = Status::factory()->count(10)->create();
+
+        foreach ($categories as $category) {
+            $offer->categories()->attach($i++);
+            //Status::factory()->count(20)->create(['parent_id' => $category->id]);
+        }
+    }
+    */
 
 }

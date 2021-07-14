@@ -187,9 +187,9 @@ class  UserAdministrationController extends Controller
     }
 
     public function delete(Request $request)
-    {        
+    {
          User::destroy($request->input('ids'));
-         
+
                  return response()->json([
                      'data' => null,
                      'msg' => [
@@ -316,9 +316,9 @@ class  UserAdministrationController extends Controller
     }
 
     public function deleteRoles(Request $request)
-    {        
+    {
          Role::destroy($request->input('ids'));
-         
+
                  return response()->json([
                      'data' => null,
                      'msg' => [

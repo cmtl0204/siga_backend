@@ -776,6 +776,16 @@ class AuthenticationSeeder extends Seeder
             'logo' => 'routes/route3.png',
             'order' => 2
         ]);
+
+        Route::factory()->create([
+            'uri' => $catalogues['route']['job_board']['company'],
+            'module_id' => $moduleAuthentication->id,
+            'type_id' => $menuMega->id,
+            'status_id' => $statusAvailable->id,
+            'name' => 'USUARIOS',
+            'logo' => 'routes/route2.png',
+            'order' => 1
+        ]);
     }
 
     private function createUsers()
