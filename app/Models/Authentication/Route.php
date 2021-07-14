@@ -68,12 +68,13 @@ class Route extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
+    
+    //public function status()
+    //{
+      //  return $this->belongsTo(Catalogue::class);
+    //}
 
-    function statusMorph()
+    function status()
     {
         return $this->morphToMany(Status::class, 'statusable', 'app.statusables');
     }
