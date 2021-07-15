@@ -162,11 +162,12 @@ class EvaluationController extends Controller
             ]], 201);
     }*/
 
+  /* public function store(Request $request)
    /* function store(Request $request)
     {
 
 
-        $detail = new EvaluationType();
+        $detail = new SchoolPeriod();
         $detail->name = $request->input('name');
 
         $detail->save();
