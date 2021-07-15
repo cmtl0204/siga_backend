@@ -12,7 +12,7 @@ class IndexEvaluationRequest extends FormRequest
 
         $rules = [
             'teacher_id',
-            'required',
+
             'integer'
         ];
 
@@ -33,7 +33,7 @@ class IndexEvaluationRequest extends FormRequest
    public function attributes()
     {
         $attributes = [
-            'ids' => 'IDs',
+            'teacher_id' => 'teacher-id',
         ];
         return TeacherEvalFormRequest::attributes($attributes);
     }

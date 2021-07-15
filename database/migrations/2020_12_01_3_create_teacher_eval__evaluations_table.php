@@ -10,6 +10,7 @@ class CreateTeacherEvalEvaluationsTable extends Migration
     {
         Schema::connection('pgsql-teacher-eval')->create('evaluations', function (Blueprint $table) {
             $table->id();
+            $table->softDeletes();
             $table->foreignId('teacher_id')->comment('Informacion Profesor')->constrained('app.teachers');
             $table->foreignId('evaluation_type_id')->comment('pares, autoevaluacion,estudiante');
             $table->foreignId('school_period_id')->comment('periodo academico')->constrained('app.school_periods');
