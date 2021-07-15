@@ -10,6 +10,7 @@ class CreateAppSchoolPeriodsTable extends Migration
     public function up()
     {
         Schema::connection('pgsql-app')->create('school_periods', function (Blueprint $table) {
+
             $table->id();
             $table->morphs('school_periodable');
             $table->foreignId('status_id')->constrained('app.catalogues');
