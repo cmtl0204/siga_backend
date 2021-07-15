@@ -74,6 +74,14 @@ Route::middleware($middlewares)
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
         });
+      // rutas tabla QUESTION
+        Route::prefix('question')->group(function () {
+            Route::post('store', [QuestionController::class, 'store']);
+            Route::put('put/{question}', [QuestionController::class, 'update']);
+            Route::get('index', [QuestionController::class, 'index']);
+            Route::get('show/{question}', [QuestionController::class, 'show']);
+            Route::put('delete', [QuestionController::class, 'delete']);
+        });
 
 
     });
@@ -118,13 +126,7 @@ Route::prefix('/')
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
         });
 
-        Route::prefix('question')->group(function () {
-            Route::post('store', [QuestionController::class, 'store']);
-            Route::put('put/{question}', [QuestionController::class, 'update']);
-            Route::get('index', [QuestionController::class, 'index']);
-            Route::get('show/{question}', [QuestionController::class, 'show']);
-            Route::put('delete', [QuestionController::class, 'delete']);
-        });
+
 
     });
 });
