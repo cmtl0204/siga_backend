@@ -12,6 +12,7 @@ namespace App\Http\Controllers\TeacherEval\Evaluation;
  use App\Http\Requests\TeacherEval\Evaluation\UpdateEvaluationRequest;
  use App\Http\Requests\TeacherEval\Evaluation\DeleteEvaluationRequest;
 use Illuminate\Http\Request;
+use DB;
 
 class EvaluationController extends Controller
 {
@@ -85,6 +86,30 @@ class EvaluationController extends Controller
                 'code' => '201'
             ]], 201);
     }
+
+
+
+    function getGestionAcademica(Evaluation $evaluation)
+    {
+
+        $teacher = DB::table('teacher_eval.evaluations')
+                   ->leftJoin('app.teachers',  'app.teachers.id',  '=', 'teacher_eval.evaluations.teacher_id')
+                   ->leftJoin('teacher_eval.evaluation_types', 'teacher_eval.evaluation_types.id', '=', 'teacher_eval.evaluations.evaluation_type_id' )
+                   ->select('teachers.id', 'evaluations.result', 'evaluation_types.name' )
+                   ->where('evaluation_types.name', '=', 'Gestion Academica')
+                   ->orderBy('teachers.name', 'asc')
+                   ->get();
+                   return response()->json([
+                    'data' => $teacher,
+                    'msg' => [
+                        'summary' => 'success',
+                        'detail' => '',
+                        'code' => '201'
+                    ]], 201);
+    }
+
+
+
 
     function store(StoreEvaluationRequest $request)
     {
@@ -162,13 +187,17 @@ class EvaluationController extends Controller
             ]], 201);
     }*/
 
-  /* public function store(Request $request)
-   /* function store(Request $request)
+
+    /* ---------------- Funciones de Ayuda  ----------------------------  */
+
+   public function school(Request $request)
+
     {
 
 
         $detail = new SchoolPeriod();
         $detail->name = $request->input('name');
+        $detail->start_date = $request->input('start_date');
 
         $detail->save();
 
@@ -180,5 +209,48 @@ class EvaluationController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
-    }*/
+    }
+
+    public function profe(Request $request)
+
+    {
+
+
+        $detail = new Teacher();
+        $detail->name = $request->input('name');
+
+
+        $detail->save();
+
+
+        return response()->json([
+            'data' => $detail,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '201'
+            ]], 201);
+    }
+
+
+    function getall(Request $request ){
+        $evaluation = Evaluation::all();
+        return response()->json([
+            'data' => $evaluation,
+            'msg' => [
+                'summary' => 'success'
+            ]
+            ], 200);
+    }
+
+    function getTeachers(Request $request ){
+        $teacher = Teacher::all();
+        return response()->json([
+            'data' => $teacher,
+            'msg' => [
+                'summary' => 'success'
+            ]
+            ], 200);
+    }
+
 }

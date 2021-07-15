@@ -12,7 +12,7 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 use App\Http\Controllers\TeacherEval\AnswerController;
 use App\Http\Controllers\TeacherEval\AnswerQuestionController;
-
+use App\Http\Controllers\TeacherEval\ExtraCreditController;
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -71,6 +71,7 @@ Route::middleware($middlewares)
 
         Route::prefix('evaluation-detail')->group(function () {
             Route::get('all', [DetailEvaluationController::class, 'index']);
+            Route::get('get', [DetailEvaluationController::class, 'getall']);
             Route::get('show/{detail}', [DetailEvaluationController::class, 'show']);
             Route::post('create',  [DetailEvaluationController::class, 'store']);
             Route::put('update/{detail}',  [DetailEvaluationController::class, 'update']);
@@ -81,11 +82,17 @@ Route::middleware($middlewares)
 
         Route::prefix('evaluation')->group(function () {
             Route::get('all', [EvaluationController::class, 'index']);
+            Route::get('gestionAca', [EvaluationController::class, 'getGestionAcademica']);
             Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
             Route::post('create',  [EvaluationController::class, 'store']);
             Route::put('update/{detail}',  [EvaluationController::class, 'update']);
             Route::put('delete',  [EvaluationController::class, 'delete']);
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
+            //pruebas
+            Route::post('profe', [EvaluationController::class, 'profe']);
+            Route::post('school', [EvaluationController::class, 'school']);
+            Route::get('getall', [EvaluationController::class, 'getall']);
+            Route::get('teachers', [EvaluationController::class, 'getTeachers']);
         });
 
            // rutas tabla answer
@@ -95,6 +102,18 @@ Route::middleware($middlewares)
             Route::post('store', [AnswerController::class, 'store']);
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
+
+
+        });
+
+        Route::prefix('credit')->group(function () {
+            Route::get('getAll', [ExtraCreditController::class, 'getAll']);
+            Route::get('show/{extra}', [ExtraCreditController::class, 'show']);
+            Route::post('store', [ExtraCreditController::class, 'store']);
+            Route::put('update/{detail}',  [ExtraCreditController::class, 'update']);
+            Route::put('delete',  [ExtraCreditController::class, 'delete']);
+
+
         });
 
     });

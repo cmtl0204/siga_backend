@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User;
 use App\Models\Attendance\Attendance;
 use App\Models\TeacherEval\Evaluation;
+use App\Models\TeacherEval\ExtraCredit;
 
 class Teacher extends Model implements Auditable
 {
@@ -61,6 +62,10 @@ class Teacher extends Model implements Auditable
         return $this->hasMany(Evaluation::class);
     }
 
+    public function extraCredit()
+    {
+        return $this->hasMany(ExtraCredit::class);
+    }
 
 
 }
