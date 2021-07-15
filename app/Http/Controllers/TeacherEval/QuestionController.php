@@ -127,9 +127,9 @@ class QuestionController extends Controller
 
     function update(UpdateQuestionRequest $request, Question $question)
     {
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
+        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question .
         $type = Catalogue::find($request->input('question.type.id'));
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
+        // Crea una instanacia del modelo Status para poder insertar en el modelo question.
         $status = Status::find($request->input('question.status.id'));
 
 
