@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\TeacherEval\DetailEvaluation;
+namespace App\Http\Controllers\TeacherEval;
  use App\Models\TeacherEval\DetailEvaluation;
  use App\Models\TeacherEval\Evaluation;
+ use App\Models\TeacherEval\ExtraCredit;
+ use App\Models\App\Teacher;
  use App\Http\Controllers\Controller;
  use App\Http\Requests\TeacherEval\DetailEvaluation\IndexDetailEvaluationRequest;
  use App\Http\Requests\TeacherEval\DetailEvaluation\StoreDetailEvaluationRequest;
@@ -10,40 +12,12 @@ namespace App\Http\Controllers\TeacherEval\DetailEvaluation;
  use App\Http\Requests\TeacherEval\DetailEvaluation\DeleteDetailEvaluationRequest;
 use Illuminate\Http\Request;
 
-class DetailEvaluationController extends Controller
+class ExtraCreditController extends Controller
 {
-   /* public function index(IndexDetailEvaluationRequest $request)
-    {
-
-       if ($request->has('search')){
-        $evaluation = DetailEvaluation::where([
-                                            ['evaluation_id', '=', $request->input('evaluation_id')],
-                                            ['result', '=', $request->input('search')]
-                                          ])
-                                       ->paginate($request->input('per_page'));
-       }
-       else {
-        $evaluation = DetailEvaluation::where([
-            ['evaluation_id', '=', $request->input('evaluation_id')],
-
-          ])
-       ->paginate($request->input('per_page'));
-       }
-       if ($evaluation->count() === 0) {
-           return response()->json([
-               'data' => null,
-               'msg' => [
-                'summary' => 'No se encontraron Resultados',
-                'detail' => 'Intente de nuevo',
-                'code' => '404'
-               ]], 404);
-       }
-
-     return response()->json($evaluation, 200);
-    }*/
 
 
-    function index(IndexDetailEvaluationRequest  $request)
+
+    /*function index(Request  $request)
 {
     // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
     $evaluation = Evaluation::getInstance($request->input('evaluation_id'));
@@ -68,11 +42,44 @@ class DetailEvaluationController extends Controller
     }
 
     return response()->json($detail, 200);
-}
+}*/
+        function getAll(Request $request ){
+            $detail = ExtraCredit::all();
+            return response()->json([
+                'data' => $detail,
+                'msg' => [
+                    'summary' => 'success'
+                ]
+                ], 200);
+        }
 
 
-   function show(DetailEvaluation $detail)
+   function show(ExtraCredit $extra)
     {
+
+        return response()->json([
+            'data' => $extra,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '201'
+            ]], 201);
+    }
+
+
+   function store(Request $request)
+    {
+        $teacher = Teacher::getInstance($request->input('teacher.id'));
+        $detail = new ExtraCredit();
+        $detail->diploma_yavirac = $request->input('credit.diploma_yavirac');
+        $detail->title_fourth_level = $request->input('credit.title_fourth_level');
+        $detail->OCS_member = $request->input('credit.OCS_member');
+        $detail->governing_processes = $request->input('credit.governing_processes');
+        $detail->process_nouns = $request->input('credit.process_nouns');
+        $detail->support_processes = $request->input('credit.support_processes');
+
+        $detail->teacher()->associate($teacher);
+        $detail->save();
 
         return response()->json([
             'data' => $detail,
@@ -83,41 +90,20 @@ class DetailEvaluationController extends Controller
             ]], 201);
     }
 
-    function getall(Request $request ){
-        $evaluation = DetailEvaluation::all();
-        return response()->json([
-            'data' => $evaluation,
-            'msg' => [
-                'summary' => 'success'
-            ]
-            ], 200);
-    }
 
-   function store(StoreDetailEvaluationRequest $request)
+    function update(Request $request, ExtraCredit $detail)
     {
-        $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
-        $detail = new DetailEvaluation();
-        $detail->result = $request->input('detail.result');
-        $detail->evaluation_id = $evaluationResponce->id;
-        $evaluationResponce->detailEvaluation()->save($detail);
+        $teacher = Teacher::getInstance($request->input('teacher.id'));
 
-        return response()->json([
-            'data' => $detail,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
-    }
+        $detail->diploma_yavirac = $request->input('credit.diploma_yavirac');
+        $detail->title_fourth_level = $request->input('credit.title_fourth_level');
+        $detail->OCS_member = $request->input('credit.OCS_member');
+        $detail->governing_processes = $request->input('credit.governing_processes');
+        $detail->process_nouns = $request->input('credit.process_nouns');
+        $detail->support_processes = $request->input('credit.support_processes');
 
-
-    function update(UpdateDetailEvaluationRequest $request, DetailEvaluation $detail)
-    {
-        $evaluationResponce = Evaluation::findOrFail($request->input('evaluation.id'));
-
-        $detail->result = $request->input('detail.result');
-        $detail->evaluation_id = $evaluationResponce->id;
-        $evaluationResponce->detailEvaluation()->save($detail);
+        $detail->teacher()->associate($teacher);
+        $detail->save();
 
         return response()->json([
             'data' => $detail,
@@ -148,10 +134,10 @@ class DetailEvaluationController extends Controller
     }*/
 
 
-    function delete(DeleteDetailEvaluationRequest $request)
+    function delete(Request $request)
     {
         // Es una eliminación lógica
-        DetailEvaluation::destroy($request->input('ids'));
+        ExtraCredit::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
@@ -163,18 +149,6 @@ class DetailEvaluationController extends Controller
     }
 
 
-    /*function destroy(DetailEvaluation $detail)
-    {
-
-        $detail->delete();
-        return response()->json([
-            'data' => $detail,
-            'msg' => [
-                'summary' => 'Eliminado con exito',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
-    }*/
 
    /* function store(Request $request)
     {

@@ -12,47 +12,53 @@ use OwenIt\Auditing\Auditable as Auditing;
 // Application
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
-use App\Models\TeacherEval\Evaluation;
-use App\Models\Authentication\System;
+use App\Models\App\Teacher;
+use App\Models\App\SchoolPeriod;
 use phpseclib3\Math\BigInteger;
+use App\Models\TeacherEval\DetailEvaluation;
+use App\Models\TeacherEval\EvaluationType;
 
 use Dyrynda\Database\Support\CascadeSoftDeletes;
-
 
 
 /**
  * @property BigInteger id
  * @property double result
-
+ * @property double percentage
 
  */
 
-
-class DetailEvaluation extends Model implements Auditable
+class ExtraCredit extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
     use SoftDeletes;
 
     protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.detail_evaluations';
+    protected $table = 'teacher_eval.extra_credits';
 
     protected static $instance;
 
 
     protected $fillable = [
-    'result',
-    'evaluation_id'
+        'diploma_yavirac',
+        'title_fourth_level',
+        'OCS_member',
+        'governing_processes',
+        'process_nouns',
+        'support_processes'
     ];
 
     protected $casts = [
-        'result' => 'double'
+        'diploma_yavirac' => 'double',
+        'title_fourth_level' => 'double',
+        'OCS_member' => 'double',
+        'governing_processes' => 'double',
+        'process_nouns' => 'double',
+        'support_processes' => 'double'
     ];
 
-    protected $hidden = [
-    'detail_evaluationable_type',
-    'detail_evaluationable_id'
-    ];
+
 
     public static function getInstance($id)
     {
@@ -64,21 +70,32 @@ class DetailEvaluation extends Model implements Auditable
     }
 
 
-    public function detailEvaluationable()
+
+    public function teacher()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Teacher::class);
     }
 
 
-    /*public function evaluation()
+
+  /*  public function detailEvaluationable()
     {
-        return $this->morphMany(Evaluation::class, 'detailEvaluationable');
+        return $this->morphTo();
     }*/
+
 
     public function scopeResult($query, $result)
     {
         if ($result) {
             return $query->where('result', 'ILIKE', "$result");
+        }
+    }
+
+
+    public function scopePercentage($query, $percentage)
+    {
+        if ($percentage) {
+            return $query->orWhere('result', 'ILIKE', "$percentage");
         }
     }
 

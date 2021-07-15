@@ -45,10 +45,10 @@ class Evaluation extends Model implements Auditable
     'percentage'
     ];
 
-    /*protected $casts = [
-        'name' => 'array',
-        'percentage' => 'array'
-    ];*/
+    protected $casts = [
+        'result' => 'double',
+        'percentage' => 'double'
+    ];
 
 
 

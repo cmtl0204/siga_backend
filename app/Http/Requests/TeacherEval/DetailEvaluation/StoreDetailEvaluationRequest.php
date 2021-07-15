@@ -15,8 +15,7 @@ class StoreDetailEvaluationRequest  extends FormRequest
                 'integer'
             ],
             'detail.result' => [
-                'required',
-                'integer'
+                'required'
             ]
 
 

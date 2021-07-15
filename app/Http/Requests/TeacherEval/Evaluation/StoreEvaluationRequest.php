@@ -28,12 +28,11 @@ class StoreEvaluationRequest extends FormRequest
                 'integer'
             ],
             'evaluation.result' => [
-                'required',
-                'integer'
+                'required'
+
             ],
             'evaluation.percentage' => [
-                'required',
-                'integer'
+                'required'
             ]
         ];
 
