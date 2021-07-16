@@ -193,30 +193,30 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     // Accessors
     function getFullNameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
-            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+        //return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+           // "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
     function getFullLastnameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
-            "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
+       // return "{$this->attributes['first_name']} {$this->attributes['second_name']} " .
+           // "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
     function getPartialNameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['first_lastname']}";
+        //return "{$this->attributes['first_name']} {$this->attributes['first_lastname']}";
     }
 
     function getPartialLastnameAttribute()
     {
-        return "{$this->attributes['first_lastname']} {$this->attributes['first_name']}";
+       // return "{$this->attributes['first_lastname']} {$this->attributes['first_name']}";
     }
 
     // Mutators
     function setFirstnameAttribute($value)
     {
-        $this->attributes['first_name'] = strtoupper($value);
+        //$this->attributes['first_name'] = strtoupper($value);
     }
 
     function setSecondnameAttribute($value)

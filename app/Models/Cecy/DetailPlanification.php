@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Cecy\DetailPlanification;
+use App\Models\Cecy\DetailRegistration;
 use phpDocumentor\Reflection\DocBlock\Description;
 use App\Models\App\Cecy\Registration;
 use App\Models\App\Catalogue;
@@ -102,6 +102,15 @@ class DetailPlanification extends Model implements Auditable
     }
     public function authorityRector()
     {
-        return $this->belongsTo(AuthorityRector::class);
+        return $this->belongsTo(Authority::class);
     }
+    public function authorityInstructorFirm()
+    {
+        return $this->belongsTo(Authority::class);
+    }
+    public function authorityParticipantsFirm()
+    {
+        return $this->belongsTo(Authority::class);
+    }
+    
 }

@@ -55,7 +55,6 @@ class CreateCecyCoursesTable extends Migration
             //$table->date('need_date')->comment('fecha_registro de necesidad');
             $table->string('local_proposal')->nullable()->comment('local_propuesta_a_dictar');
             //$table->foreignId('schedules_id')->constrained('schedules')->nullable()->comment('id_horario_propuesta'); //id_horario_propuesta //tabla polimorfica
-            //$table->foreignId('schedules_id')->constrained('schedules')->nullable()->comment('id_horario_propuesta'); //id_horario_propuesta //tabla polimorfica
             $table->string('project')->nullable()->comment('proyecto_curso');
             $table->integer('capacity')->nullable()->comment('capacidad_curso');
             $table->foreignId('classroom_id')->constrained('app.classrooms')->nullable()->comment('id_aula');

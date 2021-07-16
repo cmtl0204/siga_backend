@@ -9,6 +9,8 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+use App\Http\Controllers\Cecy\CourseController;
+use App\Http\Controllers\Cecy\PlanificationController;
 
 
 use App\Http\Controllers\Cecy\EvaluationMechanismController;
@@ -72,6 +74,9 @@ Route::middleware($middlewares)
             Route::post('assign-role', [RoleController::class, 'assignRole']);
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
+    
+
+
     });
 
 
@@ -99,6 +104,30 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
+        
+        //Courses
+        Route::prefix('course')->group(function () {
+            Route::get('all', [CourseController::class, 'index']);
+            Route::post('store', [CourseController::class, 'storeCourse']);
+            Route::put('destroy', [CourseController::class, 'delete']);
+
+            Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
+            Route::get('responsables', [CourseController::class, 'getResponsables']);
+            Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);   
+            Route::get('{courseId}', [CourseController::class, 'getCourse']);
+            
+        });
+        
+        Route::prefix('planification')->group(function () {
+            Route::get('all', [PlanificationController::class, 'getPlanifiations']);        
+            Route::get('/OnePlanification/{planificationID}', [PlanificationController::class, 'showByIdPlanification']);
+            Route::post('createPlanification', [PlanificationController::class, 'createPlanification']);
+            Route::put('{planification}', [PlanificationController::class, 'updatePlanification']);
+          
+                       
+        });
+   
+
 
     });
 

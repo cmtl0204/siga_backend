@@ -36,7 +36,7 @@ class CreateDetailPlanificationsTable extends Migration
             // $table->foreignId('status_id')->constrained('catalogues');//status de la planificacion
            //  $table->foreignId('schedule_id')->constrained('schedule');//horario polimorfica
             //$table->foreignId('school_period_id')->constrained('school_periods')->nullable();//periodo_id
-            // $table->foreignId('classroom_id')->constrained('app.classrooms');//id_aula
+            // $table->foreignId('classroom_id')->constrained('ignug.classrooms');//id_aula
             $table->integer('capacity'); //capacidad_curso
 
             $table->foreignId('site_dictate')->constrained('app.catalogues')->comment('lugar donde se dicta el curso');  //lugar donde se dicta
@@ -48,8 +48,6 @@ class CreateDetailPlanificationsTable extends Migration
             $table->json('needs'); //necesidades del curso es un array
             $table->date('need_date'); //fecha_registro de necesidad
             $table->timestamps();
-
-            $table->softDeletes();
         });
     }
 
