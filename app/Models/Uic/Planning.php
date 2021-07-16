@@ -49,7 +49,7 @@ class Planning extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    protected $with = ['career', 'events'];
+    protected $with = ['career'];
     protected $appends = ['career_planning'];
     protected $cascadeDeletes = ['enrollments', 'events'];
 

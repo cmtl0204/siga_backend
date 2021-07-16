@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
 use App\Models\Uic\Planning;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 
-class PdfEnrollmentController extends Controller
+use Barryvdh\DomPDF\Facade as PDF;
+
+class PdfEnrollmentRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,8 @@ class PdfEnrollmentController extends Controller
     public function index()
     {
         $planning = Planning::first();
-        $pdf = PDF::loadView('reports.uic.enrollment', ['planning' => $planning]);
-        return $pdf->download('certidicado-matricula.pdf');
+        $pdf = PDF::loadView('reports.uic.enrollmentRequest', ['planning' => $planning]);
+        return $pdf->download('solicitud-matricula.pdf');
     }
 
     /**
