@@ -91,4 +91,15 @@ class Planning extends Model implements Auditable
     {
         return "{$this->career['short_name']} - {$this->attributes['name']}";
     }
+    //mutartor
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
+    }
+
+    public function setDescriptionAttribute($value)
+    {
+        $this->attributes['description'] = strtoupper($value);
+    }
 }
