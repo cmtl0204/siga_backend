@@ -8,6 +8,7 @@ use App\Http\Requests\Uic\Event\IndexEventRequest;
 use App\Http\Requests\Uic\Event\StoreEventRequest;
 use App\Http\Requests\Uic\Event\UpdateEventRequest;
 use App\Models\Uic\Event;
+use App\Models\Uic\Planning;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -66,19 +67,30 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $event = new Event;
-        $event->planning_id = $request->input('event.planning.id');
-        $event->name_id = $request->input('event.name.id');
-        $event->start_date = $request->input('event.start_date');
-        $event->end_date = $request->input('event.end_date');
-        $event->save();
+        $planning = Planning::findOrFail($request->input('event.planning.id'));
+        if ($planning['start_date'] <= $request->input('event.start_date') && $planning['end_date'] >= $request->input('event.end_date')) {
+            $event->planning_id = $request->input('event.planning.id');
+            $event->name_id = $request->input('event.name.id');
+            $event->start_date = $request->input('event.start_date');
+            $event->end_date = $request->input('event.end_date');
+            $event->save();
+            return response()->json([
+                'data' => $event->fresh(),
+                'msg' => [
+                    'summary' => 'Evento creado',
+                    'detail' => 'El evento fue creado',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
         return response()->json([
-            'data' => $event->fresh(),
+            'data' => '',
             'msg' => [
-                'summary' => 'Evento creado',
-                'detail' => 'El evento fue creado',
-                'code' => '201'
+                'summary' => 'Verifica las fechas',
+                'detail' => 'Rango: ' . $planning['start_date'] . ' / ' . $planning['end_date'],
+                'code' => '404'
             ]
-        ], 201);
+        ], 404);
     }
 
     public function update(UpdateEventRequest $request, $id)
@@ -94,19 +106,30 @@ class EventController extends Controller
                 ]
             ], 400);
         }
-        $event->planning_id = $request->input('event.planning.id');
-        $event->name_id = $request->input('event.name.id');
-        $event->start_date = $request->input('event.start_date');
-        $event->end_date = $request->input('event.end_date');
-        $event->save();
+        $planning = Planning::findOrFail($request->input('event.planning.id'));
+        if ($planning['start_date'] <= $request->input('event.start_date') && $planning['end_date'] >= $request->input('event.end_date')) {
+            $event->planning_id = $request->input('event.planning.id');
+            $event->name_id = $request->input('event.name.id');
+            $event->start_date = $request->input('event.start_date');
+            $event->end_date = $request->input('event.end_date');
+            $event->save();
+            return response()->json([
+                'data' => $event,
+                'msg' => [
+                    'summary' => 'Evento actualizado',
+                    'detail' => 'El evento fue actualizado',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
         return response()->json([
-            'data' => $event,
+            'data' => '',
             'msg' => [
-                'summary' => 'Evento actualizado',
-                'detail' => 'El evento fue actualizado',
-                'code' => '201'
+                'summary' => 'Verifica las fechas',
+                'detail' => 'Rango: ' . $planning['start_date'] . ' / ' . $planning['end_date'],
+                'code' => '404'
             ]
-        ], 201);
+        ], 404);
     }
     function delete(DeleteEventRequest $request)
     {
