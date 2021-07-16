@@ -55,6 +55,14 @@ class ProjectPlan extends Model implements Auditable
     {
         return $this->hasMany(Project::class);
     }
+    public function tutors()
+    {
+        return $this->hasMany(Tutor::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
     public function scopeTitle($query, $title)
     {
         if ($title) {

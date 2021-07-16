@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUicTutorsTable extends Migration
+class CreateUicStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateUicTutorsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-uic')->create('tutors', function (Blueprint $table) {
+        Schema::connection('pgsql-uic')->create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_plan_id')->constrained('uic.project_plans');
-            $table->foreignId('teacher_id')->comment('id de la tabla')->constrained('app.teachers');
-            $table->foreignId('type_id')->comment('para saber si es tutor, revisor ,etc')->constrained('app.catalogues');
-            $table->json('observations')->comment('registro de cambios')->nullable();
+            $table->foreignId('mesh_student_id')->constrained('uic.mesh_student');
+            $table->json('observations');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateUicTutorsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-uic')->dropIfExists('tutors');
+        Schema::connection('pgsql-uic')->dropIfExists('students');
     }
 }

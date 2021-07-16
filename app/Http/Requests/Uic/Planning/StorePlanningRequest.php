@@ -30,11 +30,7 @@ class StorePlanningRequest extends FormRequest
                 'date',
                 'required',
                 'after_or_equal:planning.start_date'
-            ],
-            'planning.description' => [
-                'required',
-                'max:100',
-            ],
+            ]
 
         ];
         return UicFormRequest::rules($rules);
@@ -48,7 +44,6 @@ class StorePlanningRequest extends FormRequest
             'planning.event' => 'evento',
             'planning.start_date' => 'fecha inicio',
             'planning.end_date' => 'fecha fin',
-            'planning.description' => 'descripción'
         ];
         return UicFormRequest::attributes($attributes);
     }
