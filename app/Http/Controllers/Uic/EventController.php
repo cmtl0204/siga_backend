@@ -86,8 +86,8 @@ class EventController extends Controller
         return response()->json([
             'data' => '',
             'msg' => [
-                'summary' => 'Verifica las fechas',
-                'detail' => 'Rango: ' . $planning['start_date'] . ' / ' . $planning['end_date'],
+                'summary' => 'Las fechas deben estar dentro del rango de fechas de la Convocatoria',
+                'detail' => 'Intente otra vez',
                 'code' => '404'
             ]
         ], 404);
@@ -125,8 +125,8 @@ class EventController extends Controller
         return response()->json([
             'data' => '',
             'msg' => [
-                'summary' => 'Verifica las fechas',
-                'detail' => 'Rango: ' . $planning['start_date'] . ' / ' . $planning['end_date'],
+                'summary' => 'Las fechas deben estar dentro del rango de fechas de la Convocatoria',
+                'detail' => 'Intente otra vez',
                 'code' => '404'
             ]
         ], 404);
