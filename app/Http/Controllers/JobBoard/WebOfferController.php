@@ -8,7 +8,6 @@ use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Scope;
 
 class WebOfferController extends Controller
 {
@@ -180,5 +179,4 @@ class WebOfferController extends Controller
             ]
         ], 200);
     }
-
 }
