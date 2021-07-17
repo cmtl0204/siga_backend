@@ -42,9 +42,9 @@ class WebProfessionalController extends Controller
             $professionals = Professional::with(['academicFormations' => function ($academicFormations) {
                 $academicFormations->with('professionalDegree');
             }])->paginate($request->input('per_page'));
-        } 
+        }
         else if ($request->input('ids') != null && $request->input('search') == null) {
-            // Consulta todos los profesionales que concuerden con el id (categoría hija) 
+            // Consulta todos los profesionales que concuerden con el id (categoría hija)
             $professionals = Professional::whereHas('academicFormations', function($academicFormations) use ($request) {
                 $academicFormations->whereHas('professionalDegree')
                     ->whereIn('professional_degree_id', $request->input('ids'));
@@ -123,7 +123,7 @@ class WebProfessionalController extends Controller
                 ]
             ], 404);
         }
-        
+
         $company->professionals()->attach($professional->id);
 
         return response()->json([
