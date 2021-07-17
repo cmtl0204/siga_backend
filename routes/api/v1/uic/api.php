@@ -22,6 +22,7 @@ use App\Http\Controllers\Uic\RequirementController;
 use App\Http\Controllers\Uic\MeshStudentRequirementController;
 use App\Http\Controllers\Uic\PdfEnrollmentController;
 use App\Http\Controllers\Uic\PdfEnrollmentRequestController;
+use App\Http\Controllers\Uic\StudentController;
 use App\Http\Controllers\Uic\StudentInformationController;
 
 $middlewares = ['auth:api'];
@@ -153,6 +154,7 @@ Route::prefix('/')->group(function () {
         Route::put('delete', [StudentInformationController::class, 'delete']);
     });
 
+    Route::get('students', [StudentController::class, 'index']);
 
     Route::get('export-enrollment', [PdfEnrollmentController::class, 'index']);
 

@@ -44,7 +44,7 @@ class Requirement extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-    protected $with = ['career'];
+    protected $with = ['career', 'files'];
     protected $cascadeDeletes = ['meshStudentRequirements', 'files'];
     public function files()
     {
