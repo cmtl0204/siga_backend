@@ -143,7 +143,7 @@ class Offer extends Model implements Auditable
     public function scopeAditionalInformation($query, $aditionalInformation)
     {
         if ($aditionalInformation) {
-            return $query->where('aditional_information', 'ILIKE', "%$aditionalInformation%");
+            return $query->orWhere('aditional_information', 'ILIKE', "%$aditionalInformation%");
         }
     }
 
@@ -151,13 +151,6 @@ class Offer extends Model implements Auditable
     {
         if ($code) {
             return $query->orWhere('code', 'ILIKE', "%$code%");
-        }
-    }
-
-    public function scopeDescription($query, $description)
-    {
-        if ($description) {
-            return $query->orWhere('description', 'ILIKE', "%$description%");
         }
     }
 
@@ -173,7 +166,7 @@ class Offer extends Model implements Auditable
     public function scopeStatus($query, $status)
     {
         if ($status) {
-            $query->whereHas('status', function ($query) use ($status) {
+            return $query->whereHas('status', function ($query) use ($status) {
                 $query->where('code', $status);
             });
         }
@@ -218,6 +211,23 @@ class Offer extends Model implements Auditable
         if ($category) {
             $query->whereHas('categories', function ($query) use ($category) {
                 $query->whereIn('categories.parent_id', $category);
+            });
+        }
+    }
+
+    // estos scopes son usados en el imput de texto
+    public function scopeLocation($query, $location){
+        if ($location) {
+            return$query->orWhereHas('location', function ($query) use ($location) {
+                $query->where('name', 'ILIKE', "%$location%");
+            });
+        }
+    }
+
+    public function scopeCategoryName($query, $name){
+        if ($name) {
+            return $query->orWhereHas('categories', function ($query) use ($name) {
+                $query->Where('name', $name);
             });
         }
     }

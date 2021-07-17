@@ -8,6 +8,7 @@ use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Professional;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Scope;
 
 class WebOfferController extends Controller
 {
@@ -42,12 +43,25 @@ class WebOfferController extends Controller
 
         }
 
+        // por input de busqueda
+        if (!is_null($request->input('generalSearch'))) {
+            $offers = Offer::aditionalInformation($request->input('generalSearch'))
+                ->location($request->input('generalSearch'))
+                ->orWhere
+                ->position($request->input('generalSearch'))
+                ->categoryName($request->input('generalSearch'))
+                ->status(1)
+                ->paginate($request->input('per_page'));
+
+            return response()->json([$offers, 'hola'], 200);
+        }
+
         $offers = Offer::province($request->input('searchProvince'))
-            ->status(1)
             ->canton($request->input('searchCanton'))
             ->position($request->input('searchPosition'))
             ->idCategories($request->input('searchIdCategory'))
             ->parentCategory($request->input('searchParentCategory'))
+            ->status(1)
             ->paginate($request->input('per_page'));
 
         return response()->json($offers, 200);
@@ -88,6 +102,20 @@ class WebOfferController extends Controller
 
             return response()->json($offers, 200);
 
+        }
+
+        // por input de busqueda
+        if (!is_null($request->input('generalSearch'))) {
+            $offers = Offer::professional($professional)
+                ->aditionalInformation($request->input('generalSearch'))
+                ->location($request->input('generalSearch'))
+                ->orWhere
+                ->position($request->input('generalSearch'))
+                ->categoryName($request->input('generalSearch'))
+                ->status(1)
+                ->paginate($request->input('per_page'));
+
+            return response()->json([$offers, 'hola'], 200);
         }
 
         $offers = Offer::professional($professional)
