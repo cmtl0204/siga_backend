@@ -29,7 +29,7 @@ class ProjectPlanController extends Controller
             $projectPlans = ProjectPlan::title($request->input('search'))
                 ->description($request->input('search'))->paginate($request->input('per_page'));
         } else {
-            $projectPlans = ProjectPlan::paginate($request->input('per_page'));
+            $projectPlans = ProjectPlan::with(['tutors', 'students'])->paginate($request->input('per_page'));
         }
         if ($projectPlans->count() == 0) {
             return response()->json([

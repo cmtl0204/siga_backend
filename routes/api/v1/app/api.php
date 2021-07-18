@@ -10,6 +10,7 @@ use App\Http\Controllers\App\InstitutionController;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
+use App\Http\Controllers\App\StudentController;
 
 Route::apiResource('careers', CareerController::class);
 
@@ -45,3 +46,5 @@ Route::group(['prefix' => 'emails'], function () {
 Route::get('test', function () {
     return 'hola mundo';
 });
+
+Route::get('students', [StudentController::class, 'index']);
