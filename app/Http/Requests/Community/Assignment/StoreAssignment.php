@@ -27,10 +27,7 @@ class StoreAssignmentRequest extends FormRequest
                 'min:500',
                 'string',
             ],
-            'assignment.academic_period' => [
-                'min:1',
-                'string',
-            ],
+            
             'assignment.level' => [
                 'min:1',
                 'string',
@@ -39,10 +36,10 @@ class StoreAssignmentRequest extends FormRequest
                 'required',
                 'integer',
             ],
-           /*'assignment.id' => [
+            'career.id' => [
                 'required',
                 'integer',
-            ],*/
+            ],
         ];
         return CommunityFormRequest::rules($rules);
     }
@@ -53,10 +50,9 @@ class StoreAssignmentRequest extends FormRequest
             'assignment.date_request' => 'date_request',
             'assignment.status' => 'status',
             'assignment.observation' => 'observation',
-            'assignment.academic_period' => 'academic_period',
             'assignment.level' => 'level',
             'user.id' => 'user-id',
-         //   'assignment.id' => 'assignment-id',
+            'career.id' => 'career-id',
         ];
         return CommunityFormRequest::attributes($attributes);
     }

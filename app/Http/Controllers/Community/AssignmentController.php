@@ -8,6 +8,7 @@ use App\Http\Requests\Community\Assignment\StoreAssignmentRequest;
 // Models
 use App\Models\Community\Assignment;
 use App\Models\Authentication\User;
+use App\Models\App\Career;
 
 // FormRequest
 
@@ -17,7 +18,7 @@ class AssignmentController extends Controller
 
     public function getAssignment(Assignment $request)
     {
-        $assignment = Assignment::where('user_id', $request->input('user.id'))->with('user')->paginate($request->input('per_page'));
+        $assignment = Assignment::with('user_id')->with('career_id')->paginate($request->input('per_page'));
         return response()->json([
             'data' => $assignment,
             'msg' => [
@@ -32,6 +33,7 @@ class AssignmentController extends Controller
         
        $data = $request -> json() ->all ();
        $user  = $data ['assignment'] ['user'];
+       $career  = $data ['assignment'] ['career'];
       
         
         $assignment = new Assignment();
@@ -39,11 +41,12 @@ class AssignmentController extends Controller
         
         $userCode = User::findOrFail($request->input('user.id'));
         $assignment->user()->associate($userCode);
+        $careerCode = Career::findOrFail($request->input('career.id'));
+        $assignment->career()->associate($careerCode);
                 
         $assignment->date_request = $request->input('assignment.date_request');
         $assignment->status = $request->input('assignment.status');
         $assignment->observation = $request->input('assignment.observation');
-        $assignment->academic_period = $request->input('assignment.academic_period');
         $assignment->level = $request->input('assignment.level');
 
         $assignment->save();

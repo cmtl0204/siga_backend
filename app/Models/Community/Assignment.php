@@ -9,12 +9,13 @@ use OwenIt\Auditing\Auditable as Auditing;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User; 
-/**
+use App\Models\App\Career; 
+
+/** 
  * @property BigInteger id
  * @property date date_request
  * @property string status
  * @property string observation
- * @property string academic_period
  * @property string level
  *
  */
@@ -35,7 +36,6 @@ class Assignment extends Model implements Auditable
         'date_request',
         'status',
         'observation',
-        'academic_period',
         'level',
 		
 		
@@ -57,6 +57,9 @@ class Assignment extends Model implements Auditable
     {
         return $this->belongsTo(User::class);
     }
-
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
+    }
    
 }
