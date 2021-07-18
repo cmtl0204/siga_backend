@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Uic;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Uic\Student\IndexStudentRequest;
+use App\Http\Requests\Uic\Student\StoreStudentRequest;
+use App\Http\Requests\Uic\Student\UpdateStudentRequest;
 use App\Models\Uic\Student;
 
 // Models
@@ -28,5 +30,75 @@ class StudentController extends Controller
             ], 404);
         }
         return response()->json($student, 200);
+    }
+
+    public function show(Student $student) //cambiar
+    {
+        if (!$student) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El estudiante no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+        return response()->json([
+            'data' => $student,
+            'msg' => [
+                'summary' => '',
+                'detail' => '',
+                'code' => '200'
+            ]
+        ], 200);
+    }
+
+    public function store(StoreStudentRequest $request)
+    {
+        $student = new Student;
+        $student->observations = $request->input('student.observations');
+        $student->save();
+        return response()->json([
+            'data' => $student->fresh(),
+            'msg' => [
+                'summary' => 'estudiante creado',
+                'detail' => 'El estudiante fue creado',
+                'code' => '201'
+            ]
+        ], 201);
+
+        return response()->json([
+            'data' => null,
+            'msg' => [
+                'summary' => 'No se encuentra el estudiante',
+                'detail' => 'Intente otra vez',
+                'code' => '404'
+            ]
+        ], 404);
+    }
+
+    public function update(UpdateStudentRequest $request, Student $student)
+    {
+        if (!$student) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El estudiante no existe',
+                    'detail' => 'Intente otra vez',
+                    'code' => '404'
+                ]
+            ], 400);
+        }
+        $student->observations = $request->input('student.observations');
+        $student->save();
+        return response()->json([
+            'data' => $student->fresh(),
+            'msg' => [
+                'summary' => 'Estudiante actualizado',
+                'detail' => 'El estudiante fue actualizado',
+                'code' => '201'
+            ]
+        ], 201);
     }
 }

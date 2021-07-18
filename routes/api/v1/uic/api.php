@@ -95,7 +95,8 @@ Route::prefix('/')->group(function () {
         'project-plans' => ProjectPlanController::class,
         'events' => EventController::class,
         'student-informations' => StudentInformationController::class,
-        'catalogue-events' => CatalogueEventController::class
+        'catalogue-events' => CatalogueEventController::class,
+        'students' => StudentController::class
 
     ]);
     Route::prefix('modality')->group(function () {
@@ -153,8 +154,6 @@ Route::prefix('/')->group(function () {
     Route::prefix('student-information')->group(function () {
         Route::put('delete', [StudentInformationController::class, 'delete']);
     });
-
-    Route::get('students', [StudentController::class, 'index']);
 
     Route::get('export-enrollment', [PdfEnrollmentController::class, 'index']);
 

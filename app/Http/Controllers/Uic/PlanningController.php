@@ -103,7 +103,6 @@ class PlanningController extends Controller
                 ]
             ], 400);
         }
-        return $planning;
         $planning->career_id = $request->input('planning.career.id');
         $planning->name = $request->input('planning.name');
         $planning->start_date = $request->input('planning.start_date');
