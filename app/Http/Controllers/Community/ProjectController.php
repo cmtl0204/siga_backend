@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Community\Project\IndexProjectRequest;
 use App\Http\Requests\Community\Project\StoreProjectRequest;
 use App\Http\Requests\Community\Project\UpdateProjectRequest;
+use App\Models\App\Career;
+use App\Models\App\Location;
 use App\Models\Community\Project;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
     public function index(IndexProjectRequest $request)
     {
         $projects = Project::
-        // with('entity')->
-        with('schoolPeriod')->with('career')->with('coverage')
+                    with('entity')->with('schoolPeriod')->with('career')->with('coverage')
                     ->with('location')->with('frequency')->with('status')->with('createdBy')
                     ->paginate($request->input('per_page'));
         return response()->json([
@@ -26,10 +28,12 @@ class ProjectController extends Controller
             ]], 200);
     }
 
-    public function show(Project $project)
+    public function show($id, Request $request)
     {
+        $response = Project::firstWhere('id', $id)->with('entity')->with('schoolPeriod')->with('career')->with('coverage')
+                            ->with('location')->with('frequency')->with('status')->with('createdBy')->get();
         return response()->json([
-            'data' => $project,
+            'data' => $response,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -62,18 +66,18 @@ class ProjectController extends Controller
 
         // $entityCode = Entity::findOrFail($request->input('entity.id'));
         // $schoolPeriodCode = SchoolPeriod::findOrFail($request->input('school_period.id'));
-        // $careerCode = Career::findOrFail($request->input('career.id'));
+        $careerCode = Career::findOrFail($request->input('career.id'));
         // $coverageCode = Catalogue::findOrFail($request->input('coverage.id'));
-        // $locationCode = Location::findOrFail($request->input('location.id'));
+        $locationCode = Location::findOrFail($request->input('location.id'));
         // $frequencyCode = Catalogue::findOrFail($request->input('frequency.id'));
         // $statusCode = Catalogue::findOrFail($request->input('status.id'));
         // $createdByCode = User::findOrFail($request->input('created_by.id'));
 
         // $project->entity()->associate($entityCode);
         // $project->schoolPeriod()->associate($schoolPeriodCode);
-        // $project->career()->associate($careerCode);
+        $project->career()->associate($careerCode);
         // $project->coverage()->associate($coverageCode);
-        // $project->location()->associate($locationCode);
+        $project->location()->associate($locationCode);
         // $project->frequency()->associate($frequencyCode);
         // $project->status()->associate($statusCode);
         // $project->createdBy()->associate($createdByCode);

@@ -16,12 +16,10 @@ class UpdateProjectRequest extends FormRequest
     {
         $rules = [
             'project.code' => [
-                'required',
                 'min:1',
                 'max:100',
             ],
             'project.title' => [
-                'required',
                 'min:5',
                 'max:500',
             ],

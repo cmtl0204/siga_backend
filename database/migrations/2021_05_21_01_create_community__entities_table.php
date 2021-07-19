@@ -26,7 +26,8 @@ class CreateCommunityEntitiesTable extends Migration
 	    $table->string('movil_phone');
 	    $table->string('document_main')->comment('num del doc q le nombran representante legal: ');
 	    $table->string('document_secondary')->comment('copia ci, de ruc etc');
-	    $table->softDeletes();
+        $table->boolean('state')->default(true);
+        $table->softDeletes();
 	    $table->timestamps();
         });
     }

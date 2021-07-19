@@ -8,7 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-// use App\Models\Community\Entity;
+use App\Models\Community\Entity;
 use App\Models\App\SchoolPeriod;
 use App\Models\App\Career;
 use App\Models\App\Catalogue;
@@ -77,10 +77,10 @@ class Project extends Model implements Auditable
         return static::$instance;
     }
 
-    // public function entity()
-    // {
-    //     return $this->belongsTo(Entity::class);
-    // }
+    public function entity()
+    {
+        return $this->belongsTo(Entity::class);
+    }
 
     public function schoolPeriod()
     {
