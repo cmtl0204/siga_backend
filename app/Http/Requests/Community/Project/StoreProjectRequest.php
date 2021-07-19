@@ -76,7 +76,6 @@ class StoreProjectRequest extends FormRequest
                 'json',
             ],
             'location.id' => [
-                'required',
                 'integer',
             ],
             'entity.id' => [

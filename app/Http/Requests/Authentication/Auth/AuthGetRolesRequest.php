@@ -14,27 +14,13 @@ class AuthGetRolesRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'institution' => [
-                'required',
-                'integer'
-            ]
-        ];
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'institution.required' => 'El campo :attribute es obligatorio',
-            'institution.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return AuthenticationFormRequest::messages($messages);
+        return [];
     }
 
     public function attributes()
     {
         $attributes = [
-            'institution' => 'institution',
+
         ];
         return AuthenticationFormRequest::attributes($attributes);
     }

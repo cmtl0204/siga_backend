@@ -44,9 +44,6 @@ class CreateCommunityProjectsTable extends Migration
             $table->foreignId('created_by_id')->nullable()->comment('creado por fk')->constrained('authentication.users');
             $table->softDeletes();
             $table->timestamps();
-            // $table->string('field',100)->nullable(); // campo de area de vinculacion
-            // $table->text('introduction')->nullable();
-            // $table->text('foundamentation')->nullable();
         });
     }
 

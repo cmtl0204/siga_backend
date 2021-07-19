@@ -19,6 +19,13 @@ class CareerController extends Controller
         // nombre, modalidad,
         $careers = Career::with('modality')
             ->get();
+        return response()->json([
+            'data' => $careers,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
     }
 
     /**

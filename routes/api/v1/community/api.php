@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\App\CareerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Authentication\UserController;
@@ -31,8 +32,15 @@ Route::middleware($middlewares)
             'shortcuts' => ShortcutController::class,
             'roles' => RoleController::class,
             'systems' => SystemController::class,
+        ]);
+
+        Route::get('careers', [CareerController::class, 'index']);
+        
+        Route::apiResources([
             'projects' => ProjectController::class,
             'assignment' => AssignmentController::class,
+            'project_participants' => ProjectParticipantController::class,
+            'project_objectives' => ProjectObjectiveController::class,
         ]);
 
         // Assignment
@@ -86,10 +94,4 @@ Route::prefix('/')
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
-
-        Route::apiResources([
-            'projects' => ProjectController::class,
-            'project_participants' => ProjectParticipantController::class,
-            'project_objectives' => ProjectObjectiveController::class,
-        ]);
     });

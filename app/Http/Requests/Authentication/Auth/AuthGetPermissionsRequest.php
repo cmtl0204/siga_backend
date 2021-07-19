@@ -22,15 +22,6 @@ class AuthGetPermissionsRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        $messages = [
-            'role.required' => 'El campo :attribute es obligatorio',
-            'role.integer' => 'El campo :attribute debe ser numérico',
-        ];
-        return AuthenticationFormRequest::messages($messages);
-    }
-
     public function attributes()
     {
         $attributes = [
