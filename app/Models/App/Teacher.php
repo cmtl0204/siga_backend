@@ -29,6 +29,8 @@ class Teacher extends Model implements Auditable
 
     protected $fillable = ['state'];
 
+    protected $with = ['user'];
+
     // Instance
     public static function getInstance($id)
     {

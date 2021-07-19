@@ -32,9 +32,7 @@ class Student extends Model implements Auditable
     protected $connection = 'pgsql-uic';
     protected $table = 'uic.students';
 
-    protected $fillable = [
-       
-    ];
+    protected $fillable = [];
 
     protected $casts = [
         'observations' => 'array',
@@ -43,8 +41,8 @@ class Student extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    protected $with = ['meshStudent','projectPlan'];
-    
+    protected $with = ['meshStudent', 'projectPlan'];
+
     /*Relatioship*/
     public function meshStudent()
     {
@@ -53,5 +51,12 @@ class Student extends Model implements Auditable
     public function projectPlan()
     {
         return $this->belongsTo(ProjectPlan::class);
+    }
+
+    //scope
+
+    public function scopeProject($query)
+    {
+        return $query->where('project_plan_id', '=', null);
     }
 }

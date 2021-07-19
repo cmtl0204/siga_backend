@@ -15,6 +15,8 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\IndexFileRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
+use App\Models\App\Student;
+use App\Models\Uic\Student as UicStudent;
 
 class ProjectPlanController extends Controller
 {
@@ -69,6 +71,7 @@ class ProjectPlanController extends Controller
 
     public function store(StoreProjectPlanRequest $request)
     {
+
         $projectPlan = new ProjectPlan;
         $projectPlan->title = $request->input('projectPlan.title');
         $projectPlan->description = $request->input('projectPlan.description');
@@ -77,8 +80,24 @@ class ProjectPlanController extends Controller
         $projectPlan->is_approved = $request->input('projectPlan.is_approved');
         $projectPlan->observations = $request->input('projectPlan.observations');
         $projectPlan->save();
+
+        $students = $request->input('projectPlan.students');
+        for ($i = 0; $i < count($students); $i++) {
+            $id = $students[$i]['id'];
+            $student = UicStudent::findOrFail($id);
+            $student->project_plan_id = $projectPlan->id;
+            $student->save();
+        }
+
+        $tutors = $request->input('projectPlan.tutors');
+        for ($i = 0; $i < count($tutors); $i++) {
+            $id = $tutors[$i]['id'];
+            $tutors = UicStudent::findOrFail($id);
+            $tutors->project_plan_id = $projectPlan->id;
+            $tutors->save();
+        }
         return response()->json([
-            'data' => $projectPlan->fresh(),
+
             'msg' => [
                 'summary' => 'Acta creado',
                 'detail' => 'El acta de aprobación del anteproyecto fue creado con exito',

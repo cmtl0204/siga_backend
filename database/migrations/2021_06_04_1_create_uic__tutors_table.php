@@ -15,7 +15,7 @@ class CreateUicTutorsTable extends Migration
     {
         Schema::connection('pgsql-uic')->create('tutors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_plan_id')->constrained('uic.project_plans');
+            $table->foreignId('project_plan_id')->nullable()->constrained('uic.project_plans');
             $table->foreignId('teacher_id')->comment('id de la tabla')->constrained('app.teachers');
             $table->foreignId('type_id')->comment('para saber si es tutor, revisor ,etc')->constrained('app.catalogues');
             $table->json('observations')->comment('registro de cambios')->nullable();

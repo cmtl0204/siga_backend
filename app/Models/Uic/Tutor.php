@@ -47,7 +47,7 @@ class Tutor extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
 
-    protected $with = ['projectPlan', 'teacher', 'meshStudent'];
+    protected $with = ['projectPlan', 'teacher'];
     protected $cascadeDeletes = [];
 
     /*Relatioship*/
@@ -61,8 +61,10 @@ class Tutor extends Model implements Auditable
         return $this->belongsTo(Teacher::class);
     }
 
-    public function meshStudent()
+    //scope
+
+    public function scopeProject($query)
     {
-        return $this->belongsTo(MeshStudent::class);
+        return $query->where('project_plan_id', '=', null);
     }
 }

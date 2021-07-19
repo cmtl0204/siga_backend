@@ -16,8 +16,11 @@ class TutorController extends Controller
 {
     public function index(IndexTutorRequest $request)
     {
-
-        $tutor = Tutor::paginate($request->input('per_page'));
+        if ($request->has('per_page')) {
+            $tutor = Tutor::paginate($request->input('per_page'));
+        } else {
+            $tutor = Tutor::project()->get();
+        }
 
         if ($tutor->count() === 0) {
             return response()->json([
@@ -57,7 +60,7 @@ class TutorController extends Controller
     public function store(StoreTutorRequest $request)
     {
         $tutor = new Tutor;
-        $tutor->project_id = $request->input('tutor.project.id');
+        $tutor->project_plan_id = $request->input('tutor.project_plan.id');
         $tutor->teacher_id = $request->input('tutor.teacher.id');
         $tutor->type_id = $request->input('tutor.type.id');
         $tutor->observations = $request->input('tutor.observations');
@@ -85,7 +88,7 @@ class TutorController extends Controller
                 ]
             ], 400);
         }
-        $tutor->project_id = $request->input('tutor.project.id');
+        $tutor->project_plan_id = $request->input('tutor.project_plan.id');
         $tutor->teacher_id = $request->input('tutor.teacher.id');
         $tutor->type_id = $request->input('tutor.type.id');
         $tutor->observations = $request->input('tutor.observations');

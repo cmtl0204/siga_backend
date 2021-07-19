@@ -16,8 +16,11 @@ class StudentController extends Controller
 {
     public function index(IndexStudentRequest $request)
     {
-
-        $student = Student::paginate($request->input('per_page'));
+        if ($request->has('per_page')) {
+            $student = Student::paginate($request->input('per_page'));
+        } else {
+            $student = Student::project()->get();
+        }
 
         if ($student->count() === 0) {
             return response()->json([
@@ -57,6 +60,8 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         $student = new Student;
+        $student->project_plan_id = $request->input('student.project_plan.id');
+        $student->mesh_student_id = $request->input('student.mesh_student.id');
         $student->observations = $request->input('student.observations');
         $student->save();
         return response()->json([
@@ -90,6 +95,8 @@ class StudentController extends Controller
                 ]
             ], 400);
         }
+        $student->project_plan_id = $request->input('student.project_plan.id');
+        $student->mesh_student_id = $request->input('student.mesh_student.id');
         $student->observations = $request->input('student.observations');
         $student->save();
         return response()->json([

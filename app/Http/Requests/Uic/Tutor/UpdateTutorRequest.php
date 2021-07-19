@@ -15,15 +15,12 @@ class UpdateTutorRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'tutor.project_id' => [
+            'tutor.project_plan.id' => [],
+            'tutor.teacher.id' => [
                 'int',
                 'required'
             ],
-            'tutor.teacher_id' => [
-                'int',
-                'required'
-            ],
-            'tutor.type_id' => [
+            'tutor.type.id' => [
                 'int',
                 'required',
             ],
@@ -34,9 +31,9 @@ class UpdateTutorRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'tutor.project_id' => 'proyecto',
-            'tutor.teacher_id' => 'docente',
-            'tutor.type_id' => 'tipo',
+            'tutor.project_plan.id' => 'proyecto',
+            'tutor.teacher.id' => 'docente',
+            'tutor.type.id' => 'tipo',
         ];
         return UicFormRequest::attributes($attributes);
     }

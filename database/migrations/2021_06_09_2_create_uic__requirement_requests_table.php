@@ -19,7 +19,7 @@ class CreateUicRequirementRequestsTable extends Migration
             $table->foreignId('mesh_student_id')->constrained('app.mesh_student');
             $table->date('date');
             $table->boolean('is_approved')->comment('true si es requerido');
-            $table->json('observations');
+            $table->json('observations')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
