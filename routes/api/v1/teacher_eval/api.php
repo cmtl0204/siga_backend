@@ -13,6 +13,7 @@ use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 use App\Http\Controllers\TeacherEval\AnswerController;
 use App\Http\Controllers\TeacherEval\AnswerQuestionController;
 use App\Http\Controllers\TeacherEval\ExtraCreditController;
+use App\Http\Controllers\TeacherEval\ResearchController;
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -82,7 +83,8 @@ Route::middleware($middlewares)
 
         Route::prefix('evaluation')->group(function () {
             Route::get('all', [EvaluationController::class, 'index']);
-            Route::get('gestionAca', [EvaluationController::class, 'getGestionAcademica']);
+            //Route::get('allEva', [EvaluationController::class, 'getAllEvaluations']);
+            Route::get('gestion/{id}', [EvaluationController::class, 'getGestionAcademicaById']);
             Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
             Route::post('create',  [EvaluationController::class, 'store']);
             Route::put('update/{detail}',  [EvaluationController::class, 'update']);
@@ -92,7 +94,9 @@ Route::middleware($middlewares)
             Route::post('profe', [EvaluationController::class, 'profe']);
             Route::post('school', [EvaluationController::class, 'school']);
             Route::get('getall', [EvaluationController::class, 'getall']);
+            Route::get('getet', [EvaluationController::class, 'getEt']);
             Route::get('teachers', [EvaluationController::class, 'getTeachers']);
+            Route::put('deleteT',  [EvaluationController::class, 'deletet']);
         });
 
            // rutas tabla answer
@@ -108,10 +112,23 @@ Route::middleware($middlewares)
 
         Route::prefix('credit')->group(function () {
             Route::get('getAll', [ExtraCreditController::class, 'getAll']);
+            Route::get('credit', [ExtraCreditController::class, 'getExtraCredit']);
             Route::get('show/{extra}', [ExtraCreditController::class, 'show']);
-            Route::post('store', [ExtraCreditController::class, 'store']);
+            Route::post('store/{id}', [ExtraCreditController::class, 'store']);
             Route::put('update/{detail}',  [ExtraCreditController::class, 'update']);
-            Route::put('delete',  [ExtraCreditController::class, 'delete']);
+            Route::delete('delete/{id}',  [ExtraCreditController::class, 'delete']);
+
+
+        });
+
+
+        Route::prefix('investigacion')->group(function () {
+            Route::get('getAll', [ResearchController::class, 'getAll']);
+            Route::get('research', [ResearchController::class, 'getInvestigacion']);
+            Route::get('show/{extra}', [ResearchController::class, 'show']);
+            Route::post('store/{id}', [ResearchController::class, 'store']);
+            Route::put('update/{detail}',  [ResearchController::class, 'update']);
+            Route::delete('delete/{id}',  [ResearchController::class, 'delete']);
 
 
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\TeacherEval;
  use App\Models\TeacherEval\DetailEvaluation;
  use App\Models\TeacherEval\Evaluation;
  use App\Models\TeacherEval\ExtraCredit;
+ use App\Models\TeacherEval\Research;
  use App\Models\App\Teacher;
  use App\Http\Controllers\Controller;
  use App\Http\Requests\TeacherEval\DetailEvaluation\IndexDetailEvaluationRequest;
@@ -13,7 +14,7 @@ namespace App\Http\Controllers\TeacherEval;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\DB;
 
-class ExtraCreditController extends Controller
+class ResearchController extends Controller
 {
 
 
@@ -44,8 +45,8 @@ class ExtraCreditController extends Controller
 
     return response()->json($detail, 200);
 }*/
-        function getAll(Request $request ){
-            $detail = ExtraCredit::all();
+        function getAll(Research $request ){
+            $detail = Research::all();
             return response()->json([
                 'data' => $detail,
                 'msg' => [
@@ -55,7 +56,27 @@ class ExtraCreditController extends Controller
         }
 
 
-   function show(ExtraCredit $extra)
+        function getInvestigacion(Research $extra){
+
+            $traer = DB::table('teacher_eval.researchs')
+            ->join('app.teachers', 'app.teachers.id', '=', 'teacher_eval.researchs.teacher_id' )
+            ->orderBy('teachers.name', 'asc')
+            ->select('teacher_eval.researchs.inv_auto_eval', 'teacher_eval.researchs.inv_pares', 'teacher_eval.researchs.inv_coodinador', 'teacher_eval.researchs.total', 'teacher_eval.researchs.total', 'teacher_eval.researchs.id as id', 'teachers.name' )
+
+
+            ->get();
+
+               return response()->json([
+                'data' => $traer,
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => '',
+                    'code' => '201'
+                ]], 201);
+
+        }
+
+   function show(Research $extra)
     {
 
         return response()->json([
@@ -68,38 +89,14 @@ class ExtraCreditController extends Controller
     }
 
 
-    function getExtraCredit(ExtraCredit $extra){
-
-        $traer = DB::table('teacher_eval.extra_credits')
-        ->join('app.teachers', 'app.teachers.id', '=', 'teacher_eval.extra_credits.teacher_id' )
-        ->orderBy('teachers.name', 'asc')
-        ->select('teacher_eval.extra_credits.diploma_yavirac', 'teacher_eval.extra_credits.title_fourth_level', 'teacher_eval.extra_credits.OCS_member', 'teacher_eval.extra_credits.governing_processes', 'teacher_eval.extra_credits.process_nouns', 'teacher_eval.extra_credits.support_processes', 'teacher_eval.extra_credits.total', 'teacher_eval.extra_credits.id as id', 'teachers.name' )
-
-
-        ->get();
-
-           return response()->json([
-            'data' => $traer,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '201'
-            ]], 201);
-
-    }
-
-
    function store(Request $request, $id)
     {
         $teacher = Teacher::getInstance($id);
-        $detail = new ExtraCredit();
-        $detail->diploma_yavirac = $request->input('credit.diploma_yavirac');
-        $detail->title_fourth_level = $request->input('credit.title_fourth_level');
-        $detail->OCS_member = $request->input('credit.OCS_member');
-        $detail->governing_processes = $request->input('credit.governing_processes');
-        $detail->process_nouns = $request->input('credit.process_nouns');
-        $detail->support_processes = $request->input('credit.support_processes');
-        $detail->total = $request->input('credit.total');
+        $detail = new Research();
+        $detail->inv_auto_eval = $request->input('research.inv_auto_eval');
+        $detail->inv_pares = $request->input('research.inv_pares');
+        $detail->inv_coodinador = $request->input('research.inv_coodinador');
+        $detail->total = $request->input('research.total');
         $detail->teacher()->associate($teacher);
         $detail->save();
 
@@ -113,17 +110,13 @@ class ExtraCreditController extends Controller
     }
 
 
-    function update(Request $request, ExtraCredit $detail)
+    function update(Request $request, Research $detail)
     {
         $teacher = Teacher::getInstance($request->input('teacher.id'));
-
-        $detail->diploma_yavirac = $request->input('credit.diploma_yavirac');
-        $detail->title_fourth_level = $request->input('credit.title_fourth_level');
-        $detail->OCS_member = $request->input('credit.OCS_member');
-        $detail->governing_processes = $request->input('credit.governing_processes');
-        $detail->process_nouns = $request->input('credit.process_nouns');
-        $detail->support_processes = $request->input('credit.support_processes');
-        $detail->total = $request->input('credit.total');
+        $detail->inv_auto_eval = $request->input('research.inv_auto_eval');
+        $detail->inv_pares = $request->input('research.inv_pares');
+        $detail->inv_coodinador = $request->input('research.inv_coodinador');
+        $detail->total = $request->input('research.total');
         $detail->teacher()->associate($teacher);
         $detail->save();
 
@@ -139,10 +132,11 @@ class ExtraCreditController extends Controller
 
 
 
-  /*  function delete(Request $request)
+
+    /*function delete(Request $request)
     {
         // Es una eliminación lógica
-        ExtraCredit::destroy($request->input('ids'));
+        Research::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
@@ -153,10 +147,11 @@ class ExtraCreditController extends Controller
             ]], 201);
     }*/
 
+
     function delete(Request $request, $id)
     {
         // Es una eliminación lógica
-        $request = ExtraCredit::find($id);
+        $request = Research::find($id);
         $request->delete();
 
         return response()->json([
@@ -167,6 +162,9 @@ class ExtraCreditController extends Controller
                 'code' => '201'
             ]], 201);
     }
+
+
+
 
 
 }

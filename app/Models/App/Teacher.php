@@ -17,6 +17,7 @@ use App\Models\Authentication\User;
 use App\Models\Attendance\Attendance;
 use App\Models\TeacherEval\Evaluation;
 use App\Models\TeacherEval\ExtraCredit;
+use App\Models\TeacherEval\Research;
 
 class Teacher extends Model implements Auditable
 {
@@ -67,5 +68,9 @@ class Teacher extends Model implements Auditable
         return $this->hasMany(ExtraCredit::class);
     }
 
+    public function research()
+    {
+        return $this->hasMany(Research::class);
+    }
 
 }

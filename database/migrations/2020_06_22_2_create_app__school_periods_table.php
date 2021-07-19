@@ -26,6 +26,7 @@ class CreateAppSchoolPeriodsTable extends Migration
             $table->date('especial_end_date');
             $table->softDeletes();
             $table->timestamps();
+
         });
     }
 
