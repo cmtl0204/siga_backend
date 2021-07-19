@@ -105,16 +105,16 @@ class WebOfferController extends Controller
 
         // por input de busqueda
         if (!is_null($request->input('generalSearch'))) {
-            $offers = Offer::professional($professional)
-                ->aditionalInformation($request->input('generalSearch'))
+            $offers = Offer::aditionalInformation($request->input('generalSearch'))
                 ->location($request->input('generalSearch'))
                 ->orWhere
                 ->position($request->input('generalSearch'))
                 ->categoryName($request->input('generalSearch'))
                 ->status(1)
+                ->professional($professional)
                 ->paginate($request->input('per_page'));
 
-            return response()->json([$offers, 'hola'], 200);
+            return response()->json($offers, 200);
         }
 
         $offers = Offer::professional($professional)
