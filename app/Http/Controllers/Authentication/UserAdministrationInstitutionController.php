@@ -21,7 +21,7 @@ class  UserAdministrationInstitutionController extends Controller
     {
         $system = $request->input('system');
         $search = $request->input('search');
-        $institution = $request->input('institution');
+        $institution = $request->input('institution_view');
 
         if ($request->has('search')) {
             $users = User::whereHas('roles', function ($role) use ($system, $institution) {
@@ -225,7 +225,7 @@ class  UserAdministrationInstitutionController extends Controller
         $user = User::find($request->input('id'));
         $roles = $user->roles()
             ->where('system_id', $request->input('system'))
-            ->where('institution_id', $request->input('institution'))
+            ->where('institution_id', $request->input('institution_view'))
             ->get();
 
         if ($roles->count() === 0) {
@@ -253,7 +253,7 @@ class  UserAdministrationInstitutionController extends Controller
     {
 
         $system = $request->input('system');
-        $institution = $request->input('institution');
+        $institution = $request->input('institution_view');
         $roles = Role::where('system_id', $system)
             ->where('institution_id', $institution)
             ->get();
@@ -325,7 +325,7 @@ class  UserAdministrationInstitutionController extends Controller
     {
         $system = $request->input('system');
         $search = $request->input('search');
-        $institution = $request->input('institution');
+        $institution = $request->input('institution_view');
 
         if ($request->has('search')) {
             $roles = Role::where('system_id', $system)

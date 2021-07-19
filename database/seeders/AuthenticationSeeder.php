@@ -781,7 +781,7 @@ class AuthenticationSeeder extends Seeder
         ]);
 
         Route::factory()->create([
-            'uri' => $catalogues['route']['user']['administration'],
+            'uri' => $catalogues['route']['user']['administration_institution'],
             'module_id' => $moduleAuthentication->id,
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,

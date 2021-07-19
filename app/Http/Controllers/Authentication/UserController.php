@@ -29,7 +29,7 @@ class  UserController extends Controller
                 $roles->where('system_id', $request->system);
             }])
             ->with(['institutions' => function ($institutions) use ($request) {
-                $institutions->where('system_id', $request->system);
+                // $institutions->where('system_id', $request->system);
             }])
             ->where('username', $username)
             ->first();

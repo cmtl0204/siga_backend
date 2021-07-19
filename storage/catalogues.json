@@ -44,7 +44,8 @@
         "dashboard": "/dashboard",
         "user": {
             "user": "/user",
-            "administration": "/user/administration"
+            "administration": "/user/administration",
+            "administration_institution": "/user-administration-institution"
         },
         "attendance": {
             "attendance": "/attendance",
