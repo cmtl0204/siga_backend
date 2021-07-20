@@ -25,6 +25,7 @@ class Participant extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
     protected $table = 'cecy.participants';
+    protected $with = ['user'];
     
 
 

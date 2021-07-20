@@ -13,10 +13,17 @@ use App\Models\App\App;
 use App\Models\App\Cecy\Registration;
 use App\Models\App\Cecy\AditionalInformation;
 use App\Models\App\Cecy\DetailPlanification;
-
+use App\Models\Cecy\Registration as CecyRegistration;
+use App\Models\App\File;
 
 /**
- * @property BigInteger id
+ * @property decimal partial_grade1
+ * @property decimal partial_grade2
+ * @property decimal final_note
+ * @property String code_certificate
+ * @property String certificate_withdrawn
+ * @property String location_certificate
+ * @property Json observation
  * 
  */
 
@@ -27,19 +34,22 @@ class DetailRegistration extends Model implements Auditable
     use SoftDeletes;
 
     protected static $instance;
+    protected $with = ['registration','files'];
 
     protected $connection = 'pgsql-cecy';
 
     protected $table = 'cecy.detail_registrations';
 
     protected $fillable = [
-        'partial_grade',
-        'final_exam',
+        'partial_grade1',
+        'partial_grade2',
+        'final_note',
         'code_certificate',
         'certificate_withdrawn',
         'location_certificate',
         'observation'
     ];
+    
 
     protected $casts = [
         'observation'=> 'array',
@@ -59,9 +69,13 @@ class DetailRegistration extends Model implements Auditable
     }
 
     // Relationships
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
     public function registration()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(CecyRegistration::class);
     }
 
     public function additionalInformation()
@@ -71,7 +85,7 @@ class DetailRegistration extends Model implements Auditable
 
     public function detailplanification()
     {
-        return $this->belongsTo(Detailplanification::class);
+        return $this->belongsTo(DetailPlanification::class);
     }
 
     public function status()
@@ -84,10 +98,6 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function attendance()
-    {
-        return $this->hasMany(Attendance::class);
-    }
     // Accessors
     /* public function getFullPartialGradeAttribute()
     {

@@ -8,13 +8,14 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\App\Cecy\DetailRegistration;
-use App\Models\Cecy\DetailRegistration as CecyDetailRegistration;
+
+use App\Models\Cecy\DetailRegistration;
 
 /**
  * @property BigInteger id
  * @property Boolean assistance
  * @property String description
+ * 
  */
 
 class Attendance extends Model implements Auditable
@@ -56,7 +57,7 @@ public static function getInstance($id)
 // Relationships
 public function detailRegistration()
 {
-    return $this->belongsTo(CecyDetailRegistration::class);
+    return $this->belongsTo(DetailRegistration::class);
 }
 
 
