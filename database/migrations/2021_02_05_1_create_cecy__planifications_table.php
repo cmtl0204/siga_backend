@@ -17,7 +17,7 @@ class CreateCecyPlanificationsTable extends Migration
             $table->id();
             $table->date('date_start')->comment('guarda la fecha inicio del curso');
             $table->date('date_end')->comment('guarda la fecha fin del curso');
-            $table->foreignId('course_id')->constrained('courses')->comment('FK de la tabla curso');
+            $table->foreignId('course_id')->constrained('cecy.courses')->comment('FK de la tabla curso');
             $table->json('needs')->comment('Existe casos que el curso existe sin embargo al momento de impartirlo nuevamente las becesidades cambien, esto se registra en la lanificación, por defecto debe mostrar las registrada en el curso, con opción a ser cambiada');
             $table->foreignId('teacher_responsable_id')->constrained('authentication.users')->comment('docente encargado de realizar toda la planificación del cecy, crear su equipo de docentes a impartir el curso, entregar notas, asistencia, etc'); //responsable_id
             //$table->foreignId('school_period_id')->constrained('ignug.school_periods')->nullable(); //school_period_id

@@ -49,6 +49,7 @@ class RegistrationController extends Controller
     function store(StoreRegistrationRequest $request)
     {
         $data = $request->json()->all();
+        return
         // $dataRegistration = $data['registration'];
         // $dataParticipant = $data['participant_id'];
         // $dataStatu = $data['status_id'];

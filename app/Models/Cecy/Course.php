@@ -24,7 +24,7 @@ class Course extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-cecy';
-    protected $table = 'cecy.instructors';
+    protected $table = 'cecy.courses';
 
 
     protected $casts = [

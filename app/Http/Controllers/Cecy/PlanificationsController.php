@@ -24,7 +24,7 @@ class PlanificationsController extends Controller
 {
     //Recuperacion de todos los registros o solo de uno
     function index(IndexPlanificationRequest $request){
-      $planification = Planification::all();
+      $planification = Planification::with('course')->with('teacher')->with('status')->get();
 
         return response()->json([
             'data' => $planification,
@@ -41,7 +41,7 @@ class PlanificationsController extends Controller
     // obtener un único objeto o registro
     function show(Planification $planification){
       return response()->json([
-        'data' => $planification,
+        'data' => $planification->with('course')->first(),
         'msg' => [
             'summary' => 'success',
             'detail' => '',
