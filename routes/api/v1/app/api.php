@@ -11,6 +11,7 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
 use App\Http\Controllers\App\StudentController;
+use App\Http\Controllers\Uic\MeshStudentController;
 
 Route::apiResource('careers', CareerController::class);
 

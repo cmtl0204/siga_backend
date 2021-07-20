@@ -123,30 +123,4 @@ class RequirementController extends Controller
             ]
         ], 201);
     }
-
-
-    function uploadFile(UploadFileRequest $request)
-    {
-        return (new FileController())->upload($request, Requirement::getInstance($request->input('id')));
-    }
-
-    public function updateFile(UpdateFileRequest $request)
-    {
-        return (new FileController())->update($request, Requirement::getInstance($request->input('id')));
-    }
-
-    function deleteFile($fileId)
-    {
-        return (new FileController())->delete($fileId);
-    }
-
-    function indexFile(IndexFileRequest $request)
-    {
-        return (new FileController())->index($request, Requirement::getInstance($request->input('id')));
-    }
-
-    function ShowFile($fileId)
-    {
-        return (new FileController())->show($fileId);
-    }
 }

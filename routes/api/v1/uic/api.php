@@ -13,6 +13,7 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Uic\CatalogueEventController;
 use App\Http\Controllers\Uic\EnrollmentController;
 use App\Http\Controllers\Uic\EventController;
+use App\Http\Controllers\Uic\MeshStudentController;
 use App\Http\Controllers\Uic\ModalityController;
 use App\Http\Controllers\Uic\PlanningController;
 use App\Http\Controllers\Uic\TutorController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\Uic\PdfEnrollmentController;
 use App\Http\Controllers\Uic\PdfEnrollmentRequestController;
 use App\Http\Controllers\Uic\StudentController;
 use App\Http\Controllers\Uic\StudentInformationController;
+use App\Models\App\MeshStudent;
+use App\Models\Uic\MeshStudentRequirement;
 
 $middlewares = ['auth:api'];
 
@@ -56,16 +59,16 @@ Route::middleware($middlewares)
         });
         Route::prefix('requirement')->group(function () {
             Route::put('delete', [RequirementController::class, 'delete']);
-            Route::prefix('file')->group(function () {
-                Route::post('', [RequirementController::class, 'uploadFile']);
-                Route::put('delete', [RequirementController::class, 'deleteFile']);
-                Route::get('', [RequirementController::class, 'indexFile']);
-                Route::put('update/{file}', [RequirementController::class, 'updateFile']);
-                Route::get('{file}', [RequirementController::class, 'showFile']);
-            });
         });
         Route::prefix('mesh-student-requirement')->group(function () {
             Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
+            Route::prefix('file')->group(function () {
+                Route::post('', [MeshStudentRequirementController::class, 'uploadFile']);
+                Route::put('delete', [MeshStudentRequirementController::class, 'deleteFile']);
+                Route::get('', [MeshStudentRequirementController::class, 'indexFile']);
+                Route::put('update/{file}', [MeshStudentRequirementController::class, 'updateFile']);
+                Route::get('{file}', [MeshStudentRequirementController::class, 'showFile']);
+            });
         });
         Route::prefix('project')->group(function () {
             Route::put('delete', [ProjectController::class, 'delete']);
@@ -127,16 +130,16 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('requirement')->group(function () {
         Route::put('delete', [RequirementController::class, 'delete']);
-        Route::prefix('file')->group(function () {
-            Route::post('', [RequirementController::class, 'uploadFile']);
-            Route::put('delete', [RequirementController::class, 'deleteFile']);
-            Route::get('', [RequirementController::class, 'indexFile']);
-            Route::put('update/{file}', [RequirementController::class, 'updateFile']);
-            Route::get('{file}', [RequirementController::class, 'showFile']);
-        });
     });
     Route::prefix('mesh-student-requirement')->group(function () {
         Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
+        Route::prefix('file')->group(function () {
+            Route::post('', [MeshStudentRequirementController::class, 'uploadFile']);
+            Route::put('delete', [MeshStudentRequirementController::class, 'deleteFile']);
+            Route::get('', [MeshStudentRequirementController::class, 'indexFile']);
+            Route::put('update/{file}', [MeshStudentRequirementController::class, 'updateFile']);
+            Route::get('{file}', [MeshStudentRequirementController::class, 'showFile']);
+        });
     });
     Route::prefix('project')->group(function () {
         Route::put('delete', [ProjectController::class, 'delete']);
@@ -158,4 +161,6 @@ Route::prefix('/')->group(function () {
     Route::get('export-enrollment', [PdfEnrollmentController::class, 'index']);
 
     Route::get('export-enrollment-request', [PdfEnrollmentRequestController::class, 'index']);
+
+    Route::get('mesh-students', [MeshStudentController::class, 'index']);
 });

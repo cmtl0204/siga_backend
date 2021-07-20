@@ -16,18 +16,8 @@ class StoreMeshStudentRequirementRequest extends FormRequest
     {
         $rules = [
 
-            'meshStudentRequirement.requirement.id' => [
+            'requirement_id' => [
                 'int',
-                'required'
-
-            ],
-            'meshStudentRequirement.meshStudent.id' => [
-                'int',
-                'required'
-
-            ],
-            'meshStudentRequirement.is_approved' => [
-                'boolean',
                 'required'
 
             ]

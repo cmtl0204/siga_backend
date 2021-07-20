@@ -16,7 +16,7 @@ class UpdateMeshStudentRequirementRequest extends FormRequest
     {
         $rules = [
 
-            'meshStudentRequirement.requirement_id' => [
+            'meshStudentRequirement.requirement.id' => [
                 'int',
                 'required'
 

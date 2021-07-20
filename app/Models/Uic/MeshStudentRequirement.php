@@ -2,6 +2,7 @@
 
 namespace App\Models\Uic;
 
+use App\Models\App\File;
 use App\Models\App\MeshStudent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,10 @@ class MeshStudentRequirement extends Model implements Auditable
     use SoftDeletes;
     use CascadeSoftDeletes;
 
-    protected $with = ['requirement', 'meshStudent'];
+    private static $instance;
+
+    protected $with = ['requirement', 'meshStudent', 'files'];
+    protected $cascadeDeletes = ['files'];
 
     protected $casts = [
         'observations' => 'array',
@@ -33,6 +37,15 @@ class MeshStudentRequirement extends Model implements Auditable
 
     ];
 
+    public static function getInstance($id)
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+        static::$instance->id = $id;
+        return static::$instance;
+    }
+
     //Relationships
     public function requirement()
     {
@@ -42,5 +55,19 @@ class MeshStudentRequirement extends Model implements Auditable
     public function meshStudent()
     {
         return $this->belongsTo(MeshStudent::class);
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
+    //scope
+
+    public function scopeStudent($query, $student)
+    {
+        if ($student) {
+            return $query->orWhere('mesh_student_id', '=', $student);
+        }
     }
 }

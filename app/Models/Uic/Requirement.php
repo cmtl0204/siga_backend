@@ -44,12 +44,9 @@ class Requirement extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
-    protected $with = ['career', 'files'];
-    protected $cascadeDeletes = ['meshStudentRequirements', 'files'];
-    public function files()
-    {
-        return $this->morphMany(File::class, 'fileable');
-    }
+    protected $with = ['career'];
+    protected $cascadeDeletes = ['meshStudentRequirements'];
+
     public function career()
     {
         return $this->belongsTo(Career::class);

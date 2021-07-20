@@ -15,8 +15,8 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\IndexFileRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
-use App\Models\App\Student;
-use App\Models\Uic\Student as UicStudent;
+use App\Models\Uic\Student;
+use App\Models\Uic\Tutor;
 
 class ProjectPlanController extends Controller
 {
@@ -84,7 +84,7 @@ class ProjectPlanController extends Controller
         $students = $request->input('projectPlan.students');
         for ($i = 0; $i < count($students); $i++) {
             $id = $students[$i]['id'];
-            $student = UicStudent::findOrFail($id);
+            $student = Student::findOrFail($id);
             $student->project_plan_id = $projectPlan->id;
             $student->save();
         }
@@ -92,12 +92,12 @@ class ProjectPlanController extends Controller
         $tutors = $request->input('projectPlan.tutors');
         for ($i = 0; $i < count($tutors); $i++) {
             $id = $tutors[$i]['id'];
-            $tutors = UicStudent::findOrFail($id);
-            $tutors->project_plan_id = $projectPlan->id;
-            $tutors->save();
+            $tutor = Tutor::findOrFail($id);
+            $tutor->project_plan_id = $projectPlan->id;
+            $tutor->save();
         }
         return response()->json([
-
+            'data' => $projectPlan->fresh(),
             'msg' => [
                 'summary' => 'Acta creado',
                 'detail' => 'El acta de aprobación del anteproyecto fue creado con exito',
@@ -138,6 +138,33 @@ class ProjectPlanController extends Controller
 
     function delete(DeleteProjectPlanRequest $request)
     {
+        // $projectPlans = $request->input('ids');
+
+        // for ($i = 0; $i < count($projectPlans); $i++) {
+        //     $projectPlan = ProjectPlan::findOrFail($projectPlans[$i]);
+        //     $students = $projectPlan->students;
+
+
+        //     for ($s = 0; $s < count($students); $s++) {
+        //         $id = $students[$s]['id'];
+        //         $student = Student::findOrFail($id);
+        //         $student->project_plan_id = null;
+
+        //         $student->save();
+        //         $student->fresh();
+        //     }
+
+        //     $tutors = $projectPlan->tutors;
+
+        //     for ($t = 0; $t < count($tutors); $t++) {
+        //         $idT = $tutors[$t]['id'];
+        //         $tutor = Tutor::findOrFail($idT);
+        //         $tutor->project_plan_id = null;
+        //         $tutor->save();
+        //         $tutor->fresh();
+        //     }
+        // }
+
         ProjectPlan::destroy($request->input('ids'));
 
         return response()->json([

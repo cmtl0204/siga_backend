@@ -65,26 +65,31 @@ class PlanningController extends Controller
 
     public function store(StorePlanningRequest $request)
     {
-        $planning = new Planning;
-        $planning->career_id = $request->input('planning.career.id');
-        $planning->name = $request->input('planning.name');
-        $planning->start_date = $request->input('planning.start_date');
-        $planning->end_date = $request->input('planning.end_date');
-        $planning->description = $request->input('planning.description');
-        $planning->save();
-        return response()->json([
-            'data' => $planning->fresh(), //revisar el fresh -> id
-            'msg' => [
-                'summary' => 'Convocatoria creada',
-                'detail' => 'La planificacion fue creado',
-                'code' => '201'
-            ]
-        ], 201);
+        $date = Carbon::now();
+        $date = $date->toDateString();
+
+        if ($request->input('planning.end_date') >= $date) {
+            $planning = new Planning;
+            $planning->career_id = $request->input('planning.career.id');
+            $planning->name = $request->input('planning.name');
+            $planning->start_date = $request->input('planning.start_date');
+            $planning->end_date = $request->input('planning.end_date');
+            $planning->description = $request->input('planning.description');
+            $planning->save();
+            return response()->json([
+                'data' => $planning->fresh(), //revisar el fresh -> id
+                'msg' => [
+                    'summary' => 'Convocatoria creada',
+                    'detail' => 'La planificacion fue creado',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
 
         return response()->json([
-            'data' => null,
+            'data' => '',
             'msg' => [
-                'summary' => 'No se encuentra la convocatoria',
+                'summary' => 'La fecha fin debe ser mayor a la fecha actual',
                 'detail' => 'Intente otra vez',
                 'code' => '404'
             ]

@@ -68,7 +68,12 @@ class EventController extends Controller
     {
         $event = new Event;
         $planning = Planning::findOrFail($request->input('event.planning.id'));
-        if ($planning['start_date'] <= $request->input('event.start_date') && $planning['end_date'] >= $request->input('event.end_date')) {
+
+
+        if (
+            $planning['start_date'] <= $request->input('event.start_date')
+            && $planning['end_date'] >= $request->input('event.end_date')
+        ) {
             $event->planning_id = $request->input('event.planning.id');
             $event->name_id = $request->input('event.name.id');
             $event->start_date = $request->input('event.start_date');
@@ -83,14 +88,6 @@ class EventController extends Controller
                 ]
             ], 201);
         }
-        return response()->json([
-            'data' => '',
-            'msg' => [
-                'summary' => 'Las fechas deben estar dentro del rango de fechas de la Convocatoria',
-                'detail' => 'Intente otra vez',
-                'code' => '404'
-            ]
-        ], 404);
     }
 
     public function update(UpdateEventRequest $request, $id)

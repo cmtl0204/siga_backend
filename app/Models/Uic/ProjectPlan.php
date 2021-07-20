@@ -39,7 +39,7 @@ class ProjectPlan extends Model implements Auditable
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
     protected $with = [];
-    protected $cascadeDeletes = ['projects', 'files', 'students'];
+    protected $cascadeDeletes = ['projects', 'files'];
 
     public static function getInstance($id)
     {
