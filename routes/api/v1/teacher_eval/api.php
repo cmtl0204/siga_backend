@@ -114,9 +114,8 @@ Route::middleware($middlewares)
             Route::post('store', [AnswerController::class, 'store']);
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
-
-
         });
+
 
         Route::prefix('credit')->group(function () {
             Route::get('getAll', [ExtraCreditController::class, 'getAll']);
@@ -127,6 +126,15 @@ Route::middleware($middlewares)
 
 
         });
+
+        Route::prefix('evaluation-type')->group(function () {
+            Route::get('index', [EvaluationTypeController::class, 'index']);
+            Route::post('store', [EvaluationTypeController::class, 'store']);
+            Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
+            Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
+            Route::put('delete', [EvaluationTypeController::class, 'delete']);
+    });
+
 
     });
 
@@ -144,12 +152,6 @@ Route::prefix('/')
 
 
         });
-        Route::prefix('evaluation-type')->group(function () {
-            Route::get('index', [EvaluationTypeController::class, 'index']);
-            Route::post('store', [EvaluationTypeController::class, 'store']);
-            Route::get('show/{id}', [EvaluationTypeController::class, 'show']);
-            Route::put('update/{evaluationType}', [EvaluationTypeController::class, 'update']);
-            Route::put('delete', [EvaluationTypeController::class, 'delete']);
-
 
     });
+    
