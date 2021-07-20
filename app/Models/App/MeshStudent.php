@@ -11,7 +11,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 // Application
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Career;
-
+use App\Models\Uic\MeshStudentRequirement;
 
 class MeshStudent extends Model implements Auditable
 {
@@ -49,8 +49,14 @@ class MeshStudent extends Model implements Auditable
     {
         return $this->belongsTo(Student::class);
     }
+
     public function mesh()
     {
         return $this->belongsTo(Mesh::class);
+    }
+
+    public function meshStudentRequirements()
+    {
+        return $this->hasMany(MeshStudentRequirement::class);
     }
 }

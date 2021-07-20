@@ -23,8 +23,8 @@ class MeshStudentRequirementController extends Controller
      */
     public function index(IndexMeshStudentRequirementRequest $request)
     {
-        if ($request->has('id')) {
-            $meshStudentRequirements = MeshStudentRequirement::student($request->input('id'))->get();
+        if ($request->has('student_id')) {
+            $meshStudentRequirements = MeshStudentRequirement::student($request->input('student_id'))->get();
         } else {
             $meshStudentRequirements = MeshStudentRequirement::paginate($request->input('per_page'));
         }

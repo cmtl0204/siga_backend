@@ -67,7 +67,7 @@ class MeshStudentRequirement extends Model implements Auditable
     public function scopeStudent($query, $student)
     {
         if ($student) {
-            return $query->orWhere('mesh_student_id', '=', $student);
+            return $query->where('mesh_student_id', '=', $student);
         }
     }
 }

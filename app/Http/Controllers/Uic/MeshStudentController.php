@@ -15,9 +15,9 @@ class MeshStudentController extends Controller
     public function index(IndexMeshStudentRequest $request)
     {
         if ($request->has('per_page')) {
-            $student = MeshStudent::paginate($request->input('per_page'));
+            $student = MeshStudent::with('meshStudentRequirements')->paginate($request->input('per_page'));
         } else {
-            $student = MeshStudent::get();
+            $student = MeshStudent::with('meshStudentRequirements')->get();
         }
 
         if ($student->count() === 0) {
