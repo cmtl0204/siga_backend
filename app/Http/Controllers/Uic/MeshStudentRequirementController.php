@@ -47,7 +47,7 @@ class MeshStudentRequirementController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'El registro no existe',
+                    'summary' => 'El requerimiento no existe',
                     'detail' => 'Intente con otro registro',
                     'code' => '404'
                 ]
@@ -56,7 +56,7 @@ class MeshStudentRequirementController extends Controller
         return response()->json([
             'data' => $meshStudentRequirement->fresh(),
             'msg' => [
-                'summary' => 'El registro no existe',
+                'summary' => 'El requerimiento no existe',
                 'detail' => 'Intente con otro registro',
                 'code' => '404'
             ]
@@ -67,17 +67,12 @@ class MeshStudentRequirementController extends Controller
     {
         $meshStudentRequirement = new MeshStudentRequirement;
         $meshStudentRequirement->mesh_student_id = 1;
-        $meshStudentRequirement->requirement_id = $request->input('requirement_id');
+        $meshStudentRequirement->requirement_id = $request->input('meshStudentRequirement');
         $meshStudentRequirement->is_approved = $request->input('is_approved');
         $meshStudentRequirement->observations = $request->input('observations');
         $meshStudentRequirement->save();
         return response()->json([
-            'data' => $meshStudentRequirement->fresh(),
-            'msg' => [
-                'summary' => 'Registro creado',
-                'detail' => 'El registro fue creado con exito',
-                'code' => '201'
-            ]
+            'data' => $meshStudentRequirement->fresh()
         ], 201);
     }
 
@@ -88,7 +83,7 @@ class MeshStudentRequirementController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'El registro no existe',
+                    'summary' => 'El requerimiento no existe',
                     'detail' => 'Intente con otro registro',
                     'code' => '404'
                 ]
@@ -102,7 +97,7 @@ class MeshStudentRequirementController extends Controller
         return response()->json([
             'data' => $meshStudentRequirement,
             'msg' => [
-                'summary' => 'Registro actualizado',
+                'summary' => 'Requerimiento actualizado',
                 'detail' => 'El registro fue actualizado',
                 'code' => '201'
             ]
@@ -116,7 +111,7 @@ class MeshStudentRequirementController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Rgistro eliminado',
+                'summary' => 'Requerimiento eliminado',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]

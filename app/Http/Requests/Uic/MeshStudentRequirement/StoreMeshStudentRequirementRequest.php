@@ -14,14 +14,7 @@ class StoreMeshStudentRequirementRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-
-            'requirement_id' => [
-                'int',
-                'required'
-
-            ]
-        ];
+        $rules = [];
         return UicFormRequest::rules($rules);
     }
 
