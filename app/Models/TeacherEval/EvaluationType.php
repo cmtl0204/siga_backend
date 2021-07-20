@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\TeacherEval;
+use App\Models\TeacherEval\Question;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use App\Models\App\Status;
 use CascadeSoftDeletes;
 
 /**
- * @property BigInteger id 
+ * @property BigInteger id
  * @property string name
  * @property string code
  * @property double percentage
@@ -47,12 +48,7 @@ class EvaluationType extends Model implements Auditable
         return static::$instance;
     }
 
-    //relantioships 
-
-
-
-
-
+    //relantioships
     public function parent(){
         return $this->belongsTo(EvaluationType::class, 'parent_id');
     }
@@ -63,6 +59,13 @@ class EvaluationType extends Model implements Auditable
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+
         // Scopes
         public function scopeName($query, $name)
         {

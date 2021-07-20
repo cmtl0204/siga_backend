@@ -12,6 +12,7 @@ use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\TeacherEval\EvaluationTypeController;
 use App\Http\Controllers\TeacherEval\AnswerController;
 use App\Http\Controllers\TeacherEval\AnswerQuestionController;
+use App\Http\Controllers\TeacherEval\QuestionController;
 use App\Http\Controllers\TeacherEval\ExtraCreditController;
 use App\Http\Controllers\TeacherEval\DetailEvaluation\DetailEvaluationController;
 use App\Http\Controllers\TeacherEval\Evaluation\EvaluationController;
@@ -70,6 +71,14 @@ Route::middleware($middlewares)
             Route::post('store', [AnswerController::class, 'store']);
             Route::put('update/{answer}',  [AnswerController::class, 'update']);
             Route::put('delete',  [AnswerController::class, 'delete']);
+        });
+      // rutas tabla QUESTION
+        Route::prefix('question')->group(function () {
+            Route::post('store', [QuestionController::class, 'store']);
+            Route::put('put/{question}', [QuestionController::class, 'update']);
+            Route::get('index', [QuestionController::class, 'index']);
+            Route::get('show/{question}', [QuestionController::class, 'show']);
+            Route::put('delete', [QuestionController::class, 'delete']);
         });
 
         Route::prefix('evaluation-detail')->group(function () {
@@ -131,6 +140,9 @@ Route::prefix('/')
             Route::post('reset-password', [AuthController::class, 'resetPassword']);
             Route::post('user-locked', [AuthController::class, 'userLocked']);
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
+
+
+
         });
         Route::prefix('evaluation-type')->group(function () {
             Route::get('index', [EvaluationTypeController::class, 'index']);
@@ -141,5 +153,3 @@ Route::prefix('/')
 
 
     });
-
-});
