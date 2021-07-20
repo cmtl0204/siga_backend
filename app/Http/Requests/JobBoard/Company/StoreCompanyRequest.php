@@ -82,6 +82,11 @@ class StoreCompanyRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
+            'company.prefix' => [
+                'required',
+                'min:2',
+                'max:5',
+            ],
 
             'company.type.id' => [
                 'required',
@@ -113,6 +118,7 @@ class StoreCompanyRequest extends FormRequest
             'company.user.email'=>'email',
             'company.user.password'=>'password',
             'company.trade_name' => 'nombre comercial',
+            'company.prefix'=>'prefijo',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
             'company.type.id' => 'tipo-ID',

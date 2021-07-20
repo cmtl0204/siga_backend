@@ -160,7 +160,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
-    function professional(){
+    function professional()
+    {
         return $this->hasOne(Professional::class);
     }
 

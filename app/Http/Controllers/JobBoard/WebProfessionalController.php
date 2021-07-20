@@ -34,7 +34,7 @@ class WebProfessionalController extends Controller
             ]
         ], 200);
     }
-    
+
     function getProfessionals(Request $request)
     {
         if ($request->input('ids') == null && $request->input('search') == null) {
@@ -135,7 +135,7 @@ class WebProfessionalController extends Controller
                 ]
             ], 404);
         }
-        
+
         $company->professionals()->attach($professional->id);
 
         return response()->json([

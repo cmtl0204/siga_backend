@@ -5,7 +5,9 @@
         "inactive": "2",
         "locked": "3",
         "available": "4",
-        "maintenance": "503"
+        "maintenance": "503",
+        "published": "PUBLISHED",
+        "unpublished": "UNPUBLISHED"
     },
     "role": {
         "admin": "ADMIN",
@@ -51,8 +53,9 @@
             "administration": "/attendance/administration"
         },
         "job_board": {
-            "job_board": "/job_board",
-            "administration": "/job_board/administration"
+            "job_board": "/job-board",
+            "administration": "/job-board/administration",
+            "company": "/job-board/company"
         },
         "web": {
             "web": "/web",
