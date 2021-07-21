@@ -55,11 +55,11 @@ class ExtraCreditController extends Controller
         }
 
 
-   function show(ExtraCredit $extra)
+   function show(ExtraCredit $id)
     {
 
         return response()->json([
-            'data' => $extra,
+            'data' => $id,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -113,7 +113,7 @@ class ExtraCreditController extends Controller
     }
 
 
-    function update(Request $request, ExtraCredit $detail)
+   /* function update(Request $request, ExtraCredit $detail)
     {
         $teacher = Teacher::getInstance($request->input('teacher.id'));
 
@@ -134,6 +134,21 @@ class ExtraCreditController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+    }*/
+
+    function update (Request $request, ExtraCredit $detail, $id)
+    {
+        $detail = ExtraCredit::find($id);
+        if(is_null($detail)){
+            return response()->json(['message' => 'Credito Extra no encontrado '], 404);
+        }
+        $detail->update($request->all());
+
+        return response()->json(
+            $detail, 200
+
+        );
+
     }
 
 

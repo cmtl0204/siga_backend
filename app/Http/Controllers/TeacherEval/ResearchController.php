@@ -76,11 +76,11 @@ class ResearchController extends Controller
 
         }
 
-   function show(Research $extra)
+   function show(Research $id)
     {
 
         return response()->json([
-            'data' => $extra,
+            'data' => $id,
             'msg' => [
                 'summary' => 'success',
                 'detail' => '',
@@ -110,7 +110,7 @@ class ResearchController extends Controller
     }
 
 
-    function update(Request $request, Research $detail)
+  /*  function update(Request $request, Research $detail)
     {
         $teacher = Teacher::getInstance($request->input('teacher.id'));
         $detail->inv_auto_eval = $request->input('research.inv_auto_eval');
@@ -127,7 +127,23 @@ class ResearchController extends Controller
                 'detail' => '',
                 'code' => '201'
             ]], 201);
+    }*/
+
+    function update (Request $request, Research $detail, $id)
+    {
+        $detail = Research::find($id);
+        if(is_null($detail)){
+            return response()->json(['message' => 'Credito Extra no encontrado '], 404);
+        }
+        $detail->update($request->all());
+
+        return response()->json(
+            $detail, 200
+
+        );
+
     }
+
 
 
 

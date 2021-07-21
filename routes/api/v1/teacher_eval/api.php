@@ -113,9 +113,9 @@ Route::middleware($middlewares)
         Route::prefix('credit')->group(function () {
             Route::get('getAll', [ExtraCreditController::class, 'getAll']);
             Route::get('credit', [ExtraCreditController::class, 'getExtraCredit']);
-            Route::get('show/{extra}', [ExtraCreditController::class, 'show']);
+            Route::get('show/{id}', [ExtraCreditController::class, 'show']);
             Route::post('store/{id}', [ExtraCreditController::class, 'store']);
-            Route::put('update/{detail}',  [ExtraCreditController::class, 'update']);
+            Route::put('update/{id}',  [ExtraCreditController::class, 'update']);
             Route::delete('delete/{id}',  [ExtraCreditController::class, 'delete']);
 
 
@@ -125,9 +125,9 @@ Route::middleware($middlewares)
         Route::prefix('investigacion')->group(function () {
             Route::get('getAll', [ResearchController::class, 'getAll']);
             Route::get('research', [ResearchController::class, 'getInvestigacion']);
-            Route::get('show/{extra}', [ResearchController::class, 'show']);
+            Route::get('show/{id}', [ResearchController::class, 'show']);
             Route::post('store/{id}', [ResearchController::class, 'store']);
-            Route::put('update/{detail}',  [ResearchController::class, 'update']);
+            Route::put('update/{id}',  [ResearchController::class, 'update']);
             Route::delete('delete/{id}',  [ResearchController::class, 'delete']);
 
 
