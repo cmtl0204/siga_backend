@@ -133,6 +133,8 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('mesh-student-requirement')->group(function () {
         Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
+        Route::put('approve/{id}', [MeshStudentRequirementController::class, 'approve']);
+        Route::put('disapproved/{id}', [MeshStudentRequirementController::class, 'disapproved']);
         Route::prefix('file')->group(function () {
             Route::post('', [MeshStudentRequirementController::class, 'uploadFile']);
             Route::put('delete', [MeshStudentRequirementController::class, 'deleteFile']);

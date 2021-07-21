@@ -8,6 +8,7 @@ use App\Http\Requests\App\File\IndexFileRequest;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
 use App\Http\Requests\Uic\MeshStudentRequirement\DeleteMeshStudentRequirementRequest;
+use App\Http\Requests\Uic\MeshStudentRequirement\DisapprovedMeshStudentRequirementRequest;
 use App\Http\Requests\Uic\MeshStudentRequirement\StoreMeshStudentRequirementRequest;
 use App\Http\Requests\Uic\MeshStudentRequirement\UpdateMeshStudentRequirementRequest;
 use App\Http\Requests\Uic\MeshStudentRequirement\IndexMeshStudentRequirementRequest;
@@ -98,6 +99,57 @@ class MeshStudentRequirementController extends Controller
             'data' => $meshStudentRequirement,
             'msg' => [
                 'summary' => 'Requerimiento actualizado',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]
+        ], 201);
+    }
+
+    public function approve($id)
+    {
+        $meshStudentRequirement = MeshStudentRequirement::find($id);
+        if (!$meshStudentRequirement) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El requerimiento no existe',
+                    'detail' => 'Intente con otro registro',
+                    'code' => '404'
+                ]
+            ], 400);
+        }
+        $meshStudentRequirement->is_approved = true;
+        $meshStudentRequirement->save();
+        return response()->json([
+            'data' => $meshStudentRequirement,
+            'msg' => [
+                'summary' => 'Requerimiento aprobado',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]
+        ], 201);
+    }
+
+    public function disapproved(DisapprovedMeshStudentRequirementRequest $request, $id)
+    {
+        $meshStudentRequirement = MeshStudentRequirement::find($id);
+        if (!$meshStudentRequirement) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'El requerimiento no existe',
+                    'detail' => 'Intente con otro registro',
+                    'code' => '404'
+                ]
+            ], 400);
+        }
+        $meshStudentRequirement->is_approved = false;
+        $meshStudentRequirement->observation = $request->input('meshStudentRequirement.observation');;
+        $meshStudentRequirement->save();
+        return response()->json([
+            'data' => $meshStudentRequirement,
+            'msg' => [
+                'summary' => 'Requerimiento rechazado',
                 'detail' => 'El registro fue actualizado',
                 'code' => '201'
             ]
