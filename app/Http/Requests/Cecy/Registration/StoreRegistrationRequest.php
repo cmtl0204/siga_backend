@@ -20,17 +20,16 @@ class StoreRegistrationRequest extends FormRequest
             ],
             'registration.number' => [
                 'required',
-                'min:10',
             ],
             'registration.planification_id'=> [
                 'required',
                 'integer'
             ],
-            'registration.status.id'=> [
+            'registration.status_id'=> [
                 'required',
                 'integer'
             ],
-            'registration.type.id'=> [
+            'registration.type_id'=> [
                 'required',
                 'integer'
             ]

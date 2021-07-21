@@ -18,7 +18,7 @@ class CreateCecyParticipantsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('instructors'); //id_usuario
             $table->foreignId('person_type_id')->constrained('app.catalogues'); //id_tipo_persona=>estudiantes,profesores,adultos,niños etc.
-            $table->foreignId('state_id')->constrained('app.catalogues');
+            $table->foreignId('state_id')->constrained('app.status');
             $table->timestamps();
         });
     }

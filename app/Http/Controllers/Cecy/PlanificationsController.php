@@ -40,8 +40,9 @@ class PlanificationsController extends Controller
 
     // obtener un único objeto o registro
     function show(Planification $planification){
+      $planification = $planification->with('course')->first();
       return response()->json([
-        'data' => $planification->with('course')->first(),
+        'data' => $planification,
         'msg' => [
             'summary' => 'success',
             'detail' => '',

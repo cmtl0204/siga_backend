@@ -49,27 +49,21 @@ class RegistrationController extends Controller
     function store(StoreRegistrationRequest $request)
     {
         $data = $request->json()->all();
-        return
         // $dataRegistration = $data['registration'];
         // $dataParticipant = $data['participant_id'];
         // $dataStatu = $data['status_id'];
         // $dataType = $data['type_id'];
         // $planification = Planification::find($request->input('registration.planification_id'));
-        // $status = Status::find($request->input('registration.status_id'));
-        // $type = Catalogue::find($request->input('registration.type_id'));
-        $status = $data['registration']['status'];
-        $type = $data['registration']['type'];
-        
 
         $registration = new Registration();
          $registration->date_registration = $request->input('registration.date_registration');
         $registration->number = $request->input('registration.number');
         $registration->planification_id = $request->input('registration.planification_id');
-        // $registration->status_id = $request->input('registration.status_id');
-        // $registration->type_id = $request->input('registration.type_id');
+        $registration->status_id = $request->input('registration.status_id');
+        $registration->type_id = $request->input('registration.type_id');
         // $registration->planification()->assosiate($planification);
-        $registration->status()->associate(Status::findOrFail($status['id']));
-        $registration->type()->associate(Catalogue::findOrFail($type['id']));
+        $registration->status()->associate(Status::findOrFail($request->input('registration.status_id')));
+        $registration->type()->associate(Catalogue::findOrFail($request->input('registration.type_id')));
         $registration->save();
 
         return response()->json([
