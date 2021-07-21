@@ -33,11 +33,9 @@ class StoreAssignmentRequest extends FormRequest
                 'string',
             ],
             'user.id' => [
-                'required',
                 'integer',
             ],
             'career.id' => [
-                'required',
                 'integer',
             ],
         ];

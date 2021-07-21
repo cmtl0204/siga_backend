@@ -64,6 +64,8 @@
         "community": {
             "community": "/community",
             "project": "/community/projects",
+            "assignment": "/community/assignment",
+            "portfolio": "/community/portfolio",
             "administration": "/community/administration"
         },
         "cecy": {

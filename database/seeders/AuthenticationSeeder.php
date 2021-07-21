@@ -816,13 +816,33 @@ class AuthenticationSeeder extends Seeder
         ]);
 
         Route::factory()->create([
-            'uri' => $catalogues['route']['community']['community'],
+            'uri' => $catalogues['route']['community']['assignment'],
             'module_id' => $moduleAuthentication->id,
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,
-            'name' => 'ADMINISTRACIÓN VINCULACIÓN',
+            'name' => 'ASIGNACIÓN',
             'logo' => 'routes/route2.png',
             'order' => 3
+        ]);
+
+        Route::factory()->create([
+            'uri' => $catalogues['route']['community']['project'],
+            'module_id' => $moduleAuthentication->id,
+            'type_id' => $menuNormal->id,
+            'status_id' => $statusAvailable->id,
+            'name' => 'ADMINISTRACIÓN PROYECTO VINCULACIÓN',
+            'logo' => 'routes/route2.png',
+            'order' => 4
+        ]);
+
+        Route::factory()->create([
+            'uri' => $catalogues['route']['community']['portfolio'],
+            'module_id' => $moduleAuthentication->id,
+            'type_id' => $menuNormal->id,
+            'status_id' => $statusAvailable->id,
+            'name' => 'ADMINISTRACIÓN PORTAFOLIO',
+            'logo' => 'routes/route2.png',
+            'order' => 5
         ]);
     }
 

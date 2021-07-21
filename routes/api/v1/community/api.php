@@ -44,8 +44,10 @@ Route::middleware($middlewares)
         ]);
 
         // Assignment
-        Route::prefix('assignment')->group(function () {
+        Route::prefix('assignments')->group(function () {
             Route::get('get-assignment', [AssignmentController::class, 'getAssignment']);
+            Route::post('portfolio-first', [AssignmentController::class, 'downloadPortfolioFirstDocument']);
+            Route::post('portfolio-second', [AssignmentController::class, 'downloadPortfolioSecondDocument']);
         });
 
         // Auth
