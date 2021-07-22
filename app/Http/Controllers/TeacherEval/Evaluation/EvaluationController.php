@@ -12,7 +12,7 @@ namespace App\Http\Controllers\TeacherEval\Evaluation;
  use App\Http\Requests\TeacherEval\Evaluation\UpdateEvaluationRequest;
  use App\Http\Requests\TeacherEval\Evaluation\DeleteEvaluationRequest;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class EvaluationController extends Controller
 {
