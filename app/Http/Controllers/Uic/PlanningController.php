@@ -24,9 +24,9 @@ class PlanningController extends Controller
             $plannings = Planning::date()->name($request->input('search'))
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
-        } else if($request->has('per_page')) {
-            $plannings = Planning::date()->paginate($request->input('per_page'));
-        } else{
+        } else if ($request->has('per_page')) {
+            $plannings = Planning::date()->orderBy('start_date')->paginate($request->input('per_page'));
+        } else {
             $plannings = Planning::date()->get();
         }
 
@@ -70,7 +70,7 @@ class PlanningController extends Controller
         $date = Carbon::now();
         $date = $date->toDateString();
 
-        if ($request->input('planning.end_date') >= $date) {
+        if ($request->input('planning.end_date') >= $date && $request->input('planning.start_date') >= $date) {
             $planning = new Planning;
             $planning->career_id = $request->input('planning.career.id');
             $planning->name = $request->input('planning.name');
@@ -91,7 +91,7 @@ class PlanningController extends Controller
         return response()->json([
             'data' => '',
             'msg' => [
-                'summary' => 'La fecha fin debe ser mayor a la fecha actual',
+                'summary' => 'La fecha debe ser mayor a la fecha actual',
                 'detail' => 'Intente otra vez',
                 'code' => '404'
             ]
@@ -110,18 +110,34 @@ class PlanningController extends Controller
                 ]
             ], 400);
         }
-        $planning->career_id = $request->input('planning.career.id');
-        $planning->name = $request->input('planning.name');
-        $planning->start_date = $request->input('planning.start_date');
-        $planning->end_date = $request->input('planning.end_date');
-        $planning->description = $request->input('planning.description');
-        $planning->save();
+
+        $date = Carbon::now();
+        $date = $date->toDateString();
+
+        if ($request->input('planning.end_date') >= $date && $request->input('planning.start_date') >= $date) {
+            $planning->career_id = $request->input('planning.career.id');
+            $planning->name = $request->input('planning.name');
+            $planning->start_date = $request->input('planning.start_date');
+            $planning->end_date = $request->input('planning.end_date');
+            $planning->description = $request->input('planning.description');
+            $planning->save();
+
+            return response()->json([
+                'data' => $planning->fresh(),
+                'msg' => [
+                    'summary' => 'Convocatoria actualizada',
+                    'detail' => 'La convocatoria fue actualizado',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
+
         return response()->json([
-            'data' => $planning->fresh(),
+            'data' => '',
             'msg' => [
-                'summary' => 'Convocatoria actualizada',
-                'detail' => 'La convocatoria fue actualizado',
-                'code' => '201'
+                'summary' => 'La fecha debe ser mayor a la fecha actual',
+                'detail' => 'Intente otra vez',
+                'code' => '404'
             ]
         ], 201);
     }

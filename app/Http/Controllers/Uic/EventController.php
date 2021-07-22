@@ -25,7 +25,7 @@ class EventController extends Controller
                 ->planning($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $events = Event::date()->paginate($request->input('per_page')); //Where date se
+            $events = Event::date()->orderBy('end_date')->paginate($request->input('per_page')); //Where date se
         }
 
         if ($events->count() === 0) {
