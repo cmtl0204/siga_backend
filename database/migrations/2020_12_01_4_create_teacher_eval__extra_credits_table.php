@@ -17,7 +17,8 @@ class CreateTeacherEvalExtraCreditsTable extends Migration
             $table->double('governing_processes')->nullable()->comment('PROCESOS GOBERNANTES (coord. academica, coord, administrativa)');
             $table->double('process_nouns')->nullable()->comment('Procesos Sustantivos');
             $table->double('support_processes')->nullable()->comment('Procesos de Apoyo');
-            $table->softDeletes();
+            $table->double('total')->nullable()->comment('Total puntos Extras');
+
             $table->timestamps();
         });
     }

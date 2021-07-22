@@ -9,7 +9,6 @@ class CreateAppTeachersTable extends Migration
     public function up()
     {
         Schema::connection('pgsql-app')->create('teachers', function (Blueprint $table) {
-
             $table->id();
             $table->foreignId('user_id')->unique()->constrained('authentication.users');
             $table->foreignId('teaching_ladder_id')->constrained('app.catalogues');
@@ -37,6 +36,7 @@ class CreateAppTeachersTable extends Migration
             $table->boolean('publications')->comment('tiene publicaciones en revistas indexadas')->default(false);
             $table->integer('total_publications')->comment('total publicaciones en revistas indexadas')->default(0);
             $table->softDeletes();
+
         });
     }
 
