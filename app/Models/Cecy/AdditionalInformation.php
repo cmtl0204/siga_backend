@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User;
 use App\Models\App\Catalogue;
 use App\Models\Cecy\Registration;
-use App\Models\Cecy\AdditionalInformation;
 use App\Models\Cecy\DetailPlanification;
 
 
@@ -19,7 +18,7 @@ use App\Models\Cecy\DetailPlanification;
  * 
  */
 
-class DetailRegistration extends Model implements Auditable
+class AdditionalInformation extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -29,19 +28,23 @@ class DetailRegistration extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.detail_registrations';
+    protected $table = 'cecy.additional_informations';
 
     protected $fillable = [
-        'partial_grade',
-        'final_exam',
-        'code_certificate',
-        'certificate_withdrawn',
-        'location_certificate',
-        'observation'
+        'company_name',
+        'company_activity',
+        'company_address',
+        'company_phone',
+        'company_sponsor',
+        'name_contact',
+        'know_course',
+        'course_follow',
+        'works'
     ];
 
     protected $casts = [
-        'observation'=> 'array',
+        'know_course'=> 'array',
+        'course_follow'=> 'array',
         'deleted_at'=>'date:Y-m-d h:m:s',
         'created_at'=>'date:Y-m-d h:m:s',
         'updated_at'=>'date:Y-m-d h:m:s',
@@ -58,27 +61,7 @@ class DetailRegistration extends Model implements Auditable
     }
 
     // Relationships
-    public function registration()
-    {
-        return $this->belongsTo(Registration::class);
-    }
-
-    public function additionalInformation()
-    {
-        return $this->belongsTo(AdditionalInformation::class);
-    }
-
-    public function detailPlanification()
-    {
-        return $this->belongsTo(DetailPlanification::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-    public function statusCertificate()
+    public function levelInstruction()
     {
         return $this->belongsTo(Catalogue::class);
     }

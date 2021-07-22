@@ -85,6 +85,21 @@ Route::prefix('/')
     Route::apiResource('topics', TopicController::class);
     Route::put ('topic/delete', [TopicController::class, 'delete']);
     Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+
+    Route::apiResource('registrations', RegistrationController::class);
+Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+Route::get('excel/registration-export', [RegistrationController::class, 'exportTest']);
+Route::get('pdf/registration-participant', [RegistrationController::class, 'exportRegisterParticipant']);
+Route::get('pdf/mensual-programation', [RegistrationController::class, 'exportProgramationMensual']);
+Route::get('pdf/register-potografic', [RegistrationController::class, 'exportRegisterPothografic']);
+
+Route::get('excel/needCourse-export', [RegistrationController::class, 'exportNeedCourse']);
+Route::get('excel/register-potografic-export', [RegistrationController::class, 'exportExeclRegisterPothografic']);
+Route::get('excel/programation-mensual-export', [RegistrationController::class, 'exportExeclProgramationMensual']);
+Route::get('excel/registration-participant-export', [RegistrationController::class, 'exportExeclRegisterParticipant']);
+
+Route::put('registration/delete', [RegistrationController::class, 'delete']);
+        Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
     
     // Route::prefix('registration')
     //     ->group(function () {

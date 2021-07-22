@@ -9,9 +9,10 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User;
 use App\Models\App\Catalogue;
-use App\Models\Cecy\Registration;
-use App\Models\Cecy\AdditionalInformation;
-use App\Models\Cecy\DetailPlanification;
+use App\Models\App\App;
+use App\Models\App\Cecy\Registration;
+use App\Models\App\Cecy\AditionalInformation;
+use App\Models\App\Cecy\DetailPlanification;
 
 
 /**
@@ -19,7 +20,7 @@ use App\Models\Cecy\DetailPlanification;
  * 
  */
 
-class DetailRegistration extends Model implements Auditable
+class Instructor extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -29,19 +30,13 @@ class DetailRegistration extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.detail_registrations';
+    protected $table = 'cecy.instructors';
 
     protected $fillable = [
-        'partial_grade',
-        'final_exam',
-        'code_certificate',
-        'certificate_withdrawn',
-        'location_certificate',
-        'observation'
+        //
     ];
 
     protected $casts = [
-        'observation'=> 'array',
         'deleted_at'=>'date:Y-m-d h:m:s',
         'created_at'=>'date:Y-m-d h:m:s',
         'updated_at'=>'date:Y-m-d h:m:s',
@@ -58,29 +53,19 @@ class DetailRegistration extends Model implements Auditable
     }
 
     // Relationships
-    public function registration()
+    public function user()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function additionalInformation()
+    public function responsible()
     {
-        return $this->belongsTo(AdditionalInformation::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function detailPlanification()
+    public function typeInstructor()
     {
-        return $this->belongsTo(DetailPlanification::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-    public function statusCertificate()
-    {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Catalogues::class);
     }
 
     // Accessors

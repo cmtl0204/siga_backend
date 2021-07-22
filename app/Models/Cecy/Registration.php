@@ -9,7 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Status;
 use App\Models\App\Catalogue;
-
+use App\Models\Cecy\DetailPlanification;
 /**
  * @property BigInteger id
  * @property date date
@@ -52,7 +52,7 @@ class Registration extends Model implements Auditable
     // Relationships
     public function planification()
     {
-        return $this->belongsTo(Planification::class);
+        return $this->belongsTo(DetailPlanification::class);
     }
 
     public function status()

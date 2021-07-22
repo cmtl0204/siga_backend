@@ -16,23 +16,23 @@ class UpdateRegistrationRequest extends FormRequest
     {
         $rules = [
             'registration.date_registration' => [
-                'required',
+                'required'
             ],
             'registration.number' => [
                 'required',
-                // 'min:10',
+                'min:10',
             ],
             'registration.planification_id'=> [
                 'required',
-                'integer',
+                'integer'
             ],
-            'registration.status_id'=> [
+            'registration.status.id'=> [
                 'required',
-                'integer',
+                'integer'
             ],
-            'registration.type_id'=> [
+            'registration.type.id'=> [
                 'required',
-                'integer',
+                'integer'
             ]
         ];
         return CecyFormRequest::rules($rules);
@@ -42,10 +42,10 @@ class UpdateRegistrationRequest extends FormRequest
     {
         $attributes = [
             'registration.date' => 'fecha',
-            'registration.number' => 'Number es minimo de 10 letras y ',
-            'registration.participant_id' => 'participante ',
-            'registration.status_id' => 'estado ',
-            'registration.type_id' => 'tipo ',
+            'registration.number' => 'Tipo numberdebe tener minimo de 10 letras y ',
+            'registration.participant_id' => 'participante',
+            'registration.status.id' => 'estado',
+            'registration.type.id' => 'tipo',
         ];
         return CecyFormRequest::attributes($attributes);
     }

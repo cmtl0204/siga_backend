@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\App\Location;
 
 class Address extends Model implements Auditable
 {
@@ -26,6 +27,7 @@ class Address extends Model implements Auditable
         'secondary_street',
         'number',
         'post_code',
+        'references'
     ];
 
     // Instance
@@ -36,6 +38,15 @@ class Address extends Model implements Auditable
         }
         static::$instance->id = $id;
         return static::$instance;
+    }
+
+    public function location()
+{
+    return $this->belongsTo(Location::class);
+}
+    public function sector()
+    {
+        return $this->belongsTo(Catalogue::class);
     }
 
     // Mutators

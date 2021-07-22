@@ -38,6 +38,7 @@ class CreateDetailPlanificationsTable extends Migration
             //$table->foreignId('school_period_id')->constrained('school_periods')->nullable();//periodo_id
             // $table->foreignId('classroom_id')->constrained('ignug.classrooms');//id_aula
             $table->integer('capacity'); //capacidad_curso
+            $table->integer('number_participant'); //numero de participantes
 
             $table->foreignId('site_dictate')->constrained('app.catalogues')->comment('lugar donde se dicta el curso');  //lugar donde se dicta
 

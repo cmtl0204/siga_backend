@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Cecy\ParentCode;
-use App\Models\App\Cecy\Type;
-use App\Models\App\Cecy\Course;
+use App\Models\Cecy\ParentCode;
+use App\Models\Cecy\Type;
+use App\Models\Cecy\Course;
 use App\Models\App\Catalogue;
 
 /**

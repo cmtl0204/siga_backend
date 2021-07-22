@@ -10,29 +10,51 @@ use App\Http\Requests\Cecy\Registration\StoreRegistrationRequest;
 use App\Http\Requests\Cecy\Registration\UpdateRegistrationRequest;
 
 use App\Models\Cecy\Registration;
+use App\Models\Cecy\Course;
+use App\Models\Cecy\DetailPlanification;
+use App\Models\Cecy\DetailRegistration;
+use App\Models\Cecy\Topic;
 use App\Models\App\Status;
 use App\Models\App\Catalogue;
-// use App\Models\JobBoard\Category;
-// use App\Models\JobBoard\Professional;
+use App\Models\Authentication\User;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RegistrationsExport;
+use App\Exports\NeedCourseExport;
+use App\Exports\RegisterPothograficExport;
+use App\Exports\ProgramationMensualExport;
+use App\Exports\RegistrationParticipantsExport;
 
 class RegistrationController extends Controller
 {
     function index(IndexRegistrationRequest $request)
     {
-        $regitration = Registration::all();
+        // $regitration = Registration::all();
 
-        return response()->json([
-            'data' => $regitration,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => ''
-            ]], 200);
+        // return response()->json([
+        //     'data' => $regitration,
+        //     'msg' => [
+        //         'summary' => 'success',
+        //         'detail' => ''
+        //     ]], 200);
 
             // if($request->has('search')){
             //     $registration = $registration
             // }
+
+            $detailPlanification = DetailPlanification::with(['course'=> function ($courses){
+                $courses->with(['modality'])
+                ->with(['participantType'])
+                ->with(['personProposal'])
+                ->with(['courseType']);
+            }])->get();
+
+            return response()->json([
+                'data'=>$detailPlanification,
+                'msg'=>[
+                    'sumary'=>'success',
+                    'detail'=>''
+                ]
+                ],200);
     }
 
     function show(Registration $registration)
@@ -120,7 +142,116 @@ class RegistrationController extends Controller
             ]], 201);
     }
 
-    function exportTest(){
-        return Excel::download(new RegistrationsExport, 'registration.xlsx');
+    function exportTest(Request $request){
+        $detailPlanification = DetailPlanification::with(['course'=> function ($courses){
+            $courses->with(['modality'])
+            ->with(['participantType'])
+            ->with(['personProposal'])
+            ->with(['courseType']);
+        }])->find($request['id']);
+
+        // return response()->json([
+        //     'data'=>[
+        //         'detail_planification'=>$detailPlanification
+        //     ]
+        //     ],200);
+        $pdf = \PDF::loadView('reports.cecy.need-course', compact('detailPlanification'));
+    
+        return $pdf->download('Informe de nececidades del curso.pdf');
+    }
+
+    function exportRegisterParticipant(){
+        $detailRegistration = DetailRegistration::with(['detailPlanification'=> function ($detailPlanification){
+            $detailPlanification->with(['course'=> function($query){
+                $query->with(['cantonDictate'])
+                ->with(['courseType'])
+                ->with(['modality']);
+            }])
+            ->with(['instructor' => function($instructor){
+                $instructor->with(['responsible'=> function($sex){
+                    $sex->with(['sex']);
+                }]);
+            }]);
+        }])
+        ->with(['additionalInformation'])
+        ->with(['registration'=> function($planification){
+            $planification->with(['planification'=> function($status){
+                $status->with(['state']);
+            }]);
+        }])
+        ->get();
+
+        // return response()->json([
+        //     'data'=>[
+        //         'detail_registration'=>$detailRegistration
+        //     ]
+        //     ],200);
+
+        $pdf = \PDF::loadView('reports.cecy.register-participant', compact('detailRegistration'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('registro de participantes.pdf');
+    }
+
+    function exportProgramationMensual(){
+
+        $detailPlanification = DetailPlanification::with(['course'=> function($user){
+            $user->with(['personProposal'=> function($addres){
+                $addres->with(['Address'=> function($sector){
+                    $sector->with(['sector']);
+                }]);
+            }])->with(['area'])->with(['courseType']);
+        }])->get();
+
+        // return response()->json([
+        //     'data'=>[
+        //         'detail_registration'=>$detailPlanification
+        //     ]
+        // ],200);
+
+        $pdf = \PDF::loadView('reports.cecy.programation-mensual', compact('detailPlanification'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('programacion mensual.pdf');
+    }
+
+    function exportRegisterPothografic(){
+
+        $topic = Topic::with(['course'])->with(['type'])->get();
+
+        // return response()->json([
+        //     'data'=>[
+        //         'topic'=>$topic
+        //     ]
+        // ],200);
+
+        $pdf = \PDF::loadView('reports.cecy.potografic-registre', compact('topic'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('Registro fotografico.pdf');
+    }
+
+    // private $excel;
+
+    // public function _construc(Excel $excel)
+    // {
+    //     $this->excel = $excel;
+    // }
+
+    public function exportNeedCourse(Request $request)
+    {
+        return Excel::download(new NeedCourseExport($request->input('id')),'need-course.xlsx');
+    }
+
+    public function exportExeclRegisterPothografic()
+    {
+        return Excel::download(new RegisterPothograficExport(),'registro-fotografico.xlsx');
+    }
+
+    public function exportExeclProgramationMensual()
+    {
+        return Excel::download(new ProgramationMensualExport(),'programacion-mensual.xlsx');
+    }
+
+    public function exportExeclRegisterParticipant()
+    {
+        return Excel::download(new RegistrationParticipantsExport(),'registro-participantes.xlsx');
     }
 }

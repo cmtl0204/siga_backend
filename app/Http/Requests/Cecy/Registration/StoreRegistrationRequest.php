@@ -44,8 +44,8 @@ class StoreRegistrationRequest extends FormRequest
             'registration.date' => 'fecha',
             'registration.number' => 'Tipo numberdebe tener minimo de 10 letras y ',
             'registration.participant_id' => 'participante',
-            'registration.status_id' => 'estado',
-            'registration.type_id' => 'tipo',
+            'registration.status.id' => 'estado',
+            'registration.type.id' => 'tipo',
         ];
         return CecyFormRequest::attributes($attributes);
     }

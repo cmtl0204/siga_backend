@@ -9,17 +9,21 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User;
 use App\Models\App\Catalogue;
+use App\Models\App\Status;
+use App\Models\App\App;
 use App\Models\Cecy\Registration;
-use App\Models\Cecy\AdditionalInformation;
-use App\Models\Cecy\DetailPlanification;
-
+use App\Models\Cecy\DetailRegistration;
+use App\Models\Cecy\Course;
+use App\Models\Cecy\Instructor;
+use App\Models\Cecy\Authority;
+use App\Models\Cecy\AditionalInformation;
 
 /**
  * @property BigInteger id
  * 
  */
 
-class DetailRegistration extends Model implements Auditable
+class DetailPlanification extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -29,19 +33,24 @@ class DetailRegistration extends Model implements Auditable
 
     protected $connection = 'pgsql-cecy';
 
-    protected $table = 'cecy.detail_registrations';
+    protected $table = 'cecy.detail_planifications';
 
     protected $fillable = [
-        'partial_grade',
-        'final_exam',
-        'code_certificate',
-        'certificate_withdrawn',
+        'date_start',
+        'date_end',
+        'sumary',
+        'planned_end_date',
         'location_certificate',
-        'observation'
+        'code_certificate',
+        'capacity',
+        'number_participant',
+        'observation',
+        'needs',
+        'need_date'
     ];
 
     protected $casts = [
-        'observation'=> 'array',
+        'needs'=> 'array',
         'deleted_at'=>'date:Y-m-d h:m:s',
         'created_at'=>'date:Y-m-d h:m:s',
         'updated_at'=>'date:Y-m-d h:m:s',
@@ -58,30 +67,56 @@ class DetailRegistration extends Model implements Auditable
     }
 
     // Relationships
-    public function registration()
+    public function course()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(Course::class);
     }
 
-    public function additionalInformation()
+    public function instructor()
     {
-        return $this->belongsTo(AdditionalInformation::class);
+        return $this->belongsTo(Instructor::class);
     }
 
-    public function detailPlanification()
+    public function authorityRector()
     {
-        return $this->belongsTo(DetailPlanification::class);
+        return $this->belongsTo(Authority::class);
     }
 
-    public function status()
+    public function authorityParticipantsFirm()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Authority::class);
+    }
+
+    public function authorityInstructorFirm()
+    {
+        return $this->belongsTo(Authority::class);
     }
 
     public function statusCertificate()
     {
         return $this->belongsTo(Catalogue::class);
     }
+
+    public function state()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function siteDictate()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function conference()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function parallel()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
 
     // Accessors
     /* public function getFullPartialGradeAttribute()
