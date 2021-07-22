@@ -148,6 +148,7 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('project-plan')->group(function () {
         Route::put('delete', [ProjectPlanController::class, 'delete']);
+		Route::get('teachers', [ProjectPlanController::class, 'getTeachers']);
         Route::prefix('file')->group(function () {
             Route::post('', [ProjectPlanController::class, 'uploadFile']);
             Route::put('delete', [ProjectPlanController::class, 'deleteFile']);
@@ -165,4 +166,5 @@ Route::prefix('/')->group(function () {
     Route::get('export-enrollment-request', [PdfEnrollmentRequestController::class, 'index']);
 
     Route::get('mesh-students', [MeshStudentController::class, 'index']);
+	
 });

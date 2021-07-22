@@ -24,8 +24,10 @@ class PlanningController extends Controller
             $plannings = Planning::date()->name($request->input('search'))
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
-        } else {
+        } else if($request->has('per_page')) {
             $plannings = Planning::date()->paginate($request->input('per_page'));
+        } else{
+            $plannings = Planning::date()->get();
         }
 
         if ($plannings->count() === 0) {

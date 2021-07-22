@@ -35,6 +35,8 @@ class TutorController extends Controller
         return response()->json($tutor, 200);
     }
 
+	
+	
     public function show(Tutor $tutor)
     {
         if (!$tutor) {

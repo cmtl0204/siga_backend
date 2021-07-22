@@ -32,6 +32,7 @@ class AuthenticationSeeder extends Seeder
         $this->createCareerType();
         $this->createLocationCatalogues();
         $this->createMenus();
+        
 
         // Sistemas
         $this->createSystem();
@@ -68,6 +69,18 @@ class AuthenticationSeeder extends Seeder
 
         // Security Questions
         $this->createSecurityQuestions();
+
+        // UIC Event types
+        $this->createEventsType();
+
+        // UIC Student Information Laboral Career
+        $this->createsStudentInformationsLaboralCareerType();
+
+        // UIC Student Informations Company Area Type
+        $this->createsStudentInformationsCompanyAreaType();
+
+        // UIC Student Informations Company Position Type
+        $this->createsStudentInformationsCompanyPositionType();
     }
 
     private function createSystem()
@@ -666,6 +679,7 @@ class AuthenticationSeeder extends Seeder
         ]);
     }
 
+    
     private function createMenus()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -681,6 +695,177 @@ class AuthenticationSeeder extends Seeder
         ]);
     }
 
+    private function createEventsType()
+    {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'SOLICITUD MODALIDAD DE TITULACIÓN',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'DESARROLLO DEL ANTEPROYECTO',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'APROBACIÓN DEL TEMA DEL TRABAJO DE TITULACIÓN EN JUNTA ACADÉMICA.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'APROBACIÓN DEL ANTEPROYECTO DE TRABAJO DE TITULACIÓN.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'ASIGNACIÓN DEL DIRECTOR DE PROYECTO DE ACUERDO AL PERFIL PROFESIONAL.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'ACOMPAÑAMIENTO DE TUTORÍAS',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'INFORME CON NOTA POR PARTE DEL DIRECTOR DE PROYECTO.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'ASIGNACIÓN DE LOS REVISORES DEL PROYECTO DE TITULACIÓN',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'INFORME DE REVISIÓN DEL PROYECTO DE TITULACIÓN SIN NOTA.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'REVISOR DEL ABSTRACT.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'SOLICITUD DE ORDEN DE ENCUADERNADO.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'VERIFICACIÓN DE LOS REQUISITOS PARA LA TITULACIÓN.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'SOLICITUD DE TRIBUNAL, FECHA HORA DE DEFENSA DEL PROYECTO DE TITULACIÓN.',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'DEFENSA DE TITULACIÓN',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_events_event_type']['type'],
+            'name' => 'INCORPORACIÓN',
+            'type' => $catalogues['catalogue']['uic_events_event_type']['type']
+        ]);
+        
+        
+    }
+    private function createsStudentInformationsLaboralCareerType()
+    {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type'],
+            'name' => 'NINGUNA',
+            'type' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type'],
+            'name' => 'SI',
+            'type' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type'],
+            'name' => 'NO',
+            'type' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type']
+        ]);
+    }
+
+    private function createsStudentInformationsCompanyAreaType()
+    {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_area']['type'],
+            'name' => 'ATENCIÓN AL CLIENTE',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_area']['type'],
+            'name' => 'DESARROLLO',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_area']['type'],
+            'name' => 'MANTENIMIENTO',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_area']['type'],
+            'name' => 'SERVICIO TECNICO',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_area']['type'],
+            'name' => 'OPERACIONES',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
+        ]);
+        
+    }
+    private function createsStudentInformationsCompanyPositionType()
+    {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'ANALISTA FUNCIONAL',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'ANALISTA PROGRAMADOR',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'ARQUITECTO DE SOFTWARE',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'AUXILIAR EN OPERACIONES',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'DESARROLLADOR DE SOFTWARE',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'OPERADOR',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        Catalogue::factory()->create([
+            'code' => $catalogues['catalogue']['uic_student_informations_company_position']['type'],
+            'name' => 'TECNICO',
+            'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
+        ]);
+        
+    }
     private function createModules()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
