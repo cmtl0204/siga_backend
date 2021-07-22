@@ -16,7 +16,7 @@ class DisapprovedMeshStudentRequirementRequest extends FormRequest
     {
         $rules = [
 
-            'meshStudentRequirement.observation' => [
+            'meshStudentRequirement.observations' => [
                 'required'
 
             ]
@@ -27,7 +27,7 @@ class DisapprovedMeshStudentRequirementRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'meshStudentRequirement.observation' => 'observación'
+            'meshStudentRequirement.observations' => 'observación'
         ];
         return UicFormRequest::attributes($attributes);
     }

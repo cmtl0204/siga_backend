@@ -144,7 +144,7 @@ class MeshStudentRequirementController extends Controller
             ], 400);
         }
         $meshStudentRequirement->is_approved = false;
-        $meshStudentRequirement->observation = $request->input('meshStudentRequirement.observation');;
+        $meshStudentRequirement->observations = $request->input('meshStudentRequirement.observations');;
         $meshStudentRequirement->save();
         return response()->json([
             'data' => $meshStudentRequirement,

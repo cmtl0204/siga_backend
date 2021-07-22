@@ -45,8 +45,8 @@ class ProjectPlanController extends Controller
         }
         return response()->json($projectPlans, 200);
     }
-	
-	public function getTeachers(Request $request)
+
+    public function getTeachers(Request $request)
     {
         $teachers = Teacher::with('user')->get();
         if ($teachers->count() === 0) {
@@ -60,15 +60,16 @@ class ProjectPlanController extends Controller
             ], 404);
         }
         return response()->json(
-		[
+            [
                 'data' => $teachers,
                 'msg' => [
                     'summary' => 'Success',
                     'detail' => 'Success',
                     'code' => '200'
                 ]
-				]
-		, 200);
+            ],
+            200
+        );
     }
 
     public function show(ProjectPlan $projectPlan)
@@ -115,16 +116,22 @@ class ProjectPlanController extends Controller
         }
 
         $teachers = $request->input('projectPlan.teachers');
-		foreach($teachers as $teacher){
-            $tutor = Tutor::where('teacher_id','=',$teacher->id)->where('project_plan_id', '=',$projectPlan->id )->first();
-			if(!$tutor){
-				$tutor = new Tutor();
-			}
-				
-            //$teacher = Teacher::findOrFail($id);
-            $tutor->projectPlan()->associate($projectPlan);
-			$tutor->teacher()->associate($teacher);
-            $tutor->save();
+        for ($i = 0; $i < count($teachers); $i++) {
+            $tutor = Tutor::where('teacher_id', '=', $teachers[$i]['id'])->where('project_plan_id', '=', $projectPlan->id)->first();
+            if (!$tutor) {
+                // $tutor = new Tutor();
+                // $tutor->type_id = 1;
+                // $tutor->projectPlan()->associate($projectPlan);
+                // $tutor->teacher()->associate($teachers[$i]);
+                // $tutor->save();
+
+                $tutor = new Tutor();
+                $id = $teachers[$i]['id'];
+                $tutor->type_id = 1;
+                $tutor->project_plan_id = $projectPlan->id;
+                $tutor->teacher_id = $id;
+                $tutor->save();
+            }
         }
         return response()->json([
             'data' => $projectPlan->fresh(),

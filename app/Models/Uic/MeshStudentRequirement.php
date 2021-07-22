@@ -28,8 +28,11 @@ class MeshStudentRequirement extends Model implements Auditable
     protected $with = ['requirement', 'meshStudent', 'files'];
     protected $cascadeDeletes = ['files'];
 
+    protected $fillable = [
+        'observations'
+    ];
+
     protected $casts = [
-        'observations' => 'array',
         'is_approved' => 'boolean',
         'deleted_at' => 'date:Y-m-d h:m:s',
         'created_at' => 'date:Y-m-d h:m:s',
