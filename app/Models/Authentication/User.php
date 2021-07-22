@@ -205,12 +205,12 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
     function getPartialNameAttribute()
     {
-        return "{$this->attributes['first_name']} {$this->attributes['first_lastname']}";
+        return "{$this->attributes['first_name']} {$this->attributes['second_name']}";
     }
 
     function getPartialLastnameAttribute()
     {
-        return "{$this->attributes['first_lastname']} {$this->attributes['first_name']}";
+        return "{$this->attributes['first_lastname']} {$this->attributes['second_lastname']}";
     }
 
     // Mutators

@@ -10,7 +10,7 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Cecy\PlanificationsController;
-
+use App\Http\Controllers\Cecy\ParticipantsController;
 
 use App\Http\Controllers\Cecy\EvaluationMechanismController;
 
@@ -22,6 +22,7 @@ use App\Models\Cecy\Prerequisite;
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
 use App\Http\Controllers\Cecy\DetailRegistrationController;
+use App\Http\Controllers\Cecy\DetailPlanificationController;
 
 use App\Http\Controllers\Cecy\TopicController;
 
@@ -135,3 +136,12 @@ Route::get('excel/registration-export', [RegistrationController::class, 'exportT
            // Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
         //     });
         // });
+
+
+
+    /*Routes generar certificado*/    
+    Route::get('detailRegistration', [DetailRegistrationController::class, 'show'] );
+    Route::get('detailRegistration/aprobados', [DetailRegistrationController::class, 'exportAprobados'])->name('users.excel');
+    Route::post('detailRegistration/importar', [DetailRegistrationController::class, 'importar'])->name('users.import.excel');
+    Route::get('detailRegistration/certificado', [DetailRegistrationController::class, 'exportCertificados'])->name('users.pdf' );
+

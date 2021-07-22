@@ -9,10 +9,8 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Authentication\User;
 use App\Models\App\Catalogue;
-use App\Models\App\App;
-use App\Models\App\Cecy\Registration;
-use App\Models\App\Cecy\AditionalInformation;
-use App\Models\App\Cecy\DetailPlanification;
+use App\Models\Cecy\Registration;
+use App\Models\Cecy\DetailPlanification;
 
 
 /**
@@ -32,13 +30,16 @@ class DetailRegistration extends Model implements Auditable
 
     protected $table = 'cecy.detail_registrations';
 
+
     protected $fillable = [
+        'id',
+        'registration_id',
+        'detail_planification_id',
         'partial_grade',
         'final_exam',
         'code_certificate',
         'certificate_withdrawn',
         'location_certificate',
-        'observation'
     ];
 
     protected $casts = [
@@ -62,6 +63,7 @@ class DetailRegistration extends Model implements Auditable
     public function registration()
     {
         return $this->belongsTo(Registration::class);
+
     }
 
     public function additionalInformation()
@@ -69,9 +71,9 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(AdditionalInformation::class);
     }
 
-    public function detailplanification()
+    public function detailPlanification()
     {
-        return $this->belongsTo(Detailplanification::class);
+        return $this->belongsTo(DetailPlanification::class);
     }
 
     public function status()
@@ -83,6 +85,7 @@ class DetailRegistration extends Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
+
 
     // Accessors
     /* public function getFullPartialGradeAttribute()

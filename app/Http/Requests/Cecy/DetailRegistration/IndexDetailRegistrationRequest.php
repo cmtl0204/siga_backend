@@ -23,19 +23,19 @@ class IndexDetailRegistrationRequest extends FormRequest
         return CecyFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'registration_id.required' => 'El campo :attribute es obligatorio',
-            'registration_id.integer' =>'El campo :attribute debe ser numérico',
-        ];
-        return CecyFormRequest::messages($messages);
-    }
+    // public function messages()
+    // {
+    //     $messages = [
+    //         'course_id.required' => 'El campo :attribute es obligatorio',
+    //         'course_id.integer' =>'El campo :attribute debe ser numérico',
+    //     ];
+    //     return CecyFormRequest::messages($messages);
+    // }
 
     public function attributes()
     {
         $attributes = [
-            'registration_id' => 'registration-ID',
+            'course_id' => 'course-ID',
         ];
         return CecyFormRequest::attributes($attributes);
     }

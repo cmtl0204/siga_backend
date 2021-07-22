@@ -18,7 +18,7 @@ class StoreDetailRegistrationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'detailRegistration.partial_grade' => [
+            'z.partial_grade' => [
                 'required',
                 'min:1',
                 'max:1000',

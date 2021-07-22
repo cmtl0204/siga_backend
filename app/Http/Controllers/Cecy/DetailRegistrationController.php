@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Cecy;
-
+use Maatwebsite\Excel\Excel;
+use App\Exports\UserMultiSheetExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cecy\DetailRegistration\StoreDetailRegistrationRequest;
@@ -9,53 +10,61 @@ use App\Http\Requests\Cecy\DetailRegistration\IndexDetailRegistrationRequest;
 use App\Http\Requests\Cecy\DetailRegistration\UpdateDetailRegistrationRequest;
 use App\Http\Requests\Cecy\DetailRegistration\DeleteDetailRegistrationRequest;
 use App\Models\App\Status;
+use App\Exports\UsersExport;
 use App\Models\Cecy\Participant;
 use App\Models\Cecy\DetailRegistration;
 use App\Models\App\Catalogue;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Cecy\Registration;
+use App\Models\Cecy\DetailPlanification;
 use App\Exports\DetailRegistrationExport;
-
+use Barryvdh\DomPDF\Facade as PDF;
+use App\Imports\UsersImport;
 class DetailRegistrationController extends Controller
 {
-    //
-    public function index(Request $request)
-    {
-           // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-    $registration = Registration::getInstance($request->input('registration_id'));
+    private $excel;
 
-    if ($request->has('search')) {
-        $detailRegistrations = $registration->detailRegistrations()
-            ->description($request->input('search'))
-            ->additional_information_id($request->input('search'))
-            ->detail_planification_id($request->input('search'))
-            ->status_id($request->input('search'))
-            ->partial_grade($request->input('search'))
+    
+     public function index(Request $request)
+     {
+            // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
+     $registration = Registration::getInstance($request->input('registration_id'));
+     if ($request->has('search')) {
+         $detailRegistrations = $registration->detailRegistrations()
+
+             ->description($request->input('search'))
+             ->additional_information_id($request->input('search'))
+             ->detail_planification_id($request->input('search'))
+             ->status_id($request->input('search'))
+             ->partial_grade($request->input('search'))
             ->final_exam($request->input('search'))
-            ->code_certificate($request->input('search'))
-            ->status_certificate_id($request->input('search'))
-            ->certificate_withdrawn($request->input('search'))
+             ->code_certificate($request->input('search'))
+             ->status_certificate_id($request->input('search'))
+             ->certificate_withdrawn($request->input('search'))
             ->location_certificate($request->input('search'))
-            ->observation($request->input('search'))
-            ->paginate($request->input('per_page'));
-    } else {
-        $detailRegistrations = $registration->detailRegistrations()->paginate($request->input('per_page'));
+             ->observation($request->input('search'))
+             ->paginate($request->input('per_page'));
+     } else {
+     $detailRegistrations = $registration->detailRegistrations()->paginate($request->input('per_page'));
     }
 
-    if ($detailRegistrations->count() === 0) {
-        return response()->json([
+     if ($detailRegistrations->count() === 0) {
+         return response()->json([
             'data' => null,
-            'msg' => [
-                'summary' => 'No se encontraron Habilidades',
-                'detail' => 'Intente de nuevo',
-                'code' => '404'
-            ]], 404);
-    }
+             'msg' => [
+                 'summary' => 'No se encontraron Habilidades',
+                 'detail' => 'Intente de nuevo',
+                 'code' => '404'
+             ]], 404);
+     }
 
-    return response()->json($detailRegistrations, 200); 
-    }
+     return response()->json($detailRegistrations, 200); 
+     }
+
 
     public function show()
     {
+
+        $detailRegistration = DetailRegistration::all();
         return response()->json([
             'data' => $detailRegistration,
             'msg' => [
@@ -64,6 +73,7 @@ class DetailRegistrationController extends Controller
                 'code' => '200'
             ]], 200); 
     }
+
 
     public function store(StoreDetailRegistrationRequest $request)
     {
@@ -160,8 +170,52 @@ class DetailRegistrationController extends Controller
             ]], 201);
     }
 
-    function excel(){
-        return Excel::download(new DetailRegistrationExport, 'DetailRegistration.xlsx');
+
+    public function __construct(Excel $excel)
+    {
+        $this->excel = $excel;
+    }
+    public function exportAprobados()
+    {
+         return $this->excel->download(new UserMultiSheetExport(2020), 'users.xlsx');
+
+
+    }
+
+     public function exportCertificados(Request $request){ 
+         
+        
+     $detailRegistration = DetailRegistration::all();
+    //  return response()->json([
+    //      'data' => $detailRegistration,
+    //      'msg' => [
+    //          'summary' => 'success',
+    //          'detail' => '',
+    //          'code' => '200'
+    //      ]], 200);
+    
+    	$users = $detailRegistration = DetailRegistration::
+         with(['registration' => function ($registration) use ($request) {
+             $registration->with('participant', function ($participant) use ($request) {
+                 $participant->with('user', function ($user) use ($request){
+                     $user    ;
+                 });
+             });
+         }])
+        
+        
+        ->get();
+    	 $pdf   = PDF::loadView('pdf.certificado', compact('users'))->setPaper('a4', 'landscape');
+    	 return $pdf->download('Certificado.pdf');
+    }
+
+
+
+    public function importar(Request $request)
+    {
+        $file = $request->file('file')->store('import');
+         $import = new UsersImport;
+         $import->import($file);   
     }
 }
 
