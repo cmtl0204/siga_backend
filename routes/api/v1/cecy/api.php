@@ -110,6 +110,7 @@ Route::prefix('/')
             Route::get('all', [CourseController::class, 'index']);
             Route::post('store', [CourseController::class, 'storeCourse']);
             Route::put('destroy', [CourseController::class, 'delete']);
+            Route::put('UpdateCode', [CourseController::class,'UpdateCodeCourse']);
 
             Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
             Route::get('responsables', [CourseController::class, 'getResponsables']);

@@ -188,4 +188,10 @@ class Course extends Model implements Auditable
     }
 
 
+    public function planification()
+    {
+        return $this->belongsTo(Planification::class);
+    }
+
+
 }

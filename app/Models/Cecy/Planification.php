@@ -51,6 +51,7 @@ class Planification extends Model implements Auditable
     public function course()
     {
       return $this->belongsTo(Course::class); 
+
     }
 
     public function user()
@@ -63,8 +64,5 @@ class Planification extends Model implements Auditable
       return $this->belongsTo(Catalogue::class); 
     }
 
-
-
-    
-
+  
 }

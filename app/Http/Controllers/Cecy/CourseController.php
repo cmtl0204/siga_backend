@@ -38,7 +38,7 @@ class CourseController extends Controller
     //Funcion para retornar todos los cursos
     function index(IndexCourseRequest $request)
     {
-        $courses = Course::with('status', 'career')->paginate($request->input('per_page'));
+        $courses = Course::with('status', 'career', 'planification')->paginate($request->input('per_page'));
         if (!$courses) {
             return response()->json([
                 'data' => null,
@@ -63,6 +63,7 @@ class CourseController extends Controller
         $course = new Course();
         $course->name = $request->input('course.name');
         $course->hours_duration = $request->input('course.hours_duration');
+        $course->code = $request->input('course.code');
         $area = Catalogue::getInstance($request->input('course.area.id'));
         $course->area()->associate($area);
         $level = Catalogue::getInstance($request->input('course.level.id'));
@@ -91,17 +92,19 @@ class CourseController extends Controller
         $course->certifiedType()->associate($certifiedType);
         $career = Career::getInstance($request->input('course.career.id'));
         $course->career()->associate($career);
-
+        $status = Status::getInstance($request->input('course.status.id'));
+        $course->status()->associate($status);
         $course->save();
         return response()->json([
             'msg' => [
                 'summary' => 'Curso creado con exito.',
                 'detail' => '',
                 'code' => '201',
-                'icon'=>  'success'
+                'icon' =>  'success'
 
 
-            ]], 201);
+            ]
+        ], 201);
     }
     //Funcion para aprobar el curso 
     function  approvalCourse(ApprovalCourseRequest $request, Course $course)
@@ -109,9 +112,7 @@ class CourseController extends Controller
 
         $status = Status::getInstance($request->input('course.status.id'));
         $course->status()->associate($status);
-
         $course->name = $request->input('course.name');
-
         $course->approval_date = date("Y-m-d H:i:s");
         $course->save();
 
@@ -124,7 +125,33 @@ class CourseController extends Controller
         ], 201);
     }
 
+    function UpdateCodeCourse(Request $request)
+    {
+        if ($request->has(['course.id', 'course.code', 'course.name', 'course.hours_duration', 'course.setec_name'])) {
+            $course = Course::find($request->input('course.id'));
+            $course->code = $request->input('course.code');
+            $course->name = $request->input('course.name');
+            $course->hours_duration = $request->input('course.hours_duration');
+            $course->setec_name = $request->input('course.setec_name');
 
+            $course->save();
+            return response()->json([
+                'msg' => [
+                    'summary' => 'curso actualizado',
+                    'detail' => '',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
+
+        return response()->json([
+            'msg' => [
+                'summary' => 'informacion no valida',
+                'detail' => 'id o el codigo del curso no son validos',
+                'code' => '400'
+            ]
+        ], 400);
+    }
 
 
 
@@ -215,16 +242,15 @@ class CourseController extends Controller
     }
     function delete(DeleteCourseRequest $request)
     {
-        Course::destroy($request->input("ids")); 
-        // Es una eliminación lógica
-        //$course->delete();
+        Course::destroy($request->input('ids'));
 
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'Curso Eliminado',
+                'summary' => 'Curso(s) eliminado(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 }
