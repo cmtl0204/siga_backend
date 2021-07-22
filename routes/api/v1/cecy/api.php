@@ -9,11 +9,18 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
+<<<<<<< HEAD
 
 use App\Http\Controllers\Cecy\RegistrationController;
 use App\Http\Controllers\Cecy\PlanificationInstructorController;
 
 use App\Http\Controllers\Cecy\DetailRegistrationController;
+=======
+use App\Http\Controllers\Cecy\RegistrationController;
+use App\Http\Controllers\Cecy\PlanificationInstructorController;
+use App\Http\Controllers\Cecy\DetailRegistrationController;
+use App\Http\Controllers\Cecy\TopicController;
+>>>>>>> cb741faa352587485eecd28b8b041b148a2c8c41
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -81,12 +88,16 @@ Route::prefix('/')
 
     });
 
+<<<<<<< HEAD
 
     Route::apiResource('topics', TopicController::class);
     Route::put ('topic/delete', [TopicController::class, 'delete']);
     Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
 
     Route::apiResource('registrations', RegistrationController::class);
+=======
+Route::apiResource('registrations', RegistrationController::class);
+>>>>>>> cb741faa352587485eecd28b8b041b148a2c8c41
 Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
 Route::get('excel/registration-export', [RegistrationController::class, 'exportTest']);
 Route::get('pdf/registration-participant', [RegistrationController::class, 'exportRegisterParticipant']);
@@ -100,6 +111,15 @@ Route::get('excel/registration-participant-export', [RegistrationController::cla
 
 Route::put('registration/delete', [RegistrationController::class, 'delete']);
         Route::put('planificationInstructor/delete', [PlanificationInstructorController::class, 'delete']);
+<<<<<<< HEAD
+=======
+    //     });
+    // });
+
+    Route::apiResource('topics', TopicController::class);
+    Route::put ('topic/delete', [TopicController::class, 'delete']);
+    Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
+>>>>>>> cb741faa352587485eecd28b8b041b148a2c8c41
     
     // Route::prefix('registration')
     //     ->group(function () {

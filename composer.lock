@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
     "content-hash": "9e16f1016c09e35eb124e645a1235189",
 =======
 <<<<<<< HEAD
@@ -22,6 +23,8 @@
     "content-hash": "a7e66c74b6950b937db4c4956c4ba2c3",
 >>>>>>> mod_4_cecy
 >>>>>>> mod_4_cecy
+=======
+>>>>>>> cb741faa352587485eecd28b8b041b148a2c8c41
     "packages": [
         {
             "name": "asm89/stack-cors",

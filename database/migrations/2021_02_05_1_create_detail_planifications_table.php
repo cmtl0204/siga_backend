@@ -49,6 +49,7 @@ class CreateDetailPlanificationsTable extends Migration
             $table->json('needs'); //necesidades del curso es un array
             $table->date('need_date'); //fecha_registro de necesidad
             $table->timestamps();
+
             $table->softDeletes();
         });
     }
