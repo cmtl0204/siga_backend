@@ -69,14 +69,15 @@
 
   <div>
     <table BORDER WIDTH="100%" style="margin: 0 auto;">
+    
       <tr>
         <th style="text-align: left">CODIGO DEL CURSO</th>
-        <td colspan="2">SENESCYT-FF-V001-2021</td>
+        <td colspan="2">{{$course->code}}</td>
 
       </tr>
       <tr>
         <th style="text-align: left">NOMBRE DEL CURSO</th>
-        <td colspan="2">FORMADOR DE FORMADORES MODALIDAD DUAL</td>
+        <td colspan="2">{{$course->name}}</td>
 
       </tr>
 
@@ -85,25 +86,27 @@
         <td>PRESENCIAL<input type="checkbox"></td>
         <td>VIRTUAL<input type="checkbox"></td>
       </tr>
+      
     </table>
   </div>
 
   <h3 style="text-align: center">DATOS PERSONALES</h3>
   <div>
     <table BORDER WIDTH="100%" border="0.5" style="margin: 0 auto;">
+     
       <tr>
         <th style="text-align: left">APELLIDO Y NOMBRES</th>
-        <td colspan="6">TOAPANTA VALVERDE CARLOS ALEXANDER</td>
+        <td colspan="6">{{$course->personProposal->partial_lastname}} {{$course->personProposal->partial_name}}</td>
       </tr>
       <tr>
         <th style="text-align: left">CEDULA DE CIUDADANIA</th>
-        <td style="text-align: left">1709723215</td>
+        <td style="text-align: left">{{$course->personProposal->identification}}</td>
         <th style="text-align: rigth">FECHA DE NACIMIENTO</th>
-        <td colspan="4" style="text-align: left">04/08/2000</td>
+        <td colspan="4" style="text-align: left">{{$course->personProposal->birthdate}}</td>
       </tr>
       <tr>
         <th style="text-align: left">SEXO</th>
-        <td colspan="3">FEMENINO <input type="checkbox"></td>
+        <td colspan="3">FEMENINO  {{$course->personProposal->sex_id}}<input type="checkbox"></td>
         <td colspan="3">MASCULINO <input type="checkbox"></td>
       </tr>
       <tr>
@@ -116,17 +119,17 @@
       </tr>
       <tr>
         <th style="text-align: left">DIRECCION DOMICILIARIA</th>
-        <td colspan="6">SERAPIO JAPERABI S15-22 Y PASAJE S15A</td>
+        <td colspan="6">{{$course->personProposal->address_id}}</td>
       </tr>
       <tr>
         <th style="text-align: left">NUMERO TELEFONICO</th>
-        <td style="text-align: left">023020002</td>
+        <td style="text-align: left">{{$course->personProposal->phone}}</td>
         <th style="text-align: rigth">CELULAR</th>
-        <td colspan="4" style="text-align: left">0983561192</td>
+        <td colspan="4" style="text-align: left">0{{$course->personProposal->phone}}</td>
       </tr>
       <tr>
         <th style="text-align: left">CORREO ELECTRONICO</th>
-        <td colspan="6">cav.toapanta@yavirac.edu.ec</td>
+        <td colspan="6">{{$course->personProposal->email}}</td>
       </tr>
       <tr>
         <th style="text-align: left">NIVEL DE INSTRUCCION</th>
@@ -134,6 +137,7 @@
         <td colspan="2">SECUNDARIA <input type="checkbox"></td>
         <td colspan="2">SUPERIOR <input type="checkbox"></td>
       </tr>
+      
     </table>
   </div>
 
@@ -141,26 +145,27 @@
 
   <div>
     <table BORDER WIDTH="100%" style="margin: 0 auto;">
+  
       <tr>
         <th style="text-align: left">INSTITUCION DONDE TRABAJA/ESTUDIA</th>
-        <td colspan="2">INTITUTO TECNOLOGICO SUPERIOR YAVIRAC</td>
+        <td colspan="2">{{$course->institution->name}}</td>
 
       </tr>
       <tr>
         <th style="text-align: left">DIRECCION DE LA INSTITUCION</th>
-        <td colspan="2">GARCIA MORENO OEA</td>
+        <td colspan="2">{{$course->institution->institution->code}}</td>
       </tr>
       <tr>
         <th style="text-align: left">CORREO ELECTRONICO DE LA INSTITUCION</th>
-        <td colspan="2">instituto@yavirac.edu.ec</td>
+        <td colspan="2"></td>
       </tr>
       <tr>
         <th style="text-align: left">NUMERO TELEFONICO DE LA INSTITUCION</th>
-        <td colspan="2">023040003</td>
+        <td colspan="2"></td>
       </tr>
       <tr>
         <th style="text-align: left">ACTIVIDAD DE LA INSTITUCION</th>
-        <td colspan="2">ESTUDIOS</td>
+        <td colspan="2"></td>
       </tr>
       <tr>
         <th style="text-align: left">¿EL CURSO ES AUSPICIADO POR LA INSTITUCION?</th>
@@ -195,9 +200,10 @@
         <th style="text-align: left"></th>
         <td colspan="2">Frances</td>
       </tr>
+      
     </table>
   </div>
-  <p> 
+  <p>
     <br>
     <br>
     <br>
@@ -207,8 +213,10 @@
   </p>
 
   <table style='text-align:center' BORDER WIDTH="100%">
+    
     <th style='text-align:center'>Firma del solicitante</th>
-    <th style='text-align:center'>Nombre del responsable del registro</th>
+    <th style='text-align:center'>{{$course->personProposal->partial_lastname}} {{$course->personProposal->partial_name}}</th>
+    
   </table>
   <p style='text-align:center'>
     Nota: Para el caso de una inscripción fìsica, se tomará en cuenta la impresiòn del siguiente formulario, en caso de que sea un registro digital, se solicita adjuntar unicamente la imagen de la firma del solicitante en el documento para el archivo del Instituto.

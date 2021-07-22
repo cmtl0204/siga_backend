@@ -16,6 +16,7 @@ use App\Http\Controllers\Cecy\TopicController;
 
 use App\Http\Controllers\Cecy\InstructorController;
 use App\Http\Controllers\Cecy\PrerequisiteController;
+use App\Http\Controllers\Cecy\CourseController;
 use App\Models\Cecy\Prerequisite;
 
 
@@ -80,11 +81,13 @@ Route::middleware($middlewares)
 
     Route::put('prerequisite/delete', [PrerequisiteController::class, 'delete']);
     Route::put('instructor/delete', [InstructorController::class, 'delete']);
+    Route ::apiResource ('/courses',CourseController::class);
 
     Route::apiResource('detailRegistrations', DetailRegistrationController::class);
     Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
     Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
-
+    Route::get('pdf/detailRegistration/{id}', [DetailRegistrationController::class, 'pdf']);
+    Route::get('excel/disenoCurricular', [DetailRegistrationController::class, 'disenoCurricularExcel']);
     
 
 // Without Middleware

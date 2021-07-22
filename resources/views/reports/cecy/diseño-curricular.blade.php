@@ -11,33 +11,27 @@
             font-size: 10px;
             border: 1px solid #999;
         }
-
         p {
             font-family: Tahoma, Geneva, sans-serif;
             font-size: 10px;
         }
-
         ol,
         li {
             font-family: Tahoma, Geneva, sans-serif;
             font-size: 10px;
         }
-
         td,
         th {
             border: 1px solid #CCC;
             padding: 2px 5px;
         }
-
         th {
             background: #CCC;
             border-color: #999;
         }
-
         th.nombre {
             background: none;
         }
-
         td.dia {
             text-align: center;
             width: 24px;
@@ -45,7 +39,6 @@
             padding: 0px;
             overflow: hidden;
         }
-
         .nombre {
             text-align: left;
             width: 150px;

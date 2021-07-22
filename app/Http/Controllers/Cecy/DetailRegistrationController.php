@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cecy;
 
+use App\Exports\CurricularDesingExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cecy\DetailRegistration\StoreDetailRegistrationRequest;
@@ -14,7 +15,9 @@ use App\Models\Cecy\Registration;
 use App\Models\App\Catalogue;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DetailRegistrationExport;
+use App\Exports\DiseñoCurricularExport;
 use App\Models\Cecy\Course;
+use App\Models\Cecy\Institutions;
 
 
 class DetailRegistrationController extends Controller
@@ -56,16 +59,7 @@ class DetailRegistrationController extends Controller
     return response()->json($detailRegistrations, 200); 
     }
 
-    public function show()
-    {
-        return response()->json([
-            'data' => $detailRegistration,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200'
-            ]], 200); 
-    }
+    
 
     public function store(StoreDetailRegistrationRequest $request)
     {
@@ -166,17 +160,26 @@ class DetailRegistrationController extends Controller
     //    return Excel::download(new DetailRegistrationExport, 'DetailRegistration.xlsx');
     //}
 
-    function excel(){
-  //  $course = Course::with(["personProposal"])->with([])
-    /* $detailPlanification = DetailPlanification::with(["course"=>function($query){
-        $query::with("personProposal");
-    }])->get();
-    , compact("detailPlanification") */
+    function pdf($id){
+        
+      $course = Course::with(["personProposal"])->with(["institution"=>function($institution){
+            $institution->with(["institution"]);
+         }])->find($id); 
 
-    $pdf = \PDF::loadView('reports.cecy.final-report');
+    $pdf = \PDF::loadView('reports.cecy.form-inscription', compact("course"));
     //$pdf->setPaper('A4', 'landscape');
     return $pdf->download('archivo.pdf');
-
+    /*  return response()->json([
+        'data'=>[
+            'course'=>$course
+        ]
+        ],200); */  
    }
+
+   function disenoCurricularExcel(Request $request){
+       return Excel::download(new CurricularDesingExport($request->input('id')), 'DetailRegistration.xlsx');
+    }
+
 }
+
 

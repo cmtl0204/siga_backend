@@ -6,12 +6,14 @@ namespace App\Models\Cecy;
 
 use App\Models\App\Career;
 use App\Models\App\Catalogue;
-use App\Models\App\Status;
+use App\Models\App\Classroom;
+use App\Models\Authentication\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Cecy\Institution;
 
 //Modelos o librerias Propios en caso de utilizarlas importalar aqui
 
@@ -48,6 +50,7 @@ class Course extends Model implements Auditable
     protected $connection = 'pgsql-cecy';
 
     protected $table = 'cecy.courses';
+    protected $with = ['participantType'];
 
     protected $fillable = [
         'code',
@@ -138,14 +141,11 @@ class Course extends Model implements Auditable
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function certifiedType()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
+    
 
     public function personProposal()
     {
-        return $this->belongsTo(Authentication::class);
+        return $this->belongsTo(User::class);
     }
 
     public function classroom()
@@ -172,11 +172,16 @@ class Course extends Model implements Auditable
     {
         return $this->belongsTo(Career::class);
     }
-
+    public function certifiedType()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
     public function status()
     {
         return $this->belongsTo(Catalogue::class);
     }
+
+    
 
     
 
