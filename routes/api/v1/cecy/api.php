@@ -9,7 +9,8 @@ use App\Http\Controllers\Authentication\RouteController;
 use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
-
+use App\Http\Controllers\Cecy\AttendanceController;
+use App\Http\Controllers\Cecy\CourseController;
 use App\Http\Controllers\Cecy\InstructorController;
 use App\Http\Controllers\Cecy\PrerequisiteController;
 use App\Models\Cecy\Prerequisite;
@@ -19,7 +20,7 @@ use App\Http\Controllers\Cecy\PlanificationInstructorController;
 use App\Http\Controllers\Cecy\DetailRegistrationController;
 
 use App\Http\Controllers\Cecy\TopicController;
-
+use App\Models\Cecy\DetailRegistration;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
 $middlewares = ['auth:api'];
@@ -67,13 +68,41 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
     });
+    Route::apiResource('attendances', AttendanceController::class);
+Route::put ('attendance/delete', [AttendanceController::class, 'delete']);
 
 
 
     Route ::apiResource ('/prerequisites',PrerequisiteController::class);
+    Route ::apiResource ('/courses',CourseController::class);
     Route ::apiResource ('/instructors',InstructorController::class);
+    
+    
+    Route::prefix('prerequisite')->group(function () { 
+        Route::put('delete', [DetailRegistrationController::class, 'delete']);
+        Route::prefix('file')->group(function () {
+            Route::post('', [DetailRegistrationController::class, 'uploadFile']);
+            Route::put('delete', [DetailRegistrationController::class, 'deleteFile']);
+            Route::get('', [DetailRegistrationController::class, 'indexFile']);
+            Route::put('update/{file}', [DetailRegistrationController::class, 'updateFile']);
+            Route::get('{file}', [DetailRegistrationController::class, 'showFile']);                
+            });
+    });
+    
+    Route::prefix('detailRegistration')->group(function () { 
+    Route::put('delete', [DetailRegistrationController::class, 'delete']);
+    Route::put('record-grades/{detailRegistration}', [DetailRegistrationController::class, 'recordGrades']);
+    Route::prefix('file')->group(function () {
+        Route::post('', [DetailRegistrationController::class, 'uploadFile']);
+        Route::put('delete', [DetailRegistrationController::class, 'deleteFile']);
+        Route::get('', [DetailRegistrationController::class, 'indexFile']);
+        Route::put('update/{file}', [DetailRegistrationController::class, 'updateFile']);
+        Route::get('{file}', [DetailRegistrationController::class, 'showFile']);                
+        });
+});
 
-    Route::put('prerequisite/delete', [PrerequisiteController::class, 'delete']);
+
+    
     Route::put('instructor/delete', [InstructorController::class, 'delete']);
 
     Route::apiResource('detailRegistrations', DetailRegistrationController::class);
@@ -95,6 +124,8 @@ Route::prefix('/')
         });
 
     });
+
+
 
 Route::apiResource('registrations', RegistrationController::class);
 Route::apiResource('planificationInstructors', PlanificationInstructorController::class);

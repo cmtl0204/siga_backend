@@ -8,6 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\App\Course;
+use App\Models\App\File;
 use App\Models\App\Status;
 
 
@@ -23,6 +24,8 @@ class Prerequisite extends Model implements Auditable
     use SoftDeletes;
 
     protected static $instance;
+
+    protected $witch=['files'];
 
     protected $connection = 'pgsql-cecy';
     protected $table = 'cecy.prerequisites';
@@ -44,6 +47,11 @@ class Prerequisite extends Model implements Auditable
     }
 
     // Relationships
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);

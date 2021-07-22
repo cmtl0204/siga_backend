@@ -18,59 +18,61 @@ class UpdateDetailRegistrationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'detailRegistration.partial_grade' => [
-                'required',
+            'detailRegistration.partial_grade1' => [
+                
                 'min:1',
                 'max:1000',
             ],
-            'detailRegistration.final_exam' => [
-                'required',
+            'detailRegistration.partial_grade2' => [
+                
+                'min:1',
+                'max:1000',
+            ],
+            'detailRegistration.final_note' => [
+                
                 'min:1',
                 'max:1000',
             ],
             'detailRegistration.code_certificate' => [
-                'required',
+                
                 'min:1',
                 'max:1000',
             ],
             'detailRegistration.certificate_withdrawn' => [
-                'required',
+                
                 'min:1',
                 'max:1000',
             ],
             'detailRegistration.location_certificate' => [
-                'required',
+                
                 'min:1',
                 'max:1000',
             ],
             'detailRegistration.observation' => [
-                'required',
+                
                 'min:1',
                 'max:1000',
             ],
-            'detailRegistration.registration_id' => [
-                'required',
+
+            'detailRegistration.registration.id' => [
+                
                 'integer',
             ],
-            'detailRegistration.additional_information_id' => [
-                'required',
+            
+            'detailRegistration.additional_information.id' => [
+                
                 'integer',
-//                Rule::unique('pgsql-job-board.skills', 'type_id')->ignore($this->id),
             ],
-            'detailRegistration.detail_planification_id' => [
-                'required',
+            'detailRegistration.detail_planification.id' => [
+                
                 'integer',
             ],
             'detailRegistration.status.id' => [
-                'required',
+                
                 'integer',
             ],
             'detailRegistration.status_certificate.id' => [
-                'required',
-                'integer',
-            ],
-            'detailRegistration.registration_id' => [
-                'required',
+                
                 'integer',
             ],
         ];
@@ -80,18 +82,18 @@ class UpdateDetailRegistrationRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'detail_registrations.partial_grade' => 'partial_grade',
-            'detail_registrations.final_exam' => 'final_exam',
-            'detail_registrations.code_certificate' => 'code_certificate',
-            'detail_registrations.certificate_withdrawn' => 'certificate_withdrawn',
-            'detail_registrations.location_certificate' => 'location_certificate',
-            'detail_registrations.observation' => 'observation',
-            'detail_registrations.registration.id' => 'registration-id',
-            'detail_registrations.additional_information.id' => 'additional_information-id',
-            'detail_registrations.detail_planification_id' => 'detail_planification-id',
-            'detail_registrations.staus.id' => 'staus-id',
-            'detail_registrations.status_certificate.id' => 'status_certificate-id',
-            'detail_registrations.registration.id' => 'registration-id',
+            'detailRegistration.partial_grade1' => 'partial_grade1',
+            'detailRegistration.partial_grade2' => 'partial_grade2',
+            'detailRegistration.final_note' => 'final_note',
+            'detailRegistration.code_certificate' => 'code_certificate',
+            'detailRegistration.certificate_withdrawn' => 'certificate_withdrawn',
+            'detailRegistration.location_certificate' => 'location_certificate',
+            'detailRegistration.observation' => 'observation',
+            'detailRegistration.registration.id' => 'registration-id',
+            'detailRegistration.additional_information.id' => 'additional_information-id',
+            'detailRegistration.detail_planification.id' => 'detail_planification-id',
+            'detailRegistration.status.id' => 'status-id',
+            'detailRegistration.status_certificate.id' => 'status_certificate-id',
         ];
         return CecyFormRequest::attributes($attributes);
     }

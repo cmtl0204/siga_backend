@@ -25,6 +25,7 @@ class InstructorController extends Controller
 {
     function index(IndexInstructorRequest $request)
     {
+        
         $user = User::getInstance($request->input('user_id'));
 
         if ($request->has('search')) {
@@ -32,7 +33,7 @@ class InstructorController extends Controller
                 ->description($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
-            $instructor = $user->instructors()->paginate($request->input('per_page'));
+            $instructor = instructor::paginate($request->input('per_page'));
         }
     
         if ($instructor->count() === 0) {

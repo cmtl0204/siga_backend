@@ -61,7 +61,7 @@ class CreateCecyCoursesTable extends Migration
             
             $table->foreignId('specialty_id')->constrained('app.catalogues')->nullable()->comment('fk de catalogo que guarda el id_especialidad posible valores Idioma, tecnología, pedagogia, etc');
             $table->foreignId('academic_period_id')->constrained('app.catalogues')->nullable()->comment('id_periodo_academico');
-            $table->foreignId('institution_id')->constrained('institutions')->nullable()->comment('id_institución');
+            $table->foreignId('institution_id')->constrained('app.institutions')->nullable()->comment('id_institución');
             $table->string('place')->nullable()->comment('lugar donde se dictara el curso');
             $table->foreignId('career_id')->nullable()->constrained('app.careers')->comment('Se refiere a la carrera que le corresponde al curso');
             $table->string('setec_name')->comment('nombre_setec');

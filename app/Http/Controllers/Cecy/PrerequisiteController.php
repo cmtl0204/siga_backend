@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Cecy;
 
 //controlers
+
+use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\App\File\IndexFileRequest;
+use App\Http\Requests\App\File\UpdateFileRequest;
+use App\Http\Requests\App\File\UploadFileRequest;
 // models
 use App\Models\App\Catalogue;
 use App\Models\Cecy\Course;
@@ -132,5 +137,31 @@ class PrerequisiteController extends Controller
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
             ]], 201);
+    }
+
+    public function uploadFile(UploadFileRequest $request)
+    {
+        return (new FileController())->upload($request, Prerequisite::getInstance($request->input('id')));
+    }
+
+    public function updateFile(UpdateFileRequest $request)
+    {
+        return (new FileController())->update($request, Prerequisite::getInstance($request->input('id')));
+
+    }
+
+    function deleteFile($fileId)
+    {
+        return (new FileController())->delete($fileId);
+    }
+
+    function indexFile(IndexFileRequest $request)
+    {
+        return (new FileController())->index($request, Prerequisite::getInstance($request->input('id')));
+    }
+
+    function ShowFile($fileId)
+    {
+        return (new FileController())->show($fileId);
     }
 }

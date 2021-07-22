@@ -32,6 +32,7 @@ class Registration extends Model implements Auditable
         'date_registration',
         'number'
     ];
+    protected $with = ['participant'];
 
     protected $casts = [
         'deleted_at' => 'date:Y-m-d h:m:s',
@@ -50,6 +51,10 @@ class Registration extends Model implements Auditable
     }
 
     // Relationships
+    public function participant()
+    {
+        return $this->belongsTo(Participant::class);
+    }
     public function planification()
     {
         return $this->belongsTo(Planification::class);
@@ -64,5 +69,5 @@ class Registration extends Model implements Auditable
     {
         return $this->belongsTo(Catalogue::class);
     }
-
+    
 }

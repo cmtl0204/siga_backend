@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Cecy\Instructor;
+namespace App\Http\Requests\Cecy\Participant;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Cecy\CecyFormRequest;
 
-class IndexInstructorRequest extends FormRequest
+class IndexParticipantRequest extends FormRequest
 {
     public function authorize()
     {

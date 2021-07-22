@@ -2,20 +2,27 @@
 
 namespace App\Models\Cecy;
 
+use App\Models\App\Catalogue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Authentication\User;
-use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
- * @property string description
+ * @property string company_name
+ * @property string company_activity
+ * @property string company_address
+ * @property string company_phone
+ * @property boolean company_sponsor
+ * @property string name_contact
+ * @property json know_course
+ * @property json course_follow
+ * @property boolean works
  */
 
-class Instructor extends Model implements Auditable
+class AdditionalInformation extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -24,8 +31,7 @@ class Instructor extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-cecy';
-    protected $table = 'cecy.instructors';
-    protected $with = ['user','responsible','typeInstructor'];
+    protected $table = 'cecy.additional_informations';
 
 
     protected $casts = [
@@ -43,32 +49,10 @@ class Instructor extends Model implements Auditable
         return static::$instance;
     }
 
-    // Relationships
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function responsible()
-    {
-        return $this->belongsTo(User::class);
-    }
 
-    public function typeInstructor()
+    // Relationships
+    public function levelIntructor()
     {
         return $this->belongsTo(Catalogue::class);
     }
-
-    // Accessors
-    public $timestamps = false;
-    
-
-    // Mutators
-    
-
-    // Scopes
-    
-      
-
-
-    
 }

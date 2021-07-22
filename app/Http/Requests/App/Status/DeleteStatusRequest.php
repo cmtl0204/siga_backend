@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\App\File;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\App\AppFormRequest;
-
-class DownloadFileRequest extends FormRequest
+class DeleteStatusRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,9 +14,7 @@ class DownloadFileRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'full_path' => [
-                'required',
-            ],
+            'ids' => [],
         ];
         return AppFormRequest::rules($rules);
     }
@@ -25,7 +22,7 @@ class DownloadFileRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-            'full_path' => 'ruta completa',
+            'ids' => 'IDs',
         ];
         return AppFormRequest::attributes($attributes);
     }

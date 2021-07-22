@@ -19,6 +19,7 @@ use App\Models\App\Institution;
 use App\Models\App\Teacher;
 use App\Models\App\Status;
 use App\Models\App\File;
+use App\Models\Cecy\Instructor;
 
 /**
  * @property BigInteger id
@@ -178,6 +179,10 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     function shortcuts()
     {
         return $this->hasMany(Shortcut::class);
+    }
+    function instructors()
+    {
+        return $this->hasMany(Instructor::class);
     }
 
     function status()

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Cecy\Instructor;
+namespace App\Http\Requests\App\Status;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Cecy\CecyFormRequest;
+use App\Http\Requests\App\AppFormRequest;
 
-class IndexInstructorRequest extends FormRequest
+
+class StoreStatusRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,13 +16,12 @@ class IndexInstructorRequest extends FormRequest
     public function rules()
     {
         $rules = [];
-        return CecyFormRequest::rules($rules);
+        return AppFormRequest::rules($rules);
     }
 
     public function attributes()
     {
         $attributes = [];
-        return CecyFormRequest::attributes($attributes);
+        return AppFormRequest::attributes($attributes);
     }
 }
-

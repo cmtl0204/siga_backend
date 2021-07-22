@@ -9,6 +9,12 @@ use App\Http\Controllers\App\InstitutionController;
 use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
+use App\Http\Controllers\App\StatusController;
+
+
+Route::apiResource('status', StatusController::class);
+
+
 
 Route::apiResource('catalogues', CatalogueController::class);
 Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);

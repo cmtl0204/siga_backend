@@ -12,10 +12,13 @@ use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
- * @property string description
+ * @property json functions
+ * @property date start_date
+ * @property date end_date
+ 
  */
 
-class Instructor extends Model implements Auditable
+class Authority extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -24,8 +27,8 @@ class Instructor extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-cecy';
-    protected $table = 'cecy.instructors';
-    protected $with = ['user','responsible','typeInstructor'];
+    protected $table = 'cecy.authorities';
+    protected $with = ['user','position','status'];
 
 
     protected $casts = [
@@ -48,27 +51,14 @@ class Instructor extends Model implements Auditable
     {
         return $this->belongsTo(User::class);
     }
-    public function responsible()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function typeInstructor()
+    public function position()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    // Accessors
-    public $timestamps = false;
-    
+    public function status()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
 
-    // Mutators
-    
-
-    // Scopes
-    
-      
-
-
-    
 }

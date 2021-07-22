@@ -14,29 +14,13 @@ class IndexDetailRegistrationRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-            'registration_id' => [
-                'required',
-                'integer'
-            ],
-        ];
+        $rules = [];
         return CecyFormRequest::rules($rules);
-    }
-
-    public function messages()
-    {
-        $messages = [
-            'registration_id.required' => 'El campo :attribute es obligatorio',
-            'registration_id.integer' =>'El campo :attribute debe ser numérico',
-        ];
-        return CecyFormRequest::messages($messages);
     }
 
     public function attributes()
     {
-        $attributes = [
-            'registration_id' => 'registration-ID',
-        ];
+        $attributes = [];
         return CecyFormRequest::attributes($attributes);
     }
 }

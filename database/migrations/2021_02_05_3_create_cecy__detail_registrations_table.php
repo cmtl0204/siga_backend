@@ -27,10 +27,14 @@ class CreateCecyDetailRegistrationsTable extends Migration
             $table->foreignId('status_id')->constrained('app.catalogues')
                    ->comment('Estado de la matricula (retirado, aprobado,reprobado)'); 
             //modulo de notas
-            $table->decimal('partial_grade', 5, 2)
-                   ->comment('nota de evaluación continua'); 
-            $table->decimal('final_exam', 5, 2)
-                    ->comment('nota del proyecto final'); 
+            $table->decimal('partial_grade1', 5, 2)
+                   ->comment('nota parcial1'); 
+                   
+            $table->decimal('partial_grade2', 5, 2)
+                    ->comment('nota parcial2');
+                     
+            $table->decimal('final_note', 5, 2)
+                    ->comment('nota final del curso'); 
             //Modulo de Certificado
             $table->string('code_certificate')->nullable()
                     ->comment('Codigo del certificado de los participnates');
