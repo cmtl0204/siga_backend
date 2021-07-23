@@ -25,7 +25,8 @@ class UpdatePlanificationRequest extends FormRequest
     public function rules()
     {
         $rules = [
-
+            'planification.id' => [
+            ],
           
             'planification.date_start' => [
                 'required'

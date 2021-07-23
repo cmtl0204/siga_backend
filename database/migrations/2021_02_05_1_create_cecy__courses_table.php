@@ -72,7 +72,7 @@ class CreateCecyCoursesTable extends Migration
 
 
            // $table->foreignId('status')->nullable()->default()->comment('1:propuesto,2:cuando es completado por el docente encargado, 3: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS)');
-            $table->foreignId('status_id')->constrained('app.catalogues')->comment('6:propuesto,7:cuando es completado por el docente encargado, 8: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS');
+            $table->foreignId('status_id')->constrained('app.catalogues')->default(49)->comment('6:propuesto,7:cuando es completado por el docente encargado, 8: dado de baja (cuando esta vencido la fecha de vigencia o cuando no fue aprovado por el OCS');
 
             $table->timestamps();
             $table->softDeletes();

@@ -115,7 +115,7 @@ class IndexCourseRequest extends FormRequest
     public function attributes(){
         
         $attributes = [
-            'id' => 'id',
+            
             
         ];
 

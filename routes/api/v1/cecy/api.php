@@ -78,19 +78,24 @@ Route::prefix('/')
         //Courses
         Route::prefix('course')->group(function () {
             Route::get('all', [CourseController::class, 'index']);
+            Route::get('aproval', [CourseController::class, 'allCourseWithRelations']);
             Route::post('store', [CourseController::class, 'storeCourse']);
             Route::put('approval/{course}', [CourseController::class, 'approvalCourse']);
             Route::get('responsables', [CourseController::class, 'getResponsables']);
             Route::put('tutor-assignment/{planification}', [CourseController::class, 'tutorAssignment']);   
-            Route::get('{courseId}', [CourseController::class, 'getCourse']);
+            Route::get('{courseId}', [CourseController::class, 'showByIdCourse']);
+            
+
                        
         });
 
         Route::prefix('planification')->group(function () {
-            Route::get('all', [PlanificationController::class, 'getPlanifiations']);       
+            Route::get('all', [PlanificationController::class, 'getPlanifiations']);        
+            Route::get('/OnePlanification/{planificationID}', [PlanificationController::class, 'showByIdPlanification']);
             Route::post('createPlanification', [PlanificationController::class, 'createPlanification']);
             Route::put('{planification}', [PlanificationController::class, 'updatePlanification']);
-          
+            Route::delete('{planification}', [PlanificationController::class, 'delete']);
+
                        
         });
         

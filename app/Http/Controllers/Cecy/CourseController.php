@@ -30,7 +30,36 @@ class CourseController extends Controller
     //Funcion para retornar todos los cursos
     function index(IndexCourseRequest $request)
     {
-        $courses = Course::with('status','career')->paginate($request->input('per_page'));
+        $courses = Course::where( 'status_id' ,47 )->get();
+        if (!$courses) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraró curso',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]
+            ], 404);
+        }
+
+
+  
+
+        return response()->json([
+            'data' => $courses,
+            'msg' => [
+                'summary' => 'aqui estan todos los curos',
+                'detail' => 'todo ok',
+                'code' => '200'
+            ]
+        ], 200);
+    }
+
+    //Traer todos los cursos con sus relaciones
+
+    function allCourseWithRelations(IndexCourseRequest $request)
+    {
+        $courses = Course::with('status','career')->orderBy('created_at', 'ASC')->paginate($request->input('per_page'));
         if (!$courses) {
             return response()->json([
                 'data' => null,
@@ -74,43 +103,31 @@ class CourseController extends Controller
     
 
     //Funciom para traer cursos por id
-    function getCourse($courseId)
-    {
-        if (!is_numeric($courseId)) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'ID no válido',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '400'
-                ]
-            ], 400);
-        }
-        
-        $course = Course::where( 'id' ,$courseId)->with('status')->get();
-        
-        
-        // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
-        if (!$course) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'Curso no encontrado',
-                    'detail' => 'Vuelva a intentar',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
+   //Modificar una planificaion 
+   function  showByIdCourse($ID)
+   {
+    
+    $planification = Course::where( 'id' ,$ID)->with('status')->get();
+        if(sizeof($planification)  === 0){
 
-
-        return response()->json([
-            'data' => $course,
-            'msg' => [
-                'summary' => 'success',
-                'detail' => '',
-                'code' => '200',
-            ]], 200);
-    }
+            return response()->json([
+                'data' => $planification,
+                'msg' => [
+                    'summary' => 'No existe esa planificacion',
+                    'detail' => 'No exixste',
+                    'code' => '201'
+                ]
+            ], 201);
+        }
+       return response()->json([
+           'data' => $planification,
+           'msg' => [
+               'summary' => 'Planificacion actualizada',
+               'detail' => 'La planificacion fue actualizada exitosamente',
+               'code' => '201'
+           ]
+       ], 201);
+   }
 
     //Retorna todos los usuarios 
     function getResponsables()

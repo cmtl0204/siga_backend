@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cecy;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cecy\Planification\createPlanificationRequest;
+use App\Http\Requests\Cecy\Planification\DeletePlanificationRequest;
 use App\Http\Requests\Cecy\Planification\IndexRequest;
 use App\Http\Requests\Cecy\Planification\ShowByIdPlanificationRequest;
 use App\Http\Requests\Cecy\Planification\UpdatePlanificationRequest;
@@ -12,6 +13,7 @@ use App\Models\Authentication\User;
 use App\Models\Cecy\Course;
 use App\Models\Cecy\Planification;
 use Illuminate\Http\Request;
+
 
 class PlanificationController extends Controller
 {
@@ -81,12 +83,23 @@ class PlanificationController extends Controller
 
 
        //Modificar una planificaion 
-       function  showById(ShowByIdPlanificationRequest $request, Planification $planification)
+       function  showByIdPlanification(ShowByIdPlanificationRequest $request, $planificationID)
        {
-           $planificacion = Planification::showById(1);
-         
+        
+        $planification = Planification::where( 'id' ,$planificationID)->with('course','user','status')->get();
+            if(sizeof($planification)  === 0){
+
+                return response()->json([
+                    'data' => $planification,
+                    'msg' => [
+                        'summary' => 'No existe esa planificacion',
+                        'detail' => 'No exixste',
+                        'code' => '201'
+                    ]
+                ], 201);
+            }
            return response()->json([
-               'data' => $planification->fresh(),
+               'data' => $planification,
                'msg' => [
                    'summary' => 'Planificacion actualizada',
                    'detail' => 'La planificacion fue actualizada exitosamente',
@@ -95,5 +108,19 @@ class PlanificationController extends Controller
            ], 201);
        }
 
+
+       function delete(DeletePlanificationRequest $request, $planification)
+       {
+           // Es una eliminación lógica
+           Planification::destroy($planification);
+   
+           return response()->json([
+               'data' => null,
+               'msg' => [
+                   'summary' => 'Panificacion eliminada',
+                   'detail' => 'Se eliminó correctamente',
+                   'code' => '201'
+               ]], 201);
+       }
     
 }

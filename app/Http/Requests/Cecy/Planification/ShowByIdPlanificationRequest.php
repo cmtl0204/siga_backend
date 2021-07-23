@@ -26,25 +26,7 @@ class ShowByIdPlanificationRequest extends FormRequest
     {
         $rules = [
 
-          
-            'planification.date_start' => [
-                'required'
-            ],
-            'planification.date_end' => [
-                'required'
-            ],
-            'planification.course.id' => [
-                'required'
-            ],
-            'planification.needs' => [
-                'required'
-            ], 'planification.user.id' => [
-                'required'
-            ],
-            'planification.status.id' => [
-                'required'
-            ],
-        
+                
         ];
         return CecyFormRequest::rules($rules);
 
