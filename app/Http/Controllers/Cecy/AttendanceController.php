@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cecy;
 
+use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Cecy\Attendance\DeleteAttendanceRequest;
@@ -118,6 +119,29 @@ class AttendanceController extends Controller
                 'code' => '201'
             ]], 201);
     }
+
+    public function exportCertificados(Request $request)
+    {
+    	$users = $detailRegistration = DetailRegistration::
+        with(['registration' => function ($registration) use ($request) {
+            $registration->with('participant', function ($participant) use ($request) {
+                $participant->with('user', function ($user) use ($request){
+                    $user    ;
+                });
+            });
+        }])
+        
+        ->with(['detailPlanification' => function ($detailPlanification) use ($request) {
+            $detailPlanification->with('course', function ($course) use ($request) {
+                $course;
+            });
+        }])
+
+        ->get();
+    	$pdf   = PDF::loadView('pdf.certificado', compact('users'))->setPaper('a4', 'landscape');
+    	return $pdf->download('Certificado.pdf');
+    }
+
 }
 
 

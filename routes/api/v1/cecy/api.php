@@ -76,9 +76,7 @@ Route::middleware($middlewares)
     Route::put('prerequisite/delete', [PrerequisiteController::class, 'delete']);
     Route::put('instructor/delete', [InstructorController::class, 'delete']);
 
-    Route::apiResource('detailRegistrations', DetailRegistrationController::class);
-    Route::put('detailRegistration/delete', [DetailRegistrationController::class, 'delete']);
-    Route::get('excel/detailRegistration', [DetailRegistrationController::class, 'excel']);
+   
 
     
 // Without Middleware
@@ -113,12 +111,17 @@ Route::get('excel/registration-export', [RegistrationController::class, 'exportT
     Route::apiResource('planifications', PlanificationController::class);
     Route::put('planification/delete', [PlanificationController::class, 'delete']);
 
-
+    Route::apiResource('detailRegistrations', DetailRegistrationController::class);
 
     Route::apiResource('topics', TopicController::class);
     Route::put ('topic/delete', [TopicController::class, 'delete']);
     Route::apiResource('planificationInstructors', PlanificationInstructorController::class);
     
+
+    Route::get('detailRegistration/certificado', [AttendanceController::class, 'exportCertificados'])->name('users.pdf' );
+
+
+
     // Route::prefix('registration')
     //     ->group(function () {
            // Route::put('topic/delete', [TopicController::class, 'delete']);

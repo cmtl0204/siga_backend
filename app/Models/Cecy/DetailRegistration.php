@@ -12,7 +12,7 @@ use App\Models\App\Catalogue;
 use App\Models\App\App;
 use App\Models\App\Cecy\Registration;
 use App\Models\App\Cecy\AditionalInformation;
-use App\Models\App\Cecy\DetailPlanification;
+use App\Models\Cecy\DetailPlanification;
 use App\Models\Cecy\Registration as CecyRegistration;
 use App\Models\App\File;
 
@@ -34,7 +34,7 @@ class DetailRegistration extends Model implements Auditable
     use SoftDeletes;
 
     protected static $instance;
-    protected $with = ['registration','files'];
+     protected $with = ['registration','files']; 
 
     protected $connection = 'pgsql-cecy';
 
@@ -83,7 +83,7 @@ class DetailRegistration extends Model implements Auditable
         return $this->belongsTo(AdditionalInformation::class);
     }
 
-    public function detailplanification()
+    public function detailPlanification()
     {
         return $this->belongsTo(DetailPlanification::class);
     }
