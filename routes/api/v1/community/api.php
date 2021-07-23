@@ -14,6 +14,7 @@ use App\Http\Controllers\Community\ProjectController;
 use App\Http\Controllers\Community\ProjectObjectiveController;
 use App\Http\Controllers\Community\ProjectParticipantController;
 use App\Http\Controllers\Community\AssignmentController;
+use App\Http\Controllers\Community\PortfolioController;
 
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
@@ -46,8 +47,9 @@ Route::middleware($middlewares)
         // Assignment
         Route::prefix('assignments')->group(function () {
             Route::get('get-assignment', [AssignmentController::class, 'getAssignment']);
-            Route::post('portfolio-first', [AssignmentController::class, 'downloadPortfolioFirstDocument']);
-            Route::post('portfolio-second', [AssignmentController::class, 'downloadPortfolioSecondDocument']);
+            Route::post('portfolio-first', [PortfolioController::class, 'downloadPortfolioFirstDocument']);
+            Route::post('portfolio-second', [PortfolioController::class, 'downloadPortfolioSecondDocument']);
+            Route::post('vinculation-request', [PortfolioController::class, 'downloadVinculationRequestDocument']);
         });
 
         // Auth

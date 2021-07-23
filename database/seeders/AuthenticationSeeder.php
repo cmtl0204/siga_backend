@@ -791,6 +791,7 @@ class AuthenticationSeeder extends Seeder
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         $moduleAuthentication = Module::firstWhere('code', $catalogues['module']['authentication']);
+        $moduleCommunity = Module::firstWhere('code', $catalogues['module']['community']);
         $menuNormal = Catalogue::firstWhere('code', $catalogues['menu']['normal']);
         $menuMega = Catalogue::firstWhere('code', $catalogues['menu']['mega']);
         $statusAvailable = Status::firstWhere('code', $catalogues['status']['available']);
@@ -817,7 +818,7 @@ class AuthenticationSeeder extends Seeder
 
         Route::factory()->create([
             'uri' => $catalogues['route']['community']['assignment'],
-            'module_id' => $moduleAuthentication->id,
+            'module_id' => $moduleCommunity->id,
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,
             'name' => 'ASIGNACIÓN',
@@ -827,7 +828,7 @@ class AuthenticationSeeder extends Seeder
 
         Route::factory()->create([
             'uri' => $catalogues['route']['community']['project'],
-            'module_id' => $moduleAuthentication->id,
+            'module_id' => $moduleCommunity->id,
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,
             'name' => 'ADMINISTRACIÓN PROYECTO VINCULACIÓN',
@@ -837,7 +838,7 @@ class AuthenticationSeeder extends Seeder
 
         Route::factory()->create([
             'uri' => $catalogues['route']['community']['portfolio'],
-            'module_id' => $moduleAuthentication->id,
+            'module_id' => $moduleCommunity->id,
             'type_id' => $menuNormal->id,
             'status_id' => $statusAvailable->id,
             'name' => 'ADMINISTRACIÓN PORTAFOLIO',

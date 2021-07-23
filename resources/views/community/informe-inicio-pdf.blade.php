@@ -77,7 +77,7 @@
     <p class="NoSpacing"><span style="height:0pt; display:block; position:absolute; z-index:0;"><hr style="margin: 0 0 0 auto; text-align: right; display: block; "></span>&nbsp;</p>
     <p class="NoSpacing">&nbsp;</p>
     <p class="NoSpacing">&nbsp;</p>
-    <p style="line-height:150%;">Yo <span>{{ $name }}</span> con ci <span>{{$identification}}</span> docente de la carrera <span>{{$career}},</span> tengo bien a informar que, siguiendo con el cronograma de actividades establecido en el proyecto vinculaci&oacute;n <strong><span>{{$project}}</span></strong><strong>,&nbsp;</strong>le inform&oacute; que el d&iacute;a de hoy <strong><span>{{$day}} de {{$month}}</span></strong> del a&ntilde;o en curso, se procedi&oacute; a dar inicio con el desarrollo del mismo.</p>
+    <p style="line-height:150%;">Yo <span>{{ $sender }}</span> con ci <span>{{$identification}}</span> docente de la carrera <span>{{$career}},</span> tengo bien a informar que, siguiendo con el cronograma de actividades establecido en el proyecto vinculaci&oacute;n <strong><span>{{$project}}</span></strong><strong>,&nbsp;</strong>le inform&oacute; que el d&iacute;a de hoy <strong><span>{{$day}} de {{$month}}</span></strong> del a&ntilde;o en curso, se procedi&oacute; a dar inicio con el desarrollo del mismo.</p>
     <p style="line-height:150%;" class="selector">{{ $description }}</p>
     <p>&nbsp;</p>
     <p><img width="600px" align="center" src="{{storage_path('app/private/images/'.'temp'. '\\' .'temp'.'.jpg')}}"></p>
@@ -86,7 +86,7 @@
     <p>Atentamente</p>
     <p>&nbsp;</p>
     <p class="Style" style="margin-right:1.7pt; text-align:justify; font-size:9pt;"><strong>f.___________________________</strong><span style="width:3.36pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
-    <p class="Style" style="margin-right:1.7pt; text-align:justify; font-size:9pt;"><strong>Nombre:</strong></p>
+    <p class="Style" style="margin-right:1.7pt; text-align:justify; font-size:9pt;"><strong>Nombre:</strong> {{$sender}} </p>
     <p class="Style" style="margin-right:1.7pt; text-align:justify; font-size:9pt;"><strong>&nbsp;</strong></p>
     <p class="Style" style="margin-right:1.7pt; text-align:justify; font-size:9pt;"><strong>Tutor del proyecto</strong><span style="width:29pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><span style="width:36pt; display:inline-block;">&nbsp;</span><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p>
     <p style="line-height:normal;"><span style="font-family:Arial;">&nbsp;</span></p>

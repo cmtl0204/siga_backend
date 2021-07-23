@@ -1,0 +1,214 @@
+.block_ {
+    display: block;
+    line-height: 1.2;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 5.9pt;
+    margin-top: 3.6pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    text-align: right;
+    }
+.block_1 {
+    display: block;
+    font-family: serif;
+    font-size: 0.75em;
+    line-height: 1.2;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_2 {
+    display: block;
+    font-family: serif;
+    font-size: 0.75em;
+    line-height: 12pt;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.5pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_3 {
+    display: block;
+    margin-bottom: 0;
+    margin-left: 5.15pt;
+    margin-right: 0;
+    margin-top: 1.45pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_4 {
+    display: block;
+    line-height: 1.43;
+    margin-bottom: 0;
+    margin-left: 5.15pt;
+    margin-right: 193pt;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_5 {
+    display: block;
+    margin-bottom: 0;
+    margin-left: 5.15pt;
+    margin-right: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_6 {
+    display: block;
+    margin-bottom: 0;
+    margin-left: 5.15pt;
+    margin-right: 6.5pt;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_7 {
+    display: block;
+    font-family: serif;
+    font-size: 0.75em;
+    line-height: 1.2;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.15pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_8 {
+    display: block;
+    font-family: serif;
+    font-size: 0.75em;
+    line-height: 1.2;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.1pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_9 {
+    display: block;
+    font-family: serif;
+    font-size: 0.75em;
+    line-height: 1.2;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.25pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_10 {
+    display: block;
+    font-family: "Calibri", sans-serif;
+    font-size: 0.75em;
+    margin-bottom: 0;
+    margin-left: 10.2pt;
+    margin-right: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.block_11 {
+    display: block;
+    font-family: "Calibri", sans-serif;
+    font-size: 0.75em;
+    margin-bottom: 0;
+    margin-left: 10.2pt;
+    margin-right: 0;
+    margin-top: 1.05pt;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0
+    }
+.calibre {
+    display: block;
+    font-family: "Times New Roman", serif;
+    font-size: 1em;
+    margin-bottom: 0;
+    margin-left: 5pt;
+    margin-right: 5pt;
+    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0
+    }
+.text_ {
+    line-height: 1.2;
+    vertical-align: -0.5pt
+    }
+.text_1 {
+    letter-spacing: -0.05pt;
+    line-height: 1.2;
+    vertical-align: -0.5pt
+    }
+.text_2 {
+    letter-spacing: 0.1pt;
+    line-height: 1.2;
+    vertical-align: -0.5pt
+    }
+.text_3 {
+    letter-spacing: 0.05pt;
+    line-height: 1.2;
+    vertical-align: -0.5pt
+    }
+.text_4 {
+    letter-spacing: -0.05pt
+    }
+.text_5 {
+    letter-spacing: 0.1pt
+    }
+.text_6 {
+    letter-spacing: 0.05pt
+    }
+.text_7 {
+    letter-spacing: -0.1pt
+    }
+.text_8 {
+    letter-spacing: -0.15pt
+    }
+.text_9 {
+    letter-spacing: 0.2pt
+    }
+.text_10 {
+    letter-spacing: -0.2pt
+    }
+.text_11 {
+    letter-spacing: 0.15pt
+    }
+
+@page {
+    margin-bottom: 5pt;
+    margin-top: 5pt
+    }
+

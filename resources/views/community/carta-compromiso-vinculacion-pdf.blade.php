@@ -292,7 +292,7 @@
     </p>
     <p align="justify" style="margin-right: 0.02in; margin-bottom: 0in; line-height: 100%; orphans: 0; widows: 0">
         <font face="Arial, serif">
-                <font size="2" style="font-size: 9pt"><span lang="es-ES-u-co-trad"><b>Nombre:</b></span></font>
+                <font size="2" style="font-size: 9pt"><span lang="es-ES-u-co-trad"><b>Nombre: {{$teacher}}</b></span></font>
         </font>
     </p>
 
