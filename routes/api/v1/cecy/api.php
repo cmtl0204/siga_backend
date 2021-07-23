@@ -10,6 +10,7 @@ use App\Http\Controllers\Authentication\ShortcutController;
 use App\Http\Controllers\Authentication\SystemController;
 use App\Http\Controllers\Authentication\UserAdministrationController;
 use App\Http\Controllers\Cecy\PlanificationsController;
+use App\Http\Controllers\Cecy\DetailPlanificationController;
 
 
 use App\Http\Controllers\Cecy\EvaluationMechanismController;
@@ -107,6 +108,11 @@ Route::prefix('/')
     Route::apiResource('planifications', PlanificationsController::class);
     Route::put('planification/delete', [PlanificationsController::class, 'delete']);
     // })
+
+// Detail Planification
+Route::apiResource('detailPlanification', DetailPlanificationController::class);
+
+
 //EvaluationMechanisms
 
 Route::apiResource('evaluationMechanisms', EvaluationMechanismController::class);

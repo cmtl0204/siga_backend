@@ -12,6 +12,9 @@ use App\Http\Requests\Cecy\Registration\UpdateRegistrationRequest;
 use App\Models\Cecy\Registration;
 use App\Models\App\Status;
 use App\Models\App\Catalogue;
+use App\Models\Cecy\AdditionalInformation;
+use App\Models\Cecy\DetailRegistration;
+
 // use App\Models\JobBoard\Category;
 // use App\Models\JobBoard\Professional;
 use Maatwebsite\Excel\Facades\Excel;
@@ -54,9 +57,23 @@ class RegistrationController extends Controller
         // $dataStatu = $data['status_id'];
         // $dataType = $data['type_id'];
         // $planification = Planification::find($request->input('registration.planification_id'));
+        $additional = new AdditionalInformation();
+        if ($request->input('additional_information')) {
+            $additional->company_activity = $request->input('additional_information.company_activity');
+            $additional->company_address = $request->input('additional_information.company_address');
+            $additional->company_name = $request->input('additional_information.company_name');
+            $additional->company_phone = $request->input('additional_information.company_phone');
+            $additional->company_sponsor = $request->input('additional_information.company_sponsor');
+            $additional->course_follow = $request->input('additional_information.course_follow');
+            $additional->know_course = $request->input('additional_information.know_course');
+            $additional->level_instruction = $request->input('additional_information.level_instruction');
+            $additional->name_contact = $request->input('additional_information.name_contact');
+            $additional->works = $request->input('additional_information.works');
+            $additional->save();
+        }
 
         $registration = new Registration();
-         $registration->date_registration = $request->input('registration.date_registration');
+        $registration->date_registration = $request->input('registration.date_registration');
         $registration->number = $request->input('registration.number');
         $registration->planification_id = $request->input('registration.planification_id');
         $registration->status_id = $request->input('registration.status_id');
@@ -65,6 +82,12 @@ class RegistrationController extends Controller
         $registration->status()->associate(Status::findOrFail($request->input('registration.status_id')));
         $registration->type()->associate(Catalogue::findOrFail($request->input('registration.type_id')));
         $registration->save();
+
+        $detailRegistration = new DetailRegistration();
+        $detailRegistration->registration_id = $registration->id;
+        $detailRegistration->additional_information_id = $additional->id;
+        $detailRegistration->detail_planification_id = $registration->planification_id;
+        $detailRegistration->save();
 
         return response()->json([
             'data' => $registration->fresh(),
