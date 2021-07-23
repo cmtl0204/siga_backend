@@ -105,9 +105,8 @@ class MeshStudentRequirementController extends Controller
         ], 201);
     }
 
-    public function approve($id)
+    public function approve(MeshStudentRequirement $meshStudentRequirement)
     {
-        $meshStudentRequirement = MeshStudentRequirement::find($id);
         if (!$meshStudentRequirement) {
             return response()->json([
                 'data' => null,
@@ -130,9 +129,8 @@ class MeshStudentRequirementController extends Controller
         ], 201);
     }
 
-    public function disapproved(DisapprovedMeshStudentRequirementRequest $request, $id)
+    public function reject(DisapprovedMeshStudentRequirementRequest $request, MeshStudentRequirement $meshStudentRequirement)
     {
-        $meshStudentRequirement = MeshStudentRequirement::find($id);
         if (!$meshStudentRequirement) {
             return response()->json([
                 'data' => null,

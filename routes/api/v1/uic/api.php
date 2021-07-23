@@ -133,8 +133,8 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('mesh-student-requirement')->group(function () {
         Route::put('delete', [MeshStudentRequirementController::class, 'delete']);
-        Route::put('approve/{id}', [MeshStudentRequirementController::class, 'approve']);
-        Route::put('disapproved/{id}', [MeshStudentRequirementController::class, 'disapproved']);
+        Route::put('approve/{meshStudentRequirement}', [MeshStudentRequirementController::class, 'approve']);
+        Route::put('reject/{meshStudentRequirement}', [MeshStudentRequirementController::class, 'reject']);
         Route::prefix('file')->group(function () {
             Route::post('', [MeshStudentRequirementController::class, 'uploadFile']);
             Route::put('delete', [MeshStudentRequirementController::class, 'deleteFile']);
@@ -148,7 +148,7 @@ Route::prefix('/')->group(function () {
     });
     Route::prefix('project-plan')->group(function () {
         Route::put('delete', [ProjectPlanController::class, 'delete']);
-		Route::get('teachers', [ProjectPlanController::class, 'getTeachers']);
+        Route::get('teachers', [ProjectPlanController::class, 'getTeachers']);
         Route::prefix('file')->group(function () {
             Route::post('', [ProjectPlanController::class, 'uploadFile']);
             Route::put('delete', [ProjectPlanController::class, 'deleteFile']);
@@ -166,5 +166,4 @@ Route::prefix('/')->group(function () {
     Route::get('export-enrollment-request', [PdfEnrollmentRequestController::class, 'index']);
 
     Route::get('mesh-students', [MeshStudentController::class, 'index']);
-	
 });

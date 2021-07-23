@@ -32,7 +32,7 @@ class AuthenticationSeeder extends Seeder
         $this->createCareerType();
         $this->createLocationCatalogues();
         $this->createMenus();
-        
+
 
         // Sistemas
         $this->createSystem();
@@ -679,7 +679,7 @@ class AuthenticationSeeder extends Seeder
         ]);
     }
 
-    
+
     private function createMenus()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -773,17 +773,10 @@ class AuthenticationSeeder extends Seeder
             'name' => 'INCORPORACIÓN',
             'type' => $catalogues['catalogue']['uic_events_event_type']['type']
         ]);
-        
-        
     }
     private function createsStudentInformationsLaboralCareerType()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        Catalogue::factory()->create([
-            'code' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type'],
-            'name' => 'NINGUNA',
-            'type' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type']
-        ]);
         Catalogue::factory()->create([
             'code' => $catalogues['catalogue']['uic_student_informations_relation_laboral_career']['type'],
             'name' => 'SI',
@@ -824,7 +817,6 @@ class AuthenticationSeeder extends Seeder
             'name' => 'OPERACIONES',
             'type' => $catalogues['catalogue']['uic_student_informations_company_area']['type']
         ]);
-        
     }
     private function createsStudentInformationsCompanyPositionType()
     {
@@ -864,7 +856,6 @@ class AuthenticationSeeder extends Seeder
             'name' => 'TECNICO',
             'type' => $catalogues['catalogue']['uic_student_informations_company_position']['type']
         ]);
-        
     }
     private function createModules()
     {

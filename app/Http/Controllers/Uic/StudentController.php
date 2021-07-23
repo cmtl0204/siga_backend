@@ -22,16 +22,7 @@ class StudentController extends Controller
             $student = Student::project()->get();
         }
 
-        if ($student->count() === 0) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraron estudiantes',
-                    'detail' => 'Intentelo de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
+
         return response()->json($student, 200);
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Uic\StudentInformation\DeleteStudentInformationRequest;
 use App\Http\Requests\Uic\StudentInformation\IndexStudentInformationRequest;
 use App\Http\Requests\Uic\StudentInformation\StoreStudentInformationRequest;
 use App\Http\Requests\Uic\StudentInformation\UpdateStudentInformationRequest;
+use App\Models\Uic\Student;
 use App\Models\Uic\StudentInformation;
 
 // Models
@@ -33,8 +34,10 @@ class StudentInformationController extends Controller
         return response()->json($informationStudent, 200);
     }
 
-    public function show(StudentInformation $informationStudent)
+    public function show($id)
     {
+        $informationStudent = StudentInformation::where('student_id', '=', $id)->first();
+
         if (!$informationStudent) {
             return response()->json([
                 'data' => null,
@@ -81,7 +84,7 @@ class StudentInformationController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'El informationStudent no existe',
+                    'summary' => 'La información no existe',
                     'detail' => 'Intente otra vez',
                     'code' => '404'
                 ]
@@ -96,8 +99,8 @@ class StudentInformationController extends Controller
         return response()->json([
             'data' => $informationStudent->fresh(),
             'msg' => [
-                'summary' => 'StudentInformation actualizado',
-                'detail' => 'El informationStudent fue actualizado',
+                'summary' => 'Información actualizada',
+                'detail' => 'La información fue actualizada',
                 'code' => '201'
             ]
         ], 201);

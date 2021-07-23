@@ -25,7 +25,7 @@ class MeshStudentRequirement extends Model implements Auditable
 
     private static $instance;
 
-    protected $with = ['requirement', 'meshStudent', 'files'];
+    protected $with = ['requirement', 'meshStudent', 'files', 'file'];
     protected $cascadeDeletes = ['files'];
 
     protected $fillable = [
@@ -63,6 +63,11 @@ class MeshStudentRequirement extends Model implements Auditable
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');
+    }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
     }
 
     //scope
