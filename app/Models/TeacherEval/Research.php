@@ -20,6 +20,7 @@ use App\Models\TeacherEval\EvaluationType;
 
 
 
+
 /**
  * @property BigInteger id
  * @property double result
@@ -27,35 +28,29 @@ use App\Models\TeacherEval\EvaluationType;
 
  */
 
-class ExtraCredit extends Model implements Auditable
+class Research extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
 
 
     protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.extra_credits';
+    protected $table = 'teacher_eval.researchs';
 
     protected static $instance;
 
 
     protected $fillable = [
-        'diploma_yavirac',
-        'title_fourth_level',
-        'OCS_member',
-        'governing_processes',
-        'process_nouns',
-        'support_processes',
+        'inv_auto_eval',
+        'inv_pares',
+        'inv_coodinador',
         'total'
     ];
 
     protected $casts = [
-        'diploma_yavirac' => 'double',
-        'title_fourth_level' => 'double',
-        'OCS_member' => 'double',
-        'governing_processes' => 'double',
-        'process_nouns' => 'double',
-        'support_processes' => 'double',
+        'inv_auto_eval' => 'double',
+        'inv_pares' => 'double',
+        'inv_coodinador' => 'double',
         'total' => 'double'
     ];
 
