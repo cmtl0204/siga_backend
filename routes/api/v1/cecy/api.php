@@ -143,5 +143,6 @@ Route::get('excel/registration-export', [RegistrationController::class, 'exportT
     Route::get('detailRegistration', [DetailRegistrationController::class, 'show'] );
     Route::get('detailRegistration/aprobados', [DetailRegistrationController::class, 'exportAprobados'])->name('users.excel');
     Route::post('detailRegistration/importar', [DetailRegistrationController::class, 'importar'])->name('users.import.excel');
-    Route::get('detailRegistration/certificado', [DetailRegistrationController::class, 'exportCertificados'])->name('users.pdf' );
+     Route::get('detailRegistration/certificado', [DetailRegistrationController::class, 'exportCertificados'])->name('users.pdf' );
+    Route::get('detailRegistration/certificadoI/{id}', [DetailRegistrationController::class, 'exportCertificadosI'])->name('users.pdf' );
 

@@ -38,7 +38,7 @@ class UsersImport implements
     {
      foreach ($rows as $row) {
              $detail = DetailRegistration::find($row['id']);
-            $detail-> code_certificate = $row['code_certificate'];
+             $detail-> code_certificate = $row['code_certificate'];
              $detail->save();
         }
 

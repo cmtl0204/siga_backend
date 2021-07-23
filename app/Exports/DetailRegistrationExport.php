@@ -115,6 +115,8 @@ class DetailRegistrationExport implements
             'Código '
         ];
     }
+
+    
     public function columnWidths(): array
     {
         return [

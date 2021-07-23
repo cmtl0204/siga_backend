@@ -183,30 +183,53 @@ class DetailRegistrationController extends Controller
     }
 
      public function exportCertificados(Request $request){ 
-         
-        
-     $detailRegistration = DetailRegistration::all();
-    //  return response()->json([
-    //      'data' => $detailRegistration,
-    //      'msg' => [
-    //          'summary' => 'success',
-    //          'detail' => '',
-    //          'code' => '200'
-    //      ]], 200);
-    
-    	$users = $detailRegistration = DetailRegistration::
-         with(['registration' => function ($registration) use ($request) {
-             $registration->with('participant', function ($participant) use ($request) {
-                 $participant->with('user', function ($user) use ($request){
-                     $user    ;
-                 });
+     	$users = $detailRegistration = DetailRegistration::
+          with(['registration' => function ($registration) use ($request) {
+              $registration->with('participant', function ($participant) use ($request) {
+                  $participant->with('user', function ($user) use ($request){
+                      $user    ;
+                  });
+              });
+          }])
+
+          ->with(['detailPlanification' => function ($detailplanification) use ($request) {
+             $detailplanification->with('course', function ($course) use ($request) {
+                 $course;
+                
              });
          }])
-        
-        
         ->get();
     	 $pdf   = PDF::loadView('pdf.certificado', compact('users'))->setPaper('a4', 'landscape');
-    	 return $pdf->download('Certificado.pdf');
+     	 return $pdf->download('Certificado.pdf');
+    }
+
+
+    public function exportCertificadosI(Request $request , $id){ 
+    	$users = DetailRegistration::
+          with(['registration' => function ($registration) use ($request) {
+             $registration->with('participant', function ($participant) use ($request) {
+                  $participant->with('user', function ($user) use ($request){
+                     $user    ;
+                 });
+              });
+          }])
+
+          ->with(['detailPlanification' => function ($detailplanification) use ($request) {
+             $detailplanification->with('course', function ($course) use ($request) {
+                 $course;
+                
+             });
+         }])
+    ->find($id);
+        // // creamos y almacenamos la vista
+         $vista = view('pdf.certificadoI')
+                ->with('users', $users);
+
+         //Generamos el pdf pasandole la vista
+        $pdf = PDF::loadHTML($vista)->setPaper('a4', 'landscape');
+
+        // // retornamos la salida del pdf
+        return $pdf->download('Certificado.pdf');
     }
 
 
