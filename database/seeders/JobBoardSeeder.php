@@ -30,8 +30,8 @@ class JobBoardSeeder extends Seeder
         $this->createCompanies();
         $this->createSkills();
         $this->createOfferStatus();
-      //  $this->createLocations();
-       // $this->createOffers();
+        $this->createLocations();
+        $this->createOffers();
 
 
     }
@@ -198,7 +198,7 @@ class JobBoardSeeder extends Seeder
         }
     }
 
-    
+
     private function createOfferStatus()
     {
         $status = Status::whereIn('id', [6,7])->get();

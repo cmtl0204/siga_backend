@@ -166,6 +166,7 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('web-professional')->group(function () {
+            Route::post('private-professionals', [WebProfessionalController::class, 'getPrivateProfessionals']);
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
     });
@@ -190,7 +191,7 @@ Route::prefix('/')
 
         Route::prefix('web-professional')->group(function () {
             Route::get('total', [WebProfessionalController::class, 'total']);
-            Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
+            Route::post('public-professionals', [WebProfessionalController::class, 'getPublicProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
         });
 

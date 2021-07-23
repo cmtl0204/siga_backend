@@ -163,6 +163,7 @@ class Offer extends Model implements Auditable
     {
         $this->attributes['code'] = strtoupper($value);
     }
+
     public function scopeProfessional($query, $professional)
     {
         if ($professional) {
