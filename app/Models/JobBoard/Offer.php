@@ -76,6 +76,7 @@ class Offer extends Model implements Auditable
     ];
 
     protected $cascadeDeletes = ['categories'];
+    protected $hidden = ['pivot'];
 
     // Instance
     public static function getInstance($id)

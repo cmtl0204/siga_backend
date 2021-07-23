@@ -36,9 +36,6 @@ class StoreOfferRequest extends FormRequest
                 'required',
                 'date',
             ],
-            // queda como array porque los json no son asi
-            // ARRAY https://laravel.com/docs/8.x/validation#rule-array
-            // JSON https://laravel.com/docs/8.x/validation#rule-json
             'offer.activities' => [
                 'required',
                 'array',
