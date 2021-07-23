@@ -125,7 +125,7 @@ class RoleController extends Controller
             return response()->json([
                 'data' => $role,
                 'msg' => [
-                    'summary' => 'update',
+                    'summary' => 'información actualizada',
                     'detail' => '',
                     'code' => '201'
                 ]
