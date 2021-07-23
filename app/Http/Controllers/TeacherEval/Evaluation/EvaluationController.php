@@ -164,6 +164,29 @@ class EvaluationController extends Controller
                 'code' => '201'
             ]], 201);
     }
+    function saveTeacher(Request $request, $id )
+    {
+        //$schoolPeriod = SchoolPeriod::findOrFail($request->input('shoolPeriod.id'));
+        $teacher = Teacher::getInstance($id);
+        $evaluationType = EvaluationType::getInstance($request->input('evaluation_type.id'));
+        $schoolPeriod = SchoolPeriod::getInstance($request->input('shoolPeriod.id'));
+        $status = Status::getInstance($request->input('status.id'));
+        $detail = new Evaluation();
+        $detail->result = $request->input('evaluation.result');
+        $detail->percentage = $request->input('evaluation.percentage');
+        $detail->teacher()->associate($teacher);
+        $detail->evaluationType()->associate($evaluationType);
+        $detail->schoolPeriod()->associate($schoolPeriod);
+        $detail->status()->associate($status);
+        $detail->save();
+        return response()->json([
+            'data' => $detail,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '201'
+            ]], 201);
+    }
 
 
      function update(UpdateEvaluationRequest $request, Evaluation $detail  )

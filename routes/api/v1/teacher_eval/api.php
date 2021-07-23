@@ -99,6 +99,7 @@ Route::middleware($middlewares)
             Route::get('gestion/{id}', [EvaluationController::class, 'getGestionAcademicaById']);
             Route::get('show/{evaluation}', [EvaluationController::class, 'show']);
             Route::post('create',  [EvaluationController::class, 'store']);
+            Route::post('create/{id}',  [EvaluationController::class, 'saveTeacher']);
             Route::put('update/{detail}',  [EvaluationController::class, 'update']);
             Route::put('delete',  [EvaluationController::class, 'delete']);
             //Route::delete('destroy/{detail}',  [EvaluationController::class, 'destroy']);
