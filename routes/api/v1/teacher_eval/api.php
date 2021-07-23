@@ -65,8 +65,6 @@ Route::middleware($middlewares)
             Route::post('remove-role', [RoleController::class, 'removeRole']);
         });
 
-<<<<<<< HEAD
-=======
 
          // rutas tabla answer
          Route::prefix('answer')->group(function () {
@@ -94,7 +92,6 @@ Route::prefix('/')
 
 
         });
->>>>>>> origin/u_10_condor-edwin
         Route::prefix('evaluation-type')->group(function () {
             Route::get('index', [EvaluationTypeController::class, 'index']);
             Route::post('store', [EvaluationTypeController::class, 'store']);
@@ -130,7 +127,6 @@ Route::prefix('/')
             Route::put('delete', [QuestionController::class, 'delete']);
         });
 
-<<<<<<< HEAD
 
 
     });
@@ -147,7 +143,5 @@ Route::prefix('/')
             Route::post('unlock-user', [AuthController::class, 'unlockUser']);
         });
         
-=======
->>>>>>> origin/u_10_condor-edwin
     });
 });
