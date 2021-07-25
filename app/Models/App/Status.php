@@ -21,6 +21,8 @@ class Status extends Model implements Auditable
     protected $table = 'app.status';
 
     protected $fillable = ['code', 'name'];
+    
+    protected $hidden = ['pivot'];
 
     public static function getInstance($id)
     {

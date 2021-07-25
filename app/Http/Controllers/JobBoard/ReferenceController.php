@@ -35,42 +35,26 @@ class ReferenceController extends Controller
     {
         // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
       
-        $professional = $request->user()->professional()->first();
-        if (!$professional) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraró al profesional',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-        //$professional = Professional::getInstance($request->input('professional_id'));
         if ($request->has('search')) {
-            $references = $professional->references()
-                ->institution($request->input('search'))
-                ->position($request->input('search'))
-                ->contactName($request->input('search'))
-                ->contactPhone($request->input('search'))
-                ->contactEmail($request->input('search'))
-                ->get();
+            $categories = Category::code($request->input('search'))
+                ->name($request->input('search'))
+                ->paginate($request->input('per_page'));
         } else {
-            $references = $professional->references()->paginate($request->input('per_page'));
+            
+            $categories = Category::paginate($request->input('per_page'));
         }
 
-        if ($references->count() === 0) {
+        if ($categories->count() === 0) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron Referencias',
+                    'summary' => 'No se encontraron Categorías',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]
-            ], 404);
+                ]], 404);
         }
 
-        return response()->json($references, 200);
+        return response()->json($categories, 200);
     }
 
     function show(Reference $reference)
