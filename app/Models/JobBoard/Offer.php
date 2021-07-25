@@ -236,7 +236,8 @@ class Offer extends Model implements Auditable
     public function scopeCategoryName($query, $name){
         if ($name) {
             return $query->orWhereHas('categories', function ($query) use ($name) {
-                $query->Where('name', $name);
+                $name = strtolower($name);
+                $query->Where('name', 'ILIKE',"%$name%");
             });
         }
     }

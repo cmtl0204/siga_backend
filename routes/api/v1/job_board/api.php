@@ -193,13 +193,6 @@ Route::prefix('/')
             Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
         });
-
-        Route::prefix('web-offer')->group(function () {
-            Route::get('total', [WebOfferController::class, 'total']);
-            Route::get('offers', [WebOfferController::class, 'getOffers']);
-            Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
-            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
-        });
     });
 
 

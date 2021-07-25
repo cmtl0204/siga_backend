@@ -19,7 +19,7 @@ class WebProfessionalController extends Controller
     {
         $totalCompanies = Company::all()->count();
         $totalProfessionals = Professional::all()->count();
-        $toalOffers = Offer::all()->count();
+        $toalOffers = Offer::where('status_id', 1)->count();
 
         return response()->json([
             'data' => [
