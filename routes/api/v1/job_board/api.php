@@ -66,6 +66,8 @@ Route::middleware($middlewares)
         });
         Route::prefix('category')->group(function () {
             Route::put('delete', [CategoryController::class, 'delete']);
+            Route::get('parents', [CategoryController::class, 'getParentCategories']);
+
 
         });
 
