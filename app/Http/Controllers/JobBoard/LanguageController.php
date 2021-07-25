@@ -88,10 +88,10 @@ class LanguageController extends Controller
         }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo lenguage.
       //  $professional = Professional::getInstance($request->input('language.professional.id'));
-        $idiom = Catalogue::getInstance($request->input('language.idiom.id'));
-        $written_level = Catalogue::getInstance($request->input('language.written_level.id'));
-        $spoken_level = Catalogue::getInstance($request->input('language.spoken_level.id'));
-        $read_level = Catalogue::getInstance($request->input('language.read_level.id'));
+        $idiom = Catalogue::find($request->input('language.idiom.id'));
+        $written_level = Catalogue::find($request->input('language.written_level.id'));
+        $spoken_level = Catalogue::find($request->input('language.spoken_level.id'));
+        $read_level = Catalogue::find($request->input('language.read_level.id'));
 
         $language = new Language();
         $language->professional()->associate($professional);
@@ -113,10 +113,10 @@ class LanguageController extends Controller
 
     function update(UpdateLanguageRequest $request, Language $language)
     {
-        $idiom = Catalogue::getInstance($request->input('language.idiom.id'));
-        $written_level = Catalogue::getInstance($request->input('language.written_level.id'));
-        $spoken_level = Catalogue::getInstance($request->input('language.spoken_level.id'));
-        $read_level = Catalogue::getInstance($request->input('language.read_level.id'));
+        $idiom = Catalogue::find($request->input('language.idiom.id'));
+        $written_level = Catalogue::find($request->input('language.written_level.id'));
+        $spoken_level = Catalogue::find($request->input('language.spoken_level.id'));
+        $read_level = Catalogue::find($request->input('language.read_level.id'));
 
       //  $language = Language::find($languageId);
 

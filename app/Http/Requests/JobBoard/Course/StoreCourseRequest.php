@@ -18,8 +18,7 @@ class StoreCourseRequest extends FormRequest
         $rules = [
             'course.name' => [
                 'required',
-                'min:10',
-                'max:250',
+               
             ],
             'course.description' => [
                 'required',

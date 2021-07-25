@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Authentication\Route;
 
 class Status extends Model implements Auditable
 {
@@ -20,6 +21,8 @@ class Status extends Model implements Auditable
     protected $table = 'app.status';
 
     protected $fillable = ['code', 'name'];
+    
+    protected $hidden = ['pivot'];
 
     public static function getInstance($id)
     {

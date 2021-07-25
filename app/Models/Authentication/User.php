@@ -69,7 +69,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'username',
     ];
 
-    protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
+   // protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
 
     protected $hidden = [
         'password',
@@ -160,7 +160,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
-    function professional(){
+    function professional()
+    {
         return $this->hasOne(Professional::class);
     }
 

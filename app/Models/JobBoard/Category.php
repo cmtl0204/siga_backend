@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
@@ -27,7 +26,10 @@ class Category extends Model implements Auditable
 
     protected $connection = 'pgsql-job-board';
     protected $table = 'job_board.categories';
-    protected $with = ['parent'];
+//    protected $with = ['parent'];
+//    protected $with = ['children'];
+    protected $select = ['name as label'];
+
     protected $fillable = [
         'code',
         'name',
@@ -45,7 +47,7 @@ class Category extends Model implements Auditable
 
     public function children()
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function parent()

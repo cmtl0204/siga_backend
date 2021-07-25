@@ -40,6 +40,7 @@ class Experience extends Model implements Auditable
         'activities',
         'reason_leave',
         'is_working',
+        'is_disability',
     ];
     protected $casts = [
         'start_date' => 'date:Y-m-d',
