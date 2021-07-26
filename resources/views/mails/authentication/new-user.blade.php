@@ -4,10 +4,9 @@
         <div class="col-12 text-muted ">
             <h3 class="text-center">Verificación de Usuario</h3>
             <br>
-            <p>Su usuario en <strong>{{$system->name}}</strong>ha sido generado satisfactoriamente!</p>
-            {{$data->password}}
-            <p>Por favor inicie sesión con su cedula de identidad com usuario:</p>
-            <p>y esta es su clave: <string>{{$data->password}}</strong></p>
+            <p>El <strong>Sistema Bolsa de Empléo</strong> ha generado su usuario satisfactoriamente!</p>
+            <p>Por favor inicie sesión con su <strong>cedula de identidad como usuario</strong></p>
+            <p>y esta es su clave: <strong>{{$data->password}}</strong></p>
             <p>Para ello simplemente debe hacer click en el siguiente enlace:</p>
             <div class=" text-center">
                 <a class="btn btn-primary text-center"

@@ -122,6 +122,16 @@ class Professional extends Model implements Auditable
         return $this->hasMany(Skill::class);
     }
 
+    // Scopes
+    public function scopeCompany($query, $company)
+    {
+        if ($company) {
+            $query->whereDoesntHave('companies', function ($companies) use ($company) {
+                $companies->where('companies.id', $company->id);
+            });
+        }
+    }
+
     // Mutators
     public function setAboutMeAttribute($value)
     {

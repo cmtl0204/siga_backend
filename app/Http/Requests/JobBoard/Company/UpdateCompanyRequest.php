@@ -57,6 +57,11 @@ class UpdateCompanyRequest extends FormRequest
                 'min:10',
                 'max:15',
             ],
+            'company.prefix' => [
+                'required',
+                'min:2',
+                'max:5',
+            ],
 
             'company.trade_name' => [
                 'required',
@@ -108,6 +113,7 @@ class UpdateCompanyRequest extends FormRequest
             'company.trade_name' => 'nombre comercial',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
+            'company.prefix'=>'prefijo',
             'company.type.id' => 'tipo-ID',
             'company.activity_type.id' => 'tipo de actividad-ID',
             'company.person_type.id' => 'tipo de persona-ID',

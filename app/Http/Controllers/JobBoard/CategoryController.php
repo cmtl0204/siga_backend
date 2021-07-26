@@ -9,6 +9,7 @@ use App\Http\Requests\JobBoard\Category\StoreCategoryRequest;
 use App\Http\Requests\JobBoard\Category\IndexCategoryRequest;
 use App\Http\Requests\JobBoard\Category\UpdateCategoryRequest;
 use App\Http\Requests\JobBoard\Category\DeleteCategoryRequest;
+use App\Http\Requests\JobBoard\Category\GetParentCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,7 @@ class CategoryController extends Controller
                 ->name($request->input('search'))
                 ->paginate($request->input('per_page'));
         } else {
+            
             $categories = Category::paginate($request->input('per_page'));
         }
 
@@ -35,7 +37,32 @@ class CategoryController extends Controller
         }
 
         return response()->json($categories, 200);
+
+
     }
+
+    function getParentCategories(GetParentCategoryRequest $request)
+    {
+        $categories = Category::whereNull('parent_id')->get();
+
+        if ($categories->count() === 0) {
+            return response()->json([
+                'data' => null,
+                'msg' => [
+                    'summary' => 'No se encontraron Categorías',
+                    'detail' => 'Intente de nuevo',
+                    'code' => '404'
+                ]], 404);
+        }
+
+        return response()->json([
+            'data' => $categories,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200'
+            ]], 200);
+    } 
 
     function show(Category $category)
     {
@@ -73,8 +100,6 @@ class CategoryController extends Controller
     function update(UpdateCategoryRequest $request, Category $category)
     {
         $parent= Category::find($request->input('category.parent.id'));
-        
-        $type = Catalogue::find($request->input('category.type.id'));
 
         $category->code = $request->input('category.code');
         $category->name = $request->input('category.name');

@@ -70,6 +70,8 @@ Route::middleware($middlewares)
 
         Route::prefix('category')->group(function () {
             Route::put('delete', [CategoryController::class, 'delete']);
+            Route::get('parents', [CategoryController::class, 'getParentCategories']);
+
 
         });
 
@@ -163,6 +165,7 @@ Route::middleware($middlewares)
         });
 
         Route::prefix('web-professional')->group(function () {
+            Route::post('private-professionals', [WebProfessionalController::class, 'getPrivateProfessionals']);
             Route::get('apply-professional', [WebProfessionalController::class, 'applyProfessional']);
         });
     });
@@ -187,15 +190,8 @@ Route::prefix('/')
 
         Route::prefix('web-professional')->group(function () {
             Route::get('total', [WebProfessionalController::class, 'total']);
-            Route::post('professionals', [WebProfessionalController::class, 'getProfessionals']);
+            Route::post('public-professionals', [WebProfessionalController::class, 'getPublicProfessionals']);
             Route::get('filter-categories', [WebProfessionalController::class, 'filterCategories']);
-        });
-
-        Route::prefix('web-offer')->group(function () {
-            Route::get('total', [WebOfferController::class, 'total']);
-            Route::get('offers', [WebOfferController::class, 'getOffers']);
-            Route::get('filter-categories', [WebOfferController::class, 'filterCategories']);
-            Route::get('apply-offer', [WebOfferController::class, 'applyOffer']);
         });
     });
 

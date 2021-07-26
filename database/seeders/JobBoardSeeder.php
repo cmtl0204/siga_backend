@@ -10,6 +10,7 @@ use App\Models\JobBoard\Company;
 use App\Models\JobBoard\Offer;
 use App\Models\JobBoard\Skill;
 use App\Models\App\Status;
+use App\Models\Authentication\Route;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Professional;
 use Database\Factories\JobBoard\LocationFactory;
@@ -28,8 +29,9 @@ class JobBoardSeeder extends Seeder
         $this->createProfessionals();
         $this->createCompanies();
         $this->createSkills();
-      //  $this->createLocations();
-       // $this->createOffers();
+        $this->createOfferStatus();
+        $this->createLocations();
+        $this->createOffers();
 
 
     }
@@ -196,17 +198,13 @@ class JobBoardSeeder extends Seeder
         }
     }
 
-    /*
+
     private function createOfferStatus()
     {
-        $status = Status::where('code', $catalogues['catalogue']['company_type']['type'])->get();
-        //$status = Status::factory()->count(10)->create();
-
-        foreach ($categories as $category) {
-            $offer->categories()->attach($i++);
-            //Status::factory()->count(20)->create(['parent_id' => $category->id]);
+        $status = Status::whereIn('id', [6,7])->get();
+        foreach ($status as $state) {
+            $state->routes()->attach(4);
         }
     }
-    */
 
 }
