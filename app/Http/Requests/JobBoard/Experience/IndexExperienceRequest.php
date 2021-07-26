@@ -14,13 +14,18 @@ class IndexExperienceRequest extends FormRequest
 
     public function rules()
     {
-        return [];
+        $rules = [
+            'esperience_id' => [
+                'integer',
+            ],
+        ];
         return JobBoardFormRequest::rules($rules);
     }
-       public function attributes()
+    public function attributes()
     {
-        $attributes = [];
+        $attributes = [
+            'experience_id' => 'experiencia-id',
+        ];
         return JobBoardFormRequest::attributes($attributes);
     }
 }
-

@@ -1,7 +1,9 @@
 <?php
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Authentication\AuthController;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +20,13 @@ Route::prefix('login')->group(function () {
     Route::get('{driver}', [AuthController::class, 'redirectToProvider']);
     Route::get('{driver}/callback', [AuthController::class, 'handleProviderCallback']);
 });
+
+Route::get('export', function () {
+    return Excel::download(new UsersExport, 'users.pdf');
+});
+
+Route::get('generate-password/{password}', function ($password) {
+    return \Illuminate\Support\Facades\Hash::make($password);
+});
+
+

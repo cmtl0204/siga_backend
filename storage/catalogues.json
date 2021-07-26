@@ -51,8 +51,9 @@
             "administration": "/attendance/administration"
         },
         "job_board": {
-            "job_board": "/job_board",
-            "administration": "/job_board/administration"
+            "job_board": "/job-board",
+            "administration": "/job-board/administration",
+            "company": "/job-board/company"
         },
         "web": {
             "web": "/web",

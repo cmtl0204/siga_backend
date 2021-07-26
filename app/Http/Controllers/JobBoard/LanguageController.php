@@ -87,7 +87,7 @@ class LanguageController extends Controller
             ], 404);
         }
         // Crea una instanacia del modelo Professional para poder insertar en el modelo lenguage.
-      //  $professional = Professional::getInstance($request->input('language.professional.id'));
+        //  $professional = Professional::getInstance($request->input('language.professional.id'));
         $idiom = Catalogue::find($request->input('language.idiom.id'));
         $written_level = Catalogue::find($request->input('language.written_level.id'));
         $spoken_level = Catalogue::find($request->input('language.spoken_level.id'));
@@ -104,7 +104,7 @@ class LanguageController extends Controller
         return response()->json([
             'data' => $language,
             'msg' => [
-                'summary' => 'Lenguaje creada',
+                'summary' => 'Idioma creado corectamente',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
             ]
@@ -118,17 +118,18 @@ class LanguageController extends Controller
         $spoken_level = Catalogue::find($request->input('language.spoken_level.id'));
         $read_level = Catalogue::find($request->input('language.read_level.id'));
 
-      //  $language = Language::find($languageId);
+        //  $language = Language::find($languageId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$language) {
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'Lenguaje no encontrada',
+                    'summary' => 'Idioma no encontrado',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         $language->idiom()->associate($idiom);
@@ -140,21 +141,21 @@ class LanguageController extends Controller
         return response()->json([
             'data' => $language,
             'msg' => [
-                'summary' => 'Habilidad actualizada',
+                'summary' => 'Idioma actualizado',
                 'detail' => 'El registro fue actualizado',
                 'code' => '201'
             ]
         ], 201);
     }
 
-  /*  function destroy(Language $language)
+    /*  function destroy(Language $language)
     {
         $language->delete();
 
         return response()->json([
             'data' => $language,
             'msg' => [
-                'summary' => 'Lenguaje eliminado',
+                'summary' => 'Idioma eliminado',
                 'detail' => 'El registro fue eliminado',
                 'code' => '201'
             ]
@@ -171,7 +172,8 @@ class LanguageController extends Controller
                 'summary' => 'Idioma(s) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
     function uploadFiles(UploadFileRequest $request)
     {

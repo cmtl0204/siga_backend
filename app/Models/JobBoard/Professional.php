@@ -9,6 +9,7 @@ use OwenIt\Auditing\Auditable as Auditing;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Brick\Math\BigInteger;
 use App\Models\Authentication\User;
+use App\Models\App\Catalogue;
 
 /**
  * @property BigInteger id
@@ -26,26 +27,26 @@ class Professional extends Model implements Auditable
     protected $table = 'job_board.professionals';
     protected $with = ['user'];
 
-
     protected $fillable = [
-        'has_travel',
-        'has_disability',
-        'has_familiar_disability',
+        'is_travel',
+        'is_disability',
+        'is_familiar_disability',
         'identification_familiar_disability',
-        'has_catastrophic_illness',
-        'has_familiar_catastrophic_illness',
+        'is_catastrophic_illness',
+        'is_familiar_catastrophic_illness',
         'about_me',
     ];
 
     protected $casts = [
-        'has_travel' => 'boolean',
-        'has_disability' => 'boolean',
-        'has_familiar_disability' => 'boolean',
+        'is_travel' => 'boolean',
+        'is_disability' => 'boolean',
+        'is_familiar_disability' => 'boolean',
         'identification_familiar_disability' => 'boolean',
-        'has_catastrophic_illness' => 'boolean',
-        'has_familiar_catastrophic_illness' => 'boolean',
+        'is_catastrophic_illness' => 'boolean',
+        'is_familiar_catastrophic_illness' => 'boolean',
     ];
 
+    // Instance
     public static function getInstance($id)
     {
         if (is_null(static::$instance)) {
@@ -59,6 +60,16 @@ class Professional extends Model implements Auditable
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sex()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Catalogue::class);
     }
 
     public function offers()

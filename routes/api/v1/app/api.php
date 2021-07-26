@@ -43,9 +43,3 @@ Route::group(['prefix' => 'emails'], function () {
     Route::post('send', [EmailController::class, 'send']);
 });
 
-Route::get('test', function () {
-    return 'hola mundo';
-});
-
-// hola como
-//asd

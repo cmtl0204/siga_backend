@@ -190,7 +190,7 @@ class OfferController extends Controller
 
     function getStatus(Request $request){
         $route = Route::where('uri',$request->input('uri'))->first();
-        $status = $route->statusMorph()->get();
+        $status = $route->status()->get();
         return response()->json([
             'data' => $status,
             'msg' => [

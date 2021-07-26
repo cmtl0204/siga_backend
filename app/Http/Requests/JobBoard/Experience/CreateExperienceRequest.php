@@ -14,59 +14,51 @@ class CreateExperienceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-           
+            'experience.area.id' => [
+                'required',
+            ],
             'experience.employer' => [
                 'required',
-                'string',
+                'min:4',
+                'max:250',
             ],
             'experience.position' => [
                 'required',
-                'string',
+                'min:3',
+                'max:250',
             ],
             'experience.start_date' => [
                 'required',
                 'date',
             ],
-            'experience.end_date' => [
-                'required',
-                'date',
-            ],
+            'experience.end_date' => [],
             'experience.activities' => [
                 'required',
-             
+                'array',
             ],
-            'experience.reason_leave' => [
-                'required',
-              
-            ],
+            'experience.reason_leave' => [],
             'experience.is_working' => [
-                'required',
-             
+                'boolean',
             ],
-            'experience.area.id' => [
-                'required',
-                'integer',
-            ]
+            'experience.is_disability' => []
         ];
         return JobBoardFormRequest::rules($rules);
-    
     }
- 
+
     public function attributes()
     {
         $attributes = [
-     
+
             'experience.area.id' => 'area-ID',
-            'experience.employer' => 'nombre de empleadora',
-            'experience.position' => 'posicion',
+            'experience.employer' => 'nombre de empleador',
+            'experience.position' => 'cargo',
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason_leave' => 'razon dejar',
+            'experience.reason_leave' => 'razon salida',
             'experience.is_working' => 'está trabajando',
+            'experience.is_disability' => 'Es Discapacitado'
         ];
         return JobBoardFormRequest::attributes($attributes);
     }
 }
-
-
