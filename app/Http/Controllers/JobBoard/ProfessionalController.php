@@ -68,6 +68,8 @@ class ProfessionalController extends Controller
         $address->sector()->associate($sector);
         $address->save();
 
+        $sex = Catalogue::find($request->input('professional.user.sex.id'));
+        $gender = Catalogue::find($request->input('professional.user.gender.id'));
         $identificationType = Catalogue::find($request->input('professional.user.identification_type.id'));
         $user->username = $request->input('professional.user.identification');
         $user->identification = $request->input('professional.user.identification');
@@ -77,11 +79,12 @@ class ProfessionalController extends Controller
         $user->secondLasname = $request->input('professional.user.second_lastname');
         $user->phone = $request->input('professional.user.phone');
         $user->identificationType()->associate($identificationType);
+        $user->gender()->associate($gender);
         $user->address()->associate($address);
+        $user->sex()->associate($sex);
         $user->save();
 
-        $sex = Catalogue::find($request->input('professional.sex.id'));
-        $gender = Catalogue::find($request->input('professional.gender.id'));
+    
         $professional = $request->user()->professional()->first();
         $professional->is_travel = $request->input('professional.is_travel');
         $professional->is_disability = $request->input('professional.is_disability');
@@ -90,8 +93,8 @@ class ProfessionalController extends Controller
         $professional->is_catastrophic_illness = $request->input('professional.is_catastrophic_illness');
         $professional->is_familiar_catastrophic_illness = $request->input('professional.is_familiar_catastrophic_illness');
         $professional->about_me = $request->input('professional.about_me');
-        $professional->sex()->associate($sex);
-        $professional->tgender()->associate($gender);
+      
+       
         $professional->save();
 
         return response()->json([

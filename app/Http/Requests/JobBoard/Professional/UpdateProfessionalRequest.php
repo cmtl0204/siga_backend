@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfessionalRequest extends FormRequest
 {
+
     public function authorize()
     {
         return true;
@@ -89,26 +90,6 @@ class UpdateProfessionalRequest extends FormRequest
         return JobBoardFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'professional.has_travel.required' => 'El campo :attribute es obligatorio',
-            'professional.has_travel.boolean' => 'El campo :attribute debe ser true o false',
-            'professional.hasDisability.required' => 'El campo :attribute es obligatorio',
-            'professional.hasDisability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasFamiliarDisability.required' => 'El campo :attribute es obligatorio',
-            'professional.hasFamiliarDisability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.identificationFamiliar_disability.required' => 'El campo :attribute es obligatorio',
-            'professional.identificationFamiliar_disability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasCatastrophicIllness.required' => 'El campo :attribute es obligatorio',
-            'professional.hasCatastrophicIllness.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasFamiliarCatastrophicIllness.required' => 'El campo :attribute es obligatorio',
-            'professional.hasFamiliarCatastrophicIllness.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.aboutMe.required' => 'El campo :attribute es obligatorio',
-            'professional.aboutMe.min' => 'El campo :attribute debe tener al menos :min caracteres',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
 
     public function attributes()
     {

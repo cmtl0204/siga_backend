@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobBoard\CompanyController;
 use App\Http\Controllers\JobBoard\ProfessionalController;
+use App\Http\Controllers\JobBoard\CurriculumController;
 use App\Http\Controllers\JobBoard\OfferController;
 use App\Http\Controllers\JobBoard\CategoryController;
 use App\Http\Controllers\JobBoard\SkillController;
@@ -35,6 +36,8 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
+          
+
         ]);
 
         Route::prefix('skill')->group(function () {
@@ -67,6 +70,11 @@ Route::middleware($middlewares)
         Route::prefix('professional')->group(function () {
             Route::get('show', [ProfessionalController::class, 'getCompany']);
         });
+
+        Route::prefix('curriculum')->group(function () {
+            Route::get('show', [CurriculumController::class, 'getCompany']);
+        });
+
 
         Route::prefix('category')->group(function () {
             Route::put('delete', [CategoryController::class, 'delete']);
