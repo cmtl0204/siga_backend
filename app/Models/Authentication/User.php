@@ -69,7 +69,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'username',
     ];
 
-   // protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
+    // protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
 
     protected $hidden = [
         'password',
@@ -196,6 +196,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     }
 
     // Accessors
+
     function getFullNameAttribute()
     {
         return "{$this->attributes['names']}" .

@@ -73,7 +73,7 @@ class  UserAdministrationController extends Controller
             return response()->json([
                 'data' => null,
                 'msg' => [
-                    'summary' => 'No se encontraron usuarios',
+                    'summary' => 'No se encontró usuarios',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
                 ]
@@ -141,7 +141,7 @@ class  UserAdministrationController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Usuario creado',
                 'detail' => '',
                 'code' => '201'
             ]
@@ -178,7 +178,7 @@ class  UserAdministrationController extends Controller
             return response()->json([
                 'data' => $user,
                 'msg' => [
-                    'summary' => 'update',
+                    'summary' => 'información actualizada',
                     'detail' => '',
                     'code' => '201'
                 ]
@@ -282,7 +282,7 @@ class  UserAdministrationController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Roles actualizados',
                 'detail' => '',
                 'code' => '200'
             ]], 200);
@@ -389,7 +389,7 @@ class  UserAdministrationController extends Controller
         return response()->json([
             'data' => null,
             'msg' => [
-                'summary' => 'success',
+                'summary' => 'Permisos actualizados',
                 'detail' => '',
                 'code' => '200'
             ]], 200);

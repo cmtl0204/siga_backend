@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\JobBoard\Experience;
+namespace App\Http\Requests\JobBoard\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 
-class IndexExperienceRequest extends FormRequest
+class GetParentCategoryRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,18 +14,13 @@ class IndexExperienceRequest extends FormRequest
 
     public function rules()
     {
-        $rules = [
-            'esperience_id' => [
-                'integer',
-            ],
-        ];
+        $rules = [];
         return JobBoardFormRequest::rules($rules);
     }
+
     public function attributes()
     {
-        $attributes = [
-            'experience_id' => 'experiencia-id',
-        ];
+        $attributes = [];
         return JobBoardFormRequest::attributes($attributes);
     }
 }

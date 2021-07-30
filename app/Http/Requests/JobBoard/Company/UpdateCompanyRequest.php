@@ -22,21 +22,6 @@ class UpdateCompanyRequest extends FormRequest
             'company.user.address.secondary_street' => [
                 'required'
             ],
-            'company.user.address.number' => [
-
-            ],
-            'company.user.address.post_code' => [
-
-            ],
-            'company.user.address.reference' => [
-
-            ],
-            'company.user.address.longitude' => [
-
-            ],
-            'company.user.address.latitude' => [
-
-            ],
 
             'company.user.identification_type.id' => [
                 'required',
@@ -56,6 +41,11 @@ class UpdateCompanyRequest extends FormRequest
                 'required',
                 'min:10',
                 'max:15',
+            ],
+            'company.prefix' => [
+                'required',
+                'min:2',
+                'max:5',
             ],
 
             'company.trade_name' => [
@@ -108,6 +98,7 @@ class UpdateCompanyRequest extends FormRequest
             'company.trade_name' => 'nombre comercial',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
+            'company.prefix'=>'prefijo',
             'company.type.id' => 'tipo-ID',
             'company.activity_type.id' => 'tipo de actividad-ID',
             'company.person_type.id' => 'tipo de persona-ID',

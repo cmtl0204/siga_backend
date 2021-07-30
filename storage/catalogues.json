@@ -5,7 +5,9 @@
         "inactive": "2",
         "locked": "3",
         "available": "4",
-        "maintenance": "503"
+        "maintenance": "503",
+        "published": "PUBLISHED",
+        "unpublished": "UNPUBLISHED"
     },
     "role": {
         "admin": "ADMIN",

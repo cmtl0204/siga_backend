@@ -118,6 +118,14 @@ class AuthenticationSeeder extends Seeder
             'code' => $catalogues['status']['maintenance'],
             'name' => 'MAINTENANCE',
         ]);
+        Status::factory()->create([
+            'code' => $catalogues['status']['published'],
+            'name' => 'PUBLICADO',
+        ]);
+        Status::factory()->create([
+            'code' => $catalogues['status']['unpublished'],
+            'name' => 'NO PUBLICADO',
+        ]);
     }
 
     private function createRoles()

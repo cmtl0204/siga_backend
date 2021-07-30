@@ -7,8 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateExperienceRequest extends FormRequest
 {
-    private $regularExpresionEmail = '/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/';
-
     public function authorize()
     {
         return true;
@@ -19,41 +17,31 @@ class UpdateExperienceRequest extends FormRequest
         $rules = [
             'experience.area.id' => [
                 'required',
-            
             ],
             'experience.employer' => [
                 'required',
-            
+                'min:4',
+                'max:250',
             ],
             'experience.position' => [
-                'required',
-              
+                'min:3',
+                'max:250',
             ],
             'experience.start_date' => [
                 'required',
                 'date',
             ],
-            'experience.end_date' => [
-                'required',
-                'date',
-            ],
+            'experience.end_date' => [],
             'experience.activities' => [
                 'required',
-         
+                'array',
             ],
-            'experience.reason_leave' => [
-                'required',
-            
-            ],
+            'experience.reason_leave' => [],
             'experience.is_working' => [
-                'required',
-            
+                'boolean',
             ],
-           'experience.is_disability' => [
-                'required',
-            
-            ]
-           ];
+            'experience.is_disability' => []
+        ];
         return JobBoardFormRequest::rules($rules);
     }
 
@@ -66,7 +54,7 @@ class UpdateExperienceRequest extends FormRequest
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason-leave' => 'razon dejar',
+            'experience.reason-leave' => 'razon que se fue',
             'experience.is_working' => 'está trabajando',
             'experience.is_disability' => 'es discapacitado',
         ];

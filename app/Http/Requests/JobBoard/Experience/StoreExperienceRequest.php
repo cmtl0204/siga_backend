@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreExperienceRequest extends FormRequest
 {
-    
+
     public function authorize()
     {
         return true;
@@ -19,40 +19,31 @@ class StoreExperienceRequest extends FormRequest
         $rules = [
             'experience.area.id' => [
                 'required',
-            
             ],
             'experience.employer' => [
                 'required',
-            
+                'min:4',
+                'max:250',
             ],
             'experience.position' => [
                 'required',
-              
+                'min:3',
+                'max:250',
             ],
             'experience.start_date' => [
                 'required',
                 'date',
             ],
-            'experience.end_date' => [
-                'required',
-                'date',
-            ],
+            'experience.end_date' => [],
             'experience.activities' => [
                 'required',
-         
+                'array',
             ],
-            'experience.reason_leave' => [
-                'required',
-            
-            ],
+            'experience.reason_leave' => [],
             'experience.is_working' => [
-                'required',
-            
+                'boolean',
             ],
-           'experience.is_disability' => [
-                'required',
-            
-            ]
+            'experience.is_disability' => []
         ];
         return JobBoardFormRequest::rules($rules);
     }
@@ -66,11 +57,11 @@ class StoreExperienceRequest extends FormRequest
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason-leave' => 'razon dejar',
+            'experience.reason_leave' => 'razon que se fue',
             'experience.is_working' => 'está trabajando',
             'experience.is_disability' => 'es discapacitado',
 
-    ];
+        ];
         return JobBoardFormRequest::attributes($attributes);
     }
 }

@@ -16,7 +16,7 @@ class UpdateOfferRequest extends FormRequest
         $rules = [
             'offer.contact_name' => [
                 'required',
-                'min:10',
+                'min:4',
                 'max:1000',
             ],
             'offer.contact_email' => [

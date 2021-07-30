@@ -38,7 +38,8 @@ class CompanyController extends Controller
                     'summary' => 'Empresa no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
         if ($request->has('search')) {
             $professionals = $company->professionals()
@@ -48,7 +49,6 @@ class CompanyController extends Controller
         }
 
         return response()->json($professionals, 200);
-
     }
 
     function detachProfessional(IndexCompanyRequest $request)
@@ -62,7 +62,8 @@ class CompanyController extends Controller
                     'summary' => 'Empresa no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
         $professional = $company->professionals()->detach($request->input('professional_id'));
 
@@ -72,7 +73,8 @@ class CompanyController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     function getCompany(GetCompanyRequest $request)
@@ -92,7 +94,8 @@ class CompanyController extends Controller
                     'summary' => 'Company no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404',
-                ]], 404);
+                ]
+            ], 404);
         }
         return response()->json([
             'data' => $company,
@@ -100,7 +103,8 @@ class CompanyController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200',
-            ]], 200);
+            ]
+        ], 200);
     }
 
     function register(StoreCompanyRequest $request)
@@ -158,9 +162,8 @@ class CompanyController extends Controller
                 'summary' => 'Empresa creada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
-            ]], 201);
-
-
+            ]
+        ], 201);
     }
 
     function updateCompany(UpdateCompanyRequest $request)
@@ -210,8 +213,8 @@ class CompanyController extends Controller
                 'summary' => 'Empresa actualizada',
                 'detail' => 'El registro fue actualizado',
                 'code' => '201'
-            ]], 201);
-
+            ]
+        ], 201);
     }
 
     function verifyCompany(VerifyRequest $request)
@@ -225,7 +228,8 @@ class CompanyController extends Controller
                     'summary' => 'Empresa no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '200'
-                ]], 200);
+                ]
+            ], 200);
         }
         return response()->json([
             'data' => $user,
@@ -233,6 +237,7 @@ class CompanyController extends Controller
                 'summary' => 'Empresa existente',
                 'detail' => 'Vuelva a intentar',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 }

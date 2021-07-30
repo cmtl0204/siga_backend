@@ -23,26 +23,17 @@ class StoreCompanyRequest extends FormRequest
             'company.user.address.secondary_street' => [
                 'required'
             ],
-            'company.user.address.number' => [
 
-            ],
-            'company.user.address.post_code' => [
-
-            ],
-            'company.user.address.reference' => [
-
-            ],
-            'company.user.address.longitude' => [
-
-            ],
-            'company.user.address.latitude' => [
-
-            ],
             'company.user.identification_type.id' => [
                 'required',
                 'integer',
             ],
             'company.user.username' => [
+                'required',
+                'min:10',
+                'max:15',
+            ],
+            'company.user.phone' => [
                 'required',
                 'min:10',
                 'max:15',
@@ -82,6 +73,11 @@ class StoreCompanyRequest extends FormRequest
                 'min:10',
                 'max:1000',
             ],
+            'company.prefix' => [
+                'required',
+                'min:2',
+                'max:5',
+            ],
 
             'company.type.id' => [
                 'required',
@@ -113,6 +109,7 @@ class StoreCompanyRequest extends FormRequest
             'company.user.email'=>'email',
             'company.user.password'=>'password',
             'company.trade_name' => 'nombre comercial',
+            'company.prefix'=>'prefijo',
             'company.comercial_activities' => 'actividad comercial',
             'company.web' => 'web',
             'company.type.id' => 'tipo-ID',
