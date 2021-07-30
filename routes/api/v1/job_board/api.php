@@ -16,7 +16,7 @@ use App\Http\Controllers\JobBoard\WebOfferController;
 
 // hola
 
-//$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
+//$middlewares = ['auth:api', 'check-role', 'check-status', 'check-attempts';
 $middlewares = ['auth:api'];
 
 // With Middleware
