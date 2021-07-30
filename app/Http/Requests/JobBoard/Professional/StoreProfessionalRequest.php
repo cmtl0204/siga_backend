@@ -1,11 +1,12 @@
 <?php
 
+
 namespace App\Http\Requests\JobBoard\Professional;
 
 use App\Http\Requests\JobBoard\JobBoardFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProfessionalRequest extends FormRequest
+class StoreProfessionalRequest extends FormRequest
 {
 
     public function authorize()
@@ -27,7 +28,6 @@ class UpdateProfessionalRequest extends FormRequest
             'professional.user.address.longitude' => [],
             'professional.user.address.latitude' => [],
 
-          
             'professional.user.identification' => [
                 'required',
                 'min:10',
@@ -96,7 +96,6 @@ class UpdateProfessionalRequest extends FormRequest
         return JobBoardFormRequest::rules($rules);
     }
 
-
     public function attributes()
     {
         $attributes = [
@@ -113,6 +112,7 @@ class UpdateProfessionalRequest extends FormRequest
             'professional.is_catastrophic_illness' => 'tiene una enfermedad catastrofica',
             'professional.is_familiar_catastrophic_illness' => 'tiene un  familiar con enfermedad catastrofica ',
             'professional.abou_me' => 'acerca de mì',
+
         ];
         return JobBoardFormRequest::attributes($attributes);
     }
