@@ -23,26 +23,17 @@ class StoreCompanyRequest extends FormRequest
             'company.user.address.secondary_street' => [
                 'required'
             ],
-            'company.user.address.number' => [
 
-            ],
-            'company.user.address.post_code' => [
-
-            ],
-            'company.user.address.reference' => [
-
-            ],
-            'company.user.address.longitude' => [
-
-            ],
-            'company.user.address.latitude' => [
-
-            ],
             'company.user.identification_type.id' => [
                 'required',
                 'integer',
             ],
             'company.user.username' => [
+                'required',
+                'min:10',
+                'max:15',
+            ],
+            'company.user.phone' => [
                 'required',
                 'min:10',
                 'max:15',

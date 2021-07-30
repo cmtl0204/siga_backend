@@ -22,21 +22,6 @@ class UpdateCompanyRequest extends FormRequest
             'company.user.address.secondary_street' => [
                 'required'
             ],
-            'company.user.address.number' => [
-
-            ],
-            'company.user.address.post_code' => [
-
-            ],
-            'company.user.address.reference' => [
-
-            ],
-            'company.user.address.longitude' => [
-
-            ],
-            'company.user.address.latitude' => [
-
-            ],
 
             'company.user.identification_type.id' => [
                 'required',
