@@ -68,7 +68,8 @@ Route::middleware($middlewares)
 
         });
         Route::prefix('professional')->group(function () {
-            Route::get('show', [ProfessionalController::class, 'getCompany']);
+            Route::get('show', [ProfessionalController::class, 'getProfessional']);
+            Route::put('update', [ProfessionalController::class, 'updateProfessional']);
         });
 
         Route::prefix('curriculum')->group(function () {
