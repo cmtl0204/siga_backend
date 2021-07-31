@@ -12,9 +12,9 @@ class CreateJobboardCompaniesTable extends Migration
         Schema::connection('pgsql-job-board')->create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('authentication.users');
-            $table->foreignId('type_id')->constrained('app.catalogues');
+            $table->foreignId('type_id')->constrained('app.catalogues')->comment('PUBLICA, PRIVADA, MIXTA');
             $table->foreignId('activity_type_id')->constrained('app.catalogues');
-            $table->foreignId('person_type_id')->constrained('app.catalogues');
+            $table->foreignId('person_type_id')->constrained('app.catalogues')->comment('NATURAL O JURIDICA');
             $table->text('prefix');
             $table->text('trade_name');
             $table->json('comercial_activities')->nullable();

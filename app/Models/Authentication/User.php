@@ -65,11 +65,12 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'password',
         'personal_email',
         'phone',
+        'cellphone',
         'second_lastname',
         'username',
     ];
 
-    // protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
+    protected $appends = ['full_name', 'full_lastname', 'partial_name', 'partial_lastname'];
 
     protected $hidden = [
         'password',
@@ -82,16 +83,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'created_at' => 'date:Y-m-d h:m:s',
         'updated_at' => 'date:Y-m-d h:m:s',
     ];
-
-    // Instance
-    static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-        static::$instance->id = $id;
-        return static::$instance;
-    }
 
     // Define el campo por el cual valida passport el usuario para el login
     function findForPassport($username)

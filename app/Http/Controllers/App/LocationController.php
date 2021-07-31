@@ -104,7 +104,13 @@ class LocationController extends Controller
         $locations = Location::whereHas('type', function ($type) use ($catalogues) {
             $type->where('type', $catalogues['catalogue']['location']['type'])
                 ->where('code', $catalogues['catalogue']['location']['country']);
-        })->get();
+        })->with(['children' => function ($province) {
+            $province->with('type')->with(['children' => function ($canton) {
+                $canton->with('type')->with(['children' => function ($parish) {
+                    $parish->with('type');
+                }]);
+            }]);
+        }])->get();
         return response()->json([
             'data' => $locations,
             'msg' => [

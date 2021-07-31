@@ -13,11 +13,11 @@ class CatalogueFactory extends Factory
     public function definition()
     {
         return [
-            'code' => $this->faker->ean8,
-            'name' => $this->faker->word,
-            'type' => $this->faker->word,
-            'icon' => $this->faker->word,
-            'color' => $this->faker->word,
+            'code' => $this->faker->ean8(),
+            'name' => $this->faker->sentence(),
+            'type' => $this->faker->word(),
+            'icon' => $this->faker->word(),
+            'color' => $this->faker->hexColor(),
 
         ];
     }

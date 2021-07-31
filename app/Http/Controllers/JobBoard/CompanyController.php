@@ -84,7 +84,10 @@ class CompanyController extends Controller
             ->with(['user' => function ($user) {
                 $user->with('identificationType')
                     ->with(['address' => function ($address) {
-                        $address->with('location', 'sector');
+                        $address->with([
+                            'location' => function ($location) {
+                                $location->with('parent');
+                            }, 'sector']);
                     }]);
             }])->first();
         if (!$company) {
@@ -190,6 +193,7 @@ class CompanyController extends Controller
         $user->identification = $request->input('company.user.identification');
         $user->email = $request->input('company.user.email');
         $user->phone = $request->input('company.user.phone');
+        $user->cellphone = $request->input('company.user.cellphone');
         $user->identificationType()->associate($identificationType);
         $user->address()->associate($address);
         $user->save();
