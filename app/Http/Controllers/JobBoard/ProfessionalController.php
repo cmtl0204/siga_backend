@@ -18,9 +18,7 @@ use App\Models\App\Location;
 
 // FormRequest
 use App\Http\Requests\JobBoard\Professional\StoreProfessionalRequest;
-
 use App\Http\Requests\JobBoard\Professional\GetProfessionalRequest;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\JobBoard\Professional\UpdateProfessionalRequest;
 
@@ -110,7 +108,7 @@ class ProfessionalController extends Controller
         ], 201);
     }
 
-    function update(UpdateProfessionalRequest $request, Professional $professional)
+    function update(UpdateProfessionalRequest $request)
     {
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Professional.
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -128,20 +126,19 @@ class ProfessionalController extends Controller
         $address->location()->associate($location);
         $address->sector()->associate($sector);
         $address->save();
-
+//return $address;
         $sex = Catalogue::find($request->input('professional.user.sex.id'));
         $gender = Catalogue::find($request->input('professional.user.gender.id'));
         $user->identification = $request->input('professional.user.identification');
         $user->email = $request->input('professional.user.email');
         $user->names = $request->input('professional.user.names');
-        $user->firtLastname = $request->input('professional.user.firt_lastname');
-        $user->secondLasname = $request->input('professional.user.second_lastname');
+        $user->first_lastname = $request->input('professional.user.first_lastname');
+        $user->second_lastname = $request->input('professional.user.second_lastname');
         $user->phone = $request->input('professional.user.phone');
         $user->gender()->associate($gender);
         $user->address()->associate($address);
         $user->sex()->associate($sex);
         $user->save();
-
     
         $professional = $request->user()->professional()->first();
         $professional->is_travel = $request->input('professional.is_travel');
@@ -150,9 +147,7 @@ class ProfessionalController extends Controller
         $professional->identification_familiar_disability = $request->input('professional.identification_familiar_disability');
         $professional->is_catastrophic_illness = $request->input('professional.is_catastrophic_illness');
         $professional->is_familiar_catastrophic_illness = $request->input('professional.is_familiar_catastrophic_illness');
-        $professional->about_me = $request->input('professional.about_me');
-      
-       
+        $professional->about_me = $request->input('professional.about_me');  
         $professional->save();
 
         return response()->json([

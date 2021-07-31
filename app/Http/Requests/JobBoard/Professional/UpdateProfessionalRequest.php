@@ -7,7 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfessionalRequest extends FormRequest
 {
-
+    private $regularExpresionEmail = '/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/';
+    
     public function authorize()
     {
         return true;
@@ -39,23 +40,22 @@ class UpdateProfessionalRequest extends FormRequest
             ],
             'professional.user.email' => [
                 'required',
-                'min:10',
-                'max:1000',
+                'regex:'.$this->regularExpresionEmail,
             ],
             'professional.user.phone' => [
                 'required',
                 'min:10',
-                'max:15',
+               
             ],
             'professional.user.first_lastname' => [
                 'required',
-                'min:10',
-                'max:15',
+                'min:2',
+               
             ],
             'professional.user.second_lastname' => [
                 'required',
-                'min:10',
-                'max:15',
+                'min:2',
+           
             ],
             'professional.user.gender' => [
                 'required',
@@ -78,7 +78,7 @@ class UpdateProfessionalRequest extends FormRequest
             ],
             'professional.identification_familiar_disability' => [
                 'required',
-                'boolean',
+                'string',
             ],
             'professional.is_catastrophic_illness' => [
                 'required',
@@ -90,7 +90,7 @@ class UpdateProfessionalRequest extends FormRequest
             ],
             'professional.about_me' => [
                 'required',
-                'min:20',
+                'min:10',
             ]
         ];
         return JobBoardFormRequest::rules($rules);
