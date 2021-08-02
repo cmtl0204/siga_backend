@@ -16,17 +16,21 @@ class UpdateProfessionalRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'professional.user.address.main_street' => [
-                'required'
-            ],
-            'professional.user.address.secondary_street' => [
-                'required'
-            ],
-            'professional.user.address.number' => [],
-            'professional.user.address.post_code' => [],
-            'professional.user.address.reference' => [],
-            'professional.user.address.longitude' => [],
-            'professional.user.address.latitude' => [],
+            // 'professional.user.address.main_street' => [
+            //     'required',
+            //     'string',
+
+
+            // ],
+            // 'professional.user.address.secondary_street' => [
+            //     'required',
+            //     'string',
+            // ],
+            // 'professional.user.address.number' => [],
+            // 'professional.user.address.post_code' => [],
+            // 'professional.user.address.reference' => [],
+            // 'professional.user.address.longitude' => [],
+            // 'professional.user.address.latitude' => [],
 
           
             'professional.user.identification' => [
@@ -105,6 +109,8 @@ class UpdateProfessionalRequest extends FormRequest
             'professional.user.names'=>'nombre de usuario',
             'professional.user.identification'=>'identificacion',
             'professional.user.email'=>'email',
+            'professional.user.sex'=>'sexo ',
+            'professional.user.gender'=>'genero',
             'professional.user.phone'=>'nombre de usuario',
             'professional.is_travel' => 'puede viajar',
             'professional.is_disability' => 'tiene discapacidad',
