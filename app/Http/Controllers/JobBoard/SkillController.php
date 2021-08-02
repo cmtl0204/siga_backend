@@ -30,7 +30,8 @@ class SkillController extends Controller
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         if ($request->has('search')) {
@@ -48,7 +49,8 @@ class SkillController extends Controller
                     'summary' => 'No se encontraron Habilidades',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         return response()->json($skills, 200);
@@ -62,7 +64,8 @@ class SkillController extends Controller
                 'summary' => 'success',
                 'detail' => '',
                 'code' => '200'
-            ]], 200);
+            ]
+        ], 200);
     }
 
     function store(StoreSkillRequest $request)
@@ -76,7 +79,8 @@ class SkillController extends Controller
                     'summary' => 'No se encontraró al profesional',
                     'detail' => 'Intente de nuevo',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo skill.
@@ -94,7 +98,8 @@ class SkillController extends Controller
                 'summary' => 'Habilidad creada',
                 'detail' => 'El registro fue creado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     function update(UpdateSkillRequest $request, Skill $skill)
@@ -111,7 +116,8 @@ class SkillController extends Controller
                 'summary' => 'Habilidad actualizada',
                 'detail' => 'El registro fue actualizado',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     function delete(DeleteSkillRequest $request)
@@ -125,7 +131,8 @@ class SkillController extends Controller
                 'summary' => 'Habilidad(es) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
 
     function uploadImages(UploadImageRequest $request)
