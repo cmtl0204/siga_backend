@@ -5,6 +5,7 @@ namespace App\Http\Controllers\JobBoard;
 use App\Http\Requests\JobBoard\Company\IndexCompanyRequest;
 use App\Http\Requests\JobBoard\Company\VerifyRequest;
 use App\Models\App\Status;
+
 //Controllers
 use App\Http\Controllers\Controller;
 
@@ -26,7 +27,6 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-
     function getProfessionals(IndexCompanyRequest $request)
     {
         $company = $request->user()->company()->first();
@@ -50,6 +50,7 @@ class CompanyController extends Controller
 
         return response()->json($professionals, 200);
     }
+
     function detachProfessional(IndexCompanyRequest $request)
     {
         $company = $request->user()->company()->first();
@@ -75,6 +76,7 @@ class CompanyController extends Controller
             ]
         ], 200);
     }
+
     function getCompany(GetCompanyRequest $request)
     {
         $company = $request->user()->company()
@@ -82,7 +84,10 @@ class CompanyController extends Controller
             ->with(['user' => function ($user) {
                 $user->with('identificationType')
                     ->with(['address' => function ($address) {
-                        $address->with('location', 'sector');
+                        $address->with([
+                            'location' => function ($location) {
+                                $location->with('parent');
+                            }, 'sector']);
                     }]);
             }])->first();
         if (!$company) {
@@ -104,7 +109,8 @@ class CompanyController extends Controller
             ]
         ], 200);
     }
-    function register(StoreCompanyRequest  $request)
+
+    function register(StoreCompanyRequest $request)
     {
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo company.
 
@@ -162,6 +168,7 @@ class CompanyController extends Controller
             ]
         ], 201);
     }
+
     function updateCompany(UpdateCompanyRequest $request)
     {
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Company.
@@ -186,6 +193,7 @@ class CompanyController extends Controller
         $user->identification = $request->input('company.user.identification');
         $user->email = $request->input('company.user.email');
         $user->phone = $request->input('company.user.phone');
+        $user->cellphone = $request->input('company.user.cellphone');
         $user->identificationType()->associate($identificationType);
         $user->address()->associate($address);
         $user->save();
@@ -212,6 +220,7 @@ class CompanyController extends Controller
             ]
         ], 201);
     }
+
     function verifyCompany(VerifyRequest $request)
     {
         $user = User::with('company')->where('username', '=', $request->input('identification'))

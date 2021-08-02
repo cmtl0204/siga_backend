@@ -22,11 +22,19 @@ Route::prefix('login')->group(function () {
 });
 
 Route::get('export', function () {
-    return Excel::download(new UsersExport, 'users.pdf');
+    $user = \App\Models\Authentication\User::first();
+    $pdf = PDF::loadView('reports.uic.enrollment', ['user'=>$user]);
+    return $pdf->download('reporte.pdf');
+//    return Excel::download(new UsersExport, 'users.pdf');
 });
 
 Route::get('generate-password/{password}', function ($password) {
     return \Illuminate\Support\Facades\Hash::make($password);
 });
+
+Route::get('test/{id}', function ($id) {
+
+});
+
 
 

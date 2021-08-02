@@ -25,6 +25,8 @@ class CompanyFactory extends Factory
             'prefix' => $this->faker->cityPrefix,
             'trade_name' => $this->faker->company,
             'web' => $this->faker->url,
+            'comercial_activities' => $this->faker->randomElements([$this->faker->sentence(), $this->faker->sentence(), $this->faker->sentence()],
+                $this->faker->numberBetween(1, 3)),
         ];
     }
 }

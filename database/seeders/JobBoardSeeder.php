@@ -14,6 +14,7 @@ use App\Models\Authentication\Route;
 use App\Models\JobBoard\Category;
 use App\Models\JobBoard\Professional;
 use Database\Factories\JobBoard\LocationFactory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class JobBoardSeeder extends Seeder
@@ -30,10 +31,7 @@ class JobBoardSeeder extends Seeder
         $this->createCompanies();
         $this->createSkills();
         $this->createOfferStatus();
-        $this->createLocations();
-        $this->createOffers();
-
-
+//        $this->createOffers();
     }
 
     private function createProfessionals()
@@ -53,7 +51,7 @@ class JobBoardSeeder extends Seeder
         $personTypes = Catalogue::where('type', $catalogues['catalogue']['company_person_type']['type'])->get();
         foreach (User::all() as $user) {
             Company::factory()->create([
-                'type_id' => $types[rand(0, 3)]['id'],
+                'type_id' => $types[rand(0, 2)]['id'],
                 'activity_type_id' => $activityTypes[rand(0, 49)]['id'],
                 'person_type_id' => $personTypes[rand(0, 1)]['id'],
                 'user_id' => $user->id
@@ -97,7 +95,11 @@ class JobBoardSeeder extends Seeder
     private function createCompanyCatalogues()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        Catalogue::factory()->count(4)->create([
+        Catalogue::factory()->count(4)->state(new Sequence(
+            ['name' => 'PRIVADA'],
+            ['name' => 'PUBLICA'],
+            ['name' => 'MIXTA'],
+        ))->create([
             'type' => $catalogues['catalogue']['company_type']['type']
         ]);
 
@@ -105,9 +107,13 @@ class JobBoardSeeder extends Seeder
             'type' => $catalogues['catalogue']['company_activity_type']['type']
         ]);
 
-        Catalogue::factory()->count(2)->create([
-            'type' => $catalogues['catalogue']['company_person_type']['type']
-        ]);
+        Catalogue::factory()->count(2)
+            ->state(new Sequence(
+                ['name' => 'NATURAL'],
+                ['name' => 'JURIDICA'],
+            ))->create([
+                'type' => $catalogues['catalogue']['company_person_type']['type']
+            ]);
     }
 
     private function createLanguageCatalogues()
@@ -182,11 +188,6 @@ class JobBoardSeeder extends Seeder
         ]);
     }
 
-    private function createLocations()
-    {
-        Location::factory(30)->create();
-    }
-
     private function createOffers()
     {
         Offer::factory(100)->create();
@@ -198,10 +199,9 @@ class JobBoardSeeder extends Seeder
         }
     }
 
-
     private function createOfferStatus()
     {
-        $status = Status::whereIn('id', [6,7])->get();
+        $status = Status::whereIn('id', [6, 7])->get();
         foreach ($status as $state) {
             $state->routes()->attach(4);
         }

@@ -29,6 +29,8 @@ class Catalogue extends Model implements Auditable
         'icon',
     ];
 
+    protected $hidden = ['created_at', 'updated_at','deleted_at'];
+
     // Instance
     public static function getInstance($id)
     {
@@ -55,7 +57,8 @@ class Catalogue extends Model implements Auditable
         return $this->morphedByMany(Role::class, 'catalogueable');
     }
 
-    public function offer(){
+    public function offer()
+    {
         return $this->hasOne(Offer::class);
     }
 

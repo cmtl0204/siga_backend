@@ -117,7 +117,6 @@
             "widower": "WIDOWER",
             "union": "UNION"
         },
-        
         "sex": {
             "type": "SEX_TYPE",
             "male": "MALE",
@@ -133,7 +132,8 @@
         "identification_type": {
             "type": "IDENTIFICATION_TYPE",
             "cc": "CC",
-            "passport": "PASSPORT"
+            "passport": "PASSPORT",
+            "ruc": "RUC"
         },
         "ethnic_origin": {
             "type": "ETHNIC_ORIGIN_TYPE",
@@ -163,13 +163,13 @@
             "frances": "FRANCES",
             "aleman": "ALEMAN"
         },
-      
         "career_modality": {
             "type": "CAREER_MODALITY",
             "full_attendance": "1",
             "semi_attendance": "2",
             "distance": "3",
-            "dual": "4"
+            "dual": "4",
+            "hybrid": "5"
         },
         "career_type": {
             "type": "CAREER_TYPE",
