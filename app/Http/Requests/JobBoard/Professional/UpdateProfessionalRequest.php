@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfessionalRequest extends FormRequest
 {
+    private $regularExpresionEmail = '/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/';
+
     public function authorize()
     {
         return true;
@@ -26,105 +28,90 @@ class UpdateProfessionalRequest extends FormRequest
             'professional.user.address.longitude' => [],
             'professional.user.address.latitude' => [],
 
-            'professional.user.identification_type.id' => [
-                'required',
-                'integer',
-            ],
+
             'professional.user.identification' => [
                 'required',
                 'min:10',
                 'max:15',
             ],
+            'professional.user.names' => [
+                'required',
+                'min:2',
+            ],
             'professional.user.email' => [
                 'required',
-                'min:10',
-                'max:1000',
+                'regex:' . $this->regularExpresionEmail,
             ],
             'professional.user.phone' => [
                 'required',
                 'min:10',
-                'max:15',
-                
-                'required',
-                'min:10',
-                'max:15',
             ],
-            'professional.user.firstLastname' => [
+            'professional.user.first_lastname' => [
                 'required',
-                'min:10',
-                'max:15',
+                'min:2',
+
             ],
-            'professional.user.secondLastname' => [
+            'professional.user.second_lastname' => [
                 'required',
-                'min:10',
-                'max:15',
+                'min:2',
+
+            ],
+            'professional.user.gender' => [
+                'required',
+            ],
+            'professional.user.sex' => [
+                'required',
             ],
 
-
-            'professional.has_travel' => [
+            'professional.is_travel' => [
                 'required',
                 'boolean',
             ],
-            'professional.hasDisability' => [
+            'professional.is_disability' => [
                 'required',
                 'boolean',
             ],
-            'professional.hasFamiliarDisability' => [
+            'professional.is_familiar_disability' => [
                 'required',
                 'boolean',
             ],
-            'professional.identificationFamiliarDisability' => [
+            'professional.identification_familiar_disability' => [
+                'required',
+                'string',
+            ],
+            'professional.is_catastrophic_illness' => [
                 'required',
                 'boolean',
             ],
-            'professional.hasCatastrophicIllness' => [
+            'professional.is_familiar_catastrophic_illness' => [
                 'required',
                 'boolean',
             ],
-            'professional.hasFamiliarCatastrophicIllness' => [
+            'professional.about_me' => [
                 'required',
-                'boolean',
-            ],
-            'professional.aboutMe' => [
-                'required',
-                'min:20',
+                'min:10',
             ]
         ];
         return JobBoardFormRequest::rules($rules);
     }
 
-    public function messages()
-    {
-        $messages = [
-            'professional.has_travel.required' => 'El campo :attribute es obligatorio',
-            'professional.has_travel.boolean' => 'El campo :attribute debe ser true o false',
-            'professional.hasDisability.required' => 'El campo :attribute es obligatorio',
-            'professional.hasDisability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasFamiliarDisability.required' => 'El campo :attribute es obligatorio',
-            'professional.hasFamiliarDisability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.identificationFamiliar_disability.required' => 'El campo :attribute es obligatorio',
-            'professional.identificationFamiliar_disability.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasCatastrophicIllness.required' => 'El campo :attribute es obligatorio',
-            'professional.hasCatastrophicIllness.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.hasFamiliarCatastrophicIllness.required' => 'El campo :attribute es obligatorio',
-            'professional.hasFamiliarCatastrophicIllness.boolean' => 'El campo :attribute debe ser numérico',
-            'professional.aboutMe.required' => 'El campo :attribute es obligatorio',
-            'professional.aboutMe.min' => 'El campo :attribute debe tener al menos :min caracteres',
-        ];
-        return JobBoardFormRequest::messages($messages);
-    }
 
     public function attributes()
     {
         $attributes = [
-
-            'professional.has_travel' => 'puede viajar',
-            'professional.hasDisability' => 'tiene discapacidad',
-            'professional.hasFamiliarDisability' => 'tiene discapacidad familiar',
-            'professional.identificationFamiliarDisability' => 'identificacion de discapacidad familiar',
-            'professional.hasCatastrophicIllness' => 'tiene una enfermedad catastrofica',
-            'professional.hasFamiliarCatastrophicIllness' => 'tiene un  familiar con enfermedad catastrofica ',
-            'professional.abouMe' => 'acerca de mì',
+            'professional.user.address.main_street' => 'calle principal',
+            'professional.user.address.secondary_street' => 'calle secundaria',
+            'professional.user.names' => 'nombre de usuario',
+            'professional.user.identification' => 'identificacion',
+            'professional.user.email' => 'email',
+            'professional.user.phone' => 'nombre de usuario',
+            'professional.is_travel' => 'puede viajar',
+            'professional.is_disability' => 'tiene discapacidad',
+            'professional.is_familiar_disability' => 'tiene discapacidad familiar',
+            'professional.identification_familiar_disability' => 'identificacion de discapacidad familiar',
+            'professional.is_catastrophic_illness' => 'tiene una enfermedad catastrofica',
+            'professional.is_familiar_catastrophic_illness' => 'tiene un  familiar con enfermedad catastrofica ',
+            'professional.abou_me' => 'acerca de mì',
         ];
         return JobBoardFormRequest::attributes($attributes);
     }

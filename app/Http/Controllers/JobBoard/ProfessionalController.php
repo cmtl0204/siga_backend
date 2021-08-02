@@ -9,11 +9,21 @@ use App\Http\Controllers\Controller;
 use App\Models\App\Catalogue;
 use App\Models\App\Address;
 use App\Models\Authentication\User;
+<<<<<<< HEAD
+=======
+use App\Models\JobBoard\Professional;
+>>>>>>> 2a93cf89dc5a70de8756eac51f42307a5fe20af1
 use App\Models\App\Location;
 
 // FormRequest
+<<<<<<< HEAD
 use App\Http\Requests\JobBoard\Professional\GetProfessionalRequest;
 use App\Models\JobBoard\Professional;
+=======
+use App\Http\Requests\JobBoard\Professional\StoreProfessionalRequest;
+use App\Http\Requests\JobBoard\Professional\GetProfessionalRequest;
+use Illuminate\Http\Request;
+>>>>>>> 2a93cf89dc5a70de8756eac51f42307a5fe20af1
 use App\Http\Requests\JobBoard\Professional\UpdateProfessionalRequest;
 
 class ProfessionalController extends Controller
@@ -44,7 +54,68 @@ class ProfessionalController extends Controller
         ], 200);
     }
 
+<<<<<<< HEAD
     function updateProfessional(UpdateProfessionalRequest $request)
+=======
+    function register(StoreProfessionalRequest  $request)
+    {
+     // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Professional.
+     $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+     $user = $request->user();
+     $address = $user->address()->first() ? $user->address()->first() : new Address();
+     $location = Location::find($request->input('professional.user.address.location.id'));
+     $sector = Catalogue::find($request->input('professional.user.address.sector.id'));
+     $address->main_street = $request->input('professional.user.address.main_street');
+     $address->secondary_street = $request->input('professional.user.address.secondary_street');
+     $address->number = $request->input('professional.user.address.number');
+     $address->post_code = $request->input('professional.user.address.post_code');
+     $address->reference = $request->input('professional.user.address.reference');
+     $address->longitude = $request->input('professional.user.address.longitude');
+     $address->latitude = $request->input('professional.user.address.latitude');
+     $address->location()->associate($location);
+     $address->sector()->associate($sector);
+     $address->save();
+
+     $sex = Catalogue::find($request->input('professional.user.sex.id'));
+     $gender = Catalogue::find($request->input('professional.user.gender.id'));
+     $user->identification = $request->input('professional.user.identification');
+     $user->email = $request->input('professional.user.email');
+     $user->names = $request->input('professional.user.names');
+     $user->firtLastname = $request->input('professional.user.firt_lastname');
+     $user->secondLasname = $request->input('professional.user.second_lastname');
+     $user->phone = $request->input('professional.user.phone');
+    
+     $user->gender()->associate($gender);
+     $user->address()->associate($address);
+     $user->sex()->associate($sex);
+     $user->save();
+
+ 
+     $professional = $request->user()->professional()->first();
+     $professional->is_travel = $request->input('professional.is_travel');
+     $professional->is_disability = $request->input('professional.is_disability');
+     $professional->is_familiar_disability = $request->input('professional.is_familiar_disability');
+     $professional->identification_familiar_disability = $request->input('professional.identification_familiar_disability');
+     $professional->is_catastrophic_illness = $request->input('professional.is_catastrophic_illness');
+     $professional->is_familiar_catastrophic_illness = $request->input('professional.is_familiar_catastrophic_illness');
+     $professional->about_me = $request->input('professional.about_me');
+   
+    
+     $professional->save();
+
+
+        return response()->json([
+            'data' => $professional,
+            'msg' => [
+                'summary' => 'Empresa creada',
+                'detail' => 'El registro fue creado',
+                'code' => '201'
+            ]
+        ], 201);
+    }
+
+    function update(UpdateProfessionalRequest $request)
+>>>>>>> 2a93cf89dc5a70de8756eac51f42307a5fe20af1
     {
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Professional.
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -62,21 +133,20 @@ class ProfessionalController extends Controller
         $address->location()->associate($location);
         $address->sector()->associate($sector);
         $address->save();
-
-        $identificationType = Catalogue::find($request->input('professional.user.identification_type.id'));
-        $user->username = $request->input('professional.user.identification');
+//return $address;
+        $sex = Catalogue::find($request->input('professional.user.sex.id'));
+        $gender = Catalogue::find($request->input('professional.user.gender.id'));
         $user->identification = $request->input('professional.user.identification');
         $user->email = $request->input('professional.user.maiel');
         $user->names = $request->input('professional.user.names');
-        $user->firtLastname = $request->input('professional.user.firt_lastname');
-        $user->secondLasname = $request->input('professional.user.second_lastname');
+        $user->first_lastname = $request->input('professional.user.first_lastname');
+        $user->second_lastname = $request->input('professional.user.second_lastname');
         $user->phone = $request->input('professional.user.phone');
-        $user->identificationType()->associate($identificationType);
+        $user->gender()->associate($gender);
         $user->address()->associate($address);
+        $user->sex()->associate($sex);
         $user->save();
-
-        $sex = Catalogue::find($request->input('professional.sex.id'));
-        $gender = Catalogue::find($request->input('professional.gender.id'));
+    
         $professional = $request->user()->professional()->first();
         $professional->is_travel = $request->input('professional.is_travel');
         $professional->is_disability = $request->input('professional.is_disability');
@@ -84,9 +154,7 @@ class ProfessionalController extends Controller
         $professional->identification_familiar_disability = $request->input('professional.identification_familiar_disability');
         $professional->is_catastrophic_illness = $request->input('professional.is_catastrophic_illness');
         $professional->is_familiar_catastrophic_illness = $request->input('professional.is_familiar_catastrophic_illness');
-        $professional->about_me = $request->input('professional.about_me');
-        $professional->sex()->associate($sex);
-        $professional->tgender()->associate($gender);
+        $professional->about_me = $request->input('professional.about_me');  
         $professional->save();
 
         return response()->json([

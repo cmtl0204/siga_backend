@@ -26,6 +26,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'status_id' => 1,
             'password' => '12345678',
+            'phone' => $this->faker->phoneNumber(),
+            'cellphone' => $this->faker->phoneNumber(),
+            'identification_type_id' => $this->faker->randomElement([1, 2, 3]),
         ];
     }
 }

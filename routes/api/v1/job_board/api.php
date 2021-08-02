@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobBoard\CompanyController;
 use App\Http\Controllers\JobBoard\ProfessionalController;
+use App\Http\Controllers\JobBoard\CurriculumController;
 use App\Http\Controllers\JobBoard\OfferController;
 use App\Http\Controllers\JobBoard\CategoryController;
 use App\Http\Controllers\JobBoard\SkillController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\JobBoard\WebOfferController;
 
 // hola
 
-//$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
+//$middlewares = ['auth:api', 'check-role', 'check-status', 'check-attempts';
 $middlewares = ['auth:api'];
 
 // With Middleware
@@ -35,6 +36,8 @@ Route::middleware($middlewares)
             'references' => ReferenceController::class,
             'companies' => CompanyController::class,
             'professionals' => ProfessionalController::class,
+
+
         ]);
 
         Route::prefix('skill')->group(function () {
@@ -61,6 +64,14 @@ Route::middleware($middlewares)
             Route::put('update', [CompanyController::class, 'updateCompany']);
             Route::post('register', [CompanyController::class, 'register']);
             Route::get('verify', [CompanyController::class, 'verifyCompany']);
+        });
+        Route::prefix('professional')->group(function () {
+            Route::get('show', [ProfessionalController::class, 'getProfessional']);
+            Route::put('update', [ProfessionalController::class, 'updateProfessional']);
+        });
+
+        Route::prefix('curriculum')->group(function () {
+            Route::get('show', [CurriculumController::class, 'getCompany']);
         });
 
 
