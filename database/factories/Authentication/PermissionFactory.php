@@ -3,6 +3,7 @@
 namespace Database\Factories\Authentication;
 
 use App\Models\Authentication\Permission;
+use App\Models\Authentication\System;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PermissionFactory extends Factory
@@ -12,17 +13,19 @@ class PermissionFactory extends Factory
 
     public function definition()
     {
-            $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+        $system = System::firstWhere('code', $catalogues['system']['code']);
         return [
-            'name' => $this->faker->word,
+            'system_id' => $system->id,
+            'name' => $this->faker->word(),
             'actions' => $this->faker
                 ->randomElements(
-                    $array = array(
+                    array(
                         $catalogues['permission']['action']['post'],
                         $catalogues['permission']['action']['put'],
                         $catalogues['permission']['action']['get'],
                         $catalogues['permission']['action']['delete']),
-                    $count = random_int(1, 4))
+                    random_int(1, 4))
         ];
     }
 }
