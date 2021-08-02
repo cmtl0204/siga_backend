@@ -14,7 +14,7 @@ class CreateJobboardProfessionalsTable extends Migration
             $table->boolean('is_travel')->comment('Para saber si puede viajar o no el profesional, true=>puede false=no puede')->default(false);
             $table->boolean('is_disability')->default(false);
             $table->boolean('is_familiar_disability')->default(false);
-            $table->boolean('identification_familiar_disability')->default(false);
+            $table->string('identification_familiar_disability')->nullable()->comment('escribir cédula del familiar');
             $table->boolean('is_catastrophic_illness')->default(false);
             $table->boolean('is_familiar_catastrophic_illness')->default(false);
             $table->text('about_me')->nullable()->comment('escribir una breve presentación');

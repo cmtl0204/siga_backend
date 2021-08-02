@@ -65,7 +65,6 @@ class CompanyController extends Controller
             ], 404);
         }
         $professional = $company->professionals()->detach($request->input('professional_id'));
-
         return response()->json([
             'data' => $professional,
             'msg' => [

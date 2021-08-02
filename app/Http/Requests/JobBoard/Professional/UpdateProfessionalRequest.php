@@ -44,6 +44,10 @@ class UpdateProfessionalRequest extends FormRequest
                 'required',
                 'min:10',
                 'max:15',
+                
+                'required',
+                'min:10',
+                'max:15',
             ],
             'professional.user.firstLastname' => [
                 'required',

@@ -41,7 +41,6 @@ class Professional extends Model implements Auditable
         'is_travel' => 'boolean',
         'is_disability' => 'boolean',
         'is_familiar_disability' => 'boolean',
-        'identification_familiar_disability' => 'boolean',
         'is_catastrophic_illness' => 'boolean',
         'is_familiar_catastrophic_illness' => 'boolean',
     ];
@@ -120,6 +119,15 @@ class Professional extends Model implements Auditable
     public function skills()
     {
         return $this->hasMany(Skill::class);
+    }
+
+    public function course()
+    {
+        return $this->hasMany(Course::class);
+    }
+    public function skill()
+    {
+        return $this->hasMany(skill::class);
     }
 
     // Scopes
