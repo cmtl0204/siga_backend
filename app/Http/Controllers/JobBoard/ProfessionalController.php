@@ -27,7 +27,16 @@ class ProfessionalController extends Controller
 {
     function getProfessional(GetProfessionalRequest $request)
     {
-        $professional = $request->user()->professional()->first();
+        
+        $professional = $request->user()->professional()->with(['user' => function ($user) {
+            $user->with('gender', 'sex')
+            ->with(['address' => function ($address) {
+                $address->with([
+                    'location' => function ($location) {
+                        $location->with('parent');
+                    }, 'sector']);
+            }]);
+  }])->first();
         if (!$professional) {
             return response()->json([
                 'data' => $professional,
@@ -40,7 +49,7 @@ class ProfessionalController extends Controller
         }
         // $course = $professional->course()->with('professional')->first();
         // $skill = $professional->skill()->with('professional')->first();
-
+    
         return response()->json([
             'data' => $professional,
             'msg' => [
@@ -50,7 +59,7 @@ class ProfessionalController extends Controller
             ]
         ], 200);
     }
-
+    
     
     function updateProfessional(UpdateProfessionalRequest $request)
     {
@@ -71,7 +80,7 @@ class ProfessionalController extends Controller
         $address->sector()->associate($sector);
         $address->save();
         
-        $sex = Catalogue::find($request->input('professional.user.catalogue.sex.id'));
+        $sex = Catalogue::find($request->input('professional.user.sex.id'));
         $gender = Catalogue::find($request->input('professional.user.gender.id'));
         $user->identification = $request->input('professional.user.identification');
         $user->email = $request->input('professional.user.email');
