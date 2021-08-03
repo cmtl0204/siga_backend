@@ -22,11 +22,10 @@ class CompanyFactory extends Factory
     public function definition()
     {
         return [
-            'prefix' => $this->faker->cityPrefix,
-            'trade_name' => $this->faker->company,
-            'web' => $this->faker->url,
-            'comercial_activities' => $this->faker->randomElements([$this->faker->sentence(), $this->faker->sentence(), $this->faker->sentence()],
-                $this->faker->numberBetween(1, 3)),
+            'prefix' => $this->faker->cityPrefix(),
+            'trade_name' => $this->faker->company(),
+            'web' => $this->faker->url(),
+            'comercial_activities' => $this->faker->paragraphs($this->faker->numberBetween(1, 5)),
         ];
     }
 }

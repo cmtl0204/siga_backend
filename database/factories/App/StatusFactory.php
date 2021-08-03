@@ -12,8 +12,9 @@ class StatusFactory extends Factory
 
     public function definition()
     {
+        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
         return [
-            //
+
         ];
     }
 }

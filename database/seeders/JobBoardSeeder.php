@@ -51,9 +51,9 @@ class JobBoardSeeder extends Seeder
         $personTypes = Catalogue::where('type', $catalogues['catalogue']['company_person_type']['type'])->get();
         foreach (User::all() as $user) {
             Company::factory()->create([
-                'type_id' => $types[rand(0, 2)]['id'],
-                'activity_type_id' => $activityTypes[rand(0, 49)]['id'],
-                'person_type_id' => $personTypes[rand(0, 1)]['id'],
+                'type_id' => $types[rand(0, $types->count()-1)]['id'],
+                'activity_type_id' => $activityTypes[rand(0, $activityTypes->count()-1)]['id'],
+                'person_type_id' => $personTypes[rand(0, $personTypes->count()-1)]['id'],
                 'user_id' => $user->id
             ]);
         }
@@ -95,7 +95,8 @@ class JobBoardSeeder extends Seeder
     private function createCompanyCatalogues()
     {
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
-        Catalogue::factory()->count(4)->state(new Sequence(
+        // Tipo
+        Catalogue::factory()->count(3)->state(new Sequence(
             ['name' => 'PRIVADA'],
             ['name' => 'PUBLICA'],
             ['name' => 'MIXTA'],
@@ -103,10 +104,36 @@ class JobBoardSeeder extends Seeder
             'type' => $catalogues['catalogue']['company_type']['type']
         ]);
 
-        Catalogue::factory()->count(50)->create([
+        // ACTIVIDAD COMERCIAL
+        Catalogue::factory()->count(23)->state(new Sequence(
+            ['name' => 'ACTIVIDADES COMUNITARIAS'],
+            ['name' => 'ACTIVIDADES DE SALUD'],
+            ['name' => 'ACTIVIDADES TIPO SERVICIOS'],
+            ['name' => 'AGRICULTURA Y PLANTACIONES'],
+            ['name' => 'ARTESANÍAS'],
+            ['name' => 'COMERCIALIZACIÓN Y VENTA DE PRODUCTOS'],
+            ['name' => 'CONSTRUCCIÓN'],
+            ['name' => 'ELECTRICIDAD, GAS Y AGUA'],
+            ['name' => 'ENSEÑANZA'],
+            ['name' => 'METALMECÁNICA'],
+            ['name' => 'MINAS, CANTERAS Y YACIMIENTOS'],
+            ['name' => 'PESCA, ACUACULTURA Y MARICULTURA'],
+            ['name' => 'PRODUCCION INDUSTRIAL DE BEBIDAS Y TABACOS'],
+            ['name' => 'PRODUCCIÓN PECUARIA'],
+            ['name' => 'PRODUCTOS INDUSTRIALES, FARMACÉUTICOS Y QUÍMICOS'],
+            ['name' => 'PRODUCTOS TEXTILES, CUERO Y CALZADO'],
+            ['name' => 'SERVICIO DOMÉSTICO'],
+            ['name' => 'SERVICIOS FINANCIEROS'],
+            ['name' => 'TECNOLOGÍA: HARDWARE Y SOFTWARE (INCLUYE TICS)'],
+            ['name' => 'TRANSFORMACIÓN DE ALIMENTOS  (INCLUYE AGROINDUSTRIA)'],
+            ['name' => 'TRANSPORTE, ALMACENAMIENTO Y LOGÍSTICA'],
+            ['name' => 'TURISMO Y ALIMENTACIÓN'],
+            ['name' => 'VEHICULOS, AUTOMOTORES, CARROCERÍAS Y SUS PARTES'],
+        ))->create([
             'type' => $catalogues['catalogue']['company_activity_type']['type']
         ]);
 
+        // PERSONA
         Catalogue::factory()->count(2)
             ->state(new Sequence(
                 ['name' => 'NATURAL'],

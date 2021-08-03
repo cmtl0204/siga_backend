@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Authentication;
 
+use App\Models\App\Location;
 use App\Models\Authentication\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Generator as Faker;
 
 class UserFactory extends Factory
 {
@@ -13,7 +13,9 @@ class UserFactory extends Factory
 
     public function definition()
     {
-        $username = $this->faker->numberBetween($min = 1000000000, $max = 9999999999);
+//        $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
+//        $locations = Location::where('type_id',$catalogues['location']['canton']);
+        $username = $this->faker->numberBetween(1000000000, 9999999999);
         return [
             'identification' => $username,
             'username' => $username,
@@ -21,7 +23,7 @@ class UserFactory extends Factory
             'first_lastname' => $this->faker->lastName,
             'second_lastname' => $this->faker->lastName,
             'personal_email' => $this->faker->unique()->safeEmail,
-            'birthdate' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'birthdate' => $this->faker->date( 'Y-m-d', 'now'),
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'status_id' => 1,

@@ -51,7 +51,7 @@ class ExperienceController extends Controller
             return response()->json([
                 'data' => $experiences,
                 'msg' => [
-                    'summary' => 'success',
+                    'summary' => 'No se encontraron Experiencias',
                     'detail' => '',
                     'code' => '200'
                 ]
@@ -116,7 +116,7 @@ class ExperienceController extends Controller
     {
         $area = Catalogue::find($request->input('experience.area.id'));
         // Crea una instanacia del modelo Catalogue para poder insertar en el modelo experience.
-      //  $experience = Experience::find($experienceId);
+        //  $experience = Experience::find($experienceId);
 
         // Valida que exista el registro, si no encuentra el registro en la base devuelve un mensaje de error
         if (!$experience) {
@@ -126,7 +126,8 @@ class ExperienceController extends Controller
                     'summary' => 'Experiencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
         $experience->employer = $request->input('experience.employer');
@@ -161,7 +162,8 @@ class ExperienceController extends Controller
                 'summary' => 'Experience(s) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
     function uploadFiles(UploadFileRequest $request)
     {

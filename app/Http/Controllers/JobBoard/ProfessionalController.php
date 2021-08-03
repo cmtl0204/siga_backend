@@ -46,7 +46,7 @@ class ProfessionalController extends Controller
         ], 200);
     }
 
-    function update(UpdateProfessionalRequest $request)
+    function updateProfessional(UpdateProfessionalRequest $request)
     {
         // Crea una instanacia del modelo Catalogue para poder actualizar en el modelo Professional.
         $catalogues = json_decode(file_get_contents(storage_path() . "/catalogues.json"), true);
@@ -64,8 +64,8 @@ class ProfessionalController extends Controller
         $address->location()->associate($location);
         $address->sector()->associate($sector);
         $address->save();
-        //return $address;
-        $sex = Catalogue::find($request->input('professional.user.sex.id'));
+
+        $sex = Catalogue::find($request->input('professional.user.catalogue.sex.id'));
         $gender = Catalogue::find($request->input('professional.user.gender.id'));
         $user->identification = $request->input('professional.user.identification');
         $user->email = $request->input('professional.user.maiel');
