@@ -59,6 +59,41 @@ class ProfessionalController extends Controller
             ]
         ], 200);
     }
+
+    function getCurriculum(GetProfessionalRequest $request)
+    {
+        
+        $professional = $request->user()->professional()->with(['skills','courses','user' => function ($user) {
+            $user->with('gender', 'sex')
+            ->with(['address' => function ($address) {
+                $address->with([
+                    'location' => function ($location) {
+                        $location->with('parent');
+                    }, 'sector']);
+            }]);
+  }])->first();
+        if (!$professional) {
+            return response()->json([
+                'data' => $professional,
+                'msg' => [
+                    'summary' => 'professional no encontrada',
+                    'detail' => 'Vuelva a intentar',
+                    'code' => '404',
+                ]
+            ], 404);
+        }
+        // $course = $professional->course()->with('professional')->first();
+        // $skill = $professional->skill()->with('professional')->first();
+    
+        return response()->json([
+            'data' => $professional,
+            'msg' => [
+                'summary' => 'success',
+                'detail' => '',
+                'code' => '200',
+            ]
+        ], 200);
+    }
     
     
     function updateProfessional(UpdateProfessionalRequest $request)
