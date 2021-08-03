@@ -65,6 +65,11 @@ Route::middleware($middlewares)
             Route::post('register', [CompanyController::class, 'register']);
             Route::get('verify', [CompanyController::class, 'verifyCompany']);
         });
+        Route::prefix('professional')->group(function () {
+            Route::get('show', [ProfessionalController::class, 'getProfessional']);
+            Route::put('update', [ProfessionalController::class, 'updateProfessional']);
+            Route::get('curriculum', [ProfessionalController::class, 'getCurriculum']);
+        });
 
 
         Route::prefix('curriculum')->group(function () {
