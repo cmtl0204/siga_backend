@@ -59,7 +59,7 @@ class ProfessionalController extends Controller
     function getCurriculum(GetProfessionalRequest $request)
     {
 
-        $professional = $request->user()->professional()->with(['skills', 'courses', 'user' => function ($user) {
+        $professional = $request->user()->professional()->with(['languages', 'experiences', 'references', 'skills', 'courses', 'user' => function ($user) {
             $user->with('gender', 'sex')
                 ->with(['address' => function ($address) {
                     $address->with([

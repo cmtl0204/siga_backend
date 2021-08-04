@@ -35,7 +35,7 @@ class Professional extends Model implements Auditable
         'is_catastrophic_illness',
         'is_familiar_catastrophic_illness',
         'about_me',
-        
+
     ];
 
     protected $casts = [
@@ -120,15 +120,6 @@ class Professional extends Model implements Auditable
     public function skills()
     {
         return $this->hasMany(Skill::class);
-    }
-
-    public function course()
-    {
-        return $this->hasMany(Course::class);
-    }
-    public function skill()
-    {
-        return $this->hasMany(skill::class);
     }
 
     // Scopes
