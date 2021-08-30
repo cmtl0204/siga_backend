@@ -25,34 +25,6 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
-   /* function index(IndexQuestionRequest $request)
-    {
-        // Crea una instanacia del modelo Evaluation type para poder insertar en el modelo question.
-        $evaluationType = EvaluationType::find($request->input('evaluation_type_id'));
-
-        if ($request->has('search')) {
-            $question = $evaluationType->questions()
-                ->code($request->input('search'))
-                ->name($request->input('search'))
-                ->description($request->input('search'))
-                ->paginate($request->input('per_page'));
-        } else {
-            $question = $evaluationType->questions()->paginate($request->input('per_page'));
-        }
-
-        if ($question->count() === 0) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontraron preguntas',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        }
-
-        return response()->json($question, 200);
-    }*/
     function index(IndexQuestionRequest  $request)
     {
         // Crea una instanacia del modelo Professional para poder insertar en el modelo question.
@@ -127,9 +99,9 @@ class QuestionController extends Controller
 
     function update(UpdateQuestionRequest $request, Question $question)
     {
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
+        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question .
         $type = Catalogue::find($request->input('question.type.id'));
-        // Crea una instanacia del modelo Catalogue para poder insertar en el modelo question.
+        // Crea una instanacia del modelo Status para poder insertar en el modelo question.
         $status = Status::find($request->input('question.status.id'));
 
 
@@ -172,49 +144,41 @@ class QuestionController extends Controller
     {
         return (new ImageController())->upload($request, Skill::getInstance($request->input('id')));
     }
-
     function updateImage(UpdateImageRequest $request, $imageId)
     {
         return (new ImageController())->update($request, $imageId);
     }
-
     function deleteImage($imageId)
     {
         return (new ImageController())->delete($imageId);
     }
-
     function indexImage(IndexImageRequest $request)
     {
         return (new FileController())->index($request, Question::getInstance($request->input('id')));
     }
-
     function ShowImage($fileId)
     {
         return (new FileController())->show($fileId);
     }
-
     function uploadFiles(UploadFileRequest $request)
     {
         return (new FileController())->upload($request, Question::getInstance($request->input('id')));
     }
-
     function updateFile(UpdateFileRequest $request, $fileId)
     {
         return (new FileController())->update($request, $fileId);
     }
-
     function deleteFile($fileId)
     {
         return (new FileController())->delete($fileId);
     }
-
     function indexFile(IndexFileRequest $request)
     {
         return (new FileController())->index($request, Question::getInstance($request->input('id')));
     }
-
     function ShowFile($fileId)
     {
         return (new FileController())->show($fileId);
     }*/
+
 }

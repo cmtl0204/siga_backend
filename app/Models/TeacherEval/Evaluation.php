@@ -33,45 +33,35 @@ class Evaluation extends Model implements Auditable
     use HasFactory;
     use Auditing;
     use SoftDeletes;
-
-    protected $connection = 'pgsql-teacher-eval';
-    protected $table = 'teacher_eval.evaluations';
-
     protected static $instance;
 
+    protected $connection = 'pgsql-teacher-eval';
+    protected $table = 'teacher_eval.evaluation_types';
 
     protected $fillable = [
-    'result',
-    'percentage'
+        'name',
+        'code',
+        'percentage',
+        'global_percentage'
+    ];
+    protected $casts = [
+        'deleted_at'=>'date:Y-m-d h:m:s',
+        'created_at'=>'date:Y-m-d h:m:s',
+        'updated_at'=>'date:Y-m-d h:m:s',
     ];
 
-    /*protected $casts = [
-        'name' => 'array',
-        'percentage' => 'array'
-    ];*/
-
-
-
-    public static function getInstance($id)
-    {
-        if (is_null(static::$instance)) {
+    public static function getInstance($id){
+        if(is_null(static::$instance)){
             static::$instance = new static;
         }
-        static::$instance->id = $id;
+        static::$instance -> id = $id;
         return static::$instance;
     }
-
-
-
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
 
     public function schoolPeriod()
     {
@@ -83,25 +73,31 @@ class Evaluation extends Model implements Auditable
         return $this->belongsTo(EvaluationType::class);
     }
 
-
-    public function detailEvaluation()
+    //relantioships
+    public function parent(){
+        return $this->belongsTo(EvaluationType::class, 'parent_id');
+    }
+    public function children(){
+        return $this->hasMany(EvaluationType::class, 'parent_id');
+    }
+    public function status()
     {
-        return $this->morphMany(DetailEvaluation::class, 'detail_evaluationable');
+        return $this->belongsTo(Status::class);
     }
 
-    public function scopeResult($query, $result)
+    public function questions()
     {
-        if ($result) {
-            return $query->where('result', 'ILIKE', "$result");
+        return $this->hasMany(Question::class);
+    }
+
+
+        // Scopes
+        public function scopeName($query, $name)
+        {
+            if ($name) {
+                return $query->where('name', 'ILIKE', "%$name%");
+            }
         }
-    }
 
-
-    public function scopePercentage($query, $percentage)
-    {
-        if ($percentage) {
-            return $query->orWhere('result', 'ILIKE', "$percentage");
-        }
-    }
-
+        protected $cascadeDeletes = ['parent', 'status'];
 }

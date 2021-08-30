@@ -28,12 +28,11 @@ class StoreEvaluationRequest extends FormRequest
                 'integer'
             ],
             'evaluation.result' => [
-                'required',
-                'integer'
+                'required'
+
             ],
             'evaluation.percentage' => [
-                'required',
-                'integer'
+                'required'
             ]
         ];
 
@@ -44,7 +43,6 @@ class StoreEvaluationRequest extends FormRequest
     {
         $messages = [
             'evaluation_id' => 'El campo :attribute es obligatorio',
-
         ];
         return IndexDetailEvaluationRequest::messages($messages);
     }*/
