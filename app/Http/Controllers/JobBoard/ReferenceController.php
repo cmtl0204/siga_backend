@@ -15,6 +15,7 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Requests\App\File\UpdateFileRequest;
 use App\Http\Requests\App\File\UploadFileRequest;
 use App\Http\Requests\App\File\IndexFileRequest;
+use App\Models\JobBoard\Category;
 
 // Models
 use App\Models\JobBoard\Reference;
@@ -34,7 +35,6 @@ class ReferenceController extends Controller
     function index(IndexReferenceRequest $request)
     {
         // Crea una instanacia del modelo Professional para poder consultar en el modelo course.
-      
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -75,7 +75,7 @@ class ReferenceController extends Controller
 
     function show(Reference $reference)
     {
-        
+
         return response()->json([
             'data' => $reference,
             'msg' => [
@@ -91,7 +91,7 @@ class ReferenceController extends Controller
 
     function store(CreateReferenceRequest $request)
     {
-        
+
         $professional = $request->user()->professional()->first();
         if (!$professional) {
             return response()->json([
@@ -130,7 +130,7 @@ class ReferenceController extends Controller
     {
         $institution = Catalogue::find($request->input('reference.institution.id'));
 
-       // $reference = Reference::find($id);
+        // $reference = Reference::find($id);
 
         if (!$reference) {
             return response()->json([
@@ -139,10 +139,11 @@ class ReferenceController extends Controller
                     'summary' => 'Referencia no encontrada',
                     'detail' => 'Vuelva a intentar',
                     'code' => '404'
-                ]], 404);
+                ]
+            ], 404);
         }
 
-   //     $reference->institution = $request->input('reference.institution');
+        //     $reference->institution = $request->input('reference.institution');
         $reference->position = $request->input('reference.position');
         $reference->contact_name = $request->input('reference.contact_name');
         $reference->contact_phone = $request->input('reference.contact_phone');
@@ -160,7 +161,7 @@ class ReferenceController extends Controller
         ], 201);
     }
 
- 
+
     function delete(DeleteReferenceRequest $request)
     {
         // Es una eliminación lógica
@@ -172,7 +173,8 @@ class ReferenceController extends Controller
                 'summary' => 'Referencia(s) eliminada(s)',
                 'detail' => 'Se eliminó correctamente',
                 'code' => '201'
-            ]], 201);
+            ]
+        ], 201);
     }
     function deleteFile($fileId)
     {
@@ -193,6 +195,4 @@ class ReferenceController extends Controller
     {
         return (new FileController())->show($fileId);
     }
-   
 }
-

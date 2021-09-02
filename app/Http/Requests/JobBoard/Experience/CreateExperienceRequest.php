@@ -19,7 +19,7 @@ class CreateExperienceRequest extends FormRequest
             ],
             'experience.employer' => [
                 'required',
-                'min:4',
+                'min:2',
                 'max:250',
             ],
             'experience.position' => [

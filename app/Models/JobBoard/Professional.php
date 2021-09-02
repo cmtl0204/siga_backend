@@ -35,7 +35,7 @@ class Professional extends Model implements Auditable
         'is_catastrophic_illness',
         'is_familiar_catastrophic_illness',
         'about_me',
-        
+
     ];
 
     protected $casts = [
