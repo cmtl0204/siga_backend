@@ -15,7 +15,7 @@ class IndexExperienceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'esperience_id' => [
+            'experience_id' => [
                 'integer',
             ],
         ];

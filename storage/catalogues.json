@@ -191,6 +191,9 @@
         "course_event_type": {
             "type": "COURSE_EVENT_TYPE"
         },
+        "course_type": {
+            "type": "COURSE_TYPE"
+        },
         "course_institution": {
             "type": "COURSE_INSTITUTION"
         },

@@ -40,8 +40,8 @@ class Course extends Model implements Auditable
     ];
 
     protected $casts = [
-        'start_date' => 'date:Y-m-d',
-        'end_date' => 'date:Y-m-d'
+        'start_date' => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d'
     ];
 
     public static function getInstance($id)

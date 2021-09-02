@@ -43,8 +43,8 @@ class Experience extends Model implements Auditable
         'is_disability',
     ];
     protected $casts = [
-        'start_date' => 'date:Y-m-d',
-        'end_date' => 'date:Y-m-d',
+        'start_date' => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d',
         'activities' => 'array',
     ];
 

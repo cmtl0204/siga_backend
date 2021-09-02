@@ -16,6 +16,7 @@ class CatalogueController extends Controller
             $catalogues = $parent->children()->where('type', $request->type)->get();
         } else {
             $catalogues = Catalogue::where('type', $request->type)->get();
+            
         }
         return response()->json([
             'data' => $catalogues,

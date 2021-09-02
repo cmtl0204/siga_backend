@@ -31,12 +31,12 @@ class StoreExperienceRequest extends FormRequest
                 'max:250',
             ],
             'experience.start_date' => [
-                'required',
+               
                 'date',
             ],
             'experience.end_date' => [],
             'experience.activities' => [
-                'required',
+                
                 'array',
             ],
             'experience.reason_leave' => [],

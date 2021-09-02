@@ -31,12 +31,15 @@ class UpdateExperienceRequest extends FormRequest
                 'required',
                 'date',
             ],
-            'experience.end_date' => [],
+            'experience.end_date' => [
+                'date',
+            ],
             'experience.activities' => [
                 'required',
                 'array',
             ],
-            'experience.reason_leave' => [],
+            'experience.reason_leave' => [ ],
+
             'experience.is_working' => [
                 'boolean',
             ],
@@ -54,7 +57,7 @@ class UpdateExperienceRequest extends FormRequest
             'experience.start_date' => 'fecha inicio',
             'experience.end_date' => 'fercha fin',
             'experience.activities' => 'ocupaciones',
-            'experience.reason-leave' => 'razon que se fue',
+            'experience.reason_leave' => 'razon que se fue',
             'experience.is_working' => 'está trabajando',
             'experience.is_disability' => 'es discapacitado',
         ];
