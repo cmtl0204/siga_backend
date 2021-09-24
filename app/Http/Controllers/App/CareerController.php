@@ -14,12 +14,22 @@ class CareerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // nombre, modalidad,
-        $careers = Career::with('modality')
-            ->get();
+
+        $careers = Career::with('meshes')
+        -> where ('institution_id', $request
+        -> input('institution_id'))
+        -> get();
+
+
+        return response()->json(['data' => $careers, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'La búsqueda se realizo con éxito',
+            'code' => '200'
+        ]], 200);
     }
+
 
     /**
      * Store a newly created resource in storage.

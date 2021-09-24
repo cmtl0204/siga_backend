@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Models\Portfolio\Pea;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('login')->group(function () {
     Route::get('{driver}', [AuthController::class, 'redirectToProvider']);
     Route::get('{driver}/callback', [AuthController::class, 'handleProviderCallback']);
+
+});
+
+
+Route::get('test/{id}', function ($id) {
+    $pea = Pea::first();
+    $pdf = PDF::loadView('reports.portfolio.pea', ['pea'=>$pea]);
+    return $pdf->download('pea.pdf');
 });

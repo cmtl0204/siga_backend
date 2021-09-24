@@ -26,12 +26,20 @@ class CatalogueController extends Controller
             ]], 200);
     }
 
-    public function show(Catalogue $catalogue)
+    public function show()
     {
-        return response()->json([
-            'data' => [
-                'catalogue' => $catalogue
-            ]], 200);
+        $headers = Catalogue::where('type', 'type_id')
+        ->get(["code", "name"]);
+    /* $combos = array(
+      "headers" => $headers
+    ); */
+    return response()->json([
+        'data' => $headers,
+        'msg' => [
+            'summary' => 'success',
+            'detail' => '',
+            'code' => '200'
+        ]], 200);
     }
 
     public function store(Request $request)

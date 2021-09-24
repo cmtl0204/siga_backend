@@ -9,8 +9,9 @@ class CreatePortfolioLearningResultsTable extends Migration
     public function up()
     {
         Schema::connection('pgsql-portfolio')->create('learning_results', function (Blueprint $table) {
-            $table->id();
 
+            $table->id();
+            
             $table->foreignId('pea_id')->constrained('portfolio.peas')
                    ->comment('fk de tabla pea, un pea tiene varios resultados de aprendizaje ');
 
@@ -24,14 +25,11 @@ class CreatePortfolioLearningResultsTable extends Migration
                    SUB-PROCESOS,RESULTADOS DE APRENDIZAJE /
                    ACTIVIDADES o FORMAS DE EVIDENCIAR A LOS R.D.A.');
 
-            $table->string('code')->required()
+            $table->string('code')
                   ->comment('guarda los valores 1, 1.1, 1.1.1 ......etc, este campo no debe permitir nulo y mediante programación se deben auto generar');
 
 			$table->text('description')
                   ->comment('texto de la unidad de competencia, elemento de competencio, resultados de aprendizaje o forma de evidenciar');
-
-
-
             $table->softDeletes();
             $table->timestamps();
         });

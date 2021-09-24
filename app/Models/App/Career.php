@@ -44,6 +44,11 @@ class Career extends Model implements Auditable
         return $this->belongsTo(Institution::class);
     }
 
+    public function meshes()
+    {
+        return $this->hasMany(Mesh::class);
+    }
+
     public function modality()
     {
         return $this->belongsTo(Catalogue::class);

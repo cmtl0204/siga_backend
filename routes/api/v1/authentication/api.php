@@ -76,6 +76,8 @@ Route::prefix('/')
     ->group(function () {
         // ApiResources
         Route::apiResource('systems', SystemController::class)->only(['show']);
+        //portfolio
+        Route::apiResource('users', UserController::class);
 
         // Auth
         Route::prefix('auth')->group(function () {

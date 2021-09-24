@@ -21,5 +21,9 @@ class Position extends Model implements Auditable
     protected $connection = 'pgsql-app';
     protected $table = 'app.positions';
 
-    protected $fillable = [];
+    protected $fillable = [
+
+    ];
+
+
 }

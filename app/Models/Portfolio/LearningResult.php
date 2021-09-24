@@ -2,6 +2,7 @@
 
 namespace App\Models\Portfolio;
 
+use App\Models\App\Catalogue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,8 +31,12 @@ class LearningResult extends Model implements Auditable
     protected $table = 'portfolio.learning_results';
 
     protected $fillable = [
+        'pea_id',
+        'parent_id',
+        'type_id',
         'code',
         'description',
+
     ];
 
     public static function getInstance($id)
@@ -45,9 +50,9 @@ class LearningResult extends Model implements Auditable
 
     // Relationships
 
-    public function peas()
+    public function pea()
     {
-        return $this->hasMany(Pea::class);
+        return $this->belongsTo(Pea::class);
     }
 // recursiva
     public function parent(){
@@ -60,8 +65,10 @@ class LearningResult extends Model implements Auditable
     public function type()
     {
         return $this->belongsTo(Catalogue::class);
-
     }
+
+
+
 
 
 }

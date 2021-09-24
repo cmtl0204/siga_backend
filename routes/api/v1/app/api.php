@@ -10,15 +10,37 @@ use App\Http\Controllers\App\FileController;
 use App\Http\Controllers\App\LocationController;
 use App\Http\Controllers\App\EmailController;
 use App\Http\Controllers\App\SubjectController;
+use App\Http\Controllers\App\CareerController;
+use App\Http\Controllers\App\MeshController;
 
 
 Route::apiResource('catalogues', CatalogueController::class);
 Route::apiResource('locations', LocationController::class)->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
 Route::get('countries', [LocationController::class, 'getCountries'])->withoutMiddleware(['auth:api', 'check-institution', 'check-role', 'check-attempts', 'check-status', 'check-permissions']);
 
-//prueba ruta de subject
-Route::apiResource('subjects', SubjectController::class);
 
+
+//rutas
+Route::get('subjects', [SubjectController::class, 'getSubjectByMesh'] );
+
+//Route::apiResource('subjects', SubjectController::class);
+
+Route::apiResource('meshes', MeshController::class);
+
+
+ Route::apiResource('careers', CareerController::class);
+
+Route::apiResource('academics', \App\Http\Controllers\App\AcademicController::class);
+Route::apiResource('periods', \App\Http\Controllers\App\PeriodController::class);
+Route::apiResource('modalities', CatalogueController::class);
+
+//Route::apiResource('headers', CatalogueController::class);
+
+Route::prefix('learning-results')->group(function () {
+    Route::get('headers', [CatalogueController::class, 'show']);
+
+
+});
 
 
 

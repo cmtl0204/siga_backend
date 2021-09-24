@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Portfolio\LearningResult;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Portfolio\PortfolioFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateLearningResultRequest extends FormRequest
+class DeleteLearningResultRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,15 +16,8 @@ class UpdateLearningResultRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'code' => [
+            'id' => [
                 '',
-                'min:10',
-                'max:1000',
-            ],
-            'description' => [
-                '',
-                'min:10',
-                'max:1000',
             ],
         ];
         return PortfolioFormRequest::rules($rules);
@@ -32,9 +26,7 @@ class UpdateLearningResultRequest extends FormRequest
     public function attributes()
     {
         $attributes = [
-
-            'code' => 'code',
-            'description' => 'description',
+            'id' => 'IDs',
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

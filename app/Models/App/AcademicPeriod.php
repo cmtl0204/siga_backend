@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
 
-class SchoolPeriod extends Model implements Auditable
+class AcademicPeriod extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -18,17 +18,15 @@ class SchoolPeriod extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-app';
-    protected $table = 'app.school_periods';
+    protected $table = 'app.academic_periods';
 
 
     protected $fillable = [
-        'school_periodable_type',
-        'school_periodable_id',
-        'status_id',
-        'code', // prueba periodos lectivos
+        'code', //prueba academic periods
         'name',
-    ];
 
+
+    ];
 
 
     // Instance
@@ -42,8 +40,5 @@ class SchoolPeriod extends Model implements Auditable
     }
 
     // Relationships
-    public function units()
-    {
-        return $this->hasMany(Unit::class);
-    }
+
 }

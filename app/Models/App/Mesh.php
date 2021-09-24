@@ -2,14 +2,13 @@
 
 namespace App\Models\App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as Auditing;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SchoolPeriod extends Model implements Auditable
+class Mesh extends Model implements Auditable
 {
     use HasFactory;
     use Auditing;
@@ -18,18 +17,15 @@ class SchoolPeriod extends Model implements Auditable
     protected static $instance;
 
     protected $connection = 'pgsql-app';
-    protected $table = 'app.school_periods';
-
+    protected $table = 'app.meshes';
 
     protected $fillable = [
-        'school_periodable_type',
-        'school_periodable_id',
-        'status_id',
-        'code', // prueba periodos lectivos
-        'name',
+
+        'academic_period_id',
+        'description',
+        'objective',
+
     ];
-
-
 
     // Instance
     public static function getInstance($id)
@@ -40,10 +36,12 @@ class SchoolPeriod extends Model implements Auditable
         static::$instance->id = $id;
         return static::$instance;
     }
+// Relationships
 
-    // Relationships
-    public function units()
+
+    public function career()
     {
-        return $this->hasMany(Unit::class);
+        return $this->belongsTo(Career::class);
     }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Portfolio;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Catalogue;
+use App\Models\App\Teacher;
 use App\Models\Portfolio\Pea;
 
 use App\Http\Requests\Portfolio\Pea\StorePeaRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\Portfolio\Pea\IndexPeaRequest;
 
 use App\Models\App\Subject;
 use App\Models\App\SchoolPeriod;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -20,44 +22,65 @@ use Illuminate\Support\Facades\Storage;
 class PeaController extends Controller
 {
     /**
-     /**
+     * /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(IndexPeaRequest $request)
     {
-       /*  // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
-        $subject = Subject::getInstance($request->input('pea.subject.id'));
-        //crea instancia de school_period_id
-        $schoolPeriod = SchoolPeriod::getInstance($request->input('pea.school_period.id'));
+        /*  // Crea una instanacia del modelo Professional para poder insertar en el modelo skill.
+         $subject = Subject::getInstance($request->input('pea.subject.id'));
+         //crea instancia de school_period_id
+         $schoolPeriod = SchoolPeriod::getInstance($request->input('pea.school_period.id'));
 
-        if ($request->has('search')) {
-            $peas = $subject->peas()
-                ->description($request->input('search'))
-                ->paginate($request->input('per_page'));
-        } else {
-            $peas = $subject->peas()->paginate($request->input('per_page'));
-        }
+         if ($request->has('search')) {
+             $peas = $subject->peas()
+                 ->description($request->input('search'))
+                 ->paginate($request->input('per_page'));
+         } else {
+             $peas = $subject->peas()->paginate($request->input('per_page'));
+         }
 
-        if ($peas->count() === 0) {
-            return response()->json([
-                'data' => null,
-                'msg' => [
-                    'summary' => 'No se encontró ningún portafolio docente',
-                    'detail' => 'Intente de nuevo',
-                    'code' => '404'
-                ]
-            ], 404);
-        } */
+         if ($peas->count() === 0) {
+             return response()->json([
+                 'data' => null,
+                 'msg' => [
+                     'summary' => 'No se encontró ningún portafolio docente',
+                     'detail' => 'Intente de nuevo',
+                     'code' => '404'
+                 ]
+             ], 404);
+         } */
         // get all the Units
         $peas = Pea::all();
 
         return response()->json(['data' => $peas, 'msg' => [
-           'summary' => 'success',
-           'detail' => 'La búsqueda se realizo con éxito',
-           'code' => '200'
-       ]], 200);
+            'summary' => 'success',
+            'detail' => 'La búsqueda se realizo con éxito',
+            'code' => '200'
+        ]], 200);
+    }
+
+    public function getSubjects(Request $request)
+    {
+
+
+        //  $teacher = Teacher:: firstWhere ( 'user_id', $request -> user()-> id);
+        $teacher = Teacher::firstWhere('user_id', 1);
+
+        $subjects = $teacher->subjects()
+            ->with(['mesh' => function ($mesh) {
+                $mesh->with('career');
+            }])->with(['formationField', 'curricularUnit', 'academicPeriod'])
+            ->get();
+
+        return response()->json(['data' => $subjects, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'La búsqueda se realizo con éxito',
+            'code' => '200'
+        ]], 200);
+
     }
 
 
@@ -96,6 +119,28 @@ class PeaController extends Controller
         // return response()->json(new PeaController($post),201);
     }
 
+    public function generatePea(Request $request)
+    {
+        $teacher = Teacher::firstWhere('user_id', 1);
+
+        $subjects = $teacher->subjects()
+            ->with(['mesh' => function ($mesh) {
+                $mesh->with('career');
+            }])->with(['formationField', 'curricularUnit', 'academicPeriod'])
+            ->get();
+
+        $pea = Pea::first()
+            ->get();
+
+
+
+        $pdf = \PDF::loadView('reports.portfolio.pea', ['pea'=>$subjects]);
+        return $pdf->download('pea.pdf');
+
+    }
+
+
+
     /**
      * Display the specified resource.
      *
@@ -118,7 +163,7 @@ class PeaController extends Controller
     {
         //crea instancia de subject
 
-         //$subject = Subject::getInstance($request->input('subject.id'));
+        //$subject = Subject::getInstance($request->input('subject.id'));
 
         /* $subject = Subject::find($request->input('pea.subject.id'));
         // crea instancia de school_period_id
@@ -135,14 +180,14 @@ class PeaController extends Controller
         $pea->update($request->all());
 
         return response()->json([
-             'data' => $pea,
-             'msg' => [
-                 'summary' => 'Pea actualizada',
-                 'detail' => 'El registro fue actualizado',
-                 'code' => '201'
-             ]], 201);
+            'data' => $pea,
+            'msg' => [
+                'summary' => 'Pea actualizada',
+                'detail' => 'El registro fue actualizado',
+                'code' => '201'
+            ]], 201);
 
-             //$pea->update($request->all());
+        //$pea->update($request->all());
         //return response()->json(new PeaController($pea));
     }
 

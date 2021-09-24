@@ -15,14 +15,14 @@ class StoreLearningResultRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'code' => [
-                'required',
-                'min:10',
+            'learning_result.code' => [
+                '',
+                'min:',
                 'max:1000',
             ],
-            'description' => [
+            'learning_result.description' => [
                 '',
-                'min:10',
+                'min:',
                 'max:1000',
             ],
         ];
@@ -33,8 +33,8 @@ class StoreLearningResultRequest extends FormRequest
     {
         $attributes = [
 
-            'code' => 'code',
-            'description' => 'description',
+            'learning_result.code' => 'code',
+            'learning_result.description' => 'description',
         ];
         return PortfolioFormRequest::attributes($attributes);
     }

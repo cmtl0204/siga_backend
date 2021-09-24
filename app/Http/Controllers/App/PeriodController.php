@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\App;
+use App\Models\App\SchoolPeriod;
 
-use App\Models\App\Teacher;
-use App\Models\Portfolio\PeaTeacher;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PeaTeacherController extends Controller
+class PeriodController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
-
-
     public function index()
     {
+        // get all the periodos lectivos
+        $periods = SchoolPeriod::all();
 
+        return response()->json(['data' => $periods, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'Le busqueda se realizo con exito',
+            'code' => '200'
+        ]], 200);
     }
 
     /**
@@ -35,7 +38,7 @@ class PeaTeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -46,10 +49,10 @@ class PeaTeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\pea_teachers $pea_teachers
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(pea_teachers $pea_teachers)
+    public function show($id)
     {
         //
     }
@@ -57,10 +60,10 @@ class PeaTeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\pea_teachers $pea_teachers
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(pea_teachers $pea_teachers)
+    public function edit($id)
     {
         //
     }
@@ -68,11 +71,11 @@ class PeaTeacherController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\pea_teachers $pea_teachers
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, pea_teachers $pea_teachers)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -80,10 +83,10 @@ class PeaTeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\pea_teachers $pea_teachers
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(pea_teachers $pea_teachers)
+    public function destroy($id)
     {
         //
     }

@@ -41,7 +41,22 @@ class Subject extends Model implements Auditable
 
     public function academicPeriod()
     {
-        return $this->belongsTo(academicPeriod::class);
+        return $this->belongsTo(AcademicPeriod::class);
+    }
+
+    public function curricularUnit()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function formationField()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
+    public function mesh()
+    {
+        return $this->belongsTo(Mesh::class);
     }
 
 }

@@ -17,6 +17,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class  UserController extends Controller
 {
+
+    public function index()
+    {
+
+        // get all the user
+        $users = User::all();
+
+        return response()->json(['data' => $users, 'msg' => [
+            'summary' => 'success',
+            'detail' => 'Le busqueda se realizo con éxito',
+            'code' => '200'
+        ]], 200);
+    }
+
+
     public function show($username, Request $request)
     {
         $user = User::

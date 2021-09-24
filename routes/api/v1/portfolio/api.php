@@ -22,8 +22,8 @@ use App\Http\Controllers\Portfolio\RelationLearningResultController;
 use App\Http\Controllers\Portfolio\LearningResultController;
 
 //$middlewares = ['auth:api', 'check-institution', 'check-role', 'check-status', 'check-attempts', 'check-permissions'];
-$middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
-//$middlewares = ['auth:api'];
+// $middlewares = ['auth:api', 'verified', 'check-role', 'check-institution', 'check-status', 'check-attempts', 'check-permissions'];
+$middlewares = [];
 
 // With Middleware
 Route::middleware($middlewares)
@@ -40,6 +40,13 @@ Route::middleware($middlewares)
 
         // portfolio
         //Route::apiResource('peas', PeaController::class);
+
+        Route::prefix('pea')->group(function () {
+            Route::get('teachers/subjects', [PeaController::class, 'getSubjects']);
+
+        });
+
+
 
         // Auth
         Route::prefix('auth')->group(function () {
@@ -89,21 +96,41 @@ Route::prefix('/')
         // ApiResources
         Route::apiResource('systems', SystemController::class)->only(['show']);
         // portfolio
-        Route::apiResource('peas', PeaController::class);
+
         Route::put('pea/{pea}', [PeaController::class, 'update']);
 
-        Route::apiResource('units', UnitController::class);
-        Route::apiResource('contents', ContentController::class);
-        Route::apiResource('didactic-resources', DidacticResourceController::class);
-        Route::apiResource('methodological-strategies', MethodologicalStrategyController ::class);
-        Route::apiResource('relation-learning-results', RelationLearningResultController ::class);
-        Route::apiResource('learning-results', LearningResultController ::class);
-        Route::apiResource('unit', UnitController::class);
+        Route::get('export/{pea}', [PeaController::class, 'generatePea']);
+
+
+        //Route::put('learning-result/{learningResult}', [LearningResultController, 'update']);
+
+        Route::apiResources([
+            'peas' => PeaController::class,
+            'units' => UnitController::class,
+            'contents' => ContentController::class,
+            'didactic-resources' => DidacticResourceController::class,
+            'methodological-strategies' => MethodologicalStrategyController ::class,
+            'relation-learning-results' => RelationLearningResultController ::class,
+            'learning-results' => LearningResultController ::class,
+            'unit' => UnitController::class,
+        ]);
+
+
+
         Route::put('unit/{unit}' , [UnitController::class, 'update']);
         Route::put('content/{content}' , [ContentController::class, 'update']);
         Route::put('didactic-resource/{didacticResource}' , [DidacticResourceController::class, 'update']);
         Route::put('methodological-strategy/{methodologicalStrategy}' , [MethodologicalStrategyController::class, 'update']);
         Route::put('relation-learning-result/{relationLearningResult}' , [RelationLearningResultController::class, 'update']);
+
+        Route::prefix('learning-results')->group(function () {
+            Route::delete('delete/{id}', [LearningResultController::class, 'delete']);
+            Route::get('parents', [LearningResultController::class, 'getParentLearningResults']);
+            Route::get('headers', [LearningResultController::class, 'show']);
+
+            //Route::post('create' , [LearningResultController::class, 'createLearning']);
+
+        });
 
         // Auth
         Route::prefix('auth')->group(function () {
